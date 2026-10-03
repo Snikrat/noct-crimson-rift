@@ -3,9 +3,9 @@ extends CharacterBody2D
 const Sprites := preload("res://game/core/sprites.gd")
 const StrikeScript := preload("res://game/enemies/arcane_strike.gd")
 const KINDS := {
-	"light": {"hp": 5, "size": Vector2(18, 34), "speed": 58.0, "geo": 10, "windup": 0.5, "recover": 0.6},
-	"heavy": {"hp": 9, "size": Vector2(22, 36), "speed": 40.0, "geo": 18, "windup": 0.8, "recover": 0.9},
-	"captain": {"hp": 18, "size": Vector2(22, 36), "speed": 48.0, "geo": 80, "windup": 0.75, "recover": 0.85},
+	"light": {"hp": 5, "size": Vector2(16, 40), "speed": 58.0, "geo": 10, "windup": 0.5, "recover": 0.6},
+	"heavy": {"hp": 9, "size": Vector2(18, 41), "speed": 40.0, "geo": 18, "windup": 0.8, "recover": 0.9},
+	"captain": {"hp": 18, "size": Vector2(18, 41), "speed": 48.0, "geo": 80, "windup": 0.75, "recover": 0.85},
 	"wizard": {"hp": 28, "size": Vector2(28, 58), "speed": 38.0, "geo": 120, "windup": 0.85, "recover": 1.05},
 	"knight": {"hp": 20, "size": Vector2(22, 42), "speed": 60.0, "geo": 90, "windup": 0.65, "recover": 0.75},
 }
@@ -46,9 +46,10 @@ func _ready() -> void:
 	rectangle.size = size
 	shape.shape = rectangle
 	add_child(shape)
-	var cell := Vector2(48, 48)
-	var feet := 45.0
-	var factor := 1.1
+	# Bandidos já vêm na escala do Noct (1:1): leve com 44 px, pesado com 45 px no idle.
+	var cell := Sprites.BANDIT_CELL
+	var feet := Sprites.BANDIT_FEET
+	var factor := 1.0
 	if kind == "wizard":
 		cell = Vector2(250, 250)
 		feet = 167

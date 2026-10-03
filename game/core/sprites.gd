@@ -289,17 +289,21 @@ static func thing() -> SpriteFrames:
 	return f
 
 
+const BANDITS := "res://assets/enemies/bandits/"
+const BANDIT_CELL := Vector2(62, 58)   # quadro comum dos bandidos (bandits.json)
+const BANDIT_FEET := 55.0              # linha dos pés no quadro
+
 static func humanoid(kind: String) -> SpriteFrames:
 	var f := SpriteFrames.new()
 	f.remove_animation("default")
 	if kind in ["light", "heavy", "captain"]:
-		var prefix := "LightBandit" if kind == "light" else "HeavyBandit"
-		var folder := Paths.BANDITS + ("Light Bandit/" if kind == "light" else "Heavy Bandit/")
-		for spec in [["idle", "Idle", "Idle", 4, 7, true], ["combat_idle", "Combat Idle", "CombatIdle", 4, 7, true],
-				["run", "Run", "Run", 8, 12, true], ["attack1", "Attack", "Attack", 8, 12, false],
-				["recover", "Recover", "Recover", 8, 10, false], ["hurt", "Hurt", "Hurt", 2, 12, false], ["death", "Death", "Death", 1, 1, false]]:
-			var filename: String = "Combat Idle" if kind == "light" and spec[0] == "combat_idle" else spec[2]
-			add_anim(f, spec[0], folder + spec[1] + "/" + prefix + "_" + filename + "_%d.png", spec[3], spec[4], spec[5], 0)
+		# Padronizados no Aseprite na escala do Noct (tools/make_bandits.lua): quadro e origem únicos.
+		var folder := BANDITS + ("light/" if kind == "light" else "heavy/")
+		for spec in [["idle", 7, true], ["combat_idle", 7, true], ["run", 12, true], ["attack1", 12, false],
+				["recover", 10, false], ["hurt", 12, false], ["death", 1, false]]:
+			var file: String = "attack" if spec[0] == "attack1" else spec[0]
+			var tex: Texture2D = load(folder + file + ".png")
+			add_sheet(f, spec[0], folder + file + ".png", BANDIT_CELL, 0, int(tex.get_width() / BANDIT_CELL.x) - 1, spec[1], spec[2])
 	else:
 		var wizard := kind == "wizard"
 		var folder := Paths.EVIL_WIZARD if wizard else Paths.HERO_KNIGHT

@@ -85,7 +85,7 @@ func _run() -> void:
 				check("recorte dentro da textura " + prop[0].get_file(), Rect2(Vector2.ZERO, tex.get_size()).encloses(prop[3]))
 	await load_room("forest")
 	var light = actors().filter(func(n): return n.kind == "light")[0]
-	check("bandido mantém primeiro quadro da animação", light.sprite.sprite_frames.get_frame_texture("attack1", 0).resource_path.ends_with("_0.png"))
+	check("bandido mantém primeiro quadro da animação", light.sprite.sprite_frames.get_frame_texture("attack1", 0).region.position.x == 0)
 	check("bandido tem oito quadros de ataque", light.sprite.sprite_frames.get_frame_count("attack1") == 8)
 	for bandit in actors().filter(func(n): return n.kind in ["light", "heavy"]):
 		for facing in [-1, 1]:
