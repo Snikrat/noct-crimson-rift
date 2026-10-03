@@ -36,7 +36,7 @@ const SOURCES := {
 	"magia": {"file": "animacoes/magia_pose.png", "h": 264.0},
 	# A prancha de movimentos tem um brilho de fundo semitransparente que liga os bonecos:
 	# só pixels quase opacos contam ("weak").
-	"pr": {"file": "Prancha de Movimentos do Lutador Arcano.png", "h": 110.0, "weak": 160},
+	"pr": {"file": "Prancha de Movimentos do Lutador Arcano.png", "h": 100.0, "weak": 160},
 	"ul": {"file": "Ultimate Pixel Art_ Dragão de Energia Magenta.png", "h": 158.0},
 	"aereo": {"file": "animacoes/combo_aereo.png", "h": 275.0},
 	"dash": {"file": "animacoes/dash.png", "h": 231.6},

@@ -53,6 +53,7 @@ hollow-like/
 | Criar ou ajustar um amuleto | `data/charms.gd` (dados) e `game/player/player_body.gd` (efeito, seção Amuletos) |
 | Esconder um amuleto numa sala | caractere `C` no mapa + `"charm": "id"` no arquivo da sala |
 | Ajustar um chefe | `game/bosses/<chefe>/` |
+| Retocar uma animação do herói | editar `art_source/personagem principal/noct.aseprite` no Aseprite e rodar `tools/noct_aseprite.lua` com `modo=exportar` |
 | Trocar uma animação do herói | colocar a imagem em `art_source/personagem principal/animacoes/`, ajustar `ANIMS`/`SOURCES` em `tools/remaster_hero.gd` e rodar a ferramenta (mesma escala do Idle, quadro único, paleta única) |
 | Trocar a música de uma área, da luta ou de um chefe | `"music"`/`"combat"` e `BOSS_MUSIC` em `data/themes.gd` (caminhos em `data/asset_paths.gd`) |
 | Trocar a barra de XP ou a fonte pixel | arte em `art_source/ui/hud/` (feita no Aseprite) e rodar `tools/make_hud_ui.gd` |
@@ -86,7 +87,10 @@ godot --headless --path . --script tests/areas_test.gd
 # Regressões: saves inválidos, falha de escrita, bônus, dano simultâneo e transições.
 godot --headless --path . --script tests/regression_test.gd
 
-# Recortar de novo as animações do herói (base e carmesim), a magia/dragão e os rostos
+# Noct no Aseprite: art_source/personagem principal/noct.aseprite é a fonte final das animações
+# (uma tag por animação). Depois de editar, grave as tiras do jogo:
+"<Aseprite.exe>" -b --script-param modo=exportar --script tools/noct_aseprite.lua
+# Recortar tudo de novo das pranchas (APAGA os retoques do .aseprite; depois rode modo=montar):
 godot --headless --path . --script tools/remaster_hero.gd
 godot --headless --path . --script tools/slice_hero.gd
 godot --headless --path . --script tools/slice_portraits.gd
