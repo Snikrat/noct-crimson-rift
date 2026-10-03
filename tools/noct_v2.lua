@@ -236,9 +236,24 @@ local function shrink_head(img, head_top)
 end
 base = shrink_head(base, t0)
 
--- Respiração: peito e cabeça sobem juntos 1 px, no mesmo quadro (a cintura fica parada).
+-- Respiração menor que 1 px (subpixel): em pixel art não existe meio pixel, então o desenho
+-- não anda; só o contorno de cima da cabeça e dos ombros "cresce" 1 px no quadro do fôlego.
+-- O interior fica parado, e o olho lê uma subida de cerca de meio pixel, cabeça e peito juntos.
 local chest = t0 + 17
-local breath = lift(base, t0, chest, 1)
+local function grow_top(img, y0, y1)
+  local out = img:clone()
+  for x = 0, W - 1 do
+    for y = math.max(1, y0), y1 do
+      local c = img:getPixel(x, y)
+      if pc.rgbaA(c) > 0 then
+        if pc.rgbaA(img:getPixel(x, y - 1)) == 0 then out:drawPixel(x, y - 1, c) end
+        break
+      end
+    end
+  end
+  return out
+end
+local breath = grow_top(base, t0, chest)
 local idle_body = { base, base, breath, breath }
 local idle_vfx = { aura_outside(vfxs.idle2, base), aura_outside(vfxs.idle4, base),
   aura_outside(vfxs.idle6, breath), aura_outside(vfxs.idle4, breath) }
