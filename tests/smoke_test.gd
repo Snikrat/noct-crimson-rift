@@ -314,8 +314,8 @@ func _run() -> void:
 		if main.room_name == "mind" and not main.transitioning:
 			break
 		await wait(1)
-	check("Bringer leva a luta para a Mente do Noct", main.room_name == "mind" and main.boss != null and main.boss.in_mind
-		and main.boss.hp == main.boss.MAX_HP / 2, "sala=%s" % main.room_name)
+	check("Bringer leva a luta para a Mente do Noct e volta com a vida cheia", main.room_name == "mind" and main.boss != null and main.boss.in_mind
+		and main.boss.hp == main.boss.MAX_HP, "sala=%s" % main.room_name)
 	check("Mente do Noct fica fora do mapa", not game_state().visited.has("mind"))
 	main.player.hp = main.player.max_hp
 	await wait(300)

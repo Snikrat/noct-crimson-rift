@@ -28,7 +28,7 @@ func _ready() -> void:
 func intensity() -> float:
 	var b = level.boss if level else null
 	if b and is_instance_valid(b) and "hp" in b and "MAX_HP" in b:
-		return clampf(1.0 - float(b.hp) / b.MAX_HP * 2.0, 0.0, 1.0)
+		return clampf(1.0 - float(b.hp) / b.MAX_HP, 0.0, 1.0)
 	return 0.0
 
 

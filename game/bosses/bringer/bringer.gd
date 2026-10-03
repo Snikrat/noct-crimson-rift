@@ -2,7 +2,7 @@ extends CharacterBody2D
 ## Bringer of Death: chefe da catedral.
 ## Ataques: golpe de foice de perto, mãos sombrias que caem do alto e teleporte.
 ## Fase 2 (metade da vida): arrasta a luta para dentro da cabeça de Noct (Mente do Noct, enter_mind em
-## main.gd), invoca três mãos de uma vez, se teleporta mais e provoca Noct com Mira sem pausar a luta.
+## main.gd), volta com a vida cheia, invoca três mãos de uma vez, se teleporta mais e provoca Noct com Mira sem pausar a luta.
 ## Ele nunca tocou em Mira: o que ele faz é achar o pior medo de cada um e falar com a voz dele.
 
 const Sprites := preload("res://game/core/sprites.gd")
@@ -88,8 +88,9 @@ func is_awake() -> bool:
 	return state != "sleep" and not dying
 
 
+## Fase 2 começa na metade da vida e continua na Mente do Noct (onde a vida volta a encher).
 func phase2() -> bool:
-	return hp <= MAX_HP / 2
+	return in_mind or hp <= MAX_HP / 2
 
 
 ## Corpo não fica no centro do quadro, então o deslocamento muda ao virar.
@@ -278,6 +279,7 @@ func _start_rift() -> void:
 ## Chamado por main.gd depois da troca de sala: reaparece na Mente do Noct e retoma a luta.
 func arrive_in_mind(feet: Vector2) -> void:
 	in_mind = true
+	hp = MAX_HP   # dentro da cabeça de Noct ele volta inteiro: a segunda metade é uma luta nova
 	place_feet_at(feet)
 	velocity = Vector2.ZERO
 	state = "appear"
