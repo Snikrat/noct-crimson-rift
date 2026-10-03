@@ -60,6 +60,9 @@ hollow-like/
 | Trocar as formas carmesim (níveis 1-3) | `art_source/personagem principal/carmesim/niveis_carmesim.png` e rodar `tools/slice_crimson.gd`; velocidades em `CRIMSON_ANIMS` (`game/core/sprites.gd`) |
 | Esconder uma memória de Mira | texto em `data/memories.gd` + `"memories": [{"id", "feet"}]` no arquivo da sala |
 | Criar uma parede carmesim (Passo da Fenda) | caractere `X` no mapa (sólido; atravessa com dash depois do Bringer) |
+| Ajustar o salto na parede (Garras do Gato) | `WALL_*` e `_wall_side`/`_wall_jump` em `game/player/player_body.gd`; liberado em `has_wall_grip` (`main.gd`) |
+| Passagem que exige memória ou chefe | marcador com `"requires": "memory:<id>"` ou `"boss:<id>"` e, opcional, `"locked_lines"` |
+| Água parada ou chuva numa área | caractere `w` no mapa (cor `"water"` no tema) / `"rain": true` no tema (`data/themes.gd`) |
 | Mudar falas/etapas da Tessa | `game/world/tessa.gd` e a chave `"tessa"` nas salas (Bosque, vila, catedral) |
 | Mudar o final (revelação, escolha, epílogo) | `REVELATION` e `_ending_sequence` em `game/world/main.gd`; epílogo e créditos em `game/ui/ending.gd` |
 | Mudar o mapa da pausa | `data/world_map.gd` |
@@ -75,6 +78,7 @@ godot --headless --path . --script tests/regression_test.gd
 godot --headless --path . --script tests/content_test.gd
 godot --headless --path . --script tests/new_assets_test.gd
 godot --headless --path . --script tests/story_test.gd
+godot --headless --path . --script tests/areas_test.gd
 
 # Regressões: saves inválidos, falha de escrita, bônus, dano simultâneo e transições.
 godot --headless --path . --script tests/regression_test.gd

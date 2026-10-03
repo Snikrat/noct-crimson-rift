@@ -17,10 +17,11 @@ const CHARMS := {
 	"long_reach": {"name": "Alcance Longo", "desc": "A área dos golpes fica 30% maior.", "cost": 1, "icon": [6, 0, 1]},
 	"sharp_spell": {"name": "Magia Afiada", "desc": "Magias (bola, trovão e mergulho) causam +1 de dano.", "cost": 2, "icon": [7, 1, 3]},
 	"geo_magnet": {"name": "Ímã de Geo", "desc": "Inimigos derrotados dão 50% mais Geo.", "cost": 1, "icon": [7, 3, 4]},
+	"one_day": {"name": "Um Dia de Cada Vez", "desc": "Parado no chão por 3 s, recupera alma devagar.", "cost": 1, "icon": [7, 2, 0]},
 }
 
 # Ordem em que aparecem no menu.
-const ORDER := ["red_blade", "swift_step", "hungry_heart", "quick_focus", "stone_skin", "long_reach", "sharp_spell", "geo_magnet"]
+const ORDER := ["red_blade", "swift_step", "hungry_heart", "quick_focus", "stone_skin", "long_reach", "sharp_spell", "geo_magnet", "one_day"]
 
 
 static func icon(id: String) -> AtlasTexture:

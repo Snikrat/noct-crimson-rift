@@ -25,6 +25,7 @@ const Sprites := preload("res://game/core/sprites.gd")
 const MarkerScript := preload("res://game/world/world_marker.gd")
 const CrimsonScript := preload("res://game/world/crimson_effect.gd")
 const HumanoidScript := preload("res://game/enemies/enemy_humanoid.gd")
+const RainScript := preload("res://game/world/rain.gd")
 
 const TILE := 16
 
@@ -40,6 +41,7 @@ var solid := {}
 var rift := {}              # paredes carmesim (X): sólidas, atravessáveis com o Passo da Fenda
 var hazards: Array[Rect2] = []
 var lava: Array[Vector2i] = []   # células de lava (desenhadas em room_view.gd)
+var water: Array[Vector2i] = []  # água parada (w): só visual
 var entries := {}
 var map_size := Vector2i.ZERO
 
@@ -172,6 +174,7 @@ func load_room(name: String, entry: String) -> void:
 	rift.clear()
 	hazards.clear()
 	lava.clear()
+	water.clear()
 	entries.clear()
 	boss = null
 	hud.dialog.close()
@@ -197,6 +200,8 @@ func load_room(name: String, entry: String) -> void:
 					rift[Vector2i(x, y)] = true
 				"^":
 					hazards.append(Rect2(x * TILE + 2, y * TILE + 8, TILE - 4, 8))
+				"w":
+					water.append(Vector2i(x, y))
 				"~":
 					lava.append(Vector2i(x, y))
 					hazards.append(Rect2(x * TILE, y * TILE + 5, TILE, TILE - 5))
@@ -269,6 +274,8 @@ func load_room(name: String, entry: String) -> void:
 			continue
 		_spawn(HumanoidScript, feet, props)
 
+	if theme.get("rain", false):
+		world.add_child(RainScript.new())
 	player.set_world_size(Vector2(map_size * TILE))
 	var spawn: Vector2 = entries.get(entry, entries.values()[0])
 	player.enter_room(spawn)
@@ -362,6 +369,27 @@ func _ending_sequence() -> void:
 ## Passo da Fenda: liberado ao derrotar o Bringer of Death (a fenda "gostou de cada golpe").
 func has_rift_step() -> bool:
 	return GameState.defeated_bosses.has("bringer")
+
+
+## Garras do Gato: liberadas ao derrotar o Gato Infernal (deslizar e saltar nas paredes).
+func has_wall_grip() -> bool:
+	return GameState.defeated_bosses.has("gato")
+
+
+## Requisito de passagens e inscrições: descoberta, "memory:<id>" ou "boss:<id>".
+func requirement_met(req: String) -> bool:
+	if req.begins_with("memory:"):
+		return GameState.memories.has(req.trim_prefix("memory:"))
+	if req.begins_with("boss:"):
+		return GameState.defeated_bosses.has(req.trim_prefix("boss:"))
+	return GameState.discoveries.has(req)
+
+
+## Luneta da torre: as salas da região de Pedravelha aparecem no mapa da pausa.
+const REGION := ["town", "forest", "mountain", "swamp", "cemetery", "tower", "well"]
+func reveal_region() -> void:
+	for r in REGION:
+		GameState.visited[r] = true
 
 
 func is_rift(cell: Vector2i) -> bool:
@@ -507,6 +535,8 @@ func on_boss_defeated(b: Node2D) -> void:
 				"O Gato Infernal foi derrotado! +200 Geo.",
 				"Você absorve a essência da fera: +1 máscara de vida.",
 				"@sarcastico: Bom gatinho.",
+				"As garras da fera ficaram cravadas nas luvas. GARRAS DO GATO: no ar, encoste numa parede para deslizar e pule para saltar dela.",
+				"@olhar_cima: ...Agora aquela torre fica interessante.",
 			]
 		"demon_slime":
 			geo += 500
@@ -591,7 +621,13 @@ func rest_at_bench() -> void:
 	var save_note := "Jogo salvo." if saved else "Não foi possível salvar. Tente descansar novamente."
 	var lines := ["As feridas se fecham e a alma se acalma. " + save_note]
 	# O lugar vazio e a fita: gestos que Noct nunca comenta.
-	if room_name == "town" and GameState.flags.has("tessa_saved") and not GameState.flags.has("tessa_jacket"):
+	if room_name == "station":
+		# Só aqui ele escolhe o lado: o direito. O esquerdo era dela.
+		lines.append("* Ele senta à direita. O lado esquerdo fica vazio.")
+		if GameState.memories.has("the_seat"):
+			lines.append("* Não estava frio.")
+		lines.append("@fechando_olhos: Um dia de cada vez.")
+	elif room_name == "town" and GameState.flags.has("tessa_saved") and not GameState.flags.has("tessa_jacket"):
 		GameState.flags["tessa_jacket"] = true
 		lines.append("Antes de se sentar, Noct tira a jaqueta e a deixa dobrada perto de onde Tessa dorme. Não diz nada.")
 		lines.append("@cansado: Hm.")
