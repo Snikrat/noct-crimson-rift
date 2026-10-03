@@ -14,6 +14,8 @@ extends SceneTree
 ## Saída: assets/hero/<anim>.png, assets/hero/crimson/c<n>_<anim>.png, hero.json, crimson.json
 ## e assets/hero/noct_atlas.png (uma linha por animação) + noct_atlas.json.
 ## Uso: godot --headless --path . --script tools/remaster_hero.gd
+## Só algumas animações, sem tocar no jogo (tiras em outra pasta, sem json/atlas/paleta):
+##   ... --script tools/remaster_hero.gd -- --only=walk --out=res://art_source/personagem principal/extra/
 
 const SRC := "res://art_source/personagem principal/"
 const OUT := "res://assets/hero/"
@@ -77,6 +79,10 @@ const ANIMS := {
 		[1045, 200, 1352, 560], [1348, 200, 1578, 560], [1572, 200, 1918, 560], [1935, 200, 2165, 560]]},
 	"crouch": {"src": "agachado", "anchor": "legs", "rects": [
 		[20, 240, 280, 585], [282, 240, 545, 585], [545, 240, 812, 585], [812, 240, 1110, 585]]},
+	# Caminhada (prancha de movimentos, "CAMINHADA"); usada pelo Noct v2 (tools/noct_v2.lua).
+	# Em pé, o boneco da prancha mede 120 px: fix leva para a altura do Idle v2 (43 px).
+	"walk": {"src": "pr", "anchor": "legs", "fix": 0.7818, "rects": [
+		[335, 42, 395, 169], [395, 42, 457, 169], [457, 42, 525, 169], [525, 42, 605, 169]]},
 	"hurt": {"src": "pr", "anchor": "legs", "rects": [
 		[345, 207, 420, 312], [433, 207, 510, 312], [511, 207, 588, 312]]},
 	"death": {"src": "morte", "anchor": "legs", "rects": [
@@ -141,7 +147,18 @@ var anims := {}            # nome -> Array de quadros
 var order := []            # ordem das linhas no atlas
 
 
+var only := []          # --only=a,b: grava só estas animações
+var only_out := ""      # --out=res://...: pasta das tiras de --only
+
+
 func _initialize() -> void:
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--only="):
+			only = arg.substr(7).split(",")
+		elif arg.begins_with("--out="):
+			only_out = arg.substr(6)
+	if only_out != "":
+		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(only_out))
 	var t0 := Time.get_ticks_msec()
 	for key in SOURCES:
 		var img := Image.load_from_file(ProjectSettings.globalize_path(SRC + SOURCES[key]["file"]))
@@ -620,7 +637,8 @@ func _finish() -> void:
 					if not cache.has(key):
 						cache[key] = _nearest(palette, c)
 					img.set_pixel(x, y, cache[key])
-	_save_palette(palette)
+	if only.is_empty():
+		_save_palette(palette)
 	# 3) Mesmo quadro e mesma origem para todas as animações.
 	var left := 0
 	var right := 0
@@ -657,7 +675,10 @@ func _finish() -> void:
 			strip.blend_rect(img, Rect2i(Vector2i.ZERO, img.get_size()), pos)
 		var crimson := anim.begins_with("c") and anim[1].is_valid_int()
 		var path := (CRIMSON_OUT if crimson else OUT) + anim + ".png"
-		strip.save_png(ProjectSettings.globalize_path(path))
+		if not only.is_empty():
+			path = only_out + anim + ".png"
+		if only.is_empty() or anim in only:
+			strip.save_png(ProjectSettings.globalize_path(path))
 		atlas.blit_rect(strip, Rect2i(Vector2i.ZERO, strip.get_size()), Vector2i(0, row * cell.y))
 		var m := {"frames": frames.size(), "w": cell.x, "h": cell.y, "ax": origin.x, "ay": origin.y - 1}
 		if crimson:
@@ -670,6 +691,9 @@ func _finish() -> void:
 	for keep in ["spell_ball", "dragon"]:
 		if previous.has(keep):
 			hero_meta[keep] = previous[keep]
+	if not only.is_empty():
+		print("só %s, em %s (jogo intocado)" % [only, only_out])
+		return
 	_write_json(OUT + "hero.json", hero_meta)
 	_write_json(CRIMSON_OUT + "crimson.json", crimson_meta)
 	atlas.save_png(ProjectSettings.globalize_path(OUT + "noct_atlas.png"))

@@ -263,11 +263,101 @@ local head_down = lift(base, t0 + 1, t0 + 10, -1)
 local idle_var_body = { base, head_down, head_down, head_down, base }
 local idle_var_vfx = { idle_vfx[1], idle_vfx[2], idle_vfx[2], idle_vfx[1], idle_vfx[1] }
 
--- RUN: os 8 quadros limpos com a mesma paleta; energia na camada separada.
+-- CABEÇA DO NOCT: a cabeça do Idle v2 (sem óculos, com brinco, cabelo menor) vira um carimbo e
+-- substitui a cabeça das outras animações, para ser sempre a mesma cabeça.
+local HEAD_ROWS = 11
+local function head_stamp(img)
+  local ht = top(img)
+  local stamp = Image(W, HEAD_ROWS, ColorMode.RGB)
+  local front = 0
+  for y = 0, HEAD_ROWS - 1 do
+    for x = 0, W - 1 do
+      local c = img:getPixel(x, ht + y)
+      if pc.rgbaA(c) > 0 then
+        stamp:drawPixel(x, y, c)
+        if y >= 5 and y <= 7 then front = math.max(front, x) end
+      end
+    end
+  end
+  return { img = stamp, front = front }
+end
+local HEAD = head_stamp(base)
+
+-- Troca a cabeça de um quadro pela cabeça do Noct v2, alinhando topo e frente do rosto.
+local function put_head(img)
+  local ht = top(img)
+  local front, back = 0, W
+  for y = ht + 5, ht + 7 do
+    for x = 0, W - 1 do
+      if pc.rgbaA(img:getPixel(x, y)) > 0 then front = math.max(front, x) end
+    end
+  end
+  for y = ht, ht + 3 do
+    for x = 0, W - 1 do
+      if pc.rgbaA(img:getPixel(x, y)) > 0 then back = math.min(back, x) end
+    end
+  end
+  local out = img:clone()
+  -- Apaga a cabeça antiga (linhas da cabeça, da nuca até a frente do rosto).
+  for y = ht, ht + HEAD_ROWS - 2 do
+    for x = back - 1, front + 1 do out:drawPixel(x, y, pc.rgba(0, 0, 0, 0)) end
+  end
+  local dx = front - HEAD.front
+  for y = 0, HEAD_ROWS - 1 do
+    for x = 0, W - 1 do
+      local c = HEAD.img:getPixel(x, y)
+      if pc.rgbaA(c) > 0 then out:drawPixel(x + dx, ht + y, c) end
+    end
+  end
+  return out
+end
+
+-- RUN: os 8 quadros limpos com a mesma paleta e a cabeça do Noct v2; energia na camada separada.
 local run_body, run_vfx = {}, {}
 for i = 1, #run_src do
-  run_body[i] = clean(run_src[i], pal)
+  run_body[i] = put_head(clean(run_src[i], pal))
   run_vfx[i] = Image(W, H, ColorMode.RGB)   -- a energia do Run já está no próprio quadro
+end
+
+-- Apaga pedacinhos soltos (menos de "limit" pixels sem encostar no resto): sobras de recorte.
+local function drop_specks(img, limit)
+  local out, seen = img:clone(), {}
+  for sy = 0, H - 1 do
+    for sx = 0, W - 1 do
+      local k = sy * W + sx
+      if not seen[k] and pc.rgbaA(img:getPixel(sx, sy)) > 0 then
+        local stack, comp = { { sx, sy } }, {}
+        seen[k] = true
+        while #stack > 0 do
+          local p = table.remove(stack)
+          table.insert(comp, p)
+          for dy = -1, 1 do for dx = -1, 1 do
+            local nx, ny = p[1] + dx, p[2] + dy
+            if nx >= 0 and ny >= 0 and nx < W and ny < H and not seen[ny * W + nx]
+              and pc.rgbaA(img:getPixel(nx, ny)) > 0 then
+              seen[ny * W + nx] = true
+              table.insert(stack, { nx, ny })
+            end
+          end end
+        end
+        if #comp < limit then
+          for _, p in ipairs(comp) do out:drawPixel(p[1], p[2], pc.rgba(0, 0, 0, 0)) end
+        end
+      end
+    end
+  end
+  return out
+end
+
+-- WALK: caminhada da prancha de movimentos (recortada por tools/remaster_hero.gd --only=walk
+-- em art_source/personagem principal/extra/walk.png), com a paleta e a cabeça do Noct v2.
+local walk_body, walk_vfx = {}, {}
+local walk_strip = Image{ fromFile = app.fs.joinPath(root, "art_source", "personagem principal", "extra", "walk.png") }
+for i = 0, walk_strip.width // W - 1 do
+  local img = Image(W, H, ColorMode.RGB)
+  img:drawImage(walk_strip, Point(-i * W, 0))
+  walk_body[i + 1] = put_head(clean(drop_specks(img, 12), pal))
+  walk_vfx[i + 1] = Image(W, H, ColorMode.RGB)
 end
 
 -------------------------------------------------------------------------------
@@ -294,6 +384,7 @@ local function add(name, bodies_, vfx_, fps)
 end
 add("idle", idle_body, idle_vfx, 2)   -- respiração lenta: 0,5 s por quadro
 add("idle_var", idle_var_body, idle_var_vfx, 2)
+add("walk", walk_body, walk_vfx, 7)
 add("run", run_body, run_vfx, 14)
 for _, r in ipairs(ranges) do
   local t = out:newTag(r[2], r[3])
