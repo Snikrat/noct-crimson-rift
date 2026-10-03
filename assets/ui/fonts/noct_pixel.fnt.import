@@ -1,0 +1,17 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://bjopp6nkaie7"
+path="res://.godot/imported/noct_pixel.fnt-54230eaa205aa932e9479e373c4f3eca.fontdata"
+
+[deps]
+
+source_file="res://assets/ui/fonts/noct_pixel.fnt"
+dest_files=["res://.godot/imported/noct_pixel.fnt-54230eaa205aa932e9479e373c4f3eca.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true
+scaling_mode=2
