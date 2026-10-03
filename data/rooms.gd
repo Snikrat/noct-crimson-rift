@@ -24,7 +24,7 @@ extends RefCounted
 ## "@: texto" escolhe sozinho pela vida: sangrando (1 de vida), ferido (pouca vida) ou neutro.
 ## Personalidade e tom de Noct: docs/noct_personalidade.md (consultar antes de escrever falas).
 ## NPC com "more": [[...], [...]] tem conversas novas a cada vez que Noct volta a falar (a última se repete).
-## "intro": falas de Noct na primeira vez que ele chega na sala (passam sozinhas).
+## "intro": falas de Noct na primeira vez que ele chega na sala (balão sobre ele; passam com o botão).
 ## Para ligar salas, deixe a borda do mapa aberta (sem #) e preencha "left"/"right".
 
 

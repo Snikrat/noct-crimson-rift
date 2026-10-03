@@ -314,10 +314,10 @@ func load_room(name: String, entry: String) -> void:
 	hud.show_banner(room["title"])
 	combat_timer = 0.0
 	Audio.play_music(theme["music"], 1.0, 0.0, 1.0)
-	# Comentário de Noct na primeira vez que chega na área (passa sozinho).
+	# Comentário de Noct na primeira vez que chega na área: balão fixo sobre ele no ponto de entrada.
 	if room.has("intro") and not GameState.seen_intros.has(name):
 		GameState.seen_intros[name] = true
-		hud.dialog.start("", room["intro"], null, 3.2)
+		hud.dialog.start("", room["intro"], null, player.global_position - Vector2(0, player.SIZE.y / 2))
 
 
 ## Junta blocos vizinhos da mesma linha em um único colisor.
@@ -558,7 +558,7 @@ func on_boss_wake(b: Node2D) -> void:
 	hud.show_banner(b.BOSS_NAME)
 	shake(6.0)
 	if "WAKE_LINES" in b:
-		hud.dialog.start(b.BOSS_NAME, b.WAKE_LINES, null, 2.4)
+		hud.dialog.start(b.BOSS_NAME, b.WAKE_LINES)
 	Audio.play_music(Rooms.BOSS_MUSIC.get(b.BOSS_ID, theme["music"]), 1.0, 0.0, 0.6)
 
 
@@ -692,7 +692,7 @@ func on_level_up(new_level: int, reward: Dictionary) -> void:
 	hud.show_level_up(new_level, reward)
 	# O Rift cresce com ele: comentário curto de Noct em alguns níveis.
 	if reward.has("noct") and not hud.dialog.is_open():
-		hud.dialog.start("", reward["noct"], null, 2.8)
+		hud.dialog.start("", reward["noct"])
 	Audio.play_sfx("level_up")
 	flash_screen(Color(1, 0.3, 0.6), 0.4)
 	shake(3.0)

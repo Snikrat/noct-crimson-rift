@@ -139,7 +139,7 @@ func _physics_process(delta: float) -> void:
 						level.boss = self
 						level.hud.show_banner(BOSS_NAME)
 						if CHALLENGE_LINES.has(kind):
-							level.hud.dialog.start(BOSS_NAME, CHALLENGE_LINES[kind], null, 2.2)
+							level.hud.dialog.start(BOSS_NAME, CHALLENGE_LINES[kind])
 				elif timer <= 0:
 					state = "idle" if state == "patrol" else "patrol"
 					timer = 1.2 if state == "idle" else 2.0

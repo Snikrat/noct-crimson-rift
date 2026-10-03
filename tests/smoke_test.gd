@@ -91,8 +91,12 @@ func _run() -> void:
 	check("jogo abre na vila", main.room_name == "town" and p != null)
 	check("Noct comenta ao chegar na vila", main.is_dialog_open() and main.hud.dialog.lines[0].begins_with("@"))
 	check("30 rostos carregados", main.hud.dialog.portraits.size() == 30 and main.hud.dialog.portrait("ultimate") != null)
-	await wait(int((3.2 * main.hud.dialog.lines.size() + 0.3) * 60))   # o comentário passa sozinho (3,2s por fala)
-	check("comentário de chegada passa sozinho", not main.is_dialog_open())
+	check("comentário de chegada em balão sobre o Noct", main.hud.dialog.anchor.distance_to(p.global_position) < 40)
+	await wait(4 * 60)
+	check("comentário de chegada espera o botão", main.is_dialog_open())
+	for i in main.hud.dialog.lines.size():
+		await tap("up")
+	check("comentário de chegada passa com o botão", not main.is_dialog_open(), "%s %d/%d %s" % [main.hud.dialog.speaker, main.hud.dialog.index, main.hud.dialog.lines.size(), main.hud.dialog.lines])
 
 	# --- Diálogo ---
 	p.global_position.x = 280

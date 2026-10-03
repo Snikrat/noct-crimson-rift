@@ -1,13 +1,12 @@
 extends Node2D
 ## Cena final: o epílogo da escolha (GameState.ending_choice), o nome do final e os créditos rolando.
 ## Falas: "@rosto: texto" = Noct com o rosto; "Nome|texto" = outra pessoa; "* texto" = narração.
-## Um botão passa a fala (ou ela passa sozinha); nos créditos, um botão volta ao título.
+## Um botão passa a fala (nenhuma passa sozinha); nos créditos, um botão volta ao título.
 
 const Paths := preload("res://data/asset_paths.gd")
 const TitleScript := preload("res://game/ui/title.gd")
 const SCREEN := Vector2(480, 270)
 const GOLD := Color("e8c872")
-const LINE_TIME := 5.0
 const CREDITS_SPEED := 18.0
 
 const STAY := [
@@ -115,7 +114,7 @@ func _process(delta: float) -> void:
 	match phase:
 		"story":
 			line_t += delta
-			if (pressed and line_t > 0.4) or line_t > LINE_TIME:
+			if pressed and line_t > 0.4:
 				index += 1
 				line_t = 0.0
 				if index >= lines.size():

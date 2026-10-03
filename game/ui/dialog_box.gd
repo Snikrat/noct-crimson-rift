@@ -1,5 +1,7 @@
 extends Control
 ## Caixa de diálogo. Enquanto está aberta, o jogo fica pausado (inimigos, chefes e o herói param).
+## Toda fala espera o botão para passar; nenhuma passa sozinha.
+## Com "anchor", a fala vira um balão fixo e centralizado sobre esse ponto do mundo (comentário de chegada).
 ## Falas do herói ("@expressão: texto") mostram o rosto dele à esquerda;
 ## falas do NPC mostram o desenho dele ampliado à direita.
 
@@ -23,12 +25,10 @@ var lines: Array = []
 var index := -1
 var source: Node2D          # NPC/banco que abriu o diálogo (fecha se o herói se afastar)
 var npc_tex: Texture2D      # desenho do NPC mostrado ao lado das falas dele
-
-
-var auto_advance := 0.0     # > 0: cada fala passa sozinha depois desse tempo (comentários de Noct)
-var auto_timer := 0.0
+var anchor := Vector2.INF  # ponto do mundo onde o balão fica preso (INF = caixa normal embaixo)
 var opened_frame := -1      # o botão que abriu a conversa não pode já passar a 1ª fala
 var closed_frame := -10
+var closed_physics := -10   # o herói lê o botão no quadro de física, que pode vir alguns quadros depois
 var choices: Array = []       # opções da escolha aberta (vazio = conversa normal)
 var choice_index := 0
 var nav_held := true
@@ -81,7 +81,7 @@ func _advance_held() -> bool:
 
 ## A conversa acabou de fechar (neste quadro ou no anterior).
 func just_closed() -> bool:
-	return Engine.get_process_frames() - closed_frame <= 2
+	return Engine.get_process_frames() - closed_frame <= 2 or Engine.get_physics_frames() - closed_physics <= 1
 
 
 ## Escolha: mostra uma fala e as opções; cima/baixo escolhe, pulo/ataque confirma. Emite "chosen".
@@ -92,15 +92,14 @@ func ask(who: String, line: String, options: Array) -> void:
 	nav_held = true
 
 
-## auto > 0 faz as falas passarem sozinhas (comentários curtos que não exigem apertar nada).
-func start(who: String, new_lines: Array, tex: Texture2D = null, auto := 0.0) -> void:
+## at: ponto do mundo para mostrar a fala em balão sobre ele (ex.: cabeça do Noct ao entrar na sala).
+func start(who: String, new_lines: Array, tex: Texture2D = null, at := Vector2.INF) -> void:
 	speaker = who
 	lines = new_lines
 	npc_tex = tex
 	index = 0
 	source = null
-	auto_advance = auto
-	auto_timer = auto
+	anchor = at
 	opened_frame = Engine.get_process_frames()
 	was_held = true   # o botão que abriu precisa ser solto antes de passar a fala
 	get_tree().paused = true
@@ -121,6 +120,7 @@ func close() -> void:
 	var was_open := index >= 0
 	index = -1
 	closed_frame = Engine.get_process_frames()
+	closed_physics = Engine.get_physics_frames()
 	if was_open:
 		finished.emit()
 	# Volta o jogo, a não ser que o menu de pausa esteja aberto por cima.
@@ -129,10 +129,10 @@ func close() -> void:
 	queue_redraw()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if is_open():
 		queue_redraw()
-		# Passar a fala (também adianta as que passam sozinhas).
+		# Passar a fala.
 		if not choices.is_empty():
 			_handle_choice()
 			return
@@ -141,21 +141,75 @@ func _process(delta: float) -> void:
 		var pressed := held and not was_held
 		was_held = held
 		if pressed and Engine.get_process_frames() > opened_frame and not level.hud.pause.open:
-			auto_timer = auto_advance
 			advance()
-			return
-		if auto_advance > 0:
-			auto_timer -= delta
-			if auto_timer <= 0:
-				auto_timer = auto_advance
-				advance()
+
+
+## Separa "@expressão: texto" em [expressão, texto]. "@:" sem expressão escolhe pela vida:
+## sangrando com 1, ferido com pouca, neutro no resto.
+func _hero_face(line: String) -> Array:
+	var sep := line.find(":")
+	var face := line.substr(1, sep - 1).strip_edges()
+	var text := line.substr(sep + 1).strip_edges()
+	if face == "" or not portraits.has(face):
+		var player = level.player
+		if player.hp <= 1:
+			face = "sangrando"
+		elif player.hp <= maxi(1, player.max_hp / 3):
+			face = "ferido"
+		else:
+			face = "neutro"
+	return [face, text]
+
+
+## Balão preso a um ponto do mundo, centralizado nele (fica parado mesmo se a câmera andar).
+func _draw_balloon() -> void:
+	var font := ThemeDB.fallback_font
+	var line: String = lines[index]
+	var face := ""
+	var who := speaker
+	if line.begins_with("* "):
+		line = line.substr(2)
+		who = ""
+	elif line.begins_with("@"):
+		var parsed := _hero_face(line)
+		face = parsed[0]
+		line = parsed[1]
+		who = HERO_NAME
+	var face_w := 34.0 if face != "" else 0.0
+	var text_w := 170.0
+	var text_h := font.get_multiline_string_size(line, HORIZONTAL_ALIGNMENT_LEFT, text_w, 10).y
+	var w := face_w + text_w + 14
+	var h := maxf(face_w + 6, 20 + text_h + 8)
+	var head := get_viewport().get_canvas_transform() * anchor
+	var x := clampf(head.x - w / 2, 4, size.x - w - 4)
+	var y := clampf(head.y - 10 - h, 4, size.y - h - 4)
+	var box := Rect2(x, y, w, h)
+	# Ponta do balão apontando para o ponto de chegada.
+	var tip_x := clampf(head.x, box.position.x + 8, box.end.x - 8)
+	var tail := PackedVector2Array([Vector2(tip_x - 5, box.end.y), Vector2(tip_x + 5, box.end.y), Vector2(tip_x, box.end.y + 6)])
+	draw_colored_polygon(tail, Color(0, 0, 0, 0.85))
+	draw_rect(box, Color(0, 0, 0, 0.85))
+	draw_rect(box, Color(1, 1, 1, 0.35), false, 1)
+	var text_x := box.position.x + 7
+	if face != "":
+		var frame := Rect2(box.position + Vector2(3, 3), Vector2(32, 32))
+		draw_rect(frame, Color(0.15, 0.05, 0.1))
+		draw_texture_rect(portraits[face], frame, false)
+		draw_rect(frame, Color(1, 0.3, 0.6, 0.7), false, 1)
+		text_x = frame.end.x + 6
+	var name_color := Color(1, 0.55, 0.75) if who == HERO_NAME else GOLD
+	draw_string(font, Vector2(text_x, box.position.y + 13), who, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, name_color)
+	draw_multiline_string(font, Vector2(text_x, box.position.y + 27), line, HORIZONTAL_ALIGNMENT_LEFT, text_w, 10)
+	draw_string(font, Vector2(text_x, box.position.y + 13), "%s >" % Controls.key_label("up"), HORIZONTAL_ALIGNMENT_RIGHT, text_w, 8, Color(1, 1, 1, 0.5))
 
 
 func _draw() -> void:
 	if not is_open():
 		return
+	if anchor != Vector2.INF and choices.is_empty():
+		_draw_balloon()
+		return
 	var font := ThemeDB.fallback_font
-	var player = level.player
 	var box := Rect2(24, size.y - 92, size.x - 48, 80)
 	draw_rect(box, Color(0, 0, 0, 0.85))
 	draw_rect(box, Color(1, 1, 1, 0.35), false, 1)
@@ -171,18 +225,10 @@ func _draw() -> void:
 		line = line.substr(2)
 		who = ""
 	elif line.begins_with("@"):
-		# Fala do herói. "@:" sem expressão escolhe sozinho: ferido com pouca vida.
-		var sep := line.find(":")
-		var face := line.substr(1, sep - 1).strip_edges()
-		line = line.substr(sep + 1).strip_edges()
-		if face == "" or not portraits.has(face):
-			# "@:" escolhe pela vida: sangrando com 1, ferido com pouca, neutro no resto.
-			if player.hp <= 1:
-				face = "sangrando"
-			elif player.hp <= maxi(1, player.max_hp / 3):
-				face = "ferido"
-			else:
-				face = "neutro"
+		# Fala do herói, com o rosto dele.
+		var parsed := _hero_face(line)
+		var face: String = parsed[0]
+		line = parsed[1]
 		var frame := Rect2(box.position + Vector2(4, 4), Vector2(72, 72))
 		draw_rect(frame, Color(0.15, 0.05, 0.1))
 		draw_texture_rect(portraits[face], frame, false)
