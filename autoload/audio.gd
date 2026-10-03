@@ -61,11 +61,13 @@ func _ready() -> void:
 	music_b = AudioStreamPlayer.new()
 	for m in [music_a, music_b]:
 		m.volume_db = MUSIC_VOLUME
+		m.bus = "Music"   # volume ajustável em Opções (autoload Settings)
 		add_child(m)
 	music = music_a
 	for i in 12:
 		var p := AudioStreamPlayer.new()
 		p.volume_db = -6
+		p.bus = "SFX"
 		add_child(p)
 		sfx_players.append(p)
 	for key in SFX:

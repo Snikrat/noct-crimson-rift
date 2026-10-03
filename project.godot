@@ -20,6 +20,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [autoload]
 
+Settings="*res://autoload/settings.gd"
 Controls="*res://autoload/controls.gd"
 Audio="*res://autoload/audio.gd"
 GameState="*res://autoload/game_state.gd"

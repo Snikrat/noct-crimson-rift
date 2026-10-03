@@ -24,8 +24,9 @@ const SCREEN := Vector2(480, 270)
 const LAYER_SCALE := 270.0 / 416.0   # as camadas têm 416px de altura
 const GOLD := Color("e8c872")
 # "Continuar" só aparece quando existe um jogo salvo.
-const OPTIONS_NEW := ["Novo jogo", "Controles", "Créditos", "Sair"]
-const OPTIONS_SAVE := ["Continuar", "Novo jogo", "Controles", "Créditos", "Sair"]
+const OptionsPanel := preload("res://game/ui/options_panel.gd")
+const OPTIONS_NEW := ["Novo jogo", "Opções", "Controles", "Créditos", "Sair"]
+const OPTIONS_SAVE := ["Continuar", "Novo jogo", "Opções", "Controles", "Créditos", "Sair"]
 
 const CREDITS := [
 	["Noct e logo", "Arte criada para o jogo"],
@@ -48,6 +49,7 @@ var fade := 1.0
 var starting := false
 var save_error := ""
 var options: Array = OPTIONS_NEW
+var options_panel := OptionsPanel.new()
 var font: Font
 var logo_frames: Array[Texture2D] = []
 var logo_t := -LOGO_DELAY      # tempo da animação do logo
@@ -102,6 +104,10 @@ func _process(delta: float) -> void:
 func _handle_input() -> void:
 	if fade > 0.6:
 		return
+	if page == "options":
+		if options_panel.handle_input():
+			page = "menu"
+		return
 	if page != "menu":
 		if InputSetup.back_pressed() or InputSetup.confirm_pressed() or Input.is_action_just_pressed("ui_cancel"):
 			page = "menu"
@@ -120,6 +126,9 @@ func _handle_input() -> void:
 				_start_game(true)
 			"Novo jogo":
 				_start_game(false)
+			"Opções":
+				page = "options"
+				options_panel.index = 0
 			"Controles":
 				page = "controls"
 			"Créditos":
@@ -168,6 +177,8 @@ func _draw() -> void:
 	match page:
 		"menu":
 			_draw_menu()
+		"options":
+			options_panel.draw(self, font, Rect2(70, 30, SCREEN.x - 140, SCREEN.y - 60))
 		"controls":
 			var box := _panel("Controles")
 			InputSetup.draw_controls(self, font, Rect2(box.position + Vector2(16, 40), box.size - Vector2(32, 60)))
@@ -186,7 +197,7 @@ func _draw_menu() -> void:
 
 
 	for i in options.size():
-		var y := 150.0 + i * 20
+		var y := 146.0 + i * 18
 		var selected := i == index
 		var color := GOLD if selected else Color(1, 1, 1, 0.75)
 		var label: String = options[i]

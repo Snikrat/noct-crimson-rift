@@ -2,7 +2,8 @@ extends Control
 ## Menu de pausa (Esc / Start): continuar, amuletos, controles ou voltar à tela de título.
 
 const InputSetup := preload("res://game/core/input_setup.gd")
-const OPTIONS := ["Continuar", "Amuletos", "Controles", "Voltar ao título"]
+const OptionsPanel := preload("res://game/ui/options_panel.gd")
+const OPTIONS := ["Continuar", "Amuletos", "Opções", "Controles", "Voltar ao título"]
 const GOLD := Color("e8c872")
 
 var level
@@ -10,6 +11,7 @@ var open := false
 var closing := false
 var index := 0
 var page := "menu"
+var options_panel := OptionsPanel.new()
 
 
 func _ready() -> void:
@@ -46,6 +48,9 @@ func _process(_delta: float) -> void:
 			level.hud.charms.close()
 			page = "menu"
 			Audio.play_sfx("back")
+	elif page == "options":
+		if options_panel.handle_input():
+			page = "menu"
 	elif page == "controls":
 		if InputSetup.back_pressed() or InputSetup.confirm_pressed():
 			page = "menu"
@@ -66,6 +71,9 @@ func _process(_delta: float) -> void:
 			"Amuletos":
 				page = "charms"
 				level.hud.charms.open()
+			"Opções":
+				page = "options"
+				options_panel.index = 0
 			"Controles":
 				page = "controls"
 			"Voltar ao título":
@@ -83,6 +91,9 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, screen), Color(0, 0, 0, 0.6))
 	if page == "charms":
 		return  # a tela de amuletos (game/ui/charms.gd) se desenha por cima
+	if page == "options":
+		options_panel.draw(self, font, Rect2(70, 30, screen.x - 140, screen.y - 60))
+		return
 	if page == "controls":
 		var box := Rect2(50, 22, screen.x - 100, screen.y - 44)
 		draw_rect(box, Color(0.02, 0.02, 0.06, 0.9))
