@@ -460,6 +460,8 @@ func hit_by_boss(knock_dir: float) -> void:
 
 
 func _take_damage(knock_dir: float, from_hazard: bool) -> void:
+	if level.debug_menu != null and level.debug_menu.god_mode:
+		return   # "Invencível" do menu de hacks (F1)
 	slamming = false
 	slam_recover = 0
 	hp -= 1

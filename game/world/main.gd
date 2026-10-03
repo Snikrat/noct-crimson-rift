@@ -31,8 +31,10 @@ const BubbleScript := preload("res://game/ui/speech_bubble.gd")
 
 const TILE := 16
 
-# Atalhos de teste (F1 sobe um nível, F2 enche alma e vida). Mude para false ao publicar o jogo.
+# Atalhos de teste (F1 abre o menu de hacks, F2 enche alma e vida, F3 troca a forma carmesim).
+# Só funcionam em builds de debug (não vão para o jogo exportado); false desliga também no editor.
 const DEBUG_KEYS := true
+const DebugMenuScript := preload("res://game/ui/debug_menu.gd")
 
 # Estado da sala atual
 var room_name := ""
@@ -90,6 +92,7 @@ var shake_amount := 0.0
 var room_view: Node2D
 var backdrop: CanvasLayer
 var hud: CanvasLayer
+var debug_menu: Control       # menu de hacks (F1); null fora das builds de debug
 
 ## Geo fica no GameState (sobrevive à troca de sala e vai para o save).
 var geo: int:
@@ -109,6 +112,10 @@ func _ready() -> void:
 	hud = HudScript.new()
 	hud.level = self
 	add_child(hud)
+	if DEBUG_KEYS and OS.is_debug_build():
+		debug_menu = DebugMenuScript.new()
+		debug_menu.level = self
+		hud.add_child(debug_menu)
 
 	if GameState.continuing:
 		GameState.continuing = false
@@ -407,12 +414,17 @@ func _ending_sequence() -> void:
 
 ## Passo da Fenda: liberado ao derrotar o Bringer of Death (a fenda "gostou de cada golpe").
 func has_rift_step() -> bool:
-	return GameState.defeated_bosses.has("bringer")
+	return GameState.defeated_bosses.has("bringer") or _debug_powers()
 
 
 ## Garras do Gato: liberadas ao derrotar o Gato Infernal (deslizar e saltar nas paredes).
 func has_wall_grip() -> bool:
-	return GameState.defeated_bosses.has("gato")
+	return GameState.defeated_bosses.has("gato") or _debug_powers()
+
+
+## "Liberar habilidades" do menu de hacks (sem marcar os chefes como derrotados).
+func _debug_powers() -> bool:
+	return debug_menu != null and debug_menu.all_powers
 
 
 ## Requisito de passagens e inscrições: descoberta, "memory:<id>" ou "boss:<id>".
@@ -746,24 +758,24 @@ func on_level_up(new_level: int, reward: Dictionary) -> void:
 	shake(3.0)
 
 
-## Atalhos de teste para experimentar as habilidades sem precisar ganhar XP.
+## Atalhos rápidos de teste (o resto fica no menu de hacks, F1: game/ui/debug_menu.gd).
 func _process_debug_keys() -> void:
 	if not DEBUG_KEYS or not OS.is_debug_build() or transitioning or get_tree().paused:
 		return
-	if Input.is_action_just_pressed("debug_level"):
-		if player.lvl < Progression.MAX_LEVEL:
-			player.gain_xp(Progression.XP_FOR_LEVEL[player.lvl + 1] - player.xp)
-		else:
-			hud.show_banner("Nível máximo", 1.5)
 	if Input.is_action_just_pressed("debug_crimson"):
-		player.crimson_level = (player.crimson_level + 1) % (CRIMSON_NAMES.size())
-		hud.show_banner(CRIMSON_NAMES[player.crimson_level], 1.8)
-		if player.crimson_level > 0:
-			flash_screen(Color(0.9, 0.1, 0.25), 0.35)
-			Audio.play_sfx("charge", 0.0, 1.6 + player.crimson_level * 0.2)
-		else:
-			Audio.play_sfx("unequip")
+		cycle_crimson()
 	if Input.is_action_just_pressed("debug_soul"):
 		player.soul = player.MAX_SOUL
 		player.hp = player.max_hp
 		Audio.play_sfx("switch", 0.0, 1.4)
+
+
+## Troca a forma carmesim (0 -> 1 -> 2 -> 3 -> 0). Atalho F3 e menu de hacks.
+func cycle_crimson() -> void:
+	player.crimson_level = (player.crimson_level + 1) % (CRIMSON_NAMES.size())
+	hud.show_banner(CRIMSON_NAMES[player.crimson_level], 1.8)
+	if player.crimson_level > 0:
+		flash_screen(Color(0.9, 0.1, 0.25), 0.35)
+		Audio.play_sfx("charge", 0.0, 1.6 + player.crimson_level * 0.2)
+	else:
+		Audio.play_sfx("unequip")

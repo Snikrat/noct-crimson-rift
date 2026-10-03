@@ -40,7 +40,8 @@ func _process(_delta: float) -> void:
 		return
 	if not open:
 		var to_map := Input.is_action_just_pressed("map")
-		if (to_map or Input.is_action_just_pressed("pause")) and not level.transitioning and level.player.death_timer <= 0:
+		var debug_busy: bool = level.debug_menu != null and (level.debug_menu.open or level.debug_menu.closing)
+		if (to_map or Input.is_action_just_pressed("pause")) and not level.transitioning and level.player.death_timer <= 0 and not debug_busy:
 			open = true
 			index = 1 if to_map else 0
 			page = "map" if to_map else "menu"

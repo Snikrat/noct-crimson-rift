@@ -233,6 +233,39 @@ func _run() -> void:
 	finish_shatter()
 	check("mergulho sem chão retorna à posição segura", p.hp == before_fall - 1 and not p.slamming and p.global_position == p.safe_pos)
 	check("alma não fica negativa ao cair", p.soul == 0)
+
+	# Menu de hacks (F1): só em debug, não grava save sozinho.
+	var hacks = main.debug_menu
+	check("menu de hacks existe na build de debug", hacks != null)
+	var save_before := FileAccess.file_exists(gs.save_path)
+	hacks.god_mode = true
+	p.invuln_timer = 0
+	var god_hp: int = p.hp
+	p.hit_by_boss(1.0)
+	check("invencível ignora dano", p.hp == god_hp)
+	hacks.god_mode = false
+	hacks.infinite_soul = true
+	hacks.infinite_geo = true
+	p.soul = 0
+	hacks._process(0.016)
+	check("alma e Geo infinitos", p.soul == p.MAX_SOUL and gs.geo == hacks.INFINITE_GEO)
+	hacks.infinite_soul = false
+	hacks.infinite_geo = false
+	hacks._choose(7)
+	check("liberar habilidades dá garras, fenda e golpes", main.has_wall_grip() and main.has_rift_step() and p.has("ultimate"))
+	hacks._choose(2)
+	check("nível máximo pelo menu", p.lvl == hacks.Progression.MAX_LEVEL)
+	hacks.room_index = hacks.rooms.find("tower")
+	main.hud.dialog.close()
+	paused = true
+	hacks._choose(0)
+	for i in 120:
+		if main.room_name == "tower" and not main.transitioning:
+			break
+		await create_timer(0.05, true, false, true).timeout
+	check("menu leva para a sala escolhida", main.room_name == "tower")
+	check("menu de hacks não grava o save", FileAccess.file_exists(gs.save_path) == save_before)
+	main.hud.dialog.close()
 	# Espera hitstops/efeitos pendentes antes de liberar a cena do teste.
 	await create_timer(0.6, true, false, true).timeout
 	change_scene_to_file("res://game/ui/title.tscn")
