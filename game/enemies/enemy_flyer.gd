@@ -4,6 +4,7 @@ extends CharacterBody2D
 ## - angel (anjo caído): mantém distância e, de tempos em tempos, mergulha em rasante no herói.
 ## - skull (caveira de fogo): igual ao anjo, mas mais rápida e insistente.
 ## - eye (olho demoníaco): fica afastado e atira bolas de fogo na direção do herói.
+## - grimoire (grimório voraz, Arquivo Submerso): paira acima do herói e mergulha mordendo.
 
 const Sprites := preload("res://game/core/sprites.gd")
 const ProjectileScript := preload("res://game/enemies/enemy_projectile.gd")
@@ -16,6 +17,9 @@ const KINDS := {
 		"hover": Vector2(0, -40), "swoop": 1.5},
 	"eye": {"size": Vector2(20, 20), "hp": 3, "speed": 55.0, "range": 240.0, "geo": 8,
 		"hover": Vector2(90, -50), "shoot": 2.2},
+	# "faces_right": o desenho olha para a direita (os dos pacotes olham para a esquerda).
+	"grimoire": {"size": Vector2(22, 22), "hp": 4, "speed": 65.0, "range": 220.0, "geo": 9,
+		"hover": Vector2(0, -44), "swoop": 1.9, "faces_right": true},
 }
 const SWOOP_SPEED := 240.0
 const SWOOP_TIME := 0.55
@@ -51,6 +55,7 @@ func _ready() -> void:
 		"angel": sprite.sprite_frames = Sprites.angel()
 		"skull": sprite.sprite_frames = Sprites.fire_skull()
 		"eye": sprite.sprite_frames = Sprites.flying_eye()
+		"grimoire": sprite.sprite_frames = Sprites.grimoire()
 		_: sprite.sprite_frames = Sprites.ghost()
 	add_child(sprite)
 	sprite.play("fly")
@@ -100,9 +105,9 @@ func _physics_process(delta: float) -> void:
 			sprite.play("fly")
 	move_and_slide()
 
-	# Os desenhos olham para a esquerda.
+	# Os desenhos dos pacotes olham para a esquerda; os com "faces_right", para a direita.
 	if absf(velocity.x) > 5:
-		sprite.flip_h = velocity.x > 0
+		sprite.flip_h = (velocity.x > 0) != cfg.get("faces_right", false)
 	sprite.modulate = Color(1, 0.35, 0.35) if flash > 0 else Color.WHITE
 
 

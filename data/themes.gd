@@ -93,7 +93,31 @@ const THEMES := {
 			{"tex": [CEMETERY_ENV + "graveyard.png"], "scroll": 0.45, "align": "bottom"},
 		],
 	},
+	# Áreas novas com tileset próprio (desenhado no Aseprite, assets/areas/): "autotile" escolhe a peça
+	# do bloco 3x3 pelos lados expostos (game/world/room_view.gd). "tint" numa camada colore o fundo reaproveitado.
+	"mines": {
+		"tileset": Paths.MINES + "tileset.png", "autotile": true,
+		"top_variants": [Vector2i(4, 2)], "fill_variants": [Vector2i(3, 1), Vector2i(4, 1)],
+		"spike_src": Rect2(80, 16, 16, 16), "spike_pair": false,   # aglomerado de cristais nos poços
+		"clear": Color("140812"),
+		"step": "rock", "music": Paths.MUSIC_AMBIENT_4, "combat": Paths.MUSIC_HEAVY_BATTLE_1,
+		"layers": [
+			{"tex": [CEMETERY_ENV + "background.png"], "scroll": 0.04, "align": "bottom", "cover": true, "tint": Color(0.55, 0.22, 0.32)},
+			{"tex": [CEMETERY_ENV + "mountains.png"], "scroll": 0.15, "align": "bottom", "tint": Color(0.4, 0.14, 0.22)},
+		],
+	},
+	"archive": {
+		"tileset": Paths.ARCHIVE + "tileset.png", "autotile": true,
+		"top_variants": [Vector2i(4, 2)], "fill_variants": [Vector2i(3, 1), Vector2i(4, 1)],
+		"clear": Color("162032"),   # mesma cor do fundo das janelas tingidas (props da sala)
+		"step": "water", "music": Paths.MUSIC_AMBIENT_4, "combat": Paths.MUSIC_UNHOLY_SURGE,
+		"layers": [],
+	},
 }
+
+# Peças soltas dos tilesets novos (coluna e linha de 16 px), usadas como "props" nas salas.
+const MINES_TILES := Paths.MINES + "tileset.png"
+const ARCHIVE_TILES := Paths.ARCHIVE + "tileset.png"
 
 # Cenário da catedral: pedaços da imagem de fundos da igreja (já vêm com o fundo escuro).
 const CHURCH_WINDOW := Rect2(0, 0, 152, 192)

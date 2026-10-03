@@ -5,6 +5,7 @@ const U := P.UNDEAD
 const ROOM := {
 	"title": "Ruína do Selo Vazio", "theme": "cathedral",
 	"left": "cathedral", "left_entry": "RUINS", "right": "",
+	"entries": {"ARCHIVE": Vector2(808, 320)},
 	"intro": ["@sombrio: Aqui a fenda tem alguém para rezar por ela.", "@serio: Vamos acabar com a oração."],
 	"actors": [{"feet": Vector2(600, 320), "kind": "wizard", "discovery": "evil_wizard"}],
 	"props": [
@@ -19,6 +20,7 @@ const ROOM := {
 		{"feet": Vector2(56, 320), "title": "Voltar à catedral", "target": "cathedral", "entry": "RUINS", "portal": true},
 		{"feet": Vector2(752, 320), "title": "Arquivo do Custódio", "requires": "evil_wizard", "discovery": "ruins_memory", "reward": 60,
 		 "lines": ["O registro descreve almas capturadas. Uma anotação: 'A energia carmesim não obedece ao selo. Responde à ausência.'", "@desconfiado: Ausência de quê?", "A página seguinte foi arrancada.", "@olhar_baixo: Claro que foi."]},
+		{"feet": Vector2(808, 320), "title": "Arquivo Submerso", "target": "archive", "entry": "L", "portal": true, "requires": "evil_wizard"},
 	],
 	"map": [
 		"####################################################",

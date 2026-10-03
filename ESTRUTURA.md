@@ -66,6 +66,7 @@ hollow-like/
 | Mudar o mapa da pausa | `data/world_map.gd` |
 | Mudar velocidade das animações do herói | `HERO_ANIMS` em `game/core/sprites.gd` |
 | Arquivo de arte mudou de lugar | só `data/asset_paths.gd` |
+| Criar uma área com tileset próprio | PNG 8x3 tiles de 16 px em `assets/areas/<área>/` (bloco 3x3 nas colunas 0-2, isolado em (3,2)) e tema com `"autotile": true` em `data/themes.gd`; fontes .aseprite em `art_source/cenarios_novos/` |
 
 ## Comandos
 

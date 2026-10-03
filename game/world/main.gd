@@ -228,6 +228,10 @@ func load_room(name: String, entry: String) -> void:
 					_spawn(CrawlerScript, feet, {"kind": "thing"})
 				"H":
 					_spawn(CrawlerScript, feet, {"kind": "ghoul"})
+				"N":
+					_spawn(CrawlerScript, feet, {"kind": "miner"})
+				"V":
+					_spawn(FlyerScript, feet - Vector2(0, TILE / 2.0), {"kind": "grimoire"})
 				"F":
 					_spawn(FlyerScript, feet - Vector2(0, TILE / 2.0), {})
 				"A":

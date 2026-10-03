@@ -51,6 +51,37 @@ func _draw() -> void:
 	var theme: Dictionary = level.theme
 	var tileset: Texture2D = level.tileset
 	var solid: Dictionary = level.solid
+	if theme.get("autotile", false):
+		_draw_autotile(theme, tileset, solid)
+	else:
+		_draw_blocks(theme, tileset, solid)
+
+	_draw_lava(theme)
+	_draw_rift()
+
+	for h: Rect2 in level.hazards:
+		# Poços de lava já foram desenhados em _draw_lava.
+		if level.lava.has(Vector2i(int(h.position.x) / TILE, int(h.position.y) / TILE)):
+			continue
+		if theme.has("spike_src"):
+			var src: Rect2 = theme["spike_src"]
+			var tile_x := int(h.position.x) / TILE
+			if theme.get("spike_pair", true):
+				src.position.x += (tile_x % 2) * TILE
+			draw_texture_rect_region(tileset, Rect2(tile_x * TILE, h.end.y - src.size.y, TILE, src.size.y), src)
+			continue
+		var bottom := h.end.y
+		var left := h.position.x - 2
+		for i in 3:
+			var x0 := left + i * 5 + 0.5
+			draw_colored_polygon(PackedVector2Array([
+				Vector2(x0, bottom), Vector2(x0 + 2.5, bottom - 11), Vector2(x0 + 5, bottom),
+			]), COLOR_SPIKE)
+			draw_line(Vector2(x0 + 2.5, bottom - 11), Vector2(x0 + 5, bottom), COLOR_SPIKE_DARK)
+
+
+## Tilesets dos pacotes: blocos de chão em colunas (blocks/block_w) e cor sólida abaixo de "rows" tiles.
+func _draw_blocks(theme: Dictionary, tileset: Texture2D, solid: Dictionary) -> void:
 	var blocks: Array = theme["blocks"]
 	var block_w: int = theme["block_w"]
 	var rows: int = theme["rows"]
@@ -72,24 +103,29 @@ func _draw() -> void:
 		if not solid.has(cell + Vector2i.RIGHT):
 			draw_rect(Rect2(dest.position + Vector2(TILE - 2, 0), Vector2(2, TILE)), theme["side"])
 
-	_draw_lava(theme)
-	_draw_rift()
 
-	for h: Rect2 in level.hazards:
-		# Poços de lava já foram desenhados em _draw_lava.
-		if level.lava.has(Vector2i(int(h.position.x) / TILE, int(h.position.y) / TILE)):
-			continue
-		if theme.has("spike_src"):
-			var src: Rect2 = theme["spike_src"]
-			var tile_x := int(h.position.x) / TILE
-			src.position.x += (tile_x % 2) * TILE
-			draw_texture_rect_region(tileset, Rect2(tile_x * TILE, h.end.y - src.size.y, TILE, src.size.y), src)
-			continue
-		var bottom := h.end.y
-		var left := h.position.x - 2
-		for i in 3:
-			var x0 := left + i * 5 + 0.5
-			draw_colored_polygon(PackedVector2Array([
-				Vector2(x0, bottom), Vector2(x0 + 2.5, bottom - 11), Vector2(x0 + 5, bottom),
-			]), COLOR_SPIKE)
-			draw_line(Vector2(x0 + 2.5, bottom - 11), Vector2(x0 + 5, bottom), COLOR_SPIKE_DARK)
+## Tilesets próprios (assets/areas/): bloco 3x3 nas colunas 0-2 (cantos, bordas e meio) e o bloco
+## isolado em (3,2). Cada célula escolhe a peça pelos lados expostos ao ar.
+## "top_variants"/"fill_variants": peças (coluna, linha) que às vezes trocam o topo e o meio.
+func _draw_autotile(theme: Dictionary, tileset: Texture2D, solid: Dictionary) -> void:
+	var top_variants: Array = theme.get("top_variants", [])
+	var fill_variants: Array = theme.get("fill_variants", [])
+	for cell: Vector2i in solid:
+		var up := not solid.has(cell + Vector2i.UP)
+		var down := not solid.has(cell + Vector2i.DOWN)
+		var left := not solid.has(cell + Vector2i.LEFT)
+		var right := not solid.has(cell + Vector2i.RIGHT)
+		var piece := Vector2i(1, 1)
+		if up and down and left and right:
+			piece = Vector2i(3, 2)
+		else:
+			piece.x = 0 if left and not right else (2 if right and not left else 1)
+			piece.y = 0 if up else (2 if down else 1)
+		# Variação fixa por célula (não pisca ao redesenhar).
+		var roll := absi(cell.x * 73 + cell.y * 37) % 7
+		if piece == Vector2i(1, 0) and not top_variants.is_empty() and roll == 0:
+			piece = top_variants[cell.x % top_variants.size()]
+		elif piece == Vector2i(1, 1) and not fill_variants.is_empty() and roll < 2:
+			piece = fill_variants[(cell.x + cell.y) % fill_variants.size()]
+		var src := Rect2(Vector2(piece * TILE), Vector2(TILE, TILE))
+		draw_texture_rect_region(tileset, Rect2(Vector2(cell * TILE), Vector2(TILE, TILE)), src)

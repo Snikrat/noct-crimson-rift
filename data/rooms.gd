@@ -9,6 +9,7 @@ extends RefCounted
 ##   Q  esqueleto enterrado (aviso + surgimento)   T  Thing (pântano)
 ##   H  carniçal em chamas   W  mago   A  anjo caído
 ##   K  cão infernal   Z  caveira de fogo   O  olho demoníaco   ~  lava
+##   N  mineiro cristalizado (Minas da Fenda)   V  grimório voraz (Arquivo Submerso)
 ##   G  chefe Gato Infernal   D  chefe Bringer of Death   M  chefe Demon Slime
 ##   C  amuleto escondido (qual amuleto: chave "charm" da sala)
 ##   X  parede carmesim: sólida; com o Passo da Fenda (depois do Bringer), dash contra ela atravessa
@@ -36,6 +37,8 @@ const TOWN_ENV := Themes.TOWN_ENV
 const ROOMS := {
 	"forest": preload("res://data/rooms/forest.gd").ROOM,
 	"arcane_ruins": preload("res://data/rooms/arcane_ruins.gd").ROOM,
+	"archive": preload("res://data/rooms/archive.gd").ROOM,
+	"mines": preload("res://data/rooms/mines.gd").ROOM,
 	"mountain": preload("res://data/rooms/mountain.gd").ROOM,
 	"town": preload("res://data/rooms/town.gd").ROOM,
 	"swamp": preload("res://data/rooms/swamp.gd").ROOM,

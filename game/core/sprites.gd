@@ -251,6 +251,22 @@ static func lightning() -> SpriteFrames:
 	return f
 
 
+# --- Minas da Fenda e Arquivo Submerso (desenhados no Aseprite, olham para a direita) ---
+
+static func crystal_miner() -> SpriteFrames:
+	var f := SpriteFrames.new()
+	f.remove_animation("default")
+	add_sheet(f, "walk", Paths.MINES + "mineiro_cristalizado_sheet.png", Vector2(44, 52), 0, 3, 6)
+	return f
+
+
+static func grimoire() -> SpriteFrames:
+	var f := SpriteFrames.new()
+	f.remove_animation("default")
+	add_sheet(f, "fly", Paths.ARCHIVE + "grimorio_voraz_sheet.png", Vector2(40, 40), 0, 3, 9)
+	return f
+
+
 static func spider() -> SpriteFrames:
 	var f := SpriteFrames.new()
 	f.remove_animation("default")

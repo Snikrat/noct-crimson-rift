@@ -2,6 +2,7 @@ extends CharacterBody2D
 ## Inimigo de chão (aranha, esqueleto ou carniçal): anda e vira em paredes e beiradas.
 ## O carniçal ("chase") corre atrás do herói quando ele está perto e na mesma altura.
 ## O cão infernal ("leap") também persegue e dá saltos em direção ao herói.
+## O mineiro cristalizado (Minas da Fenda) anda devagar e persegue quando o herói chega perto.
 
 const Sprites := preload("res://game/core/sprites.gd")
 const GRAVITY := 900.0
@@ -13,6 +14,8 @@ const KINDS := {
 	"ghoul": {"size": Vector2(18, 36), "hp": 4, "speed": 50.0, "geo": 8, "frame": Vector2(57, 60), "feet": 59, "chase": 110.0},
 	"hound": {"size": Vector2(30, 20), "hp": 6, "speed": 60.0, "geo": 12, "frame": Vector2(64, 48), "feet": 47, "chase": 150.0, "leap": true},
 	"thing": {"size": Vector2(18, 34), "hp": 7, "speed": 24.0, "geo": 10, "frame": Vector2(33, 45), "feet": 44, "chase": 88.0},
+	# "faces_right": o desenho olha para a direita (os dos pacotes olham para a esquerda).
+	"miner": {"size": Vector2(20, 38), "hp": 6, "speed": 22.0, "geo": 9, "frame": Vector2(44, 52), "feet": 51, "chase": 72.0, "faces_right": true},
 }
 
 var level
@@ -59,6 +62,7 @@ func _ready() -> void:
 		"ghoul": frames = Sprites.ghoul()
 		"hound": frames = Sprites.hell_hound()
 		"thing": frames = Sprites.thing()
+		"miner": frames = Sprites.crystal_miner()
 	sprite = Sprites.make_sprite(frames, cfg["frame"], cfg["feet"], size.y / 2)
 	add_child(sprite)
 	sprite.play("walk")
@@ -128,16 +132,20 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	if is_on_wall() and knock == 0:
 		dir = -dir
-	# Os desenhos olham para a esquerda.
-	sprite.flip_h = dir > 0
+	_face()
 	sprite.modulate = Color(1, 0.35, 0.35) if flash > 0 else Color.WHITE
+
+
+## Vira o desenho para o lado em que anda (os dos pacotes olham para a esquerda).
+func _face() -> void:
+	sprite.flip_h = (dir > 0) != KINDS[kind].get("faces_right", false)
 
 
 ## No ar durante o salto: segue reto até tocar o chão.
 func _process_leap() -> void:
 	velocity.x = dir * LEAP_SPEED + knock
 	move_and_slide()
-	sprite.flip_h = dir > 0
+	_face()
 	sprite.modulate = Color(1, 0.35, 0.35) if flash > 0 else Color.WHITE
 	if is_on_floor() and velocity.y >= 0:
 		leaping = false
