@@ -90,6 +90,8 @@ godot --headless --path . --script tests/regression_test.gd
 # Noct no Aseprite: art_source/personagem principal/noct.aseprite é a fonte final das animações
 # (uma tag por animação). Depois de editar, grave as tiras do jogo:
 "<Aseprite.exe>" -b --script-param modo=exportar --script tools/noct_aseprite.lua
+# Animações geradas dentro do noct.aseprite (rodar antes de exportar, se o arquivo for remontado):
+#   tools/noct_crouch_loop.lua (carmesim abaixado) e tools/noct_look_up.lua (olhar para cima)
 # Recortar tudo de novo das pranchas (APAGA os retoques do .aseprite; depois rode modo=montar):
 godot --headless --path . --script tools/remaster_hero.gd
 godot --headless --path . --script tools/slice_hero.gd

@@ -118,7 +118,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	shake_amount = move_toward(shake_amount, 0, 30 * delta)
-	player.cam.offset = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * shake_amount
+	player.cam.offset = player.look_offset + Vector2(randf_range(-1, 1), randf_range(-1, 1)) * shake_amount
 	_process_debug_keys()
 	_update_music(delta)
 	_hurt_enemies_on_hazards(delta)

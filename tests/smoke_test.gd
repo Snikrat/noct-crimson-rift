@@ -155,6 +155,25 @@ func _run() -> void:
 	await wait(5)
 	check("soltar baixo levanta", not p.crouching)
 
+	# --- Olhar para cima ---
+	Input.action_press("move_right")
+	for i in 120:
+		if main.interactable == null and p.is_on_floor():
+			break
+		await wait(1)
+	Input.action_release("move_right")
+	await wait(10)
+	var cam_y: float = p.cam.offset.y
+	Input.action_press("up")
+	await wait(4)
+	check("toque rápido em cima não olha para cima", not p.looking_up)
+	await wait(60)
+	check("segurar cima parado olha para cima", p.looking_up and String(p.sprite.animation).begins_with("look_up"), p.sprite.animation)
+	check("olhar para cima sobe a câmera", p.cam.offset.y < cam_y - 30, "offset %.0f" % p.cam.offset.y)
+	Input.action_release("up")
+	await wait(40)
+	check("soltar cima volta a câmera", not p.looking_up and absf(p.look_offset.y) < 1)
+
 	# --- Todas as salas ---
 	for r in ["swamp", "cemetery", "lair", "cathedral", "sanctum", "inferno", "demon_lair", "town"]:
 		main.load_room(r, "L" if r != "town" else "B")

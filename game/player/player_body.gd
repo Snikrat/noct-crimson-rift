@@ -144,6 +144,12 @@ var meta := {}
 var crimson_level := 0
 var aura: Sprite2D            # brilho carmesim em volta do herói (criado em player.gd)
 var crouching := false        # segurando baixo no chão
+var looking_up := false       # segurando cima parado no chão: olha para cima e a câmera sobe
+var look_hold := 0.0
+var look_offset := Vector2.ZERO   # deslocamento da câmera (somado ao tremor em main.gd)
+const LOOK_DELAY := 0.3       # segundos segurando cima antes de olhar (um toque continua sendo "falar")
+const LOOK_CAMERA := 48.0     # quanto a câmera sobe, em px
+const LOOK_SPEED := 160.0
 const CROUCH_HEIGHT := 0.6    # fração da altura que continua levando dano agachado
 const CRIMSON_ALIAS := {"fall": "jump", "land": "crouch"}   # animações sem versão carmesim própria
 
@@ -371,9 +377,9 @@ func _play(anim: String) -> void:
 		var key := "c%d_%s" % [crimson_level, CRIMSON_ALIAS.get(anim, anim)]
 		if sprite.sprite_frames.has_animation(key):
 			anim = key
-		# Abaixado na forma carmesim: o loop da energia continua depois do crouch.
-		if sprite.animation == anim + "_loop":
-			return
+	# Animações com continuação (crouch carmesim, olhar para cima): o _loop segue depois delas.
+	if sprite.animation == anim + "_loop":
+		return
 	if sprite.animation != anim:
 		sprite.play(anim)
 
@@ -411,6 +417,8 @@ func _update_animation() -> void:
 			_play("double_jump")
 		else:
 			_play("jump" if velocity.y < 0 else "fall")
+	elif looking_up:
+		_play("look_up")
 	elif absf(velocity.x) > 10:
 		_play("run")
 	else:

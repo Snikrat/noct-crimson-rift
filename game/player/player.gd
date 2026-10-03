@@ -217,6 +217,13 @@ func _physics_process(delta: float) -> void:
 			facing = int(signf(input_x))
 		input_x = 0
 
+	# Segurar cima parado no chão olha para cima e sobe a câmera. Só depois de LOOK_DELAY e sem
+	# ninguém/nada para interagir perto, para não brigar com "falar" e "descansar".
+	var want_look: bool = Input.is_action_pressed("up") and is_on_floor() and input_x == 0 and move == "" 		and not crouching and not focusing and dash_timer <= 0 and hurt_timer <= 0 and level.interactable == null
+	look_hold = look_hold + delta if want_look else 0.0
+	looking_up = look_hold >= LOOK_DELAY
+	look_offset.y = move_toward(look_offset.y, -LOOK_CAMERA if looking_up else 0.0, LOOK_SPEED * delta)
+
 	if Input.is_action_just_pressed("dash") and dash_cooldown <= 0 and _try_rift_step(input_x):
 		pass   # atravessou uma parede carmesim em vez do dash normal
 	elif Input.is_action_just_pressed("dash") and dash_cooldown <= 0 and (is_on_floor() or can_air_dash):
@@ -274,7 +281,7 @@ func _physics_process(delta: float) -> void:
 
 func _on_anim_finished() -> void:
 	var loop := String(sprite.animation) + "_loop"
-	if String(sprite.animation).ends_with("_crouch") and sprite.sprite_frames.has_animation(loop):
+	if sprite.sprite_frames.has_animation(loop):
 		sprite.play(loop)
 		return
 	if ultimate_timer > 0:
