@@ -11,12 +11,12 @@ config_version=5
 [application]
 
 config/name="NOCT: CRIMSON RIFT"
-config/icon="res://Emblema Gótico de Energia Carmesim.png"
 config/description="Break the Rift. Become the weapon."
 run/main_scene="res://game/ui/title.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="NOCT Crimson Rift"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+config/icon="res://Emblema Gótico de Energia Carmesim.png"
 
 [autoload]
 
@@ -24,6 +24,7 @@ Settings="*res://autoload/settings.gd"
 Controls="*res://autoload/controls.gd"
 Audio="*res://autoload/audio.gd"
 GameState="*res://autoload/game_state.gd"
+_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 
 [display]
 
@@ -32,6 +33,10 @@ window/size/viewport_height=270
 window/size/window_width_override=1440
 window/size/window_height_override=810
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_ai/plugin.cfg")
 
 [rendering]
 
