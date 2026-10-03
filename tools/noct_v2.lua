@@ -236,13 +236,11 @@ local function shrink_head(img, head_top)
 end
 base = shrink_head(base, t0)
 
--- Respiração: peito e cabeça sobem juntos 1 px, mas a cabeça vem um quadro depois dos ombros
--- (o movimento fica mais suave do que o bloco inteiro pulando de uma vez).
-local chest = t0 + 17                       -- até o meio do peito (a cintura fica parada)
-local shoulders = lift(base, t0 + 12, chest, 1)
+-- Respiração: peito e cabeça sobem juntos 1 px, no mesmo quadro (a cintura fica parada).
+local chest = t0 + 17
 local breath = lift(base, t0, chest, 1)
-local idle_body = { base, shoulders, breath, breath }
-local idle_vfx = { aura_outside(vfxs.idle2, base), aura_outside(vfxs.idle4, shoulders),
+local idle_body = { base, base, breath, breath }
+local idle_vfx = { aura_outside(vfxs.idle2, base), aura_outside(vfxs.idle4, base),
   aura_outside(vfxs.idle6, breath), aura_outside(vfxs.idle4, breath) }
 
 -- IDLE_VAR: o Noct abaixa a cabeça (cansaço), fica e volta. Cabeça = 11 linhas do topo.
