@@ -96,6 +96,54 @@ func revive() -> void:
 	sprite.play("idle")
 
 
+# --- Passo da Fenda ------------------------------------------------------
+
+## Dash contra uma parede carmesim (X): Noct some de um lado e reaparece do outro.
+## Sem o Passo da Fenda, a parede só pulsa. Retorna true se atravessou.
+func _try_rift_step(input_x: float) -> bool:
+	var dir := int(signf(input_x)) if input_x != 0 else facing
+	var tile: int = level.TILE
+	var rows := [global_position.y - SIZE.y / 2 + 4, global_position.y, global_position.y + SIZE.y / 2 - 4]
+	var cell_x := int(floor((global_position.x + dir * (SIZE.x / 2 + 3)) / tile))
+	var touching := false
+	for y in rows:
+		if level.is_rift(Vector2i(cell_x, int(floor(y / tile)))):
+			touching = true
+	if not touching:
+		return false
+	if not level.has_rift_step():
+		level.hud.show_banner("A parede pulsa. A fenda ainda não responde a você.", 1.8)
+		Audio.play_sfx("denied", 0.0)
+		return false
+	# Atravessa as células carmesim até achar espaço livre; pedra comum bloqueia.
+	var cx := cell_x
+	for i in 8:
+		var blocked := false
+		var all_rift := true
+		for y in rows:
+			var cell := Vector2i(cx, int(floor(y / tile)))
+			if level.solid.has(cell):
+				blocked = true
+				if not level.is_rift(cell):
+					all_rift = false
+		if not blocked:
+			var from := global_position
+			global_position.x = cx * tile + tile / 2.0
+			velocity = Vector2.ZERO
+			dash_cooldown = DASH_COOLDOWN
+			facing = dir
+			level.spawn_crimson("trail", from, dir)
+			level.spawn_crimson("trail", global_position, dir)
+			level.flash_screen(Color(0.9, 0.1, 0.3), 0.25)
+			Audio.play_sfx("dash", 0.0, 0.7)
+			Audio.play_sfx("absorb", 0.0, 1.4)
+			return true
+		if not all_rift and i > 0:
+			return false
+		cx += dir
+	return false
+
+
 # --- Ciclo principal ---------------------------------------------------
 
 func _physics_process(delta: float) -> void:
@@ -155,7 +203,9 @@ func _physics_process(delta: float) -> void:
 			facing = int(signf(input_x))
 		input_x = 0
 
-	if Input.is_action_just_pressed("dash") and dash_cooldown <= 0 and (is_on_floor() or can_air_dash):
+	if Input.is_action_just_pressed("dash") and dash_cooldown <= 0 and _try_rift_step(input_x):
+		pass   # atravessou uma parede carmesim em vez do dash normal
+	elif Input.is_action_just_pressed("dash") and dash_cooldown <= 0 and (is_on_floor() or can_air_dash):
 		if input_x != 0:
 			facing = int(signf(input_x))
 		dash_timer = DASH_TIME

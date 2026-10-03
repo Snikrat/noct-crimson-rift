@@ -11,8 +11,28 @@ var lava_tex: Texture2D
 
 func _process(_delta: float) -> void:
 	# A lava ondula: redesenha a sala quando há lava.
-	if not level.lava.is_empty():
+	if not level.lava.is_empty() or not level.rift.is_empty():
 		queue_redraw()
+
+
+## Paredes carmesim (X): pedra rachada com a energia da fenda pulsando nas frestas.
+func _draw_rift() -> void:
+	var t := Time.get_ticks_msec() / 1000.0
+	for cell: Vector2i in level.rift:
+		var dest := Rect2(cell.x * TILE, cell.y * TILE, TILE, TILE)
+		var pulse := 0.55 + 0.45 * sin(t * 3.0 + cell.y * 0.7)
+		draw_rect(dest, Color(0.16, 0.02, 0.06))
+		draw_rect(dest, Color(0.9, 0.1, 0.28, 0.18 * pulse))
+		# Rachaduras: zigue-zague que muda com a célula.
+		var seed := (cell.x * 7 + cell.y * 13) % 5
+		var a := dest.position + Vector2(3 + seed, 0)
+		var b := dest.position + Vector2(TILE - 4 - seed, TILE * 0.45)
+		var c := dest.position + Vector2(5 + seed * 0.5, TILE)
+		draw_polyline(PackedVector2Array([a, b, c]), Color(1, 0.3, 0.45, 0.5 + 0.5 * pulse), 1.2)
+		if not level.rift.has(cell + Vector2i.LEFT) and not level.solid.has(cell + Vector2i.LEFT):
+			draw_rect(Rect2(dest.position, Vector2(1, TILE)), Color(1, 0.35, 0.5, 0.7 * pulse))
+		if not level.rift.has(cell + Vector2i.RIGHT) and not level.solid.has(cell + Vector2i.RIGHT):
+			draw_rect(Rect2(dest.position + Vector2(TILE - 1, 0), Vector2(1, TILE)), Color(1, 0.35, 0.5, 0.7 * pulse))
 
 
 ## Poços de lava (caractere ~ no mapa): faixa de cima do bloco de lava, deslizando devagar.
@@ -53,6 +73,7 @@ func _draw() -> void:
 			draw_rect(Rect2(dest.position + Vector2(TILE - 2, 0), Vector2(2, TILE)), theme["side"])
 
 	_draw_lava(theme)
+	_draw_rift()
 
 	for h: Rect2 in level.hazards:
 		# Poços de lava já foram desenhados em _draw_lava.

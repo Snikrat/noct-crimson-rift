@@ -7,9 +7,12 @@ const Rooms := preload("res://data/rooms.gd")
 const Charms := preload("res://data/charms.gd")
 const ShopItems := preload("res://data/shop_items.gd")
 const Progression := preload("res://data/progression.gd")
+const Memories := preload("res://data/memories.gd")
 const SKILLS := ["combo", "wave", "charged", "uppercut", "slam", "ultimate"]
 const BOSSES := ["gato", "bringer", "demon_slime"]
 const DISCOVERIES := ["mountain_pass", "nameless_grave", "watcher_note", "mountain_memory", "bandit_captain", "evil_wizard", "knight_duel", "forest_cache", "ruins_memory"]
+# Marcos da história (Tessa, final).
+const FLAGS := ["tessa_saved", "tessa_jacket", "tessa_cathedral", "ending_seen"]
 var save_path := SAVE_PATH      # o teste automático usa outro arquivo para não mexer no seu save
 
 var geo := 0
@@ -21,6 +24,9 @@ var owned_charms := {}          # amuletos que o herói tem (id -> true)
 var equipped_charms: Array = [] # amuletos equipados (ids)
 var seen_intros := {}           # áreas em que Noct já fez o comentário de chegada
 var discoveries := {}          # inscrições e atalhos encontrados (salvos ao descansar)
+var visited := {}              # salas por onde o herói já passou (mapa da pausa)
+var memories := {}             # memórias de Mira encontradas (data/memories.gd)
+var flags := {}                # marcos da história (FLAGS)
 var continuing := false         # true quando o jogo foi aberto pelo "Continuar"
 
 
@@ -35,6 +41,9 @@ func reset() -> void:
 	equipped_charms = []
 	seen_intros = {}
 	discoveries = {}
+	visited = {}
+	memories = {}
+	flags = {}
 	continuing = false
 
 
@@ -85,6 +94,7 @@ func save_game(p: Node) -> bool:
 		"owned_charms": owned_charms.keys(), "equipped_charms": equipped_charms,
 		"seen_intros": seen_intros.keys(),
 		"discoveries": discoveries.keys(),
+		"visited": visited.keys(), "memories": memories.keys(), "flags": flags.keys(),
 	}
 	# Só substitui o save anterior depois que a escrita terminou sem erro.
 	var temporary := save_path + ".tmp"
@@ -128,6 +138,12 @@ func load_game() -> bool:
 	equipped_charms = Array(data.get("equipped_charms", []))
 	for room_id in data.get("seen_intros", []):
 		seen_intros[room_id] = true
+	for room_id in data.get("visited", []):
+		visited[room_id] = true
+	for id in data.get("memories", []):
+		memories[id] = true
+	for id in data.get("flags", []):
+		flags[id] = true
 	continuing = true
 	return true
 
@@ -172,6 +188,12 @@ func _valid_save(data: Variant) -> bool:
 	if not _valid_ids(data.get("defeated_bosses", []), BOSSES):
 		return false
 	if not _valid_ids(data.get("seen_intros", []), Rooms.ROOMS.keys()):
+		return false
+	if not _valid_ids(data.get("visited", []), Rooms.ROOMS.keys()):
+		return false
+	if not _valid_ids(data.get("memories", []), Memories.ORDER):
+		return false
+	if not _valid_ids(data.get("flags", []), FLAGS):
 		return false
 	var owned = data.get("owned_charms", [])
 	var equipped = data.get("equipped_charms", [])

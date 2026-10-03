@@ -13,6 +13,7 @@ const GatoScript := preload("res://game/bosses/gato/gato.gd")
 const BringerScript := preload("res://game/bosses/bringer/bringer.gd")
 const DemonSlimeScript := preload("res://game/bosses/demon_slime/demon_slime.gd")
 const CharmPickupScript := preload("res://game/world/charm_pickup.gd")
+const MemoryScript := preload("res://game/world/memory_pickup.gd")
 const RoomViewScript := preload("res://game/world/room_view.gd")
 const BackdropScript := preload("res://game/world/backdrop.gd")
 const HudScript := preload("res://game/ui/hud.gd")
@@ -34,6 +35,7 @@ var room: Dictionary
 var theme: Dictionary
 var tileset: Texture2D
 var solid := {}
+var rift := {}              # paredes carmesim (X): sólidas, atravessáveis com o Passo da Fenda
 var hazards: Array[Rect2] = []
 var lava: Array[Vector2i] = []   # células de lava (desenhadas em room_view.gd)
 var entries := {}
@@ -134,6 +136,7 @@ func _update_music(delta: float) -> void:
 func load_room(name: String, entry: String) -> void:
 	room_name = name
 	room = Rooms.ROOMS[name]
+	GameState.visited[name] = true
 	theme = Rooms.THEMES[room["theme"]]
 	tileset = load(theme["tileset"])
 	backdrop.set_theme_layers(theme)
@@ -146,6 +149,7 @@ func load_room(name: String, entry: String) -> void:
 	add_child(world)
 	move_child(world, room_view.get_index() + 1)  # na frente do cenário, atrás do herói
 	solid.clear()
+	rift.clear()
 	hazards.clear()
 	lava.clear()
 	entries.clear()
@@ -168,6 +172,9 @@ func load_room(name: String, entry: String) -> void:
 			match c:
 				"#":
 					solid[Vector2i(x, y)] = true
+				"X":
+					solid[Vector2i(x, y)] = true
+					rift[Vector2i(x, y)] = true
 				"^":
 					hazards.append(Rect2(x * TILE + 2, y * TILE + 8, TILE - 4, 8))
 				"~":
@@ -223,6 +230,9 @@ func load_room(name: String, entry: String) -> void:
 	_build_props()
 	for id in room.get("entries", {}):
 		entries[id] = room["entries"][id]
+	for mem in room.get("memories", []):
+		if not GameState.memories.has(mem["id"]):
+			_spawn(MemoryScript, mem["feet"], {"memory_id": mem["id"]})
 	for marker in room.get("markers", []):
 		var props: Dictionary = marker.duplicate()
 		var feet: Vector2 = props["feet"]
@@ -310,6 +320,15 @@ func _spawn(script: GDScript, feet: Vector2, props: Dictionary) -> Node2D:
 
 func add_to_world(node: Node) -> void:
 	world.add_child(node)
+
+
+## Passo da Fenda: liberado ao derrotar o Bringer of Death (a fenda "gostou de cada golpe").
+func has_rift_step() -> bool:
+	return GameState.defeated_bosses.has("bringer")
+
+
+func is_rift(cell: Vector2i) -> bool:
+	return rift.has(cell)
 
 
 func is_solid(world_pos: Vector2) -> bool:
@@ -457,6 +476,7 @@ func on_boss_defeated(b: Node2D) -> void:
 				"Noct continua golpeando muito depois de o Ceifador parar de se mexer.",
 				"@fechando_olhos: Ele mentiu. Tinha que estar mentindo.",
 				"@olhar_baixo: E a fenda gostou de cada golpe. ...Eu também.",
+				"As paredes carmesim deixam de ser paredes para ele. PASSO DA FENDA: dash contra uma parede carmesim para atravessá-la.",
 			]
 	player.hp = player.max_hp
 	player.gain_xp({"gato": 150, "bringer": 250, "demon_slime": 600}.get(b.BOSS_ID, 200))

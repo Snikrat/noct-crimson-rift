@@ -7,6 +7,7 @@ const ENV := T.CEMETERY_ENV + "sliced-objects/"
 
 const ROOM := {
 	"title": "Cemitério Esquecido",
+	"memories": [{"id": "the_seat", "feet": Vector2(488, 272)}],   # fragmentos de memória de Mira
 	"theme": "cemetery",
 	"intro": ["@olhar_baixo: Cemitério.", "@fechando_olhos: ...Passo rápido por aqui."],   # comentário de Noct na 1ª visita
 	"left": "swamp",

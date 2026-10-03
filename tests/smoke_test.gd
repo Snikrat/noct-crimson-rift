@@ -104,7 +104,7 @@ func _run() -> void:
 		await tap("up")
 		if not main.is_dialog_open():
 			break
-	check("conversa fecha ao terminar", not main.is_dialog_open())
+	check("conversa fecha ao terminar", not main.is_dialog_open(), "%s %d/%d" % [main.hud.dialog.speaker, main.hud.dialog.index, main.hud.dialog.lines.size()])
 	await tap("up")
 	check("NPC tem conversa nova na segunda vez", main.is_dialog_open() and main.hud.dialog.lines != first_talk)
 	for i in 10:
@@ -339,7 +339,8 @@ func _run() -> void:
 		var bonus0: int = p._melee_bonus()
 		# longe do banco: não deixa equipar
 		await tap("pause")
-		await tap("down")
+		for i in 3:   # Continuar, Mapa, Memórias -> Amuletos
+			await tap("down")
 		await tap("attack")
 		await tap("attack")
 		check("não equipa longe do banco", not gs.equipped_charms.has("red_blade"))
@@ -351,7 +352,8 @@ func _run() -> void:
 		await wait(20)
 		check("herói ao lado do banco", main.is_at_bench(), "pos=%s" % p.global_position)
 		await tap("pause")
-		await tap("down")
+		for i in 3:   # Continuar, Mapa, Memórias -> Amuletos
+			await tap("down")
 		await tap("attack")
 		await tap("attack")
 		check("equipa amuleto no banco", gs.equipped_charms.has("red_blade"))

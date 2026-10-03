@@ -3,6 +3,7 @@ const P := preload("res://data/asset_paths.gd")
 const U := P.UNDEAD
 const ROOM := {
 	"title": "Bosque dos Desgarrados", "theme": "forest",
+	"memories": [{"id": "the_lie", "feet": Vector2(528, 160)}],   # fragmentos de memória de Mira
 	"left": "town", "left_entry": "FOREST", "right": "swamp", "right_entry": "FOREST",
 	"intro": ["@desconfiado: Marcas de botas. Nenhuma voltando.", "@serio: Alguém está esperando na trilha."],
 	"entries": {"SERRA": Vector2(1040, 320)},

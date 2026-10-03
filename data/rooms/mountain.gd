@@ -4,6 +4,7 @@ const P := preload("res://data/asset_paths.gd")
 const ENV := P.CEMETERY_ENV + "sliced-objects/"
 const ROOM := {
 	"title": "Serra do Último Eco", "theme": "mountain",
+	"memories": [{"id": "one_day", "feet": Vector2(1128, 256)}],   # fragmentos de memória de Mira
 	"left": "town", "left_entry": "MOUNTAIN",
 	"right": "cemetery", "right_entry": "MOUNTAIN", "exit_discovery": "mountain_pass",
 	"intro": ["@olhar_cima: Ainda dá pra ver a vila daqui.", "@sarcastico: Lugar bonito. Melhor ir embora antes que vire importante."],

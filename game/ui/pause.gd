@@ -1,9 +1,11 @@
 extends Control
-## Menu de pausa (Esc / Start): continuar, amuletos, controles ou voltar à tela de título.
+## Menu de pausa (Esc / Start): continuar, mapa, memórias de Mira, amuletos, opções, controles ou voltar ao título.
 
 const InputSetup := preload("res://game/core/input_setup.gd")
 const OptionsPanel := preload("res://game/ui/options_panel.gd")
-const OPTIONS := ["Continuar", "Amuletos", "Opções", "Controles", "Voltar ao título"]
+const WorldMapView := preload("res://game/ui/world_map_view.gd")
+const MemoriesView := preload("res://game/ui/memories_view.gd")
+const OPTIONS := ["Continuar", "Mapa", "Memórias", "Amuletos", "Opções", "Controles", "Voltar ao título"]
 const GOLD := Color("e8c872")
 
 var level
@@ -12,6 +14,7 @@ var closing := false
 var index := 0
 var page := "menu"
 var options_panel := OptionsPanel.new()
+var memories_view := MemoriesView.new()
 
 
 func _ready() -> void:
@@ -48,6 +51,13 @@ func _process(_delta: float) -> void:
 			level.hud.charms.close()
 			page = "menu"
 			Audio.play_sfx("back")
+	elif page == "map":
+		if InputSetup.back_pressed() or InputSetup.confirm_pressed():
+			page = "menu"
+			Audio.play_sfx("back")
+	elif page == "memories":
+		if memories_view.handle_input():
+			page = "menu"
 	elif page == "options":
 		if options_panel.handle_input():
 			page = "menu"
@@ -71,6 +81,10 @@ func _process(_delta: float) -> void:
 			"Amuletos":
 				page = "charms"
 				level.hud.charms.open()
+			"Mapa":
+				page = "map"
+			"Memórias":
+				page = "memories"
 			"Opções":
 				page = "options"
 				options_panel.index = 0
@@ -91,6 +105,12 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, screen), Color(0, 0, 0, 0.6))
 	if page == "charms":
 		return  # a tela de amuletos (game/ui/charms.gd) se desenha por cima
+	if page == "map":
+		WorldMapView.draw(self, font, screen, level, Time.get_ticks_msec() / 1000.0)
+		return
+	if page == "memories":
+		memories_view.draw(self, font, screen)
+		return
 	if page == "options":
 		options_panel.draw(self, font, Rect2(70, 30, screen.x - 140, screen.y - 60))
 		return
@@ -102,11 +122,11 @@ func _draw() -> void:
 		InputSetup.draw_controls(self, font, Rect2(box.position + Vector2(16, 40), box.size - Vector2(32, 60)))
 		draw_string(font, Vector2(0, screen.y - 8), "K / Esc ou B para voltar", HORIZONTAL_ALIGNMENT_CENTER, screen.x, 8, Color(1, 1, 1, 0.45))
 		return
-	draw_string(font, Vector2(0, 96), "Pausado", HORIZONTAL_ALIGNMENT_CENTER, screen.x, 22, Color("ece6f5"))
+	draw_string(font, Vector2(0, 90), "Pausado", HORIZONTAL_ALIGNMENT_CENTER, screen.x, 22, Color("ece6f5"))
 	for i in OPTIONS.size():
 		var selected := i == index
 		var label: String = OPTIONS[i]
 		if selected:
 			label = ">  " + label + "  <"
-		draw_string(font, Vector2(0, 140 + i * 20), label, HORIZONTAL_ALIGNMENT_CENTER, screen.x, 13,
+		draw_string(font, Vector2(0, 122 + i * 18), label, HORIZONTAL_ALIGNMENT_CENTER, screen.x, 13,
 			GOLD if selected else Color(1, 1, 1, 0.75))

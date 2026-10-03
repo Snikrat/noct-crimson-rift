@@ -11,6 +11,8 @@ extends RefCounted
 ##   K  cão infernal   Z  caveira de fogo   O  olho demoníaco   ~  lava
 ##   G  chefe Gato Infernal   D  chefe Bringer of Death   M  chefe Demon Slime
 ##   C  amuleto escondido (qual amuleto: chave "charm" da sala)
+##   X  parede carmesim: sólida; com o Passo da Fenda (depois do Bringer), dash contra ela atravessa
+##   "memories": [{"id": ..., "feet": Vector2(x, y)}] = fragmentos de memória de Mira (data/memories.gd)
 ##   1-9  NPC (definido em "npcs" da sala; com "shop": true vira loja)
 ##
 ## Falas: texto normal é o NPC falando. "@expressão: texto" é Noct respondendo, com o rosto dele na caixa.

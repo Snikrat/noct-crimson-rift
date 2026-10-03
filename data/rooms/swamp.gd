@@ -6,6 +6,7 @@ const T := preload("res://data/themes.gd")
 
 const ROOM := {
 	"title": "Pântano Sombrio",
+	"memories": [{"id": "the_ribbon", "feet": Vector2(424, 272)}],   # fragmentos de memória de Mira
 	"theme": "swamp",
 	"intro": ["@desconfiado: Cheira a coisa morta.", "@sarcastico: Combina comigo."],   # comentário de Noct na 1ª visita
 	"left": "town",
