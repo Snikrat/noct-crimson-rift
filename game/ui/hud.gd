@@ -1,5 +1,5 @@
 extends CanvasLayer
-## Interface por cima do jogo: alma, barras de vida/magia/XP, Geo, nível, avisos (área, nível, interação),
+## Interface por cima do jogo: barras de vida/magia (alma)/XP, Geo, nível, avisos (área, nível, interação),
 ## barra do chefe, clarão e escurecimento de transição. Também contém o diálogo, a loja e a pausa.
 
 const DialogScript := preload("res://game/ui/dialog_box.gd")
@@ -8,16 +8,14 @@ const PauseScript := preload("res://game/ui/pause.gd")
 const CharmsScript := preload("res://game/ui/charms.gd")
 const GOLD := Color("e8c872")
 const Paths := preload("res://data/asset_paths.gd")
-const EMBLEM_SIZE := 46.0           # emblema carmesim em volta do vaso de alma
-const EMBLEM_CORE := 0.18           # raio do centro escuro do emblema (fração do tamanho)
 const SAVE_ICON_TIME := 2.2
-const BARS_POS := Vector2(50, 3)      # canto da primeira barra (vida); magia e XP vêm embaixo
+const BARS_POS := Vector2(6, 3)       # canto da primeira barra (vida); magia e XP vêm embaixo
 const BAR_STEP := 12.0                # distância entre as barras
 const FILL_OFFSET := Vector2(13, 5)   # onde o preenchimento começa dentro da moldura (tools/make_hud_ui.gd)
 
 var level
 var canvas: Control           # onde o HUD é desenhado (pixel art nítida)
-var soft: Control             # embaixo do canvas, com filtro suave: o emblema reduzido
+var soft: Control             # embaixo do canvas, com filtro suave: o emblema de "jogo salvo"
 var dialog: Control
 var shop: Control
 var pause: Control
@@ -47,7 +45,7 @@ func _ready() -> void:
 	for kind in ["vida", "magia", "xp"]:
 		bars[kind] = [load(Paths.HUD_BARS + "barra_%s_moldura.png" % kind), load(Paths.HUD_BARS + "barra_%s_preenchimento.png" % kind)]
 	fill_width = bars["vida"][1].get_width()
-	# O emblema é arte reduzida: filtro suave para não serrilhar. O resto (barras, texto) fica nítido.
+	# O emblema de "jogo salvo" é arte reduzida: filtro suave para não serrilhar. O resto (barras, texto) fica nítido.
 	soft = _full_rect(Control.new())
 	soft.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	soft.draw.connect(_draw_soft)
@@ -129,36 +127,9 @@ func fade_to(alpha: float, duration: float) -> Tween:
 	return tw
 
 
-## Camada suave: vaso de alma e o emblema girando de "jogo salvo".
+## Camada suave: o emblema girando de "jogo salvo" (arte reduzida, filtro suave).
 func _draw_soft() -> void:
-	var player = level.player
 	var c := soft
-	# Vaso de alma: o emblema carmesim acende conforme a alma; o centro da fenda enche de baixo para cima.
-	var vc := Vector2(26, 25)
-	var fill: float = clampf(player.soul / float(player.MAX_SOUL), 0, 1)
-	var full: bool = player.soul >= player.SPELL_COST
-	var glow := lerpf(0.4, 1.0, fill) + (0.15 * sin(t * 6.0) if full else 0.0)
-	c.draw_texture_rect(emblem, Rect2(vc - Vector2.ONE * EMBLEM_SIZE / 2, Vector2.ONE * EMBLEM_SIZE), false,
-		Color(glow, glow * 0.9, glow * 0.95))
-	var r := EMBLEM_SIZE * EMBLEM_CORE
-	c.draw_circle(vc, r, Color(0.05, 0, 0.02, 0.75))
-	if fill > 0:
-		var line_y := vc.y + r - fill * r * 2
-		var pts := PackedVector2Array()
-		for i in 33:
-			var a := TAU * i / 32.0
-			var p := vc + Vector2(cos(a), sin(a)) * (r - 0.5)
-			pts.append(Vector2(p.x, maxf(p.y, line_y + sin(t * 4.0 + p.x) * 0.6)))
-		c.draw_colored_polygon(pts, Color(0.78, 0.05, 0.18, 0.95))
-		# Superfície da alma: linha clara que ondula.
-		var half := sqrt(maxf(r * r - pow(line_y - vc.y, 2), 0.0))
-		if half > 1:
-			c.draw_line(Vector2(vc.x - half + 0.5, line_y), Vector2(vc.x + half - 0.5, line_y), Color(1, 0.55, 0.65, 0.9), 1.0)
-	if full:
-		# Alma suficiente para magia: a fenda no centro brilha.
-		var k := 0.6 + 0.4 * sin(t * 6.0)
-		c.draw_line(vc + Vector2(0, -r + 1), vc + Vector2(0, r - 1), Color(1, 0.9, 0.95, k), 1.2)
-		c.draw_circle(vc, 1.6, Color(1, 1, 1, k))
 	if saved_timer > 0:
 		var a := clampf(minf(saved_timer, SAVE_ICON_TIME - saved_timer) * 4.0, 0, 1)
 		var s := 28.0
@@ -173,7 +144,7 @@ func _draw_hud() -> void:
 	var c := canvas
 
 	var fill: float = clampf(player.soul / float(player.MAX_SOUL), 0, 1)
-	# Barras de vida, magia (alma) e nível (XP), ao lado do emblema.
+	# Barras de vida, magia (alma) e nível (XP).
 	var x := BARS_POS.x
 	_draw_bar("vida", Vector2(x, BARS_POS.y), player.hp / float(player.max_hp))
 	_draw_bar("magia", Vector2(x, BARS_POS.y + BAR_STEP), fill)

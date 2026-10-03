@@ -1,5 +1,5 @@
 extends SceneTree
-## Reduz o emblema carmesim (art_source/ui/emblema.png) para o HUD: vaso de alma e ícone de jogo salvo.
+## Reduz o emblema carmesim (art_source/ui/emblema.png) para o HUD: ícone de jogo salvo.
 ## Uso: godot --headless --path . --script tools/make_emblem.gd
 
 const SRC := "res://art_source/ui/emblema.png"
