@@ -137,6 +137,20 @@ func _run() -> void:
 	for i in 3:
 		await tap("up")
 
+	# --- Agachar ---
+	await skip_dialogs()
+	var x_crouch: float = p.global_position.x
+	Input.action_press("down")
+	Input.action_press("move_right")
+	await wait(20)
+	check("baixo agacha e não anda", p.crouching and p.sprite.animation == "crouch" and absf(p.global_position.x - x_crouch) < 2,
+		"%s %s dx=%.0f" % [p.crouching, p.sprite.animation, p.global_position.x - x_crouch])
+	check("agachado encolhe a área de dano", p.get_hurtbox().size.y < p.SIZE.y)
+	Input.action_release("down")
+	Input.action_release("move_right")
+	await wait(5)
+	check("soltar baixo levanta", not p.crouching)
+
 	# --- Todas as salas ---
 	for r in ["swamp", "cemetery", "lair", "cathedral", "sanctum", "inferno", "demon_lair", "town"]:
 		main.load_room(r, "L" if r != "town" else "B")

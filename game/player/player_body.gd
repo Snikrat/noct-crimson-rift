@@ -128,6 +128,8 @@ var cam: Camera2D
 var meta := {}
 # Forma carmesim (0 = normal, 1-3 = níveis). Por enquanto só troca as animações básicas.
 var crimson_level := 0
+var crouching := false        # segurando baixo no chão
+const CROUCH_HEIGHT := 0.6    # fração da altura que continua levando dano agachado
 const CRIMSON_ALIAS := {"fall": "jump", "land": "crouch"}   # animações sem versão carmesim própria
 
 
@@ -316,7 +318,7 @@ func _update_animation() -> void:
 		_play("hurt")
 	elif move != "":
 		pass  # animação do golpe já está tocando
-	elif focusing:
+	elif focusing or crouching:
 		_play("crouch")
 	elif dash_timer > 0:
 		_play("dash")
@@ -337,6 +339,9 @@ func _update_animation() -> void:
 # --- Dano --------------------------------------------------------------
 
 func get_hurtbox() -> Rect2:
+	if crouching:
+		var h := SIZE.y * CROUCH_HEIGHT
+		return Rect2(global_position + Vector2(-SIZE.x / 2, SIZE.y / 2 - h), Vector2(SIZE.x, h))
 	return Rect2(global_position - SIZE / 2, SIZE)
 
 

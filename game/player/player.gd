@@ -49,6 +49,7 @@ func enter_room(feet: Vector2) -> void:
 
 ## Ações de combate e movimento não atravessam salas nem sobrevivem à morte.
 func _reset_actions() -> void:
+	crouching = false
 	_cancel_move()
 	velocity = Vector2.ZERO
 	recoil_x = 0
@@ -145,6 +146,14 @@ func _physics_process(delta: float) -> void:
 	if focusing:
 		input_x = 0
 		buffer_timer = 0
+
+	# Segurar baixo no chão agacha: fica parado (só vira de lado) e encolhe a área de dano.
+	crouching = Input.is_action_pressed("down") and is_on_floor() and move == "" and not focusing \
+		and dash_timer <= 0 and hurt_timer <= 0
+	if crouching:
+		if input_x != 0:
+			facing = int(signf(input_x))
+		input_x = 0
 
 	if Input.is_action_just_pressed("dash") and dash_cooldown <= 0 and (is_on_floor() or can_air_dash):
 		if input_x != 0:
