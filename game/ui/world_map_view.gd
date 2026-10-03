@@ -80,4 +80,4 @@ static func draw(ci: CanvasItem, font: Font, screen: Vector2, level, t: float) -
 	var here_title: String = Rooms.ROOMS[level.room_name]["title"]
 	ci.draw_string(font, Vector2(box.position.x, box.end.y - 30), here_title, HORIZONTAL_ALIGNMENT_CENTER, box.size.x, 11, Color(1, 0.75, 0.82))
 	ci.draw_string(font, Vector2(box.position.x + 12, box.end.y - 12), "■ banco   x chefe   • você", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color(1, 1, 1, 0.5))
-	ci.draw_string(font, Vector2(box.position.x, box.end.y - 12), "K / Esc volta   ", HORIZONTAL_ALIGNMENT_RIGHT, box.size.x, 8, Color(1, 1, 1, 0.45))
+	ci.draw_string(font, Vector2(box.position.x, box.end.y - 12), "M / K / Esc volta   ", HORIZONTAL_ALIGNMENT_RIGHT, box.size.x, 8, Color(1, 1, 1, 0.45))

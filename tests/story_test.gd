@@ -102,6 +102,11 @@ func _run() -> void:
 	await tap("dash")
 	await wait(4)
 	check("pausa fecha", not paused)
+	await tap("map")
+	check("botão de mapa abre o mapa direto", paused and main.hud.pause.page == "map")
+	await tap("map")
+	await wait(4)
+	check("botão de mapa fecha e volta ao jogo", not paused)
 
 	# --- Memória de Mira ---
 	await go("town", Vector2(376, 192))

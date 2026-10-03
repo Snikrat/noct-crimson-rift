@@ -1,5 +1,6 @@
 extends Control
 ## Menu de pausa (Esc / Start): continuar, mapa, memórias de Mira, amuletos, opções, controles ou voltar ao título.
+## O botão de mapa (M / Tab / LB) abre o mapa direto; sair do mapa nesse caso já volta ao jogo.
 
 const InputSetup := preload("res://game/core/input_setup.gd")
 const OptionsPanel := preload("res://game/ui/options_panel.gd")
@@ -13,6 +14,7 @@ var open := false
 var closing := false
 var index := 0
 var page := "menu"
+var map_direct := false   # mapa aberto pelo botão de mapa: sair dele fecha a pausa
 var options_panel := OptionsPanel.new()
 var memories_view := MemoriesView.new()
 
@@ -27,7 +29,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	# Só despausa quando o botão usado para sair for solto; senão ele vira pulo/ataque/dash no jogo.
 	if closing:
-		for action in ["jump", "attack", "dash", "spell", "pause"]:
+		for action in ["jump", "attack", "dash", "spell", "pause", "map"]:
 			if Input.is_action_pressed(action):
 				return
 		closing = false
@@ -37,10 +39,12 @@ func _process(_delta: float) -> void:
 		queue_redraw()
 		return
 	if not open:
-		if Input.is_action_just_pressed("pause") and not level.transitioning and level.player.death_timer <= 0:
+		var to_map := Input.is_action_just_pressed("map")
+		if (to_map or Input.is_action_just_pressed("pause")) and not level.transitioning and level.player.death_timer <= 0:
 			open = true
-			index = 0
-			page = "menu"
+			index = 1 if to_map else 0
+			page = "map" if to_map else "menu"
+			map_direct = to_map
 			get_tree().paused = true
 			Audio.play_sfx("pause")
 			queue_redraw()
@@ -52,9 +56,12 @@ func _process(_delta: float) -> void:
 			page = "menu"
 			Audio.play_sfx("back")
 	elif page == "map":
-		if InputSetup.back_pressed() or InputSetup.confirm_pressed():
-			page = "menu"
-			Audio.play_sfx("back")
+		if InputSetup.back_pressed() or InputSetup.confirm_pressed() or Input.is_action_just_pressed("map"):
+			if map_direct:
+				closing = true
+			else:
+				page = "menu"
+				Audio.play_sfx("back")
 	elif page == "memories":
 		if memories_view.handle_input():
 			page = "menu"
@@ -83,6 +90,7 @@ func _process(_delta: float) -> void:
 				level.hud.charms.open()
 			"Mapa":
 				page = "map"
+				map_direct = false
 			"Memórias":
 				page = "memories"
 			"Opções":

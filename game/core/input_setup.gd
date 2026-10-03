@@ -4,7 +4,7 @@ extends RefCounted
 
 static func setup() -> void:
 	# Já configurado (ex.: voltando do jogo para o título).
-	if InputMap.has_action("spell"):
+	if InputMap.has_action("map"):
 		return
 
 	var keys := {
@@ -17,6 +17,7 @@ static func setup() -> void:
 		"dash": [KEY_K, KEY_SHIFT, KEY_C],
 		"spell": [KEY_L, KEY_V],
 		"pause": [KEY_ESCAPE, KEY_P],
+		"map": [KEY_M, KEY_TAB],
 		"ultimate": [KEY_U],
 		"debug_level": [KEY_F1],   # atalho de teste: sobe um nível
 		"debug_soul": [KEY_F2],    # atalho de teste: enche alma e vida
@@ -30,7 +31,7 @@ static func setup() -> void:
 			InputMap.action_add_event(action, ev)
 
 	# Controle (layout Xbox, igual ao Hollow Knight): A pula, X ataca, B magia/cura,
-	# RT ou RB dash, Start pausa, analógico esquerdo ou direcional para andar e mirar.
+	# RT ou RB dash, LB mapa, Start pausa, analógico esquerdo ou direcional para andar e mirar.
 	var pad_buttons := {
 		"move_left": [JOY_BUTTON_DPAD_LEFT],
 		"move_right": [JOY_BUTTON_DPAD_RIGHT],
@@ -41,6 +42,7 @@ static func setup() -> void:
 		"spell": [JOY_BUTTON_B],
 		"dash": [JOY_BUTTON_RIGHT_SHOULDER],
 		"pause": [JOY_BUTTON_START],
+		"map": [JOY_BUTTON_LEFT_SHOULDER],
 		"ultimate": [JOY_BUTTON_Y],
 		"debug_level": [JOY_BUTTON_BACK],
 		"debug_crimson": [JOY_BUTTON_LEFT_STICK],
@@ -88,6 +90,7 @@ const CONTROLS := [
 	["Trovão", "W + L", "Cima + B"],
 	["Falar / Descansar / Loja", "W", "Cima"],
 	["Ultimate (alma cheia, nível 10)", "U", "Y"],
+	["Mapa", "M / Tab", "LB"],
 	["Pausa", "Esc", "Start"],
 	["Teste: subir nível / encher alma", "F1 / F2", "Select"],
 	["Teste: forma carmesim", "F3", "Analógico esq."],
@@ -106,4 +109,4 @@ static func draw_controls(ci: CanvasItem, font: Font, rect: Rect2) -> void:
 	for row in CONTROLS:
 		for c in 3:
 			ci.draw_string(font, Vector2(cols[c], y), row[c], HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(1, 1, 1, 0.85))
-		y += 16
+		y += 15
