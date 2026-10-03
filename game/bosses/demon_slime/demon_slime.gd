@@ -10,7 +10,7 @@ const FlyerScript := preload("res://game/enemies/enemy_flyer.gd")
 
 const BOSS_ID := "demon_slime"
 const BOSS_NAME := "Demon Slime"
-const WAKE_LINES := ["@magia_olhos: Foi você que abriu a fenda?", "@maligno: Então você tem respostas. Vou arrancar todas."]
+const WAKE_LINES := ["Você carrega a ausência dela como uma lâmina.", "@magia_olhos: Foi você que abriu a fenda?", "Foi a sua dor que abriu a porta. Eu só entrei.", "@maligno: Então eu fecho com você dentro."]
 const SIZE := Vector2(56, 92)
 const GRAVITY := 1100.0
 const MAX_HP := 70

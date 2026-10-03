@@ -47,6 +47,13 @@ var boss: Node2D
 const COMBAT_RANGE := 170.0
 const COMBAT_LINGER := 4.0
 var combat_timer := 0.0
+var bench_visits := 0
+const BENCH_MOMENTS := [
+	["Noct se senta numa ponta do banco. O outro lado fica vazio.", "@cansado: Cinco minutos. Depois o mundo pode voltar a tentar me matar."],
+	["Os dedos dele encontram a fita carmesim no pulso. Ficam ali um tempo.", "@fechando_olhos: Um dia de cada vez."],
+	["Noct se senta numa ponta do banco. O outro lado fica vazio.", "@calmo: Hoje primeiro. Amanhã depois."],
+	["A mão ainda treme um pouco. Ele espera passar.", "@olhar_lateral: Hm."],
+]
 var interactable: Node2D      # NPC/banco ao alcance do herói
 var transitioning := false
 var shake_amount := 0.0
@@ -209,7 +216,7 @@ func load_room(name: String, entry: String) -> void:
 					if npcs.has(c):
 						var n: Dictionary = npcs[c]
 						_spawn(NpcScript, feet, {"kind": n["kind"], "npc_name": n["name"],
-							"lines": n["lines"], "shop": n.get("shop", false), "patrol_span": n.get("patrol", 24.0)})
+							"lines": n["lines"], "more": n.get("more", []), "shop": n.get("shop", false), "patrol_span": n.get("patrol", 24.0)})
 
 	_build_colliders()
 	_build_props()
@@ -410,7 +417,7 @@ func on_boss_wake(b: Node2D) -> void:
 	hud.show_banner(b.BOSS_NAME)
 	shake(6.0)
 	if "WAKE_LINES" in b:
-		hud.dialog.start("", b.WAKE_LINES, null, 2.6)
+		hud.dialog.start(b.BOSS_NAME, b.WAKE_LINES, null, 2.4)
 	Audio.play_music(Rooms.BOSS_MUSIC.get(b.BOSS_ID, theme["music"]), 1.0, 0.0, 0.6)
 
 
@@ -433,7 +440,10 @@ func on_boss_defeated(b: Node2D) -> void:
 				"O Demon Slime foi derrotado! +500 Geo.",
 				"O Inferno estremece. As chamas começam a se apagar.",
 				"@cansado: Acabou?",
-				"@olhar_cima: ...Um dia de cada vez.",
+				"Noct passa o polegar pela fita carmesim.",
+				"@olhar_cima: Um dia de cada vez.",
+				"Pela primeira vez, a frase não soa como sobreviver até amanhã.",
+				"@fechando_olhos: ...Talvez amanhã valha a pena.",
 				"FIM — Obrigado por jogar NOCT: CRIMSON RIFT!",
 			]
 		"bringer":
@@ -443,8 +453,9 @@ func on_boss_defeated(b: Node2D) -> void:
 				"O Bringer of Death foi derrotado! +300 Geo.",
 				"Você toma o grimório do Ceifador: suas magias causam +1 de dano.",
 				"A catedral silencia... por enquanto.",
-				"@sombrio: A fenda gostou do que eu fiz aqui.",
-				"@olhar_baixo: ...Eu também. Esse é o problema.",
+				"Noct continua golpeando muito depois de o Ceifador parar de se mexer.",
+				"@fechando_olhos: Ele mentiu. Tinha que estar mentindo.",
+				"@olhar_baixo: E a fenda gostou de cada golpe. ...Eu também.",
 			]
 	player.hp = player.max_hp
 	player.gain_xp({"gato": 150, "bringer": 250, "demon_slime": 600}.get(b.BOSS_ID, 200))
@@ -504,7 +515,10 @@ func rest_at_bench() -> void:
 	if saved:
 		hud.show_saved()
 	var save_note := "Jogo salvo." if saved else "Não foi possível salvar. Tente descansar novamente."
-	var lines := ["As feridas se fecham e a alma se acalma. " + save_note, "@cansado: Cinco minutos. Depois o mundo pode voltar a tentar me matar."]
+	var lines := ["As feridas se fecham e a alma se acalma. " + save_note]
+	# O lugar vazio e a fita: gestos que Noct nunca comenta.
+	lines.append_array(BENCH_MOMENTS[bench_visits % BENCH_MOMENTS.size()])
+	bench_visits += 1
 	if not GameState.owned_charms.is_empty():
 		lines.append("Sentado aqui, você pode trocar amuletos: pausa > Amuletos.")
 	start_dialog("Banco", lines)
@@ -522,6 +536,9 @@ func on_player_died() -> void:
 
 func on_level_up(new_level: int, reward: Dictionary) -> void:
 	hud.show_level_up(new_level, reward)
+	# O Rift cresce com ele: comentário curto de Noct em alguns níveis.
+	if reward.has("noct") and not hud.dialog.is_open():
+		hud.dialog.start("", reward["noct"], null, 2.8)
 	Audio.play_sfx("level_up")
 	flash_screen(Color(1, 0.3, 0.6), 0.4)
 	shake(3.0)

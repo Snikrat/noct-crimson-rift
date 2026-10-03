@@ -7,7 +7,7 @@ const FireballScript := preload("res://game/bosses/gato/gato_fireball.gd")
 
 const BOSS_ID := "gato"
 const BOSS_NAME := "Gato Infernal"
-const WAKE_LINES := ["@sarcastico: Ótimo. Um gato gigante. Meu dia estava tranquilo demais."]
+const WAKE_LINES := ["@sorrindo: ...Finalmente."]   # inimigo enorme: o sorriso de canto, não alegria
 const SIZE := Vector2(64, 44)
 const GRAVITY := 1100.0
 const MAX_HP := 32

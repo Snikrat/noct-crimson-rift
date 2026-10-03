@@ -26,6 +26,11 @@ var attack_index := 0
 var attack_elapsed := 0.0
 var cast_done := false
 var challenged := false
+# Fala do chefe humano ao ver Noct (o Capitão vende quem ouve a fenda; o Custódio os prende).
+const CHALLENGE_LINES := {
+	"captain": ["Vai bancar o herói?", "@neutro: Não.", "@sarcastico: Só não gosto de você."],
+	"wizard": ["Você ouviu a fenda. Então pertence ao selo.", "@serio: Não pertenço a nada."],
+}
 var sprite: AnimatedSprite2D
 
 func _ready() -> void:
@@ -105,7 +110,7 @@ func interact() -> void:
 		Audio.play_sfx("encounter")
 	else:
 		challenged = true
-		level.start_dialog(BOSS_NAME, ["Guardei esta trilha até esquecer para quem.", "@cansado: Parece cansativo.", "Mostre que ainda escolhe onde o golpe termina. Um duelo; sem mortes.", "Use a ação de interação novamente para aceitar. Você pode seguir pela trilha sem lutar."])
+		level.start_dialog(BOSS_NAME, ["A lâmina encosta no pescoço de Noct. Mais um passo e a conversa termina.", "@confiante: Bonita.", "@sarcastico: Vai usar ou é decoração?", "...Guardei esta trilha até esquecer para quem.", "@cansado: Parece cansativo.", "Mostre que ainda escolhe onde o golpe termina. Um duelo; sem mortes.", "Use a ação de interação novamente para aceitar. Você pode seguir pela trilha sem lutar."])
 
 func _physics_process(delta: float) -> void:
 	flash = maxf(0, flash - delta)
@@ -132,6 +137,8 @@ func _physics_process(delta: float) -> void:
 					if discovery != "":
 						level.boss = self
 						level.hud.show_banner(BOSS_NAME)
+						if CHALLENGE_LINES.has(kind):
+							level.hud.dialog.start(BOSS_NAME, CHALLENGE_LINES[kind], null, 2.2)
 				elif timer <= 0:
 					state = "idle" if state == "patrol" else "patrol"
 					timer = 1.2 if state == "idle" else 2.0

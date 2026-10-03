@@ -83,7 +83,7 @@ func _run() -> void:
 	check("jogo abre na vila", main.room_name == "town" and p != null)
 	check("Noct comenta ao chegar na vila", main.is_dialog_open() and main.hud.dialog.lines[0].begins_with("@"))
 	check("30 rostos carregados", main.hud.dialog.portraits.size() == 30 and main.hud.dialog.portrait("ultimate") != null)
-	await wait(int(3.4 * 60))   # o comentário passa sozinho
+	await wait(int((3.2 * main.hud.dialog.lines.size() + 0.3) * 60))   # o comentário passa sozinho (3,2s por fala)
 	check("comentário de chegada passa sozinho", not main.is_dialog_open())
 
 	# --- Diálogo ---
@@ -91,11 +91,18 @@ func _run() -> void:
 	await wait(5)
 	await tap("up")
 	check("conversa com NPC abre", main.is_dialog_open())
+	var first_talk: Array = main.hud.dialog.lines.duplicate()
 	for i in 10:
 		await tap("up")
 		if not main.is_dialog_open():
 			break
 	check("conversa fecha ao terminar", not main.is_dialog_open())
+	await tap("up")
+	check("NPC tem conversa nova na segunda vez", main.is_dialog_open() and main.hud.dialog.lines != first_talk)
+	for i in 10:
+		await tap("up")
+		if not main.is_dialog_open():
+			break
 
 	# --- Loja ---
 	main.geo = 500
@@ -116,6 +123,7 @@ func _run() -> void:
 	await wait(5)
 	await tap("up")
 	check("banco cura", p.hp == p.max_hp)
+	check("banco mostra um momento de Noct", main.is_dialog_open() and main.hud.dialog.lines.size() >= 3)
 	if game_state():
 		check("banco salva o jogo", game_state().has_save())
 	for i in 3:

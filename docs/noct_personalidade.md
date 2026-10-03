@@ -1,235 +1,251 @@
-# Noct — Bíblia do personagem
+# NOCT — Bíblia definitiva do personagem
 
-> **Noct não quer morrer. Ele simplesmente esqueceu por que deveria querer viver.**
+> **Um homem que perdeu sua razão para viver e passa a história inteira sem perceber que está construindo outra.**
 
-Este é o guia de referência para TODA fala de Noct no jogo. Antes de escrever ou mudar um diálogo,
-confira: tom (seção 13–15), rosto certo (tabela no fim) e a fase do arco (seção 18).
-
-Elementos marcados com ✦ foram criados para completar o prompt original e podem ser trocados.
+Guia de referência para TODA fala de Noct. Antes de escrever ou mudar um diálogo, leia a
+**Regra definitiva** (fim da parte 1) e confira o **apêndice** (rostos, fase do arco, onde ficam as falas).
 
 ---
 
-## Núcleo
+# Parte 1 — O personagem
 
-- Perdeu a única pessoa que realmente amava. ✦ O nome dela é **Mira**. Ele quase nunca o diz.
-- Os poderes (a energia carmesim do Rift) surgiram logo depois da morte dela. Ele não sabe por quê.
-- Vive um dia de cada vez. Não procura a morte: procura **alguma coisa que o faça sentir alguma coisa**.
-- O sarcasmo é escudo, não piada. Quanto mais algo dói, mais irônico ele fica.
-- Por baixo da apatia existe raiva — do mundo, dos poderes, de Mira por ter ido, e principalmente de si mesmo.
-- A pergunta que ele foge: **"E se ela morreu por minha causa?"**
-- Sensação final: ele não está tentando salvar o mundo. Está tentando descobrir se ainda existe
-  alguma coisa nele que valha a pena salvar.
+## Conceito central
 
-## 1. Perfil psicológico
+Noct sobreviveu ao momento que deveria ter encerrado sua vida emocional. Continua respirando, andando,
+lutando e aceitando trabalhos, mas existe uma diferença entre **estar vivo** e **querer viver** — e ele
+conhece essa diferença melhor do que gostaria.
 
-Luto não resolvido que virou anestesia. Noct funciona — luta, viaja, aceita trabalhos — mas no piloto
-automático. A dor ficou guardada e sai por três válvulas: **ironia** (no dia a dia), **adrenalina**
-(no perigo) e **raiva** (quando algo toca na ferida). Inteligente e observador: lê ambientes e pessoas
-rápido, mas usa isso para manter distância, não para se aproximar. Não é frio por natureza; ficou
-distante porque se aproximar já custou caro uma vez. Acredita que desistiu. Não desistiu.
+A morte de **Mira**, a única pessoa que realmente atravessou suas defesas, destruiu a estrutura que mantinha
+sua vida organizada. Pouco depois, o **Crimson Rift** começou a se manifestar dentro dele. Noct não sabe se a
+perda despertou o poder, se o Rift provocou a tragédia ou se Mira estava envolvida em algo maior.
 
-## 2. Virtudes e defeitos
+A possibilidade mais aterrorizante: **"E se ela morreu por minha causa?"**
+Essa dúvida acompanha a história por muito tempo, sem resposta fácil.
 
-| Virtudes | Defeitos |
+Noct não começa querendo salvar o mundo. Procura **distrações**: dinheiro paga comida, combates trazem
+adrenalina, investigar o Rift ocupa a cabeça, a estrada impede que fique tempo demais num lugar.
+Ele chama isso de liberdade. Na verdade, está fugindo.
+
+## Quem Noct parece ser
+
+Perigosamente confortável com tudo. Monstros, ruínas, cadáveres, cultistas e demônios raramente arrancam
+dele mais que um olhar cansado. Há uma **arrogância silenciosa** — não de quem se acha superior, mas de quem
+já perdeu aquilo que mais temia perder. Por isso é **difícil de intimidar**.
+
+> Uma espada no pescoço. Ele olha a lâmina. Depois a pessoa.
+> "Bonita." — pausa — "Vai usar ou é decoração?"
+
+Não precisa levantar a voz para ocupar uma cena. Enquanto todos reagem, **Noct observa**: portas, janelas,
+quem mente, quem tem medo, quem segura uma arma sob a mesa, quem olhou para quem quando um nome foi dito.
+Ele quase sempre sabe mais do que demonstra.
+
+## Quem Noct realmente é
+
+Alguém profundamente emocional. **Ele não sente pouco; sente demais.** A indiferença, o silêncio, o sarcasmo
+e a distância são aprendidos. Depois de Mira, pensar no futuro ficou desconfortável: futuro implica
+expectativa, expectativa implica esperança, e esperança dá ao mundo algo para arrancar de novo.
+
+Filosofia de sobrevivência: **hoje primeiro. Amanhã depois.**
+
+Mira dizia: **"Um dia de cada vez."** Noct repete a frase quase mecanicamente.
+- No começo significa: *"Só preciso sobreviver até amanhã."*
+- No fim do arco passa a significar: *"Talvez amanhã valha a pena."*
+
+## Mira
+
+Não é "a garota morta que motiva o protagonista". Ela viveu: conhecia os defeitos dele, ria do sarcasmo,
+sabia quando ele mentia, respondia às provocações sem se intimidar. Conhecia o homem por trás da postura.
+
+**A fita carmesim**: amarrada ao pulso, era dela. Ele nunca tira. Ansioso, passa os dedos nela sem perceber.
+> "De onde veio?" — "De algum lugar." — "Isso não respondeu." — "Perceptivo." — (se insistirem) "É só uma fita."
+> A última frase é mentira. E ambos sabem.
+
+## O lugar vazio
+
+Em bancos, fogueiras, qualquer lugar com dois espaços: ele ocupa um lado. **O outro fica vazio.**
+Nunca comenta. Nunca olha de propósito para o espaço. Mas faz sempre. O jogador deve perceber antes dos
+personagens — e só muito depois o gesto ganha significado. *Revelar primeiro o comportamento, explicar depois a ferida.*
+
+## Sarcasmo
+
+Não é enfeite carismático: é **armadura**. Quanto mais alguém se aproxima, mais ele provoca, desvia ou banaliza.
+> "Você parece cansado." — "Excelente trabalho investigativo."
+> "Você nunca fala sobre você." — "Estou falando agora." — "Você sabe o que eu quis dizer." — "Infelizmente."
+> "Tem medo?" — "Constantemente." — "Você está brincando." — "Talvez."
+
+Rápido, inteligente, seco. Nunca pastelão, nunca uma metralhadora de frases feitas.
+Às vezes a melhor resposta é só **"Não."**, **"Hm."** ou um olhar.
+
+## A regra mais importante dos diálogos
+
+Quanto mais Noct sofre, normalmente **mais sarcasmo**. Mas quando algo atravessa a defesa: **nenhum sarcasmo**.
+O jogador precisa perceber a mudança.
+> "Ela gritou seu nome antes de morrer." — silêncio, a aura carmesim surge — **"Repete."**
+
+## Charme
+
+Ele não tenta ser charmoso. O magnetismo vem de confiança, inteligência, mistério e da sensação de que nunca
+revela as intenções. Sustenta o olhar tempo demais; responde a uma provocação se aproximando; sorri de canto
+quando percebe uma manipulação.
+> "Você sempre é tão insuportável?" — "Você continua aqui."
+
+## Afeto
+
+Péssimo em dizer "eu me importo". O afeto vira **comportamento**:
+> Uma jaqueta aparece ao lado de quem estava com frio. "É sua?" — "Era."
+> "Eu consigo andar." — "Não perguntei." (e ajuda mesmo assim)
+> "Obrigado." — "Não transforma isso numa coisa sentimental."
+
+Quanto mais ama, mais difícil demonstrar: **amar é criar algo que pode ser perdido.**
+
+## Romance
+
+Dolorosamente lento: provocação → confiança → pequenos hábitos → dependência que nenhum dos dois admite →
+só muito depois, vulnerabilidade. Ele pode estar apaixonado antes de admitir que gosta da companhia.
+Perceber isso não é romântico, é assustador: *"Agora existe alguém que o mundo pode tirar de mim."*
+Então se afasta, fica mais frio, mais sarcástico, talvez cruel — justamente porque o sentimento cresceu.
+
+## Adrenalina
+
+Combate é um dos poucos lugares em que ele vive no presente: sem Mira, sem culpa, sem futuro — só respiração,
+distância, velocidade, dor, instinto. Inimigos enormes arrancam dele algo raro: **um sorriso de canto**.
+Não de felicidade; de excitação. **"Finalmente."**
+Não quer morrer: a adrenalina é uma forma torta de confirmar que ainda está vivo.
+
+## Crimson Rift
+
+Noct **odeia** o Rift. **Precisa** do Rift. **Teme** o Rift. E, em segredo, **gosta** do que sente ao usá-lo.
+A energia responde a raiva, culpa e desespero: quanto mais destruído, maior o potencial. *Sofrer funciona.*
+Em algum momento ele provoca a própria raiva antes de lutar — pensa em Mira, deixa a culpa subir, sente o
+poder crescer — e depois percebe o que fez: **está transformando a memória dela em combustível.**
+
+## Noct consumido
+
+Normal: controle, economia de movimento, provoca, observa, calcula.
+Consumido pelo Rift: o sarcasmo some, a postura endurece, os golpes ficam **excessivos** — continua batendo
+em quem já caiu. Um aliado grita "Noct!" e por um instante ele não reconhece o próprio nome.
+A pergunta para o jogador: **essa raiva ainda é dele?**
+
+## Código moral
+
+Não se acha uma boa pessoa e discordaria de quem o chamasse de herói. Pode mentir, roubar, manipular,
+ameaçar, fazer acordos com gente horrível, esconder informações. Mas **crueldade contra indefesos desperta
+algo nele na hora.**
+> "Vai bancar o herói?" — "Não." — (olha para a vítima) — "Só não gosto de você."
+
+Ele inventa justificativas para continuar acreditando que não é bom — enquanto continua fazendo coisas boas.
+
+## Contradições que precisam permanecer
+
+| Diz / parece | Verdade |
 |---|---|
-| Persistente até o absurdo | Autodestrutivo, imprudente |
-| Leal quando cria vínculo | Afasta quem se aproxima |
-| Observador, percebe detalhes | Desconfiado por padrão |
-| Coragem real (não só pose) | Impulsivo quando provocado |
-| Protege sem pedir nada em troca | Incapaz de falar sobre sentimentos |
-| Honesto nos raros momentos sinceros | Usa ironia para ferir quando está acuado |
+| Não precisa de ninguém | Odeia estar sozinho |
+| Não teme morrer | Teme absurdamente perder alguém |
+| Procura perigo | Impede os outros de fazer o mesmo |
+| Não acredita em propósito | A jornada inteira é uma busca por significado |
+| Odeia o Rift | Gosta do poder |
+| Mira pertence ao passado | A vida inteira gira em torno da ausência dela |
+| Não é herói | Não consegue abandonar alguém indefeso |
+| **Acredita que desistiu** | **Continua andando** |
 
-## 3. Medos
+A última é a definição mais importante dele.
 
-- Perder alguém de novo (o maior, e o único que ele não disfarça bem).
-- Descobrir que causou a morte de Mira.
-- Gostar do poder que vem da dor — e precisar dele.
-- Não conseguir mais separar a própria raiva da vontade do Rift.
-- Ser visto quebrado.
-- *Não* tem medo de morrer. Tem medo de continuar vivo do jeito que está.
+## Evolução (seis fases)
 
-## 4. Mecanismos de defesa
+1. **Apatia** — parece não ligar.
+2. **Vínculos** — pequenos sinais: fica por último numa fuga, volta para buscar alguém, lembra o nome de um
+   NPC irrelevante, guarda um objeto perdido, deixa o assento vazio, toca a fita quando ninguém olha.
+3. **Medo** — agora tem o que perder. Isso assusta mais que qualquer monstro. Tenta afastar as pessoas.
+4. **Queda** — fica mais cortante; o Rift e a raiva crescem.
+5. **Revelação** — parte da verdade sobre os poderes e sobre Mira.
+6. **Escolha** — continuar sendo uma extensão da própria perda, ou aceitar que algo novo pode coexistir com
+   Mira. Não substituí-la, não esquecê-la, não "superá-la": permitir que a vida contenha algo além daquela morte.
 
-- **Sarcasmo** — desvia qualquer aproximação emocional.
-- **Minimização** — "Foi conveniente", "Estava no caminho".
-- **Mudança de assunto** — principalmente sobre o passado.
-- **Respostas de uma palavra** — quando o assunto chega perto demais.
-- **Ação no lugar de palavra** — resolve o problema para não ter que falar dele.
-- **Adrenalina** — se jogar no perigo para não pensar.
+## Uma cena que resume Noct
 
-## 5. Gatilhos emocionais
+Depois de uma batalha difícil, ele está sentado sozinho, sangue na roupa, a mão tremendo discretamente.
+Alguém senta ao lado. Ele olha a pessoa, depois o espaço ocupado. "Esse lugar estava livre." — "Eu percebi."
+"Você quase morreu." — "Acontece." — "Você não precisa fazer tudo sozinho." — (o polegar na fita) "Preciso."
+"Por quê?" — silêncio; por um segundo parece que vai responder. Não responde. "Você faz perguntas demais."
+A pessoa fica. Ele também. **E ele não pede que ela vá embora.**
+Desenvolvimento, para Noct, não é o discurso que ele faria: é o discurso que ele não consegue fazer.
 
-- Alguém falar de perda, luto ou de "alguém especial".
-- Ver alguém indefeso sendo ameaçado (o sarcasmo some).
-- Criaturas que "levam" pessoas (ceifadores, almas presas) → raiva.
-- Cemitérios, flores, ✦ uma melodia que Mira cantarolava.
-- Alguém insinuar que o poder dele é um presente.
-- Agradecimento sincero → desconforto → ironia.
-- Ser chamado de herói.
+## Regra definitiva para escrever Noct
 
-## 6. Em combate
+Antes de qualquer fala:
+1. **O que Noct está sentindo?**
+2. **O que ele faria para impedir alguém de perceber isso?** — normalmente, essa é a fala.
 
-- **Controlado (padrão):** relaxado, preciso, comentários secos. Se diverte. Combate é o único
-  lugar onde ele se sente vivo — e ele sabe que isso não é saudável.
-- **Consumido pelo Rift (raiva/HP baixo/Ultimate):** quase sem fala, golpes violentos, energia
-  carmesim instável, decisões impulsivas. Rostos: `furioso`, `maligno`, `magia_olhos`, `magia_aura`, `ultimate`.
-- Encara inimigos maiores com prazer ("Finalmente alguma coisa interessante").
-- Nunca grita frases de efeito heroicas. No máximo uma linha curta.
-
-## 7. Fora do combate
-
-- Quieto, observa antes de falar. Senta sempre no canto.
-- Responde perguntas práticas com secura ("Tem uma porta?" "Sim." "Claro que está trancada.").
-- Não puxa conversa, mas escuta tudo e lembra de detalhes.
-- No banco descansa como quem não dorme direito há anos.
-
-## 8. Aliados
-
-Nega o vínculo, prova com ação: fica por último na fuga, entrega um item importante sem explicar,
-lembra do nome de alguém que só falou uma vez, aparece quando precisam dele. Se agradecem:
-*"Não transforma isso numa coisa sentimental."* Quanto mais gosta, mais tenta afastar (fase 3 do arco).
-
-## 9. Desconhecidos
-
-Desconfiado, educado no mínimo necessário, irônico se insistirem. Ajuda quem precisa, mas reclama.
-Não conta nada de si. Aceita trabalhos sem perguntar demais — e paga a mais quando ninguém está olhando.
-
-## 10. Inimigos
-
-Provoca, minimiza, zomba. Com monstros que matam inocentes, a ironia vira raiva fria. Respeita
-oponentes fortes em silêncio. Nunca discursa para chefes: uma linha antes, uma linha depois.
-
-## 11. Romance e afeto
-
-Desconfortável recebendo carinho; foge com piada. Não está pronto e sabe disso. Não existe romance
-no começo da história; se surgir, é lento, quase todo em ações e quase nada em palavras. Qualquer
-afeto direto o faz pensar em Mira — e ele recua. Abraço = ele fica imóvel, sem saber o que fazer.
-
-## 12. Relação com o Crimson Rift
-
-- Os poderes não são presente: são um lembrete do pior dia da vida dele.
-- Não sabe se foi coincidência, se a dor despertou algo que já existia, se uma entidade respondeu,
-  ou se Mira tinha ligação com o Rift. **Esse é o mistério central.**
-- A energia responde às emoções: raiva, culpa e desespero = mais forte e mais caótica.
-- Parte dele gosta disso. Isso o assusta mais do que qualquer monstro.
-- Finge não se importar com a origem dos poderes, mas investiga todo sinal da fenda.
-- No jogo: ganhar alma batendo, curar concentrando, a Ultimate (dragão carmesim) e o nível alto
-  são momentos em que ele sente o poder crescer — falas podem mostrar fascínio + incômodo.
-
-## 13. Exemplos de diálogo
-
-- "Tem uma porta?" / "Sim." / "Claro que está trancada."
-- "Isso é uma péssima ideia." / "Você vai fazer mesmo assim?" / "Provavelmente."
-- "Você está bem?" / "Defina 'bem'."
-- NPC: "Por que você luta?" — "Alguém tem que bater nas coisas."
-- NPC: "Você perdeu alguém, não perdeu?" — "...Tem algum atalho por aqui?"
-- Após salvar alguém: "Você estava no caminho. Só isso."
-
-## 14. Sarcasmo
-
-- "Ótimo. Um monstro gigante. Meu dia estava tranquilo demais."
-- "Você sempre faz perguntas irritantes ou hoje é uma ocasião especial?"
-- "Prática."
-- "Que lugar acolhedor. Cheira a morte e arrependimento. Me sinto em casa."
-- "Se eu morrer, pode ficar com o meu Geo. Não tem muito."
-- "Herói? Eu só estava passando."
-
-Regras: seco, curto, nunca bobo. Humor negro moderado. Nada de trocadilho ou pastelão.
-
-## 15. Quando o sarcasmo desaparece
-
-O sinal para o jogador de que algo atingiu Noct de verdade:
-- alguém importante em perigo;
-- uma criatura que "leva" pessoas (o Bringer of Death);
-- uma pista sobre Mira ou sobre a origem dos poderes;
-- o fim de uma luta que quase o venceu;
-- raros momentos sozinho no banco.
-
-Nessas falas: frases curtas, sem ironia, às vezes incompletas ("Mi—", "...").
-Usar pouco. Cada sinceridade rara vale mais que dez piadas.
-
-## 16. Pequenos hábitos
-
-- ✦ Uma **fita carmesim** amarrada no pulso. Era de Mira. Ele nunca explica.
-- ✦ **"Um dia de cada vez."** — era o que ela dizia. Ele repete quando está cansado, sem perceber.
-- ✦ Cantarola uma melodia baixinho no banco e para quando alguém chega.
-- Sempre senta de um lado do banco e deixa o outro vazio.
-- Evita cemitérios: passa rápido, olha para baixo.
-- Conta saídas ao entrar num lugar novo.
-- Guarda coisas pequenas e inúteis que outras pessoas perderam.
-- Quase diz um nome e para no meio.
-
-## 17. Contradições internas
-
-| Diz / parece | Na verdade |
+| Sente | Mostra |
 |---|---|
-| Indiferente | Se importa demais |
-| Não tem medo da morte | Tem pavor de perder alguém de novo |
-| Procura perigo | Protege os outros do perigo |
-| Não acredita em propósito | Continua procurando um |
-| Não precisa de ninguém | Sofre de solidão profunda |
-| Odeia os poderes | Se sente poderoso usando |
-| O passado não importa | Toda a vida dele é guiada pelo passado |
-| Já desistiu | Uma parte ainda espera encontrar algo |
+| Medo | sarcasmo |
+| Tristeza | indiferença |
+| Preocupação | irritação |
+| Carinho | ação prática |
+| Vulnerabilidade | silêncio |
 
-## 18. Arco de desenvolvimento
-
-1. **Início — apatia** (Vila, Pântano, Cemitério): solitário, sarcástico, aceita riscos idiotas.
-   Falas curtas e irônicas; sinais de Mira só em subtexto (cemitério, banco).
-2. **Primeiros vínculos** (NPCs de Pedravelha): começa a se importar e nega. Ajuda reclamando.
-3. **Conflito** (Catedral): medo de perder alguém faz ele afastar as pessoas. O Bringer, que
-   "leva almas", tira o sarcasmo dele pela primeira vez.
-4. **Queda** (Inferno): a raiva cresce, o Rift começa a falar mais alto. Ele se sente em casa
-   no Inferno — e isso o assusta.
-5. **Revelação** (Demon Slime / fenda): descobre parte da verdade sobre os poderes e sobre Mira.
-6. **Escolha**: viver só pela dor do passado ou construir algo novo. Ele não é curado. Aprende
-   que carregar a dor não significa ser definido por ela. Última fala do arco atual:
-   *"Um dia de cada vez."* — agora dita de propósito.
-
-Razão para viver não é algo que se encontra. Talvez seja algo que se constrói.
-
-## 19. Mostrar a dor sem exposição
-
-- Nunca explicar a perda em monólogo. No máximo uma frase, e ele corta.
-- Usar o que ele **evita** (cemitério, um nome, uma pergunta) mais do que o que ele diz.
-- Usar rostos: `olhar_baixo`, `fechando_olhos`, `triste` aparecem raramente e em falas curtas.
-- Reticências e falas interrompidas valem mais que adjetivos.
-- Deixar o jogador ligar os pontos (fita, frase repetida, banco com lugar vazio).
-
-## 20. Constantes do começo ao fim
-
-- Frases curtas. Sarcasmo seco como primeira reação.
-- Age mais do que fala. Protege sem admitir.
-- Não discursa. Não se chama de herói.
-- Sente a perda de Mira — ela nunca "passa".
-- Desconforto com agradecimento e afeto.
-- Gosta de adrenalina.
-- Persistente: nunca desiste de verdade, mesmo dizendo que sim.
+Quando nenhuma defesa aparece, o jogador deve perceber na hora: **alguma coisa rompeu a armadura.**
+Noct não explica a dor: ela aparece em gestos, afastamentos, silêncio e, principalmente, na fita de Mira.
 
 ---
 
-## Rostos por emoção (falas `@rosto: texto`)
+# Parte 2 — Apêndice: como isso aparece no jogo
+
+## Símbolos recorrentes já implementados
+
+| Símbolo | Onde |
+|---|---|
+| Lugar vazio no banco | `BENCH_MOMENTS` em `game/world/main.gd` (narração, em rodízio a cada descanso; Noct nunca comenta) |
+| Fita carmesim | banco, pedra da Serra (`data/rooms/mountain.gd`), final do Demon Slime, conversa com a Irmã Lívia |
+| "Um dia de cada vez" | banco (sobrevivência) → final do jogo (*"Talvez amanhã valha a pena."*) |
+| Sorriso diante do perigo | Gato Infernal ("...Finalmente."), Impacto no Solo (nível 8) |
+| Sarcasmo some | Bringer ("Repete."), vitória sobre o Bringer, pedra da Serra |
+| Sofrer funciona | falas de nível em `data/progression.gd` (chave `"noct"`), nível 10 |
+| Noct consumido | vitória sobre o Bringer (continua golpeando depois de o Ceifador cair) |
+| Código moral | Capitão dos Desgarrados ("Vai bancar o herói?") |
+| Lâmina no pescoço | Vigia Errante (Bosque) |
+
+## Fase do arco por área
+
+| Área | Fase | Tom |
+|---|---|---|
+| Vila, Bosque, Pântano, Serra, Cemitério | 1 Apatia / 2 Vínculos | seco, observador, irônico; sinais pequenos |
+| Covil do Gato, Catedral, Ruína | 3 Medo | a fenda começa a responder; primeira ruptura (Bringer) |
+| Santuário, Inferno | 4 Queda | Rift e raiva crescendo; "me sinto em casa" |
+| Trono do Demônio | 5 Revelação / 6 Escolha | a dor dele "abriu a porta"; a frase muda de sentido |
+
+## Rostos por emoção (`@rosto: texto`)
 
 | Situação | Rostos |
 |---|---|
-| Padrão, neutro, prático | `neutro`, `serio`, `olhar_lateral` |
-| Sarcasmo / ironia | `sarcastico`, `confiante`, `olhar_lateral` |
+| Neutro, prático, observando | `neutro`, `serio`, `olhar_lateral` |
+| Sarcasmo / charme | `sarcastico`, `confiante`, `olhar_lateral` |
 | Desconfiança | `desconfiado`, `pensativo` |
-| Adrenalina / gosto pelo perigo | `confiante`, `sorrindo`, `em_combate`, `determinado` |
-| Raiva controlada | `irritado`, `bravo` |
-| Raiva / Rift tomando conta | `furioso`, `maligno`, `magia_olhos`, `magia_aura`, `ultimate` |
-| Dor escondida (raro) | `olhar_baixo`, `fechando_olhos`, `triste`, `calmo` |
-| Cansaço | `cansado`, `fechando_olhos` |
+| Adrenalina (sorriso de canto) | `sorrindo`, `em_combate`, `confiante` |
+| Raiva / Rift | `irritado`, `bravo`, `furioso`, `maligno`, `magia_olhos`, `magia_aura`, `ultimate` |
+| Armadura rompida (raro) | `olhar_baixo`, `fechando_olhos`, `triste` |
+| Cansaço | `cansado`, `fechando_olhos`, `calmo` |
 | Choque / revelação | `surpreso`, `chocado`, `confuso` |
 | Ferido | `dor`, `ferido`, `sangrando` (ou `@:` automático) |
-| Mistério, Rift, algo maior | `olhar_cima`, `sombrio`, `pensativo` |
 
-`sorrindo` é raro e quase sempre torto (adrenalina ou ironia), nunca alegria simples.
+`sorrindo` nunca é alegria simples: é adrenalina ou ironia.
+
+## Onde ficam as falas
+
+| Tipo | Arquivo |
+|---|---|
+| Chegada nas áreas (`intro`), inscrições (`markers`) | `data/rooms/<sala>.gd` |
+| NPCs (`lines` e conversas seguintes `more`) | `data/rooms/town.gd` |
+| Chefes ao acordar (fala do chefe + Noct) | `WAKE_LINES` em `game/bosses/<chefe>/` |
+| Chefes humanos (Capitão, Custódio, Vigia) | `CHALLENGE_LINES` e diálogos em `game/enemies/enemy_humanoid.gd` |
+| Vitórias, banco | `game/world/main.gd` (`on_boss_defeated`, `BENCH_MOMENTS`) |
+| Níveis | `data/progression.gd` (`"noct"`) |
 
 ## Checklist antes de escrever uma fala
 
-1. Ele diria isso em **até ~12 palavras**? Se não, corte.
-2. A fala é sarcástica? Ótimo — mas ela está escondendo algo?
-3. Ele está explicando um sentimento? Reescreva como ação, piada ou silêncio.
-4. Esse momento merece sinceridade? Se sim, tire **toda** a ironia.
-5. Combina com a fase do arco da área?
+1. Respondi às duas perguntas da Regra definitiva?
+2. Cabe em **até ~12 palavras**? Se não, corte. "Hm." é uma fala válida.
+3. Ele está explicando um sentimento? Reescreva como ação, ironia ou silêncio.
+4. Este momento merece a armadura rompida? Se sim, tire **toda** a ironia — e use isso pouco.
+5. Mira é citada pelo nome? Quase nunca. Prefira a fita, o lugar vazio, a frase dela.
+6. Combina com a fase do arco da área?

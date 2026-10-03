@@ -7,7 +7,7 @@ const T := preload("res://data/themes.gd")
 const ROOM := {
 	"title": "Vila de Pedravelha",
 	"theme": "town",
-	"intro": ["@olhar_lateral: Pedravelha... quieta demais pra uma cidade tão perto da fenda."],   # comentário de Noct na 1ª visita
+	"intro": ["@olhar_lateral: Pedravelha. Duas saídas, uma torre e gente demais olhando pela janela.", "@neutro: Quieta demais pra tão perto da fenda."],   # comentário de Noct na 1ª visita
 	"left": "",
 	"right": "swamp",
 	"entries": {"MOUNTAIN": Vector2(376, 256), "FOREST": Vector2(840, 256)},
@@ -27,14 +27,22 @@ const ROOM := {
 			"Mais um viajante... O pântano a leste engoliu muitos antes de você.",
 			"@sarcastico: Um pântano com apetite. Ótimo.",
 			"Hm. Se estiver ferido, descanse no banco. Ele guarda sua alma quando você cai.",
-			"@olhar_lateral: ...Valeu.",
+			"@olhar_lateral: Hm.",
+		], "more": [
+			["Você parece cansado.", "@sarcastico: Excelente trabalho investigativo.", "Durma um pouco no banco. Velhos sabem dessas coisas.", "@olhar_lateral: Velhos sabem de muita coisa."],
+			["Tem medo do que tem lá fora, rapaz?", "@neutro: Constantemente.", "Você está brincando.", "@sarcastico: Talvez."],
 		]},
 		"2": {"kind": "woman", "name": "Irmã Lívia", "lines": [
 			"Cada golpe seu arranca um pouco de ALMA das criaturas.",
 			"@olhar_baixo: Eu sei o que ela faz. Não pedi por ela.",
+			"Ninguém pede. Mas ela responde a você.",
+			"@serio: Então que responda menos.",
 			"Segure L para concentrar essa alma e curar suas feridas.",
 			"Ou solte-a de uma vez: L lança um raio, e W + L chama o trovão.",
 			"@sarcastico: Curar e explodir coisas. Versátil.",
+		], "more": [
+			["Essa fita no seu pulso. De onde veio?", "@olhar_baixo: De algum lugar.", "Isso não respondeu.", "@sarcastico: Perceptivo.", "...", "@fechando_olhos: É só uma fita."],
+			["Você nunca fala sobre você.", "@serio: Estou falando agora.", "Você sabe o que eu quis dizer.", "@olhar_lateral: Infelizmente."],
 		]},
 		"3": {"kind": "bearded", "name": "Ferreiro Brom", "shop": true, "patrol": 12.0, "lines": []},
 		"4": {"kind": "hat-man", "name": "Forasteiro", "patrol": 8.0, "lines": [
@@ -44,6 +52,9 @@ const ROOM := {
 			"Use o golpe para baixo (S + J no ar) para quicar sobre os espinhos.",
 			"Além do cemitério vive o Gato Infernal. Junte Geo e fale com o Brom antes de ir.",
 			"@confiante: Perigoso? ...Finalmente alguma coisa interessante.",
+		], "more": [
+			["Você sempre é tão insuportável?", "@confiante: Você continua aqui."],
+			["Dizem que você entra nas ruínas por dinheiro.", "@neutro: Dinheiro paga comida.", "E o resto?", "@sombrio: O resto ocupa a cabeça."],
 		]},
 	},
 	"map": [

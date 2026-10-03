@@ -8,7 +8,8 @@ const SpellScript := preload("res://game/bosses/bringer/bringer_spell.gd")
 
 const BOSS_ID := "bringer"
 const BOSS_NAME := "Bringer of Death"
-const WAKE_LINES := ["@furioso: Você não vai levar mais ninguém."]
+# Sem ironia: a provocação atravessa a armadura de Noct.
+const WAKE_LINES := ["Mais uma alma que ouviu a fenda.", "Ela gritou seu nome antes de morrer.", "@furioso: Repete."]
 const SIZE := Vector2(30, 52)
 const GRAVITY := 1100.0
 const MAX_HP := 40

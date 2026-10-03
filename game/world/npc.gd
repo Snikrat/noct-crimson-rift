@@ -8,6 +8,8 @@ var level
 var kind := "oldman"
 var npc_name := ""
 var lines: Array = []
+var more: Array = []          # conversas seguintes, uma por vez que o herói volta a falar
+var talks := 0
 var shop := false
 var sprite: AnimatedSprite2D
 var home := Vector2.ZERO
@@ -44,7 +46,9 @@ func interact() -> void:
 	if shop:
 		level.open_shop(npc_name)
 	else:
-		level.start_dialog(npc_name, lines, sprite.sprite_frames.get_frame_texture("idle", 0))
+		var convo: Array = lines if talks == 0 or more.is_empty() else more[mini(talks - 1, more.size() - 1)]
+		talks += 1
+		level.start_dialog(npc_name, convo, sprite.sprite_frames.get_frame_texture("idle", 0))
 
 
 func _process(delta: float) -> void:
