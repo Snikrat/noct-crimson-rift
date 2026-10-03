@@ -11,7 +11,7 @@ var lava_tex: Texture2D
 
 func _process(_delta: float) -> void:
 	# A lava ondula: redesenha a sala quando há lava.
-	if not level.lava.is_empty() or not level.rift.is_empty():
+	if not level.lava.is_empty() or not level.rift.is_empty() or not level.water.is_empty():
 		queue_redraw()
 
 
@@ -47,6 +47,20 @@ func _draw_lava(theme: Dictionary) -> void:
 		draw_texture_rect_region(lava_tex, Rect2(cell.x * TILE, cell.y * TILE, TILE, TILE), src)
 
 
+## Água parada (w no mapa): faixa escura translúcida com um brilho na superfície que oscila.
+func _draw_water(theme: Dictionary) -> void:
+	if level.water.is_empty():
+		return
+	var color: Color = theme.get("water", Color(0.1, 0.18, 0.3, 0.75))
+	var t := Time.get_ticks_msec() / 1000.0
+	for cell: Vector2i in level.water:
+		var dest := Rect2(cell.x * TILE, cell.y * TILE, TILE, TILE)
+		draw_rect(dest, color)
+		if not level.water.has(cell + Vector2i.UP):
+			var shine := 0.25 + 0.2 * sin(t * 2.0 + cell.x * 0.9)
+			draw_rect(Rect2(dest.position + Vector2(0, 1), Vector2(TILE, 1)), Color(0.6, 0.8, 1.0, shine))
+
+
 func _draw() -> void:
 	var theme: Dictionary = level.theme
 	var tileset: Texture2D = level.tileset
@@ -57,6 +71,7 @@ func _draw() -> void:
 		_draw_blocks(theme, tileset, solid)
 
 	_draw_lava(theme)
+	_draw_water(theme)
 	_draw_rift()
 
 	for h: Rect2 in level.hazards:

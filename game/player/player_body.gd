@@ -34,6 +34,13 @@ const SLAM_SPEED := 650.0
 const LAND_TIME := 0.12      # pose de aterrissagem depois de uma queda
 const LAND_MIN_SPEED := 220.0 # só mostra a pose em quedas de verdade (não em degraus)
 const ULTIMATE_TIME := 2.5   # preparação (~1.25s) + dragão
+# Garras do Gato (depois do Gato Infernal): deslizar e saltar nas paredes.
+const WALL_SLIDE_SPEED := 70.0
+const WALL_JUMP_VELOCITY := -400.0
+const WALL_JUMP_PUSH := 260.0   # empurrão para longe da parede (some como o recuo)
+# Amuleto Um Dia de Cada Vez: parado no chão, recupera alma devagar.
+const STILL_TIME := 3.0
+const STILL_SOUL_RATE := 8.0    # alma por segundo
 
 const MAX_SOUL := 99
 const SOUL_PER_HIT := 11
@@ -100,6 +107,9 @@ var hurt_timer := 0.0
 var death_timer := 0.0
 var recoil_x := 0.0
 var safe_pos := Vector2.ZERO
+var wall_dir := 0             # lado da parede em que está agarrado (-1/1; 0 = nenhuma)
+var still_timer := 0.0        # tempo parado no chão (amuleto Um Dia de Cada Vez)
+var still_soul := 0.0
 
 # Combate
 var move := ""                # golpe em andamento ("" = nenhum)
@@ -196,11 +206,16 @@ func _move(input_x: float, delta: float) -> void:
 	var g := GRAVITY * (FALL_MULT if velocity.y > 0 else 1.0)
 	velocity.y = minf(velocity.y + g * delta, MAX_FALL)
 
+	if wall_dir != 0 and velocity.y > WALL_SLIDE_SPEED:
+		velocity.y = WALL_SLIDE_SPEED
+
 	if buffer_timer > 0 and coyote_timer > 0:
 		velocity.y = JUMP_VELOCITY
 		buffer_timer = 0
 		coyote_timer = 0
 		Audio.play_sfx("jump")
+	elif buffer_timer > 0 and wall_dir != 0:
+		_wall_jump()
 	elif Input.is_action_just_pressed("jump") and can_double_jump and not is_on_floor():
 		velocity.y = DOUBLE_JUMP_VELOCITY
 		can_double_jump = false
@@ -210,6 +225,46 @@ func _move(input_x: float, delta: float) -> void:
 
 	if Input.is_action_just_released("jump") and velocity.y < 0:
 		velocity.y *= JUMP_CUT
+
+
+## Garras do Gato: no ar, empurrando contra uma parede, retorna o lado dela (-1/1); senão 0.
+func _wall_side(input_x: float) -> int:
+	if not level.has_wall_grip() or is_on_floor() or input_x == 0 or move != "" or hurt_timer > 0:
+		return 0
+	var dir := int(signf(input_x))
+	var x := global_position.x + dir * (SIZE.x / 2 + 2)
+	for y in [global_position.y - SIZE.y / 2 + 6, global_position.y + SIZE.y / 2 - 6]:
+		if not level.is_solid(Vector2(x, y)):
+			return 0
+	return dir
+
+
+func _wall_jump() -> void:
+	velocity.y = WALL_JUMP_VELOCITY
+	recoil_x = -wall_dir * WALL_JUMP_PUSH
+	facing = -wall_dir
+	buffer_timer = 0
+	can_double_jump = true
+	can_air_dash = true
+	Fx.sparks(level.world, global_position + Vector2(wall_dir * SIZE.x / 2, 0), Color(1, 0.3, 0.45), 6, 70, 40)
+	Audio.play_sfx("jump", 0.1, 1.1)
+	wall_dir = 0
+
+
+## Um Dia de Cada Vez: depois de STILL_TIME parado no chão, a alma volta devagar.
+func _still_soul(delta: float, input_x: float) -> void:
+	if not GameState.has_charm("one_day") or not is_on_floor() or input_x != 0 or move != "" \
+			or focusing or dash_timer > 0 or hurt_timer > 0:
+		still_timer = 0.0
+		return
+	still_timer += delta
+	if still_timer < STILL_TIME or soul >= MAX_SOUL:
+		return
+	still_soul += STILL_SOUL_RATE * delta
+	if still_soul >= 1.0:
+		soul = mini(soul + int(still_soul), MAX_SOUL)
+		still_soul -= int(still_soul)
+		level.refresh_hud()
 
 
 func _footsteps(delta: float) -> void:
@@ -340,6 +395,11 @@ func _update_animation() -> void:
 		_play("dash")
 	elif land_timer > 0 and is_on_floor():
 		_play("land")
+	elif wall_dir != 0:
+		# Sem animação própria ainda (desenhar no Aseprite: "wall_slide"); de costas para a parede.
+		facing = -wall_dir
+		sprite.flip_h = facing < 0
+		_play("wall_slide" if sprite.sprite_frames.has_animation("wall_slide") else "fall")
 	elif not is_on_floor():
 		if double_jump_timer > 0:
 			_play("double_jump")

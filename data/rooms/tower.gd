@@ -1,0 +1,62 @@
+extends RefCounted
+## Sala: Torre de Pedravelha (opcional). A torre do sino que Noct vê ao chegar na vila.
+## Subida vertical feita para as Garras do Gato (salto na parede, depois do Gato Infernal):
+## sem elas, o térreo é um beco sem saída. No topo, a luneta mostra a região no mapa da pausa.
+const T := preload("res://data/themes.gd")
+const U := preload("res://data/asset_paths.gd").UNDEAD
+const ROOM := {
+	"title": "Torre de Pedravelha", "theme": "tower",
+	"left": "", "right": "",
+	"intro": ["@olhar_cima: Escada nenhuma. Claro.", "@confiante: Bom. Escada é pra quem tem paciência."],
+	"entries": {"TOWN": Vector2(392, 512)},
+	"props": [
+		[T.CHURCH_ENV + "backgrounds.png", 120, 21, T.CHURCH_WINDOW, 0.6],
+		[T.CHURCH_ENV + "backgrounds.png", 360, 32, T.CHURCH_PILLAR, 0.8],
+		[T.CHURCH_ENV + "backgrounds.png", 88, 8, T.CHURCH_TORCH, 0.6],
+	],
+	"markers": [
+		{"feet": Vector2(392, 512), "title": "Porta da torre", "target": "town", "entry": "TOWER", "portal": true},
+		{"feet": Vector2(152, 336), "title": "Riscos na parede", "discovery": "tower_marks",
+		 "lines": ["* Na pedra, riscos de altura. Dois nomes raspados.", "* Um dos riscos fica bem mais baixo que o outro.", "@olhar_lateral: Hm."]},
+		{"feet": Vector2(72, 128), "title": "Luneta do sineiro", "discovery": "tower_view", "reveals": true,
+		 "lines": ["* Pela luneta, Pedravelha inteira: a serra, o bosque, o pântano, o cemitério.", "@neutro: Daqui ninguém parece ter medo.", "@olhar_baixo: ...Daqui ninguém parece nada.", "A região foi marcada no mapa (pausa > Mapa)."]},
+		{"feet": Vector2(296, 128), "title": "Sino rachado", "discovery": "tower_bell", "reward": 40,
+		 "lines": ["* Atrás do sino, alguém escondeu moedas embrulhadas num pano.", "* O pano tem um nó carmesim, igual ao da fita.", "@fechando_olhos: ..."]},
+	],
+	"map": [
+		"##############################",
+		"#............................#",
+		"#............................#",
+		"#............................#",
+		"#............................#",
+		"#............................#",
+		"#............................#",
+		"#............................#",
+		"#####################........#",
+		"#...................#........#",
+		"#...................#........#",
+		"#...................#........#",
+		"#...................#....F...#",
+		"#...................#........#",
+		"#.........F.........#........#",
+		"#...................#........#",
+		"#...................#........#",
+		"#...................#........#",
+		"#............................#",
+		"#............................#",
+		"#.......................E....#",
+		"#......#######################",
+		"#......#.....................#",
+		"#......#.....................#",
+		"#......#.....................#",
+		"#......#.....................#",
+		"#......#.....................#",
+		"#......#.....................#",
+		"#............................#",
+		"#............................#",
+		"#............................#",
+		"#.^^^^.......E....B..........#",
+		"##############################",
+		"##############################",
+	],
+}

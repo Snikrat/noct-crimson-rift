@@ -65,6 +65,8 @@ func _reset_actions() -> void:
 	land_timer = 0
 	can_double_jump = true
 	can_air_dash = true
+	wall_dir = 0
+	still_timer = 0.0
 	was_on_floor = false
 	combo_step = 0
 	combo_timer = 0
@@ -223,6 +225,11 @@ func _physics_process(delta: float) -> void:
 		if not is_on_floor():
 			can_air_dash = false
 
+	var was_on_wall := wall_dir != 0
+	wall_dir = _wall_side(input_x) if dash_timer <= 0 else 0
+	if wall_dir != 0 and not was_on_wall:
+		can_double_jump = true
+		can_air_dash = true
 	if dash_timer > 0 and _try_rift_step(facing, true):
 		dash_timer = 0   # o dash bateu numa parede carmesim e atravessou
 	if dash_timer > 0:
@@ -237,6 +244,7 @@ func _physics_process(delta: float) -> void:
 		_move(input_x * slow, delta)
 
 	_handle_attack_input(delta)
+	_still_soul(delta, input_x)
 
 	var fall_speed := velocity.y
 	move_and_slide()

@@ -14,4 +14,7 @@ const SIDE := {
 	"arcane_ruins": ["cathedral", Vector2(0, -42)],
 	"mines": ["town", Vector2(-38, 0)],
 	"archive": ["cathedral", Vector2(36, -42)],
+	"tower": ["town", Vector2(-10, -34)],
+	"well": ["town", Vector2(-6, 30)],
+	"station": ["swamp", Vector2(56, -74)],
 }

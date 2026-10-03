@@ -54,6 +54,34 @@ const THEMES := {
 			{"tex": [LAVA_ENV + "middle-rocks.png"], "scroll": 0.3, "align": "bottom", "gap": 260},
 		],
 	},
+	# Torre do sino da vila: pedra da igreja, sem fundo (o interior é escuro).
+	"tower": {
+		"tileset": CHURCH_ENV + "tileset.png", "tint": Color(0.85, 0.8, 0.9),
+		"blocks": [0, 64, 128], "block_w": 3, "top": 166, "rows": 2,
+		"rock": Color("17111f"), "side": Color("3d3350"), "clear": Color("1d1a29"),
+		"music": Paths.MUSIC_AMBIENT_4, "combat": Paths.MUSIC_UNHOLY_SURGE,
+		"layers": [],
+	},
+	# Poço da vila: pedra da igreja tingida de azul e água parada (caractere w).
+	"well": {
+		"tileset": CHURCH_ENV + "tileset.png", "tint": Color(0.55, 0.68, 0.85),
+		"blocks": [0, 64, 128], "block_w": 3, "top": 166, "rows": 2,
+		"rock": Color("0b1018"), "side": Color("26364a"), "clear": Color("0e1520"),
+		"water": Color(0.1, 0.18, 0.3, 0.75),
+		"step": "water", "music": Paths.MUSIC_AMBIENT_4,
+		"layers": [],
+	},
+	# Estação: chão da vila de noite, céu do cemitério e chuva ("rain"). Sem música de luta.
+	"station": {
+		"tileset": TOWN_ENV + "layers/tileset.png", "tint": Color(0.62, 0.68, 0.85),
+		"blocks": [320], "block_w": 2, "top": 136, "rows": 2,
+		"rock": Color("10121c"), "side": Color("2c3045"), "clear": Color("161a2a"),
+		"rain": true, "step": "water", "music": Paths.MUSIC_AMBIENT_4,
+		"layers": [
+			{"tex": [CEMETERY_ENV + "background.png"], "scroll": 0.05, "align": "bottom"},
+			{"tex": [CEMETERY_ENV + "mountains.png"], "scroll": 0.2, "align": "bottom"},
+		],
+	},
 	"cathedral": {
 		"tileset": CHURCH_ENV + "tileset.png",
 		"blocks": [0, 64, 128], "block_w": 3, "top": 166, "rows": 2,
