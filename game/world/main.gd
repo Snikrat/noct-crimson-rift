@@ -53,6 +53,9 @@ var boss: Node2D
 const COMBAT_RANGE := 170.0
 const COMBAT_LINGER := 4.0
 var combat_timer := 0.0
+# Espinhos e lava ferem inimigos comuns como ferem o Noct: 1 de dano, no ritmo da invulnerabilidade dele.
+const HAZARD_DAMAGE := 1
+const HAZARD_ENEMY_COOLDOWN := 1.0
 var time_base := 1.0         # velocidade normal do jogo (cai na câmera lenta do golpe final)
 var slowmo_boss: Node2D
 var bench_visits := 0
@@ -118,6 +121,7 @@ func _process(delta: float) -> void:
 	player.cam.offset = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * shake_amount
 	_process_debug_keys()
 	_update_music(delta)
+	_hurt_enemies_on_hazards(delta)
 	if boss and is_instance_valid(boss) and boss != slowmo_boss and "hp" in boss and boss.hp <= 0:
 		_boss_slowmo(boss)
 	interactable = null
@@ -132,6 +136,29 @@ func _process(delta: float) -> void:
 	var dialog = hud.dialog
 	if dialog.is_open() and dialog.source and interactable != dialog.source:
 		dialog.close()
+
+
+## Inimigos comuns que tocam espinhos ou lava levam o dano normal (com o piscar de sempre).
+## Chefes ficam imunes.
+func _hurt_enemies_on_hazards(delta: float) -> void:
+	if transitioning or hazards.is_empty():
+		return
+	for e in get_tree().get_nodes_in_group("enemies"):
+		if not e is CharacterBody2D or is_boss(e) or e.is_queued_for_deletion() or e.hp <= 0:
+			continue
+		var cooldown: float = maxf(e.get_meta("hazard_cooldown", 0.0) - delta, 0.0)
+		if cooldown <= 0:
+			var hb: Rect2 = e.get_hurtbox()
+			for h in hazards:
+				if hb.intersects(h):
+					e.take_hit(Vector2.UP, HAZARD_DAMAGE)
+					cooldown = HAZARD_ENEMY_COOLDOWN
+					break
+		e.set_meta("hazard_cooldown", cooldown)
+
+
+func is_boss(e: Node) -> bool:
+	return "BOSS_ID" in e or (e.get_script() == HumanoidScript and e.kind in ["captain", "wizard", "knight"])
 
 
 ## Áreas com "combat" no tema trocam para a música de luta enquanto há inimigos por perto.

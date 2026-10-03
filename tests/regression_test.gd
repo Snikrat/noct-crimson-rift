@@ -196,6 +196,20 @@ func _run() -> void:
 	p.slamming = true
 	p._process_slam()
 	check("mergulho na lava causa dano e retorna ao chão seguro", p.hp == before_lava - 1 and not p.slamming and p.global_position == p.safe_pos)
+	var lava: Rect2 = main.hazards[0]
+	var walker = main._spawn(load("res://game/enemies/enemy_crawler.gd"), lava.get_center(), {"kind": "skeleton"})
+	var walker_hp: int = walker.hp
+	main._hurt_enemies_on_hazards(0.016)
+	main._hurt_enemies_on_hazards(0.016)
+	check("inimigo comum na armadilha leva 1 de dano e pisca", walker.hp == walker_hp - 1 and walker.flash > 0)
+	main._hurt_enemies_on_hazards(main.HAZARD_ENEMY_COOLDOWN)
+	check("armadilha volta a ferir o inimigo após o intervalo", walker.hp == walker_hp - 2)
+	walker.queue_free()
+	var captain = main._spawn(load("res://game/enemies/enemy_humanoid.gd"), lava.get_center(), {"kind": "captain"})
+	var captain_hp: int = captain.hp
+	main._hurt_enemies_on_hazards(0.016)
+	check("chefe é imune a armadilhas", captain.hp == captain_hp)
+	captain.queue_free()
 	p.hurt_timer = 0
 	p.global_position.y = p.world_size.y + p.SIZE.y * 2
 	p.slamming = true
