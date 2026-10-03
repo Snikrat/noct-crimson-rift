@@ -2,8 +2,12 @@ extends Node2D
 ## Desenha o chão, as paredes e os espinhos da sala atual usando o tileset do tema.
 
 const TILE := 16
-const COLOR_SPIKE := Color("a39e7e")
-const COLOR_SPIKE_DARK := Color("5c5843")
+# Feitos no Aseprite (art_source/vfx/): espinhos em 2 variações de 16x16; parede carmesim em
+# 3 variações (colunas) x 4 níveis de brilho da rachadura (linhas).
+const SPIKES_TEX := preload("res://assets/props/spikes.png")
+const RIFT_TEX := preload("res://assets/props/rift_wall.png")
+const RIFT_VARIANTS := 3
+const RIFT_LEVELS := 4
 
 var level
 var lava_tex: Texture2D
@@ -21,14 +25,9 @@ func _draw_rift() -> void:
 	for cell: Vector2i in level.rift:
 		var dest := Rect2(cell.x * TILE, cell.y * TILE, TILE, TILE)
 		var pulse := 0.55 + 0.45 * sin(t * 3.0 + cell.y * 0.7)
-		draw_rect(dest, Color(0.16, 0.02, 0.06))
-		draw_rect(dest, Color(0.9, 0.1, 0.28, 0.18 * pulse))
-		# Rachaduras: zigue-zague que muda com a célula.
-		var seed := (cell.x * 7 + cell.y * 13) % 5
-		var a := dest.position + Vector2(3 + seed, 0)
-		var b := dest.position + Vector2(TILE - 4 - seed, TILE * 0.45)
-		var c := dest.position + Vector2(5 + seed * 0.5, TILE)
-		draw_polyline(PackedVector2Array([a, b, c]), Color(1, 0.3, 0.45, 0.5 + 0.5 * pulse), 1.2)
+		var variant := (cell.x * 7 + cell.y * 13) % RIFT_VARIANTS
+		var glow := clampi(int(roundf(pulse * RIFT_LEVELS)) - 1, 0, RIFT_LEVELS - 1)
+		draw_texture_rect_region(RIFT_TEX, dest, Rect2(variant * TILE, glow * TILE, TILE, TILE))
 		if not level.rift.has(cell + Vector2i.LEFT) and not level.solid.has(cell + Vector2i.LEFT):
 			draw_rect(Rect2(dest.position, Vector2(1, TILE)), Color(1, 0.35, 0.5, 0.7 * pulse))
 		if not level.rift.has(cell + Vector2i.RIGHT) and not level.solid.has(cell + Vector2i.RIGHT):
@@ -85,14 +84,8 @@ func _draw() -> void:
 				src.position.x += (tile_x % 2) * TILE
 			draw_texture_rect_region(tileset, Rect2(tile_x * TILE, h.end.y - src.size.y, TILE, src.size.y), src)
 			continue
-		var bottom := h.end.y
-		var left := h.position.x - 2
-		for i in 3:
-			var x0 := left + i * 5 + 0.5
-			draw_colored_polygon(PackedVector2Array([
-				Vector2(x0, bottom), Vector2(x0 + 2.5, bottom - 11), Vector2(x0 + 5, bottom),
-			]), COLOR_SPIKE)
-			draw_line(Vector2(x0 + 2.5, bottom - 11), Vector2(x0 + 5, bottom), COLOR_SPIKE_DARK)
+		var cell_x := int(h.position.x) / TILE
+		draw_texture_rect_region(SPIKES_TEX, Rect2(cell_x * TILE, h.end.y - TILE, TILE, TILE), Rect2((cell_x % 2) * TILE, 0, TILE, TILE))
 
 
 ## Tilesets dos pacotes: blocos de chão em colunas (blocks/block_w) e cor sólida abaixo de "rows" tiles.
