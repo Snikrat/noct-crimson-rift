@@ -8,6 +8,7 @@ const P := preload("res://data/asset_paths.gd")
 const ROOM := {
 	"title": "Catedral Profanada",
 	"memories": [{"id": "the_hum", "feet": Vector2(1080, 400)}],   # fragmentos de memória de Mira
+	"tessa": {"stage": "cathedral", "feet": Vector2(200, 400)},   # Tessa (game/world/tessa.gd)
 	"theme": "cathedral",
 	"intro": ["@pensativo: A fenda pulsa nas paredes.", "@sarcastico: Até os santos daqui desistiram."],   # comentário de Noct na 1ª visita
 	"left": "lair",

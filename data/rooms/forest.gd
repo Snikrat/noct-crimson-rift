@@ -4,6 +4,7 @@ const U := P.UNDEAD
 const ROOM := {
 	"title": "Bosque dos Desgarrados", "theme": "forest",
 	"memories": [{"id": "the_lie", "feet": Vector2(528, 160)}],   # fragmentos de memória de Mira
+	"tessa": {"stage": "captive", "feet": Vector2(664, 320)},   # Tessa (game/world/tessa.gd)
 	"left": "town", "left_entry": "FOREST", "right": "swamp", "right_entry": "FOREST",
 	"intro": ["@desconfiado: Marcas de botas. Nenhuma voltando.", "@serio: Alguém está esperando na trilha."],
 	"entries": {"SERRA": Vector2(1040, 320)},

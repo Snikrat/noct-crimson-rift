@@ -12,7 +12,7 @@ const SKILLS := ["combo", "wave", "charged", "uppercut", "slam", "ultimate"]
 const BOSSES := ["gato", "bringer", "demon_slime"]
 const DISCOVERIES := ["mountain_pass", "nameless_grave", "watcher_note", "mountain_memory", "bandit_captain", "evil_wizard", "knight_duel", "forest_cache", "ruins_memory"]
 # Marcos da história (Tessa, final).
-const FLAGS := ["tessa_saved", "tessa_jacket", "tessa_cathedral", "ending_seen"]
+const FLAGS := ["tessa_saved", "tessa_jacket", "tessa_thanked", "tessa_cathedral", "ending_seen"]
 var save_path := SAVE_PATH      # o teste automático usa outro arquivo para não mexer no seu save
 
 var geo := 0

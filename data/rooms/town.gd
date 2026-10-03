@@ -7,6 +7,7 @@ const T := preload("res://data/themes.gd")
 const ROOM := {
 	"title": "Vila de Pedravelha",
 	"memories": [{"id": "first_sarcasm", "feet": Vector2(376, 192)}, {"id": "afraid", "feet": Vector2(40, 256)}],   # fragmentos de memória de Mira
+	"tessa": {"stage": "town", "feet": Vector2(184, 256)},   # Tessa (game/world/tessa.gd)
 	"theme": "town",
 	"intro": ["@olhar_lateral: Pedravelha. Duas saídas, uma torre e gente demais olhando pela janela.", "@neutro: Quieta demais pra tão perto da fenda."],   # comentário de Noct na 1ª visita
 	"left": "",

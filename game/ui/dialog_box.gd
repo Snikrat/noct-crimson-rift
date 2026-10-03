@@ -4,7 +4,6 @@ extends Control
 ## falas do NPC mostram o desenho dele ampliado à direita.
 
 const Paths := preload("res://data/asset_paths.gd")
-const InputSetup := preload("res://game/core/input_setup.gd")
 const GOLD := Color("e8c872")
 const HERO_NAME := "Noct"
 # Expressões de Noct (assets/hero/portrait_<nome>.png, recortadas por tools/slice_portraits.gd).
@@ -13,6 +12,8 @@ const FACES := [
 	"determinado", "confiante", "sorrindo", "sarcastico", "cansado", "triste", "dor", "ferido", "sangrando", "olhar_lateral",
 	"olhar_cima", "olhar_baixo", "fechando_olhos", "calmo", "sombrio", "maligno", "magia_olhos", "magia_aura", "em_combate", "ultimate",
 ]
+
+signal finished               # a conversa acabou (fechou)
 
 var level
 var portraits := {}         # rostos já carregados (carregar durante o desenho deixava o rosto branco)
@@ -27,6 +28,7 @@ var auto_advance := 0.0     # > 0: cada fala passa sozinha depois desse tempo (c
 var auto_timer := 0.0
 var opened_frame := -1      # o botão que abriu a conversa não pode já passar a 1ª fala
 var closed_frame := -10
+var was_held := true          # botão de passar fala já estava apertado no quadro anterior
 
 
 func _ready() -> void:
@@ -45,6 +47,13 @@ func is_open() -> bool:
 	return index >= 0
 
 
+func _advance_held() -> bool:
+	for action in ["up", "jump", "attack", "ui_accept"]:
+		if Input.is_action_pressed(action):
+			return true
+	return false
+
+
 ## A conversa acabou de fechar (neste quadro ou no anterior).
 func just_closed() -> bool:
 	return Engine.get_process_frames() - closed_frame <= 2
@@ -60,6 +69,7 @@ func start(who: String, new_lines: Array, tex: Texture2D = null, auto := 0.0) ->
 	auto_advance = auto
 	auto_timer = auto
 	opened_frame = Engine.get_process_frames()
+	was_held = true   # o botão que abriu precisa ser solto antes de passar a fala
 	get_tree().paused = true
 	Audio.play_sfx("switch")
 	queue_redraw()
@@ -78,6 +88,8 @@ func close() -> void:
 	var was_open := index >= 0
 	index = -1
 	closed_frame = Engine.get_process_frames()
+	if was_open:
+		finished.emit()
 	# Volta o jogo, a não ser que o menu de pausa esteja aberto por cima.
 	if was_open and not level.hud.pause.open:
 		get_tree().paused = false
@@ -88,7 +100,10 @@ func _process(delta: float) -> void:
 	if is_open():
 		queue_redraw()
 		# Passar a fala (também adianta as que passam sozinhas).
-		var pressed := Input.is_action_just_pressed("up") or InputSetup.confirm_pressed()
+		# Borda do botão medida aqui (não pelo "just_pressed" do Input), para não perder toques rápidos.
+		var held := _advance_held()
+		var pressed := held and not was_held
+		was_held = held
 		if pressed and Engine.get_process_frames() > opened_frame and not level.hud.pause.open:
 			auto_timer = auto_advance
 			advance()
@@ -115,7 +130,11 @@ func _draw() -> void:
 	var text_w := box.size.x - 20
 	var name_color := GOLD
 
-	if line.begins_with("@"):
+	if line.begins_with("* "):
+		# Narração: sem nome e sem desenho do personagem.
+		line = line.substr(2)
+		who = ""
+	elif line.begins_with("@"):
 		# Fala do herói. "@:" sem expressão escolhe sozinho: ferido com pouca vida.
 		var sep := line.find(":")
 		var face := line.substr(1, sep - 1).strip_edges()

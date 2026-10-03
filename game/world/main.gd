@@ -14,6 +14,7 @@ const BringerScript := preload("res://game/bosses/bringer/bringer.gd")
 const DemonSlimeScript := preload("res://game/bosses/demon_slime/demon_slime.gd")
 const CharmPickupScript := preload("res://game/world/charm_pickup.gd")
 const MemoryScript := preload("res://game/world/memory_pickup.gd")
+const TessaScript := preload("res://game/world/tessa.gd")
 const RoomViewScript := preload("res://game/world/room_view.gd")
 const BackdropScript := preload("res://game/world/backdrop.gd")
 const HudScript := preload("res://game/ui/hud.gd")
@@ -230,6 +231,8 @@ func load_room(name: String, entry: String) -> void:
 	_build_props()
 	for id in room.get("entries", {}):
 		entries[id] = room["entries"][id]
+	if room.has("tessa") and TessaScript.appears(room["tessa"]["stage"]):
+		_spawn(TessaScript, room["tessa"]["feet"], {"stage": room["tessa"]["stage"]})
 	for mem in room.get("memories", []):
 		if not GameState.memories.has(mem["id"]):
 			_spawn(MemoryScript, mem["feet"], {"memory_id": mem["id"]})
@@ -539,8 +542,13 @@ func rest_at_bench() -> void:
 	var save_note := "Jogo salvo." if saved else "Não foi possível salvar. Tente descansar novamente."
 	var lines := ["As feridas se fecham e a alma se acalma. " + save_note]
 	# O lugar vazio e a fita: gestos que Noct nunca comenta.
-	lines.append_array(BENCH_MOMENTS[bench_visits % BENCH_MOMENTS.size()])
-	bench_visits += 1
+	if room_name == "town" and GameState.flags.has("tessa_saved") and not GameState.flags.has("tessa_jacket"):
+		GameState.flags["tessa_jacket"] = true
+		lines.append("Antes de se sentar, Noct tira a jaqueta e a deixa dobrada perto de onde Tessa dorme. Não diz nada.")
+		lines.append("@cansado: Hm.")
+	else:
+		lines.append_array(BENCH_MOMENTS[bench_visits % BENCH_MOMENTS.size()])
+		bench_visits += 1
 	if not GameState.owned_charms.is_empty():
 		lines.append("Sentado aqui, você pode trocar amuletos: pausa > Amuletos.")
 	start_dialog("Banco", lines)
