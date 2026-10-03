@@ -53,13 +53,13 @@ hollow-like/
 | Criar ou ajustar um amuleto | `data/charms.gd` (dados) e `game/player/player_body.gd` (efeito, seção Amuletos) |
 | Esconder um amuleto numa sala | caractere `C` no mapa + `"charm": "id"` no arquivo da sala |
 | Ajustar um chefe | `game/bosses/<chefe>/` |
-| Trocar uma animação do herói | colocar a imagem em `art_source/personagem principal/animacoes/`, ajustar `tools/slice_hero.gd` e rodar a ferramenta |
+| Trocar uma animação do herói | colocar a imagem em `art_source/personagem principal/animacoes/`, ajustar `ANIMS`/`SOURCES` em `tools/remaster_hero.gd` e rodar a ferramenta (mesma escala do Idle, quadro único, paleta única) |
 | Trocar a música de uma área, da luta ou de um chefe | `"music"`/`"combat"` e `BOSS_MUSIC` em `data/themes.gd` (caminhos em `data/asset_paths.gd`) |
 | Trocar a barra de XP ou a fonte pixel | arte em `art_source/ui/hud/` (feita no Aseprite) e rodar `tools/make_hud_ui.gd` |
 | Trocar o emblema do HUD (vida e magia no orbe) | `assets/ui/hud/emblema_*.png` (base, vida, magia, fenda); posição e raio do orbe em `ORB_POS`/`ORB_C`/`ORB_R` (`game/ui/hud.gd`) |
 | Trocar o logo da tela de título | editar `tools/make_logo.lua` e rodar no Aseprite: `Aseprite.exe -b --script-param src=art_source/logo/noct_logo.aseprite --script-param out=assets/ui/logo --script tools/make_logo.lua` |
 | Trocar um efeito sonoro | tabela `SFX` em `autoload/audio.gd` |
-| Trocar as formas carmesim (níveis 1-3) | `art_source/personagem principal/carmesim/niveis_carmesim.png` e rodar `tools/slice_crimson.gd`; velocidades em `CRIMSON_ANIMS` (`game/core/sprites.gd`) |
+| Trocar as formas carmesim (níveis 1-3) | `art_source/personagem principal/carmesim/niveis_carmesim.png` e rodar `tools/remaster_hero.gd`; velocidades em `CRIMSON_ANIMS` (`game/core/sprites.gd`) |
 | Esconder uma memória de Mira | texto em `data/memories.gd` + `"memories": [{"id", "feet"}]` no arquivo da sala |
 | Criar uma parede carmesim (Passo da Fenda) | caractere `X` no mapa (sólido; atravessa com dash depois do Bringer) |
 | Ajustar o salto na parede (Garras do Gato) | `WALL_*` e `_wall_side`/`_wall_jump` em `game/player/player_body.gd`; liberado em `has_wall_grip` (`main.gd`) |
@@ -86,10 +86,10 @@ godot --headless --path . --script tests/areas_test.gd
 # Regressões: saves inválidos, falha de escrita, bônus, dano simultâneo e transições.
 godot --headless --path . --script tests/regression_test.gd
 
-# Recortar de novo as animações e os rostos do herói
+# Recortar de novo as animações do herói (base e carmesim), a magia/dragão e os rostos
+godot --headless --path . --script tools/remaster_hero.gd
 godot --headless --path . --script tools/slice_hero.gd
 godot --headless --path . --script tools/slice_portraits.gd
-godot --headless --path . --script tools/slice_crimson.gd
 ```
 
 O save do jogo fica em `user://save.json` (no Windows: `%APPDATA%\NOCT Crimson Rift\save.json`).

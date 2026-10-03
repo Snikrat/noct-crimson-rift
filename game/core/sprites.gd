@@ -30,7 +30,7 @@ const HERO_ANIMS := {
 }
 
 
-# Formas carmesim (tools/slice_crimson.gd): c<nível>_<animação>, só as animações básicas.
+# Formas carmesim (tools/remaster_hero.gd): c<nível>_<animação>, só as animações básicas.
 const CRIMSON_DIR := HERO_DIR + "crimson/"
 const CRIMSON_LEVELS := 3
 const CRIMSON_ANIMS := {
@@ -39,7 +39,8 @@ const CRIMSON_ANIMS := {
 }
 
 
-## Medidas de cada tira do herói (gerado por tools/slice_hero.gd): quadros, w, h e ponto dos pés (ax, ay).
+## Medidas de cada tira do herói (gerado por tools/remaster_hero.gd): quadros, w, h e ponto dos pés (ax, ay).
+## Todas as animações do corpo usam o mesmo quadro e o mesmo ponto dos pés.
 ## Inclui as formas carmesim (crimson.json).
 static func hero_meta() -> Dictionary:
 	var meta: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(HERO_DIR + "hero.json"))

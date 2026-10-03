@@ -36,9 +36,9 @@
 
 
 ## Herói
-- **Noct** (herói): arte criada para o jogo (arte-fonte em `art_source/personagem principal`). As animações são recortadas automaticamente por `tools/slice_hero.gd`.
+- **Noct** (herói): arte criada para o jogo (arte-fonte em `art_source/personagem principal`). As animações são recortadas e padronizadas automaticamente por `tools/remaster_hero.gd`.
 
-- Formas carmesim de Noct (3 níveis de corrupção): arte criada para o jogo (`art_source/personagem principal/carmesim/`), recortada por `tools/slice_crimson.gd`.
+- Formas carmesim de Noct (3 níveis de corrupção): arte criada para o jogo (`art_source/personagem principal/carmesim/`), recortada por `tools/remaster_hero.gd`.
 - Rostos de Noct (30 expressões, `art_source/rostos_expressoes.png`): arte criada para o jogo, recortada por `tools/slice_portraits.gd`.
 
 

@@ -1,5 +1,6 @@
 extends SceneTree
-## Recorta as pranchas do personagem principal em animações prontas para o jogo.
+## Recorta a esfera da magia (spell_ball) e o dragão da Ultimate.
+## As animações do corpo do Noct saem de tools/remaster_hero.gd (os recortes abaixo ficam só como referência).
 ## Para cada quadro: limpa o fundo, alinha pelos pés e pela cabeça, reduz para o tamanho do jogo
 ## e salva cada animação como uma tira horizontal em assets/hero/<anim>.png.
 ## Também grava assets/hero/hero.json com o tamanho dos quadros e o ponto dos pés.
@@ -108,25 +109,10 @@ func _initialize() -> void:
 	for key in SOURCES:
 		images[key] = Image.load_from_file(ProjectSettings.globalize_path(SRC + SOURCES[key]["file"]))
 		images[key].convert(Image.FORMAT_RGBA8)
-	var meta := {}
-	if FileAccess.file_exists(OUT + "hero.json"):
-		var previous: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(OUT + "hero.json"))
-		for extra in ["air_punch", "air_kick", "air_finish"]:
-			if previous.has(extra):
-				meta[extra] = previous[extra]
-	var upper_only := "--upper-punches" in OS.get_cmdline_user_args()
-	if upper_only:
-		meta = JSON.parse_string(FileAccess.get_file_as_string(OUT + "hero.json"))
-	for anim in ANIMS:
-		if upper_only and anim not in ["up_punch", "uppercut"]:
-			continue
-		# As novas sequências carmesim possuem recortes próprios.
-		if anim in ["double_jump", "dash"] and FileAccess.file_exists(OUT + "hero.json"):
-			var existing: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(OUT + "hero.json"))
-			var expected := 9 if anim == "double_jump" else 8
-			if existing.get(anim, {}).get("frames", 0) == expected:
-				meta[anim] = existing[anim]
-				continue
+	# O corpo do Noct (todas as animações) é gerado por tools/remaster_hero.gd.
+	# Aqui só saem a esfera da magia e o dragão da Ultimate, que não são o personagem.
+	var meta: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(OUT + "hero.json"))
+	for anim in ["spell_ball", "dragon"]:
 		var spec: Dictionary = ANIMS[anim]
 		var src: Image = images[spec["src"]]
 		var scale: float = spec.get("scale", TARGET_HEIGHT / SOURCES[spec["src"]]["idle_height"])

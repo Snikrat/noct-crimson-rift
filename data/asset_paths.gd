@@ -2,7 +2,7 @@ extends RefCounted
 ## Todos os caminhos de arte e som do jogo num lugar só.
 ## Se um arquivo ou pasta mudar de lugar, só este arquivo precisa ser atualizado.
 
-const HERO := "res://assets/hero/"              # herói (gerado por tools/slice_hero.gd)
+const HERO := "res://assets/hero/"              # herói (gerado por tools/remaster_hero.gd)
 const VENDOR := "res://assets/vendor/"          # pacotes de terceiros, sem alterações (licenças em CREDITOS.md)
 
 # --- Pacotes ------------------------------------------------------------
