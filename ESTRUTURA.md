@@ -8,6 +8,7 @@ hollow-like/
 │
 ├─ autoload/                  sistemas globais, sempre ativos (acessíveis de qualquer script)
 │  ├─ game_state.gd           GameState: Geo, chefes derrotados, compras, banco, herói + SAVE
+│  ├─ settings.gd             Settings: volume da música/efeitos e tela cheia (user://settings.cfg)
 │  ├─ audio.gd                Audio: música e efeitos sonoros
 │  └─ controls.gd             Controls: teclado/controle, nome dos botões, vibração
 │
@@ -27,6 +28,8 @@ hollow-like/
 │  ├─ progression.gd          XP e recompensas de cada nível
 │  ├─ shop_items.gd           itens da loja
 │  ├─ charms.gd               amuletos (efeito, custo, ícone)
+│  ├─ memories.gd             memórias de Mira (texto de cada fragmento)
+│  ├─ world_map.gd            posição de cada sala no mapa da pausa
 │  └─ asset_paths.gd          TODOS os caminhos de arte e som
 │
 ├─ assets/
@@ -36,7 +39,7 @@ hollow-like/
 │
 ├─ art_source/                arte-fonte (pranchas, rostos, prompts) — o Godot ignora esta pasta
 ├─ tools/                     ferramentas de recorte dos sprites
-└─ tests/smoke_test.gd        teste automático do jogo inteiro
+└─ tests/                     testes automáticos (smoke, regressão, conteúdo, novos assets, história)
 ```
 
 ## Tarefas comuns
@@ -55,6 +58,11 @@ hollow-like/
 | Trocar o logo da tela de título | `art_source/logo/logo_sheet.png` e rodar `tools/slice_logo.gd` (quadros em `FRAMES`) |
 | Trocar um efeito sonoro | tabela `SFX` em `autoload/audio.gd` |
 | Trocar as formas carmesim (níveis 1-3) | `art_source/personagem principal/carmesim/niveis_carmesim.png` e rodar `tools/slice_crimson.gd`; velocidades em `CRIMSON_ANIMS` (`game/core/sprites.gd`) |
+| Esconder uma memória de Mira | texto em `data/memories.gd` + `"memories": [{"id", "feet"}]` no arquivo da sala |
+| Criar uma parede carmesim (Passo da Fenda) | caractere `X` no mapa (sólido; atravessa com dash depois do Bringer) |
+| Mudar falas/etapas da Tessa | `game/world/tessa.gd` e a chave `"tessa"` nas salas (Bosque, vila, catedral) |
+| Mudar o final (revelação, escolha, epílogo) | `REVELATION` e `_ending_sequence` em `game/world/main.gd`; epílogo e créditos em `game/ui/ending.gd` |
+| Mudar o mapa da pausa | `data/world_map.gd` |
 | Mudar velocidade das animações do herói | `HERO_ANIMS` em `game/core/sprites.gd` |
 | Arquivo de arte mudou de lugar | só `data/asset_paths.gd` |
 
@@ -63,6 +71,10 @@ hollow-like/
 ```
 # Teste automático (sem janela). Termina com "RESULTADO: N OK, 0 FALHOU".
 godot --headless --path . --script tests/smoke_test.gd
+godot --headless --path . --script tests/regression_test.gd
+godot --headless --path . --script tests/content_test.gd
+godot --headless --path . --script tests/new_assets_test.gd
+godot --headless --path . --script tests/story_test.gd
 
 # Regressões: saves inválidos, falha de escrita, bônus, dano simultâneo e transições.
 godot --headless --path . --script tests/regression_test.gd

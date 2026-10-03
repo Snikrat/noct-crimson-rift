@@ -204,6 +204,12 @@ Noct não explica a dor: ela aparece em gestos, afastamentos, silêncio e, princ
 | Noct consumido | vitória sobre o Bringer (continua golpeando depois de o Ceifador cair) |
 | Código moral | Capitão dos Desgarrados ("Vai bancar o herói?") |
 | Lâmina no pescoço | Vigia Errante (Bosque) |
+| Memórias de Mira | 8 fragmentos (`data/memories.gd`): ela rindo do sarcasmo, pegando as mentiras, a fita, o lado esquerdo do banco, "um dia de cada vez", o zumbido, o bilhete |
+| Afeto por ação | Tessa (`game/world/tessa.gd`): ele a solta no Bosque, deixa a jaqueta no banco da vila sem dizer nada, a afasta na catedral e espera ela sumir na estrada |
+| Medo de perder | Tessa na catedral: "Aqui você atrapalha." / "Estou com pressa." |
+| Revelação | depois do Demon Slime (`REVELATION` em `main.gd`): Mira ouvia a fenda e a fechou com o próprio corpo; a dor de Noct a reabriu; o poder dele é o que sobrou do selo dela |
+| Escolha | "Ficar na fenda" (Final Eco: o outro lado do banco ocupado por uma voz que não ri do sarcasmo) ou "Ir embora" (Final Um dia de cada vez: a cena do banco com Tessa, ou ele sozinho ficando um pouco mais) |
+| Passo da Fenda | depois do Bringer: o Rift abre caminho através das paredes carmesim (as últimas memórias ficam atrás delas) |
 
 ## Fase do arco por área
 
@@ -238,7 +244,11 @@ Noct não explica a dor: ela aparece em gestos, afastamentos, silêncio e, princ
 | NPCs (`lines` e conversas seguintes `more`) | `data/rooms/town.gd` |
 | Chefes ao acordar (fala do chefe + Noct) | `WAKE_LINES` em `game/bosses/<chefe>/` |
 | Chefes humanos (Capitão, Custódio, Vigia) | `CHALLENGE_LINES` e diálogos em `game/enemies/enemy_humanoid.gd` |
-| Vitórias, banco | `game/world/main.gd` (`on_boss_defeated`, `BENCH_MOMENTS`) |
+| Vitórias, banco, revelação | `game/world/main.gd` (`on_boss_defeated`, `BENCH_MOMENTS`, `REVELATION`) |
+| Memórias de Mira | `data/memories.gd` |
+| Tessa | `game/world/tessa.gd` |
+| Epílogos do final | `game/ui/ending.gd` (`STAY`, `LEAVE_*`) |
+| Narração dentro de conversas | linha começando com `* ` (sem nome na caixa) |
 | Níveis | `data/progression.gd` (`"noct"`) |
 
 ## Checklist antes de escrever uma fala

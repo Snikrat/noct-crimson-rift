@@ -167,6 +167,7 @@ func _draw() -> void:
 				if y > -20 and y < SCREEN.y + 20:
 					draw_string(font, Vector2(20, y), c[0], HORIZONTAL_ALIGNMENT_CENTER, SCREEN.x - 40, c[1], c[2])
 				y += c[1] + 7
+			draw_rect(Rect2(0, SCREEN.y - 16, SCREEN.x, 16), Color(0.03, 0.015, 0.04, 0.9))
 			draw_string(font, Vector2(0, SCREEN.y - 6), "Segure um botão para acelerar   Esc pula",
 				HORIZONTAL_ALIGNMENT_CENTER, SCREEN.x, 7, Color(1, 1, 1, 0.35))
 

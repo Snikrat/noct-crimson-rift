@@ -103,7 +103,7 @@ func revive() -> void:
 
 ## Dash contra uma parede carmesim (X): Noct some de um lado e reaparece do outro.
 ## Sem o Passo da Fenda, a parede só pulsa. Retorna true se atravessou.
-func _try_rift_step(input_x: float) -> bool:
+func _try_rift_step(input_x: float, quiet := false) -> bool:
 	var dir := int(signf(input_x)) if input_x != 0 else facing
 	var tile: int = level.TILE
 	var rows := [global_position.y - SIZE.y / 2 + 4, global_position.y, global_position.y + SIZE.y / 2 - 4]
@@ -115,6 +115,8 @@ func _try_rift_step(input_x: float) -> bool:
 	if not touching:
 		return false
 	if not level.has_rift_step():
+		if quiet:
+			return false
 		level.hud.show_banner("A parede pulsa. A fenda ainda não responde a você.", 1.8)
 		Audio.play_sfx("denied", 0.0)
 		return false
@@ -221,6 +223,8 @@ func _physics_process(delta: float) -> void:
 		if not is_on_floor():
 			can_air_dash = false
 
+	if dash_timer > 0 and _try_rift_step(facing, true):
+		dash_timer = 0   # o dash bateu numa parede carmesim e atravessou
 	if dash_timer > 0:
 		trail_timer -= delta
 		if trail_timer <= 0:
