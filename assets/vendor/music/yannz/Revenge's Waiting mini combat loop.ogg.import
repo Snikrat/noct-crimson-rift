@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b4i6s32ybfubc"
+path="res://.godot/imported/Revenge's Waiting mini combat loop.ogg-1a777e56ccfd6381f63e981878633cb0.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/vendor/music/yannz/Revenge's Waiting mini combat loop.ogg"
+dest_files=["res://.godot/imported/Revenge's Waiting mini combat loop.ogg-1a777e56ccfd6381f63e981878633cb0.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

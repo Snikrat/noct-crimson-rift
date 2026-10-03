@@ -1,0 +1,2960 @@
+[
+  {
+    "package": "Bandits",
+    "path": "Bandits/EULA.txt",
+    "bytes": 2835
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Instructions.txt",
+    "bytes": 503
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Preview/Preview_HeavyBandit.png",
+    "bytes": 25493,
+    "width": 1152,
+    "height": 720,
+    "alpha": "Format24bppRgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Preview/Preview_LightBandit.png",
+    "bytes": 23190,
+    "width": 1152,
+    "height": 720,
+    "alpha": "Format24bppRgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/EnvironmentTiles/EnvironmentTiles.png",
+    "bytes": 1196,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/EnvironmentTiles/Tile_0.png",
+    "bytes": 218,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/EnvironmentTiles/Tile_1.png",
+    "bytes": 702,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/EnvironmentTiles/Tile_2.png",
+    "bytes": 298,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/EnvironmentTiles/Tile_3.png",
+    "bytes": 428,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Attack/HeavyBandit_Attack_0.png",
+    "bytes": 527,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Attack/HeavyBandit_Attack_1.png",
+    "bytes": 528,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Attack/HeavyBandit_Attack_2.png",
+    "bytes": 524,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Attack/HeavyBandit_Attack_3.png",
+    "bytes": 507,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Attack/HeavyBandit_Attack_4.png",
+    "bytes": 611,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Attack/HeavyBandit_Attack_5.png",
+    "bytes": 609,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Attack/HeavyBandit_Attack_6.png",
+    "bytes": 565,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Attack/HeavyBandit_Attack_7.png",
+    "bytes": 533,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Combat Idle/HeavyBandit_CombatIdle_0.png",
+    "bytes": 570,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Combat Idle/HeavyBandit_CombatIdle_1.png",
+    "bytes": 571,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Combat Idle/HeavyBandit_CombatIdle_2.png",
+    "bytes": 569,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Combat Idle/HeavyBandit_CombatIdle_3.png",
+    "bytes": 566,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Death/HeavyBandit_Death_0.png",
+    "bytes": 352,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/HeavyBandit.png",
+    "bytes": 8453,
+    "width": 384,
+    "height": 240,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Hurt/HeavyBandit_Hurt_0.png",
+    "bytes": 236,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Hurt/HeavyBandit_Hurt_1.png",
+    "bytes": 563,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Idle/HeavyBandit_Idle_0.png",
+    "bytes": 609,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Idle/HeavyBandit_Idle_1.png",
+    "bytes": 605,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Idle/HeavyBandit_Idle_2.png",
+    "bytes": 607,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Idle/HeavyBandit_Idle_3.png",
+    "bytes": 604,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Jump/HeavyBandit_Jump_0.png",
+    "bytes": 537,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Recover/HeavyBandit_Recover_0.png",
+    "bytes": 405,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Recover/HeavyBandit_Recover_1.png",
+    "bytes": 464,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Recover/HeavyBandit_Recover_2.png",
+    "bytes": 534,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Recover/HeavyBandit_Recover_3.png",
+    "bytes": 544,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Recover/HeavyBandit_Recover_4.png",
+    "bytes": 544,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Recover/HeavyBandit_Recover_5.png",
+    "bytes": 533,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Recover/HeavyBandit_Recover_6.png",
+    "bytes": 534,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Recover/HeavyBandit_Recover_7.png",
+    "bytes": 564,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Run/HeavyBandit_Run_0.png",
+    "bytes": 548,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Run/HeavyBandit_Run_1.png",
+    "bytes": 551,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Run/HeavyBandit_Run_2.png",
+    "bytes": 575,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Run/HeavyBandit_Run_3.png",
+    "bytes": 535,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Run/HeavyBandit_Run_4.png",
+    "bytes": 521,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Run/HeavyBandit_Run_5.png",
+    "bytes": 507,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Run/HeavyBandit_Run_6.png",
+    "bytes": 507,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Heavy Bandit/Run/HeavyBandit_Run_7.png",
+    "bytes": 491,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Attack/LightBandit_Attack_0.png",
+    "bytes": 476,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Attack/LightBandit_Attack_1.png",
+    "bytes": 467,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Attack/LightBandit_Attack_2.png",
+    "bytes": 463,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Attack/LightBandit_Attack_3.png",
+    "bytes": 448,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Attack/LightBandit_Attack_4.png",
+    "bytes": 573,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Attack/LightBandit_Attack_5.png",
+    "bytes": 576,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Attack/LightBandit_Attack_6.png",
+    "bytes": 524,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Attack/LightBandit_Attack_7.png",
+    "bytes": 491,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Combat Idle/LightBandit_Combat Idle_0.png",
+    "bytes": 511,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Combat Idle/LightBandit_Combat Idle_1.png",
+    "bytes": 505,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Combat Idle/LightBandit_Combat Idle_2.png",
+    "bytes": 501,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Combat Idle/LightBandit_Combat Idle_3.png",
+    "bytes": 502,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Death/LightBandit_Death_0.png",
+    "bytes": 310,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Hurt/LightBandit_Hurt_0.png",
+    "bytes": 237,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Hurt/LightBandit_Hurt_1.png",
+    "bytes": 497,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Idle/LightBandit_Idle_0.png",
+    "bytes": 528,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Idle/LightBandit_Idle_1.png",
+    "bytes": 530,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Idle/LightBandit_Idle_2.png",
+    "bytes": 520,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Idle/LightBandit_Idle_3.png",
+    "bytes": 513,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Jump/LightBandit_Jump_0.png",
+    "bytes": 495,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/LightBandit.png",
+    "bytes": 7837,
+    "width": 384,
+    "height": 240,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Recover/LightBandit_Recover_0.png",
+    "bytes": 349,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Recover/LightBandit_Recover_1.png",
+    "bytes": 412,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Recover/LightBandit_Recover_2.png",
+    "bytes": 466,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Recover/LightBandit_Recover_3.png",
+    "bytes": 477,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Recover/LightBandit_Recover_4.png",
+    "bytes": 476,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Recover/LightBandit_Recover_5.png",
+    "bytes": 467,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Recover/LightBandit_Recover_6.png",
+    "bytes": 465,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Recover/LightBandit_Recover_7.png",
+    "bytes": 493,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Run/LightBandit_Run_0.png",
+    "bytes": 497,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Run/LightBandit_Run_1.png",
+    "bytes": 507,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Run/LightBandit_Run_2.png",
+    "bytes": 537,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Run/LightBandit_Run_3.png",
+    "bytes": 491,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Run/LightBandit_Run_4.png",
+    "bytes": 481,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Run/LightBandit_Run_5.png",
+    "bytes": 470,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Run/LightBandit_Run_6.png",
+    "bytes": 473,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Bandits",
+    "path": "Bandits/Sprites/Light Bandit/Run/LightBandit_Run_7.png",
+    "bytes": 456,
+    "width": 48,
+    "height": 48,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "EVil Wizard 2",
+    "path": "EVil Wizard 2/License.txt",
+    "bytes": 125
+  },
+  {
+    "package": "EVil Wizard 2",
+    "path": "EVil Wizard 2/Sprites/Attack1.png",
+    "bytes": 16720,
+    "width": 2000,
+    "height": 250,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "EVil Wizard 2",
+    "path": "EVil Wizard 2/Sprites/Attack2.png",
+    "bytes": 17311,
+    "width": 2000,
+    "height": 250,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "EVil Wizard 2",
+    "path": "EVil Wizard 2/Sprites/Death.png",
+    "bytes": 11671,
+    "width": 1750,
+    "height": 250,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "EVil Wizard 2",
+    "path": "EVil Wizard 2/Sprites/Fall.png",
+    "bytes": 4019,
+    "width": 500,
+    "height": 250,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "EVil Wizard 2",
+    "path": "EVil Wizard 2/Sprites/Idle.png",
+    "bytes": 10208,
+    "width": 2000,
+    "height": 250,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "EVil Wizard 2",
+    "path": "EVil Wizard 2/Sprites/Jump.png",
+    "bytes": 3892,
+    "width": 500,
+    "height": 250,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "EVil Wizard 2",
+    "path": "EVil Wizard 2/Sprites/Run.png",
+    "bytes": 10623,
+    "width": 2000,
+    "height": 250,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "EVil Wizard 2",
+    "path": "EVil Wizard 2/Sprites/Take hit.png",
+    "bytes": 5189,
+    "width": 750,
+    "height": 250,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "License.txt",
+    "bytes": 35
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Animation1.png",
+    "bytes": 27332,
+    "width": 592,
+    "height": 384,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Animation2.png",
+    "bytes": 19753,
+    "width": 480,
+    "height": 288,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Animation3.png",
+    "bytes": 11335,
+    "width": 384,
+    "height": 192,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Animation4.png",
+    "bytes": 35978,
+    "width": 480,
+    "height": 336,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Animation5.png",
+    "bytes": 42138,
+    "width": 576,
+    "height": 336,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Animation6.png",
+    "bytes": 16949,
+    "width": 288,
+    "height": 240,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Details.png",
+    "bytes": 13778,
+    "width": 576,
+    "height": 176,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Ground_rocks.png",
+    "bytes": 90305,
+    "width": 496,
+    "height": 592,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects.png",
+    "bytes": 166165,
+    "width": 768,
+    "height": 704,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_1.png",
+    "bytes": 2018,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_10.png",
+    "bytes": 3108,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_11.png",
+    "bytes": 2560,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_12.png",
+    "bytes": 3540,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_13.png",
+    "bytes": 2120,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_14.png",
+    "bytes": 2353,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_15.png",
+    "bytes": 2205,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_16.png",
+    "bytes": 2034,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_17.png",
+    "bytes": 2165,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_18.png",
+    "bytes": 1828,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_2.png",
+    "bytes": 1747,
+    "width": 16,
+    "height": 16,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_3.png",
+    "bytes": 2112,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_4.png",
+    "bytes": 2240,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_5.png",
+    "bytes": 2085,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_6.png",
+    "bytes": 3868,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_7.png",
+    "bytes": 2790,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_8.png",
+    "bytes": 2365,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow1_9.png",
+    "bytes": 3188,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_1.png",
+    "bytes": 2034,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_10.png",
+    "bytes": 3186,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_11.png",
+    "bytes": 3545,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_12.png",
+    "bytes": 2122,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_13.png",
+    "bytes": 2355,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_15.png",
+    "bytes": 2042,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_16.png",
+    "bytes": 2167,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_17.png",
+    "bytes": 1826,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_18.png",
+    "bytes": 2360,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_2.png",
+    "bytes": 1748,
+    "width": 16,
+    "height": 16,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_3.png",
+    "bytes": 2117,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_4-1.png",
+    "bytes": 2208,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_4.png",
+    "bytes": 2462,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_5.png",
+    "bytes": 2092,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_6.png",
+    "bytes": 3885,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_7.png",
+    "bytes": 2784,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_8.png",
+    "bytes": 3124,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow2_9.png",
+    "bytes": 2570,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_1.png",
+    "bytes": 2019,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_10.png",
+    "bytes": 3100,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_11.png",
+    "bytes": 2559,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_12.png",
+    "bytes": 3538,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_13.png",
+    "bytes": 2115,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_14.png",
+    "bytes": 2333,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_15.png",
+    "bytes": 2199,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_16.png",
+    "bytes": 2029,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_17.png",
+    "bytes": 2171,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_18.png",
+    "bytes": 1820,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_2.png",
+    "bytes": 1743,
+    "width": 16,
+    "height": 16,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_3.png",
+    "bytes": 2106,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_4.png",
+    "bytes": 2218,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_5.png",
+    "bytes": 2059,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_6.png",
+    "bytes": 3866,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_7.png",
+    "bytes": 2778,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_8.png",
+    "bytes": 2362,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Bones_shadow3_9.png",
+    "bytes": 3185,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_ tree_shadow3_1.png",
+    "bytes": 3410,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_ tree_shadow3_2.png",
+    "bytes": 2368,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_ tree_shadow3_3.png",
+    "bytes": 2462,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_ tree_shadow3_4.png",
+    "bytes": 2931,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_ tree_shadow3_5.png",
+    "bytes": 2597,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_ tree_shadow3_6.png",
+    "bytes": 2351,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_ tree_shadow3_7.png",
+    "bytes": 1875,
+    "width": 16,
+    "height": 16,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow1_1.png",
+    "bytes": 3416,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow1_2.png",
+    "bytes": 2365,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow1_3.png",
+    "bytes": 2461,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow1_4.png",
+    "bytes": 2945,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow1_5.png",
+    "bytes": 2624,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow1_6.png",
+    "bytes": 2350,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow1_7.png",
+    "bytes": 1880,
+    "width": 16,
+    "height": 16,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow2_1-1.png",
+    "bytes": 5437,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow2_1.png",
+    "bytes": 3405,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow2_2-1.png",
+    "bytes": 4200,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow2_2.png",
+    "bytes": 2356,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow2_3-1.png",
+    "bytes": 3231,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow2_3.png",
+    "bytes": 2446,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow2_4.png",
+    "bytes": 2911,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow2_5.png",
+    "bytes": 2579,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow2_6.png",
+    "bytes": 2329,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Broken_tree_shadow2_7.png",
+    "bytes": 1872,
+    "width": 16,
+    "height": 16,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Crystal_shadow1_1.png",
+    "bytes": 2950,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Crystal_shadow1_2.png",
+    "bytes": 2454,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Crystal_shadow1_3.png",
+    "bytes": 2033,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Crystal_shadow1_4.png",
+    "bytes": 1706,
+    "width": 16,
+    "height": 16,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Crystal_shadow2_1.png",
+    "bytes": 2938,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Crystal_shadow2_2.png",
+    "bytes": 2448,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Crystal_shadow2_3.png",
+    "bytes": 2028,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Crystal_shadow2_4.png",
+    "bytes": 1710,
+    "width": 16,
+    "height": 16,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Crystal_shadow3_1.png",
+    "bytes": 2940,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Crystal_shadow3_2.png",
+    "bytes": 2460,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Crystal_shadow3_3.png",
+    "bytes": 2033,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Crystal_shadow3_4.png",
+    "bytes": 1710,
+    "width": 16,
+    "height": 16,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_arm_shadow1_1.png",
+    "bytes": 4253,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_arm_shadow1_2.png",
+    "bytes": 3731,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_arm_shadow1_3.png",
+    "bytes": 3259,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_arm_shadow1_4.png",
+    "bytes": 2965,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_arm_shadow2_1.png",
+    "bytes": 4249,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_arm_shadow2_2.png",
+    "bytes": 3729,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_arm_shadow2_3.png",
+    "bytes": 3266,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_arm_shadow2_4.png",
+    "bytes": 2962,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_arm_shadow3_1.png",
+    "bytes": 4236,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_arm_shadow3_2.png",
+    "bytes": 3727,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_arm_shadow3_3.png",
+    "bytes": 3263,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_arm_shadow3_4.png",
+    "bytes": 2974,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_tree_shadow1_1.png",
+    "bytes": 5421,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_tree_shadow1_2.png",
+    "bytes": 4212,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_tree_shadow1_3.png",
+    "bytes": 3242,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_tree_shadow3_1.png",
+    "bytes": 5413,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_tree_shadow3_2.png",
+    "bytes": 4212,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Dead_tree_shadow3_3.png",
+    "bytes": 3225,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_1.png",
+    "bytes": 1812,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_10.png",
+    "bytes": 1975,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_11.png",
+    "bytes": 2046,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_12.png",
+    "bytes": 1969,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_13.png",
+    "bytes": 1937,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_14.png",
+    "bytes": 1969,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_15.png",
+    "bytes": 2014,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_16.png",
+    "bytes": 1984,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_17.png",
+    "bytes": 1965,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_2.png",
+    "bytes": 1860,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_3.png",
+    "bytes": 1853,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_4.png",
+    "bytes": 1860,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_5.png",
+    "bytes": 1807,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_6.png",
+    "bytes": 1773,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_7.png",
+    "bytes": 1791,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_8.png",
+    "bytes": 1783,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow1_9.png",
+    "bytes": 2031,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_1.png",
+    "bytes": 1805,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_10.png",
+    "bytes": 1973,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_11.png",
+    "bytes": 2015,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_12.png",
+    "bytes": 1957,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_13.png",
+    "bytes": 1928,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_14.png",
+    "bytes": 1957,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_15.png",
+    "bytes": 2012,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_16.png",
+    "bytes": 1990,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_17.png",
+    "bytes": 1952,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_2.png",
+    "bytes": 1854,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_3.png",
+    "bytes": 1846,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_4.png",
+    "bytes": 1846,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_5.png",
+    "bytes": 1806,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_6.png",
+    "bytes": 1769,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_7.png",
+    "bytes": 1789,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_8.png",
+    "bytes": 1785,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow2_9.png",
+    "bytes": 2019,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_1.png",
+    "bytes": 1814,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_10.png",
+    "bytes": 1974,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_11.png",
+    "bytes": 2049,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_12.png",
+    "bytes": 1972,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_13.png",
+    "bytes": 1934,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_14.png",
+    "bytes": 1970,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_15.png",
+    "bytes": 2013,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_16.png",
+    "bytes": 1988,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_17.png",
+    "bytes": 1965,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_2.png",
+    "bytes": 1861,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_3.png",
+    "bytes": 1855,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_4.png",
+    "bytes": 1859,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_5.png",
+    "bytes": 1804,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_6.png",
+    "bytes": 1775,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_7.png",
+    "bytes": 1796,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_8.png",
+    "bytes": 1787,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Grave_shadow3_9.png",
+    "bytes": 2029,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Lich_shadow1.png",
+    "bytes": 12130,
+    "width": 256,
+    "height": 256,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Lich_shadow2.png",
+    "bytes": 12201,
+    "width": 256,
+    "height": 256,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Lich_shadow3.png",
+    "bytes": 12077,
+    "width": 256,
+    "height": 256,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Pile_sculls_shadow1.png",
+    "bytes": 5570,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Pile_sculls_shadow2.png",
+    "bytes": 5576,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Pile_sculls_shadow3.png",
+    "bytes": 5560,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Plant_shadow1_1.png",
+    "bytes": 4277,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Plant_shadow1_2.png",
+    "bytes": 2876,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Plant_shadow1_3.png",
+    "bytes": 2226,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Plant_shadow1_4.png",
+    "bytes": 1898,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Plant_shadow1_5.png",
+    "bytes": 1704,
+    "width": 16,
+    "height": 16,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Plant_shadow3_1.png",
+    "bytes": 3690,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Plant_shadow3_2.png",
+    "bytes": 3248,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Plant_shadow3_3.png",
+    "bytes": 2222,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Plant_shadow3_4.png",
+    "bytes": 1886,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Plant_shadow3_5.png",
+    "bytes": 1698,
+    "width": 16,
+    "height": 16,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Plant__shadow2_1.png",
+    "bytes": 4270,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Plant__shadow2_2.png",
+    "bytes": 2894,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Plant__shadow2_3.png",
+    "bytes": 2239,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Plant__shadow2_4.png",
+    "bytes": 1896,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Plant__shadow2_5.png",
+    "bytes": 1702,
+    "width": 16,
+    "height": 16,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Rock_shadow1_1.png",
+    "bytes": 3090,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Rock_shadow1_2.png",
+    "bytes": 2776,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Rock_shadow1_3.png",
+    "bytes": 2386,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Rock_shadow1_4.png",
+    "bytes": 2010,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Rock_shadow1_5.png",
+    "bytes": 1715,
+    "width": 16,
+    "height": 16,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Rock_shadow2_1.png",
+    "bytes": 3079,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Rock_shadow2_2.png",
+    "bytes": 2762,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Rock_shadow2_3.png",
+    "bytes": 2390,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Rock_shadow2_4.png",
+    "bytes": 2013,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Rock_shadow2_5.png",
+    "bytes": 1712,
+    "width": 16,
+    "height": 16,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Rock_shadow3_1.png",
+    "bytes": 3085,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Rock_shadow3_2.png",
+    "bytes": 2775,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Rock_shadow3_3.png",
+    "bytes": 2394,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Rock_shadow3_4.png",
+    "bytes": 2171,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Rock_shadow3_5.png",
+    "bytes": 1718,
+    "width": 16,
+    "height": 16,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Ruin_shadow1_1.png",
+    "bytes": 4976,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Ruin_shadow1_2.png",
+    "bytes": 4080,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Ruin_shadow1_3.png",
+    "bytes": 3040,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Ruin_shadow1_4.png",
+    "bytes": 2594,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Ruin_shadow1_5.png",
+    "bytes": 2008,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Ruin_shadow2_1.png",
+    "bytes": 4953,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Ruin_shadow2_2.png",
+    "bytes": 4070,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Ruin_shadow2_3.png",
+    "bytes": 3031,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Ruin_shadow2_4.png",
+    "bytes": 2594,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Ruin_shadow2_5.png",
+    "bytes": 1997,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Ruin_shadow3_1.png",
+    "bytes": 4959,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Ruin_shadow3_2.png",
+    "bytes": 4081,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Ruin_shadow3_3.png",
+    "bytes": 3041,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Ruin_shadow3_4.png",
+    "bytes": 2605,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Ruin_shadow3_5.png",
+    "bytes": 2005,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Scull_door_shadow1.png",
+    "bytes": 3214,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Scull_door_shadow2.png",
+    "bytes": 3218,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Scull_door_shadow3.png",
+    "bytes": 3217,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_palnt_shadow2_1.png",
+    "bytes": 4258,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_palnt_shadow2_2.png",
+    "bytes": 3456,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_palnt_shadow2_3.png",
+    "bytes": 1966,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_palnt_shadow2_4.png",
+    "bytes": 2603,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_palnt_shadow2_5.png",
+    "bytes": 2053,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_palnt_shadow2_6.png",
+    "bytes": 1829,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_plant_shadow1_1.png",
+    "bytes": 4236,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_plant_shadow1_2.png",
+    "bytes": 3452,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_plant_shadow1_3.png",
+    "bytes": 1963,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_plant_shadow1_4.png",
+    "bytes": 2598,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_plant_shadow1_5.png",
+    "bytes": 2054,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_plant_shadow1_6.png",
+    "bytes": 1824,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_plant_shadow3_1.png",
+    "bytes": 4230,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_plant_shadow3_2.png",
+    "bytes": 3456,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_plant_shadow3_3.png",
+    "bytes": 1960,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_plant_shadow3_4.png",
+    "bytes": 2596,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_plant_shadow3_5.png",
+    "bytes": 2061,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Thorn_plant_shadow3_6.png",
+    "bytes": 1832,
+    "width": 32,
+    "height": 32,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Tree_shadow1_1.png",
+    "bytes": 4940,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Tree_shadow1_2.png",
+    "bytes": 3727,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Tree_shadow1_3.png",
+    "bytes": 2870,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Tree_shadow2_1.png",
+    "bytes": 4925,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Tree_shadow2_2.png",
+    "bytes": 3739,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Tree_shadow2_3.png",
+    "bytes": 2862,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Tree_shadow3_1.png",
+    "bytes": 4967,
+    "width": 128,
+    "height": 128,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Tree_shadow3_2.png",
+    "bytes": 3728,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Objects_separately/Tree_shadow3_3.png",
+    "bytes": 2836,
+    "width": 64,
+    "height": 64,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/Water_coasts.png",
+    "bytes": 38824,
+    "width": 1056,
+    "height": 256,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/water_detilazation.png",
+    "bytes": 16819,
+    "width": 688,
+    "height": 576,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "PNG/water_detilazation_v2.png",
+    "bytes": 16020,
+    "width": 688,
+    "height": 576,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "readme.txt",
+    "bytes": 96
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "Tiled_files/details.png",
+    "bytes": 12530,
+    "width": 640,
+    "height": 224,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "Tiled_files/Ground_rocks.png",
+    "bytes": 120897,
+    "width": 416,
+    "height": 1392,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "Tiled_files/Objects.png",
+    "bytes": 155138,
+    "width": 1200,
+    "height": 768,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "Tiled_files/Objects_animated.png",
+    "bytes": 51872,
+    "width": 704,
+    "height": 624,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "Tiled_files/Objects_animated2.png",
+    "bytes": 51948,
+    "width": 704,
+    "height": 624,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "Tiled_files/Objects_animated3.png",
+    "bytes": 51906,
+    "width": 704,
+    "height": 624,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "Tiled_files/water_coasts.png",
+    "bytes": 98014,
+    "width": 368,
+    "height": 976,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "Tiled_files/water_detilazation.png",
+    "bytes": 19603,
+    "width": 592,
+    "height": 1248,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "Tiled_files/water_detilazation_v2.png",
+    "bytes": 18755,
+    "width": 592,
+    "height": 1248,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Free-Undead-Tileset-Top-Down-Pixel-Art",
+    "path": "COUPON.png",
+    "bytes": 260943,
+    "width": 1840,
+    "height": 2445,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Garden's Forest",
+    "path": "Garden's Forest/background1.png",
+    "bytes": 6893,
+    "width": 512,
+    "height": 300,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Garden's Forest",
+    "path": "Garden's Forest/background2.png",
+    "bytes": 7198,
+    "width": 512,
+    "height": 300,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Garden's Forest",
+    "path": "Garden's Forest/background3.png",
+    "bytes": 5693,
+    "width": 512,
+    "height": 300,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Garden's Forest",
+    "path": "Garden's Forest/background4.png",
+    "bytes": 1342,
+    "width": 512,
+    "height": 300,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Garden's Forest",
+    "path": "Garden's Forest/frontleaves.png",
+    "bytes": 3005,
+    "width": 512,
+    "height": 300,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Garden's Forest",
+    "path": "Garden's Forest/pushes.png",
+    "bytes": 14915,
+    "width": 512,
+    "height": 300,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Garden's Forest",
+    "path": "Garden's Forest/trees.png",
+    "bytes": 4405,
+    "width": 512,
+    "height": 300,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Hero Knight",
+    "path": "Hero Knight/License.txt",
+    "bytes": 123
+  },
+  {
+    "package": "Hero Knight",
+    "path": "Hero Knight/Sprites/Attack1.png",
+    "bytes": 7299,
+    "width": 1260,
+    "height": 180,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Hero Knight",
+    "path": "Hero Knight/Sprites/Attack2.png",
+    "bytes": 7241,
+    "width": 1260,
+    "height": 180,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Hero Knight",
+    "path": "Hero Knight/Sprites/Death.png",
+    "bytes": 10649,
+    "width": 1980,
+    "height": 180,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Hero Knight",
+    "path": "Hero Knight/Sprites/Fall.png",
+    "bytes": 2680,
+    "width": 540,
+    "height": 180,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Hero Knight",
+    "path": "Hero Knight/Sprites/Idle.png",
+    "bytes": 6299,
+    "width": 1980,
+    "height": 180,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Hero Knight",
+    "path": "Hero Knight/Sprites/Jump.png",
+    "bytes": 2414,
+    "width": 540,
+    "height": 180,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Hero Knight",
+    "path": "Hero Knight/Sprites/Run.png",
+    "bytes": 7994,
+    "width": 1440,
+    "height": 180,
+    "alpha": "Format32bppArgb"
+  },
+  {
+    "package": "Hero Knight",
+    "path": "Hero Knight/Sprites/Take Hit.png",
+    "bytes": 4623,
+    "width": 720,
+    "height": 180,
+    "alpha": "Format32bppArgb"
+  }
+]

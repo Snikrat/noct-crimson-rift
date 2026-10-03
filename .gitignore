@@ -1,0 +1,7 @@
+# Cache do Godot (recriado ao abrir o projeto)
+.godot/
+
+# Exportações do jogo
+build/
+export/
+*.tmp
