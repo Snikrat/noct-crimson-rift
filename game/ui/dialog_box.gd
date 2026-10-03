@@ -14,6 +14,7 @@ const FACES := [
 ]
 
 signal finished               # a conversa acabou (fechou)
+signal chosen(option: int)    # resposta de uma escolha (ask)
 
 var level
 var portraits := {}         # rostos já carregados (carregar durante o desenho deixava o rosto branco)
@@ -28,6 +29,9 @@ var auto_advance := 0.0     # > 0: cada fala passa sozinha depois desse tempo (c
 var auto_timer := 0.0
 var opened_frame := -1      # o botão que abriu a conversa não pode já passar a 1ª fala
 var closed_frame := -10
+var choices: Array = []       # opções da escolha aberta (vazio = conversa normal)
+var choice_index := 0
+var nav_held := true
 var was_held := true          # botão de passar fala já estava apertado no quadro anterior
 
 
@@ -47,6 +51,27 @@ func is_open() -> bool:
 	return index >= 0
 
 
+func _handle_choice() -> void:
+	var nav := 0
+	if Input.is_action_pressed("up") or Input.is_action_pressed("ui_up"):
+		nav = -1
+	elif Input.is_action_pressed("down") or Input.is_action_pressed("ui_down"):
+		nav = 1
+	if nav != 0 and not nav_held:
+		choice_index = posmod(choice_index + nav, choices.size())
+		Audio.play_sfx("hover", 0.0)
+	nav_held = nav != 0
+	var held := Input.is_action_pressed("jump") or Input.is_action_pressed("attack") or Input.is_action_pressed("ui_accept")
+	var pressed := held and not was_held
+	was_held = held
+	if pressed and Engine.get_process_frames() > opened_frame:
+		var picked := choice_index
+		choices = []
+		Audio.play_sfx("confirm", 0.0)
+		close()
+		chosen.emit(picked)
+
+
 func _advance_held() -> bool:
 	for action in ["up", "jump", "attack", "ui_accept"]:
 		if Input.is_action_pressed(action):
@@ -57,6 +82,14 @@ func _advance_held() -> bool:
 ## A conversa acabou de fechar (neste quadro ou no anterior).
 func just_closed() -> bool:
 	return Engine.get_process_frames() - closed_frame <= 2
+
+
+## Escolha: mostra uma fala e as opções; cima/baixo escolhe, pulo/ataque confirma. Emite "chosen".
+func ask(who: String, line: String, options: Array) -> void:
+	start(who, [line])
+	choices = options
+	choice_index = 0
+	nav_held = true
 
 
 ## auto > 0 faz as falas passarem sozinhas (comentários curtos que não exigem apertar nada).
@@ -100,6 +133,9 @@ func _process(delta: float) -> void:
 	if is_open():
 		queue_redraw()
 		# Passar a fala (também adianta as que passam sozinhas).
+		if not choices.is_empty():
+			_handle_choice()
+			return
 		# Borda do botão medida aqui (não pelo "just_pressed" do Input), para não perder toques rápidos.
 		var held := _advance_held()
 		var pressed := held and not was_held
@@ -164,4 +200,10 @@ func _draw() -> void:
 
 	draw_string(font, Vector2(text_x, box.position.y + 16), who, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, name_color)
 	draw_multiline_string(font, Vector2(text_x, box.position.y + 32), line, HORIZONTAL_ALIGNMENT_LEFT, text_w, 10)
+	if not choices.is_empty():
+		for i in choices.size():
+			var sel := i == choice_index
+			draw_string(font, Vector2(text_x + 10, box.position.y + 50 + i * 13), ("> " if sel else "  ") + String(choices[i]),
+				HORIZONTAL_ALIGNMENT_LEFT, text_w, 10, GOLD if sel else Color(1, 1, 1, 0.7))
+		return
 	draw_string(font, Vector2(text_x, box.end.y - 6), "%s >" % Controls.key_label("up"), HORIZONTAL_ALIGNMENT_RIGHT, text_w, 8, Color(1, 1, 1, 0.5))

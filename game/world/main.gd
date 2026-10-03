@@ -51,6 +51,20 @@ const COMBAT_RANGE := 170.0
 const COMBAT_LINGER := 4.0
 var combat_timer := 0.0
 var bench_visits := 0
+var play_ending := true     # os testes desligam para não trocar de cena no meio
+# A revelação depois do Demon Slime (a fenda fala; ver docs/noct_personalidade.md, fase 5).
+const REVELATION := [
+	"Ela me ouviu primeiro.",
+	"@chocado: ...",
+	"Mira ouvia o chamado antes de você. Veio sozinha até esta porta.",
+	"E a fechou. Com o próprio nome. Com o próprio corpo.",
+	"@olhar_baixo: Ela disse que voltava logo.",
+	"A porta se abriu de novo quando você a perdeu. A sua dor tem o formato da chave.",
+	"O poder que você carrega é o que sobrou do selo dela.",
+	"@fechando_olhos: Então não foi por minha causa.",
+	"Não foi por sua causa que ela morreu. Mas é por sua causa que eu ainda existo.",
+	"Fique. Aqui dentro, ela ainda está esperando.",
+]
 const CRIMSON_NAMES := ["Forma normal", "Carmesim 1 · Despertar", "Carmesim 2 · Corrupção avançada", "Carmesim 3 · Consumido"]
 const BENCH_MOMENTS := [
 	["Noct se senta numa ponta do banco. O outro lado fica vazio.", "@cansado: Cinco minutos. Depois o mundo pode voltar a tentar me matar."],
@@ -325,6 +339,21 @@ func add_to_world(node: Node) -> void:
 	world.add_child(node)
 
 
+## Fim do jogo: revelação, a escolha (fase 6 da bíblia) e a cena final com os créditos.
+func _ending_sequence() -> void:
+	await hud.dialog.finished
+	hud.dialog.start("A Fenda", REVELATION)
+	await hud.dialog.finished
+	hud.dialog.ask("", "* Noct olha para a fita carmesim no pulso.", ["Ficar na fenda", "Ir embora"])
+	var picked: int = await hud.dialog.chosen
+	GameState.ending_choice = "stay" if picked == 0 else "leave"
+	GameState.flags["ending_seen"] = true
+	GameState.save_game(player)
+	await hud.fade_to(1.0, 1.2).finished
+	Audio.fade_out_music(1.0)
+	get_tree().change_scene_to_file("res://game/ui/ending.tscn")
+
+
 ## Passo da Fenda: liberado ao derrotar o Bringer of Death (a fenda "gostou de cada golpe").
 func has_rift_step() -> bool:
 	return GameState.defeated_bosses.has("bringer")
@@ -461,13 +490,9 @@ func on_boss_defeated(b: Node2D) -> void:
 			geo += 500
 			lines = [
 				"O Demon Slime foi derrotado! +500 Geo.",
-				"O Inferno estremece. As chamas começam a se apagar.",
+				"O Inferno estremece. No centro do salão, a fenda continua aberta.",
 				"@cansado: Acabou?",
-				"Noct passa o polegar pela fita carmesim.",
-				"@olhar_cima: Um dia de cada vez.",
-				"Pela primeira vez, a frase não soa como sobreviver até amanhã.",
-				"@fechando_olhos: ...Talvez amanhã valha a pena.",
-				"FIM — Obrigado por jogar NOCT: CRIMSON RIFT!",
+				"* A fenda responde.",
 			]
 		"bringer":
 			geo += 300
@@ -491,6 +516,8 @@ func on_boss_defeated(b: Node2D) -> void:
 	combat_timer = 0.0
 	Audio.play_music(theme["music"], 1.0, 0.0, 2.5)
 	start_dialog("Vitória", lines)
+	if b.BOSS_ID == "demon_slime" and play_ending:
+		_ending_sequence()
 
 
 # --- Interação, banco e eventos ----------------------------------------

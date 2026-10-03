@@ -370,6 +370,7 @@ func _run() -> void:
 		p.on_charms_changed()
 
 	# --- Chefe final: Demon Slime ---
+	main.play_ending = false   # o final (troca de cena) é testado em tests/story_test.gd
 	main.load_room("demon_lair", "L")
 	await wait(5)
 	Input.action_press("move_right")

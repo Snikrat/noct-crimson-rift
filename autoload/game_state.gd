@@ -27,6 +27,7 @@ var discoveries := {}          # inscrições e atalhos encontrados (salvos ao d
 var visited := {}              # salas por onde o herói já passou (mapa da pausa)
 var memories := {}             # memórias de Mira encontradas (data/memories.gd)
 var flags := {}                # marcos da história (FLAGS)
+var ending_choice := ""        # "stay" ou "leave": escolha final (lida pela cena do final)
 var continuing := false         # true quando o jogo foi aberto pelo "Continuar"
 
 
