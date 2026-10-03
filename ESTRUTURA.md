@@ -55,6 +55,7 @@ hollow-like/
 | Ajustar um chefe | `game/bosses/<chefe>/` |
 | Trocar uma animação do herói | colocar a imagem em `art_source/personagem principal/animacoes/`, ajustar `tools/slice_hero.gd` e rodar a ferramenta |
 | Trocar a música de uma área, da luta ou de um chefe | `"music"`/`"combat"` e `BOSS_MUSIC` em `data/themes.gd` (caminhos em `data/asset_paths.gd`) |
+| Trocar as barras do HUD ou a fonte pixel | arte em `art_source/ui/hud/` (feita no Aseprite) e rodar `tools/make_hud_ui.gd`; posição das barras em `BARS_POS` (`game/ui/hud.gd`) |
 | Trocar o logo da tela de título | `art_source/logo/logo_sheet.png` e rodar `tools/slice_logo.gd` (quadros em `FRAMES`) |
 | Trocar um efeito sonoro | tabela `SFX` em `autoload/audio.gd` |
 | Trocar as formas carmesim (níveis 1-3) | `art_source/personagem principal/carmesim/niveis_carmesim.png` e rodar `tools/slice_crimson.gd`; velocidades em `CRIMSON_ANIMS` (`game/core/sprites.gd`) |

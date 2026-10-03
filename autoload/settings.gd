@@ -1,6 +1,9 @@
 extends Node
 ## Preferências do jogador (volume da música, volume dos efeitos, tela cheia), salvas em user://settings.cfg.
-## Registrado como autoload "Settings" (antes do Audio): cria os canais de áudio "Music" e "SFX".
+## Registrado como autoload "Settings" (antes do Audio): cria os canais de áudio "Music" e "SFX"
+## e instala a tipografia pixel do jogo.
+
+const UiFont := preload("res://game/ui/ui_font.gd")
 
 const PATH := "user://settings.cfg"
 
@@ -10,6 +13,7 @@ var fullscreen := false
 
 
 func _ready() -> void:
+	UiFont.install()
 	for bus in ["Music", "SFX"]:
 		if AudioServer.get_bus_index(bus) == -1:
 			AudioServer.add_bus()
