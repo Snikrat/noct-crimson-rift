@@ -1,5 +1,5 @@
 extends CanvasLayer
-## Interface por cima do jogo: barras de vida/magia (alma)/XP, Geo, nível, avisos (área, nível, interação),
+## Interface por cima do jogo: emblema com vida e magia (alma), barra de XP, Geo, nível, avisos (área, nível, interação),
 ## barra do chefe, clarão e escurecimento de transição. Também contém o diálogo, a loja e a pausa.
 
 const DialogScript := preload("res://game/ui/dialog_box.gd")
@@ -9,8 +9,9 @@ const CharmsScript := preload("res://game/ui/charms.gd")
 const GOLD := Color("e8c872")
 const Paths := preload("res://data/asset_paths.gd")
 const SAVE_ICON_TIME := 2.2
-const BARS_POS := Vector2(6, 3)       # canto da primeira barra (vida); magia e XP vêm embaixo
-const BAR_STEP := 12.0                # distância entre as barras
+const ORB_POS := Vector2(2, 2)        # canto do emblema (vida e magia no orbe)
+const ORB_C := Vector2(25.5, 25.5)    # centro do orbe dentro da textura do emblema
+const ORB_R := 10.5                   # raio do orbe
 const FILL_OFFSET := Vector2(13, 5)   # onde o preenchimento começa dentro da moldura (tools/make_hud_ui.gd)
 
 var level
@@ -33,8 +34,8 @@ var cutin_timer := 0.0
 var cutin_total := 1.0
 var cutin_color := Color.WHITE
 var emblem: Texture2D
-var bars := {}                # "vida"/"magia"/"xp" -> [moldura, preenchimento]
-var fill_width := 0.0         # largura do preenchimento das barras
+var bars := {}                # "xp" -> [moldura, preenchimento]
+var orb := {}                 # emblema: "base", "vida", "magia", "fenda"
 var saved_timer := 0.0        # ícone "jogo salvo" girando no canto
 var t := 0.0
 
@@ -42,9 +43,9 @@ var t := 0.0
 func _ready() -> void:
 	layer = 5
 	emblem = load(Paths.EMBLEM)
-	for kind in ["vida", "magia", "xp"]:
-		bars[kind] = [load(Paths.HUD_BARS + "barra_%s_moldura.png" % kind), load(Paths.HUD_BARS + "barra_%s_preenchimento.png" % kind)]
-	fill_width = bars["vida"][1].get_width()
+	bars["xp"] = [load(Paths.HUD_BARS + "barra_xp_moldura.png"), load(Paths.HUD_BARS + "barra_xp_preenchimento.png")]
+	for part in ["base", "vida", "magia", "fenda"]:
+		orb[part] = load(Paths.HUD_BARS + "emblema_%s.png" % part)
 	# O emblema de "jogo salvo" é arte reduzida: filtro suave para não serrilhar. O resto (barras, texto) fica nítido.
 	soft = _full_rect(Control.new())
 	soft.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
@@ -144,21 +145,25 @@ func _draw_hud() -> void:
 	var player = level.player
 	var c := canvas
 
-	var fill: float = clampf(player.soul / float(player.MAX_SOUL), 0, 1)
-	# Barras de vida, magia (alma) e nível (XP).
-	var x := BARS_POS.x
-	_draw_bar("vida", Vector2(x, BARS_POS.y), player.hp / float(player.max_hp))
-	_draw_bar("magia", Vector2(x, BARS_POS.y + BAR_STEP), fill)
-	# Marcas de cada magia que a alma já paga.
+	# Emblema: a vida enche a metade esquerda do orbe e a magia (alma) a direita.
+	var soul: float = clampf(player.soul / float(player.MAX_SOUL), 0, 1)
+	c.draw_texture(orb["base"], ORB_POS)
+	_draw_orb_half("vida", player.hp / float(player.max_hp), true, Color("ff5a6a"))
+	_draw_orb_half("magia", soul, false, Color("f0a0ff"))
+	# Marcas de cada magia que a alma paga, na borda direita do orbe.
 	for i in range(1, ceili(player.MAX_SOUL / float(player.SPELL_COST))):
-		var mx: float = x + FILL_OFFSET.x + roundf(fill_width * player.SPELL_COST * i / float(player.MAX_SOUL))
-		c.draw_line(Vector2(mx, BARS_POS.y + BAR_STEP + FILL_OFFSET.y), Vector2(mx, BARS_POS.y + BAR_STEP + FILL_OFFSET.y + 5),
-			Color("0d020e", 0.7), 1.0)
-	_draw_bar("xp", Vector2(x, BARS_POS.y + BAR_STEP * 2), player.xp_progress())
-	var text_x: float = x + bars["xp"][0].get_width() + 3
-	c.draw_string(font, Vector2(text_x, BARS_POS.y + BAR_STEP * 2 + 10), "Nv %d" % player.lvl, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, GOLD)
-	c.draw_string(font, Vector2(text_x, BARS_POS.y + 10), "%d/%d" % [player.hp, player.max_hp], HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(1, 1, 1, 0.75))
-	c.draw_string(font, Vector2(x + 2, BARS_POS.y + BAR_STEP * 3 + 10), "Geo %d" % GameState.geo, HORIZONTAL_ALIGNMENT_LEFT, -1, 9)
+		var my := roundf(ORB_C.y + ORB_R - 2.0 * ORB_R * player.SPELL_COST * i / float(player.MAX_SOUL))
+		var hw := floorf(sqrt(maxf(ORB_R * ORB_R - pow(my + 0.5 - ORB_C.y, 2), 0.0)))
+		c.draw_rect(Rect2(ORB_POS + Vector2(ORB_C.x + hw - 2, my), Vector2(2, 1)), Color("0d020e"))
+	# A fenda pulsa quando há alma para uma magia.
+	var pulse := 0.75 + 0.25 * sin(t * 6.0) if player.soul >= player.SPELL_COST else 0.7
+	c.draw_texture(orb["fenda"], ORB_POS, Color(1, 1, 1, pulse))
+
+	# Nível (XP) e Geo ao lado do emblema.
+	var bar_pos := ORB_POS + Vector2(orb["base"].get_width() - 2, 12)
+	_draw_bar("xp", bar_pos, player.xp_progress())
+	c.draw_string(font, bar_pos + Vector2(bars["xp"][0].get_width() + 3, 10), "Nv %d" % player.lvl, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, GOLD)
+	c.draw_string(font, bar_pos + Vector2(4, 24), "Geo %d" % GameState.geo, HORIZONTAL_ALIGNMENT_LEFT, -1, 9)
 
 	_draw_level_up(font)
 	_draw_cutin()
@@ -185,6 +190,22 @@ func _draw_hud() -> void:
 				Controls.key_label("attack"), Controls.key_label("dash"),
 				Controls.key_label("spell"), Controls.key_label("up")],
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color(1, 1, 1, 0.4))
+
+
+## Metade do orbe do emblema cheia de baixo até "k" (0..1), com a superfície clara.
+func _draw_orb_half(kind: String, k: float, left: bool, surface: Color) -> void:
+	var tex: Texture2D = orb[kind]
+	k = clampf(k, 0, 1)
+	if k <= 0:
+		return
+	var top := roundf(ORB_C.y + ORB_R - 2.0 * ORB_R * k)
+	canvas.draw_texture_rect_region(tex, Rect2(ORB_POS + Vector2(0, top), Vector2(tex.get_width(), tex.get_height() - top)),
+		Rect2(0, top, tex.get_width(), tex.get_height() - top))
+	var hw := floorf(sqrt(maxf(ORB_R * ORB_R - pow(top + 0.5 - ORB_C.y, 2), 0.0))) - 1
+	if k < 1 and hw > 0:
+		var x0 := ORB_C.x - hw if left else ORB_C.x + 0.5
+		var x1 := ORB_C.x - 0.5 if left else ORB_C.x + hw
+		canvas.draw_rect(Rect2(ORB_POS + Vector2(roundf(x0), top), Vector2(maxf(roundf(x1 - x0), 1), 1)), surface)
 
 
 ## Barra do HUD: moldura com o interior vazio e, por cima, o preenchimento recortado até "k" (0..1).
