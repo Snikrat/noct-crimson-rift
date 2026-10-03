@@ -289,6 +289,12 @@ func _footsteps(delta: float) -> void:
 # --- Golpes (dados e áreas) --------------------------------------------
 
 func _start_move(name: String) -> void:
+	# Cada golpe (inclusive o próximo do combo) sai para o lado que o jogador está apertando.
+	# O golpe atual não vira no meio, então área e efeitos seguem o lado escolhido aqui.
+	var input_x := Input.get_axis("move_left", "move_right")
+	if input_x != 0:
+		facing = int(signf(input_x))
+		sprite.flip_h = facing < 0
 	move = name
 	attack_queued = false
 	hit_this_swing.clear()

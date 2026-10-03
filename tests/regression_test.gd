@@ -64,6 +64,22 @@ func _run() -> void:
 		p._cancel_move()
 		await process_frame
 	p.unlocked.erase("uppercut")
+	# Apertar o lado oposto durante o combo vira o Noct no próximo golpe, sem cortar o atual.
+	p.facing = 1
+	p.combo_timer = 0
+	p._start_combo_hit()
+	var first_move: String = p.move
+	Input.action_press("move_left")
+	p._move(-1.0, 0.01)
+	check("golpe atual não vira no meio", p.facing == 1 and p.move == first_move)
+	p.attack_queued = true
+	p._on_anim_finished()
+	check("próximo golpe do combo sai para o lado apertado", p.facing == -1 and p.sprite.flip_h and p.move != "")
+	check("área do golpe virado fica à esquerda", p._move_rect(p.move).end.x <= p.global_position.x + 1)
+	Input.action_release("move_left")
+	p._cancel_move()
+	p.combo_timer = 0
+	p.facing = 1
 	var before_air: Vector2 = p.position
 	p.position.y -= 120
 	p.velocity = Vector2.ZERO
