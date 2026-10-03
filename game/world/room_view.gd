@@ -11,8 +11,6 @@ const RIFT_LEVELS := 4
 # Fundo dos poços de espinhos: distância máxima até a parede e quanto a terra de trás escurece.
 const PIT_REACH := 6
 const PIT_SHADE := Color(0.42, 0.42, 0.48)
-# Terra funda (abaixo das faixas do tileset dos pacotes): a última faixa repetida, mais escura.
-const DEEP_SHADE := Color(0.75, 0.75, 0.8)
 
 var level
 var lava_tex: Texture2D
@@ -95,11 +93,12 @@ func _draw() -> void:
 		draw_texture_rect_region(SPIKES_TEX, Rect2(cell_x * TILE, h.end.y - TILE, TILE, TILE), Rect2((cell_x % 2) * TILE, 0, TILE, TILE))
 
 
-## Tilesets dos pacotes: blocos de chão em colunas (blocks/block_w). Abaixo de "rows" tiles a última
-## faixa de terra se repete mais escura até o fim do mapa (sem faixa de cor lisa embaixo do chão).
+## Tilesets dos pacotes: blocos de chão em colunas (blocks/block_w) e cor sólida abaixo de "rows" tiles.
 func _draw_blocks(theme: Dictionary, tileset: Texture2D, solid: Dictionary, pits: Dictionary) -> void:
+	var blocks: Array = theme["blocks"]
+	var block_w: int = theme["block_w"]
 	var rows: int = theme["rows"]
-	var tint: Color = theme.get("tint", Color.WHITE)
+	var top: int = theme["top"]
 	for cell: Vector2i in solid:
 		var dest := Rect2(cell.x * TILE, cell.y * TILE, TILE, TILE)
 		# Profundidade = quantos blocos sólidos existem acima até chegar no ar. O fundo de um poço
@@ -109,9 +108,12 @@ func _draw_blocks(theme: Dictionary, tileset: Texture2D, solid: Dictionary, pits
 			depth = 1
 		while depth < rows and solid.has(cell + Vector2i(0, -(depth + 1))):
 			depth += 1
-		if depth > 0:
-			draw_rect(dest, theme["rock"])   # base opaca: faixas com transparência não mostram o fundo
-		draw_texture_rect_region(tileset, dest, _ground_src(theme, cell, depth), tint if depth < rows else tint * DEEP_SHADE)
+		if depth < rows:
+			var block: int = blocks[(cell.x / block_w) % blocks.size()]
+			var src := Rect2(block + (cell.x % block_w) * TILE, top + depth * TILE, TILE, TILE)
+			draw_texture_rect_region(tileset, dest, src, theme.get("tint", Color.WHITE))
+		else:
+			draw_rect(dest, theme["rock"])
 		if not solid.has(cell + Vector2i.LEFT):
 			draw_rect(Rect2(dest.position, Vector2(2, TILE)), theme["side"])
 		if not solid.has(cell + Vector2i.RIGHT):
@@ -172,7 +174,14 @@ func _draw_pit_walls(theme: Dictionary, tileset: Texture2D, solid: Dictionary, p
 				while depth < theme["rows"] and solid.has(wall + Vector2i(0, -(depth + 1))):
 					depth += 1
 				depth = maxi(depth, 1)   # sem grama na parede do fundo
-				draw_texture_rect_region(tileset, dest, _ground_src(theme, cell, depth), tint)
+				if depth < theme["rows"]:
+					var blocks: Array = theme["blocks"]
+					var block_w: int = theme["block_w"]
+					var block: int = blocks[(cell.x / block_w) % blocks.size()]
+					var src := Rect2(block + (cell.x % block_w) * TILE, theme["top"] + depth * TILE, TILE, TILE)
+					draw_texture_rect_region(tileset, dest, src, tint)
+				else:
+					draw_rect(dest, Color(theme["rock"]) * PIT_SHADE)
 			cell += Vector2i.UP
 
 
@@ -188,13 +197,3 @@ func _wall_beside(solid: Dictionary, cell: Vector2i, side := -1) -> Vector2i:
 		if solid.has(c):
 			return c
 	return cell
-
-
-## Recorte do tileset dos pacotes para um bloco de chão na profundidade dada (a partir da última
-## faixa, repete a terra).
-func _ground_src(theme: Dictionary, cell: Vector2i, depth: int) -> Rect2:
-	var blocks: Array = theme["blocks"]
-	var block_w: int = theme["block_w"]
-	var block: int = blocks[(cell.x / block_w) % blocks.size()]
-	var row := mini(depth, theme["rows"] - 1)
-	return Rect2(block + (cell.x % block_w) * TILE, theme["top"] + row * TILE, TILE, TILE)
