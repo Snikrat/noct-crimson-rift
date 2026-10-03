@@ -80,8 +80,7 @@ func _run() -> void:
 	check("segredo entrega recompensa só uma vez", gs.geo == before_geo + 40)
 	main.hud.dialog.close()
 	await screenshot("mountain", Vector2(640, 320))
-	var passage = markers().filter(func(n): return n.discovery == "mountain_pass")[0]
-	passage.interact()
+	main.request_exit("right")   # a borda direita da serra é a passagem do vigia
 	await create_timer(0.65).timeout
 	p.frozen = true
 	check("serra reconecta ao cemitério", main.room_name == "cemetery" and gs.discoveries.has("mountain_pass"))
@@ -170,8 +169,7 @@ func _run() -> void:
 	await create_timer(0.65).timeout
 	p.frozen = true
 	check("cemitério reconecta à serra", main.room_name == "mountain")
-	var home_passage = markers().filter(func(n): return n.target == "town")[0]
-	home_passage.interact()
+	main.request_exit("left")   # a borda esquerda da serra desce para a vila
 	await create_timer(0.65).timeout
 	check("serra permite voltar à vila", main.room_name == "town")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(gs.save_path))

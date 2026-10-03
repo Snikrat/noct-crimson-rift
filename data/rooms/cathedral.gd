@@ -15,7 +15,7 @@ const ROOM := {
 	"right": "sanctum",
 	"charm": "stone_skin",   # amuleto escondido (caractere C)
 	"entries": {"RUINS": Vector2(1000, 160)},
-	"markers": [{"feet": Vector2(1000, 160), "title": "Porta do Custódio", "target": "arcane_ruins", "entry": "L", "portal": true}],
+	"markers": [{"feet": Vector2(1000, 160), "title": "Porta do Custódio", "target": "arcane_ruins", "entry": "L", "style": "door"}],
 	# Cenário: [caminho, centro x em px, linha do chão, recorte da imagem]
 	"props": [
 		[T.CHURCH_ENV + "backgrounds.png", 120, 25, T.CHURCH_WINDOW],

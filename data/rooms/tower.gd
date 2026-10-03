@@ -15,7 +15,7 @@ const ROOM := {
 		[T.CHURCH_ENV + "backgrounds.png", 88, 8, T.CHURCH_TORCH, 0.6],
 	],
 	"markers": [
-		{"feet": Vector2(392, 512), "title": "Porta da torre", "target": "town", "entry": "TOWER", "portal": true},
+		{"feet": Vector2(392, 512), "title": "Porta da torre", "target": "town", "entry": "TOWER", "style": "door"},
 		{"feet": Vector2(152, 336), "title": "Riscos na parede", "discovery": "tower_marks",
 		 "lines": ["* Na pedra, riscos de altura. Dois nomes raspados.", "* Um dos riscos fica bem mais baixo que o outro.", "@olhar_lateral: Hm."]},
 		{"feet": Vector2(72, 128), "title": "Luneta do sineiro", "discovery": "tower_view", "reveals": true,

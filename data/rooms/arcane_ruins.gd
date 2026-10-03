@@ -17,7 +17,7 @@ const ROOM := {
 		[U + "Crystal_shadow1_1.png", 720, 20, Rect2(9, 7, 46, 50), 0.5, Color(0.7, 0.45, 0.9)],
 	],
 	"markers": [
-		{"feet": Vector2(56, 320), "title": "Voltar à catedral", "target": "cathedral", "entry": "RUINS", "portal": true},
+		{"feet": Vector2(56, 320), "title": "Voltar à catedral", "target": "cathedral", "entry": "RUINS", "style": "door"},
 		{"feet": Vector2(752, 320), "title": "Arquivo do Custódio", "requires": "evil_wizard", "discovery": "ruins_memory", "reward": 60,
 		 "lines": ["O registro descreve almas capturadas. Uma anotação: 'A energia carmesim não obedece ao selo. Responde à ausência.'", "@desconfiado: Ausência de quê?", "A página seguinte foi arrancada.", "@olhar_baixo: Claro que foi."]},
 		{"feet": Vector2(808, 320), "title": "Arquivo Submerso", "target": "archive", "entry": "L", "portal": true, "requires": "evil_wizard"},

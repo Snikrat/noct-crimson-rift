@@ -10,7 +10,7 @@ const ROOM := {
 	"intro": ["@olhar_lateral: Água parada. Ninguém tira água daqui faz tempo.", "@desconfiado: ...Mas alguém desceu."],
 	"entries": {"TOWN": Vector2(184, 64)},
 	"markers": [
-		{"feet": Vector2(168, 64), "title": "Subir para a vila", "target": "town", "entry": "WELL", "portal": true},
+		{"feet": Vector2(168, 64), "title": "Subir para a vila", "target": "town", "entry": "WELL", "style": "rope"},
 		{"feet": Vector2(280, 320), "title": "Inscrição na pedra", "discovery": "well_note",
 		 "lines": ["Riscado na pedra molhada: 'Ela desceu aqui antes de nós. Disse que o barulho vinha de baixo.'", "@desconfiado: Barulho.", "@olhar_baixo: ...Ela também ouvia daqui."]},
 	],

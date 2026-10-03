@@ -13,7 +13,7 @@ const ROOM := {
 	"right": "cemetery",
 	"charm": "quick_focus",   # amuleto escondido (caractere C)
 	"entries": {"FOREST": Vector2(88, 400)},
-	"markers": [{"feet": Vector2(88, 400), "title": "Trilha do bosque", "target": "forest", "entry": "R", "portal": true}],
+	"markers": [{"feet": Vector2(88, 400), "title": "Trilha do bosque", "target": "forest", "entry": "R", "style": "trail", "facing": -1}],
 	"map": [
 		"################################################################",
 		"#..............................................................#",

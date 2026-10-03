@@ -125,6 +125,7 @@ func _run() -> void:
 	var well_mouth = marker("Poço")
 	check("vila tem a porta da torre", tower_door != null and tower_door.target == "tower")
 	check("vila tem a entrada do poço", well_mouth != null and well_mouth.target == "well")
+	check("vila tem só uma fenda (o resto são saídas naturais)", markers().filter(func(m): return m.portal).size() == 1)
 	for m in [tower_door, well_mouth]:
 		if m:
 			check("porta da vila tem chão: " + m.title, main.is_solid(m.position + Vector2(0, 2)))

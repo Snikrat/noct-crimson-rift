@@ -243,11 +243,11 @@ func _run() -> void:
 	await create_timer(0.65).timeout
 	check("pântano reconecta ao bosque", main.room_name == "forest")
 	await load_room("forest")
-	marker_to("swamp").interact()
+	main.request_exit("right")
 	await create_timer(0.65).timeout
 	check("bosque permite seguir ao pântano", main.room_name == "swamp")
 	await load_room("forest")
-	marker_to("town").interact()
+	main.request_exit("left")
 	await create_timer(0.65).timeout
 	check("bosque reconecta à vila", main.room_name == "town")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(gs.save_path))

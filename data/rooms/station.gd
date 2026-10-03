@@ -14,7 +14,7 @@ const ROOM := {
 		["crate-stack", 600, 14], ["barrel", 640, 14],
 	],
 	"markers": [
-		{"feet": Vector2(40, 224), "title": "Trilha da serra", "target": "mountain", "entry": "STATION", "portal": true},
+		{"feet": Vector2(40, 224), "title": "Trilha da serra", "target": "mountain", "entry": "STATION", "style": "trail", "facing": -1},
 		{"feet": Vector2(296, 224), "title": "Quadro de horários", "discovery": "station_board",
 		 "lines": ["* Os horários foram riscados. Todos, menos o último trem da noite.", "@sarcastico: Pontual como sempre."]},
 		{"feet": Vector2(664, 224), "title": "Fim da plataforma", "discovery": "station_tracks",

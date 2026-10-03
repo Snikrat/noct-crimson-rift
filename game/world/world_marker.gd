@@ -10,16 +10,26 @@ var requires := ""            # descoberta, "memory:<id>" ou "boss:<id>" (main.r
 var locked_lines: Array = []  # falas enquanto o requisito não foi cumprido (opcional)
 var reveals := false          # luneta da torre: marca a região no mapa da pausa
 var reward := 0
-var portal := false
+var portal := false            # fenda carmesim: só nas passagens ligadas à Fenda
+var style := ""               # passagem natural: "door", "trail", "mine", "rope" ou "well" (sem desenho, usa o cenário)
+var facing := 1               # placa de trilha: 1 aponta para a direita, -1 para a esquerda
 var phase := 0.0
 const PORTAL_SHEET := preload("res://assets/hero/vfx/portal_sheet.png")
 const PORTAL_FRAMES := 6
 const PORTAL_SIZE := Vector2(40, 56)
+const PASSAGE_TEXTURES := {
+	"door": preload("res://assets/world/passages/door.png"),
+	"trail": preload("res://assets/world/passages/trail_sign.png"),
+	"mine": preload("res://assets/world/passages/mine.png"),
+	"rope": preload("res://assets/world/passages/rope.png"),
+}
 const Fx := preload("res://game/core/fx.gd")
 var glow: Sprite2D
 
 func _ready() -> void:
 	add_to_group("interactables")
+	if style != "":
+		z_index = -1   # porta, placa e mina fazem parte do cenário, atrás do herói
 	if portal:
 		# Halo radial (redondo) atrás da fenda; a textura do portal tem bordas transparentes.
 		glow = Fx.glow(Color(1, 0.12, 0.35), 34, 0.45)
@@ -71,6 +81,12 @@ func _draw() -> void:
 		draw_texture_rect_region(PORTAL_SHEET, Rect2(Vector2(-20, -58), PORTAL_SIZE), src, Color(1, 1, 1, 1.0 if active else 0.3))
 		if glow:
 			glow.visible = active
+	elif style != "":
+		if PASSAGE_TEXTURES.has(style):
+			var tex: Texture2D = PASSAGE_TEXTURES[style]
+			var size := tex.get_size()
+			var tint := Color.WHITE if active else Color(0.6, 0.6, 0.65)
+			draw_texture_rect(tex, Rect2(Vector2(-size.x / 2.0 * facing, -size.y), Vector2(size.x * facing, size.y)), false, tint)
 	else:
 		var alpha := 0.35 + 0.25 * sin(phase * 3)
 		draw_circle(Vector2(0, -34), 2, Color(1, 0.35, 0.6, alpha))

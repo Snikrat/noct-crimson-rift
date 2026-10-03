@@ -61,7 +61,7 @@ const ROOM := {
 		[T.MINES_TILES, 888, 3, Rect2(80, 32, 16, 16)],
 	],
 	"markers": [
-		{"feet": Vector2(56, 320), "title": "Voltar a Pedravelha", "target": "town", "entry": "MINES", "portal": true},
+		{"feet": Vector2(56, 320), "title": "Voltar a Pedravelha", "target": "town", "entry": "MINES", "style": "mine"},
 		{"feet": Vector2(600, 80), "title": "Diário do capataz", "discovery": "mines_journal", "reward": 50,
 		 "lines": ["Última página do diário do capataz: 'O veio canta quando alguém na vila chora. Mandei parar de cavar. Ninguém parou.'", "@sombrio: Cresce com perda.", "@sarcastico: Então eu sou uma jazida."]},
 	],

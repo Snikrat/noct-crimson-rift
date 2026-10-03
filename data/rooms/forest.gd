@@ -23,9 +23,7 @@ const ROOM := {
 		[U + "Crystal_shadow1_1.png", 520, 10, Rect2(9, 7, 46, 50), 0.45, Color(0.6, 0.65, 0.9)],
 	],
 	"markers": [
-		{"feet": Vector2(56, 320), "title": "Pedravelha", "target": "town", "entry": "FOREST", "portal": true},
-		{"feet": Vector2(1240, 320), "title": "Pântano", "target": "swamp", "entry": "FOREST", "portal": true},
-		{"feet": Vector2(1040, 320), "title": "Subida da serra", "target": "mountain", "entry": "FOREST", "portal": true},
+		{"feet": Vector2(1040, 320), "title": "Subida da serra", "target": "mountain", "entry": "FOREST", "style": "trail"},
 		{"feet": Vector2(520, 160), "title": "Esconderijo dos viajantes", "discovery": "forest_cache", "reward": 45,
 		 "lines": ["Entre provisões roubadas, uma lista de nomes e uma ordem: 'Entregar os que ouvirem a fenda ao Custódio da catedral.'", "@serio: Não era só roubo.", "Uma marca de crânio identifica a porta da ruína, no alto da catedral."]},
 	],
