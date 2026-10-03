@@ -236,9 +236,8 @@ local function shrink_head(img, head_top)
 end
 base = shrink_head(base, t0)
 
--- Respiração menor que 1 px (subpixel): em pixel art não existe meio pixel, então o desenho
--- não anda; só o contorno de cima da cabeça e dos ombros "cresce" 1 px no quadro do fôlego.
--- O interior fica parado, e o olho lê uma subida de cerca de meio pixel, cabeça e peito juntos.
+-- Respiração: cabeça e peito sobem 1 px juntos, no mesmo quadro, devagar (a cintura fica parada).
+-- grow_top (subpixel: só o contorno de cima cresce) fica disponível para outras animações.
 local chest = t0 + 17
 local function grow_top(img, y0, y1)
   local out = img:clone()
@@ -253,7 +252,8 @@ local function grow_top(img, y0, y1)
   end
   return out
 end
-local breath = grow_top(base, t0, chest)
+-- (Testado e descartado: a versão subpixel ficou sutil demais.) Cabeça e peito sobem 1 px juntos.
+local breath = lift(base, t0, chest, 1)
 local idle_body = { base, base, breath, breath }
 local idle_vfx = { aura_outside(vfxs.idle2, base), aura_outside(vfxs.idle4, base),
   aura_outside(vfxs.idle6, breath), aura_outside(vfxs.idle4, breath) }
@@ -292,8 +292,8 @@ local function add(name, bodies_, vfx_, fps)
   end
   table.insert(ranges, { name, start, start + #bodies_ - 1 })
 end
-add("idle", idle_body, idle_vfx, 3)
-add("idle_var", idle_var_body, idle_var_vfx, 3)
+add("idle", idle_body, idle_vfx, 2)   -- respiração lenta: 0,5 s por quadro
+add("idle_var", idle_var_body, idle_var_vfx, 2)
 add("run", run_body, run_vfx, 14)
 for _, r in ipairs(ranges) do
   local t = out:newTag(r[2], r[3])
