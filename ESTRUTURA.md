@@ -14,7 +14,7 @@ hollow-like/
 ├─ game/                      código do jogo, separado por assunto
 │  ├─ core/                   utilidades usadas em vários lugares (animações, ações de input)
 │  ├─ world/                  main (troca de sala, chefes, eventos), desenho da sala, fundo, banco, NPCs
-│  ├─ player/                 o herói
+│  ├─ player/                 o herói em camadas: player_body → player_spells → player_combat → player.gd
 │  ├─ enemies/                inimigos comuns e projéteis
 │  ├─ bosses/<chefe>/         cada chefe na sua pasta, com os ataques dele
 │  ├─ spells/                 magias do herói e a Ultimate
@@ -47,7 +47,7 @@ hollow-like/
 | Mudar falas de um NPC | `data/rooms/town.gd` (falas com `@expressão:` são do herói; seguir `docs/noct_personalidade.md`) |
 | Mudar preço ou item da loja | `data/shop_items.gd` |
 | Mudar o que cada nível libera | `data/progression.gd` |
-| Criar ou ajustar um amuleto | `data/charms.gd` (dados) e `game/player/player.gd` (efeito) |
+| Criar ou ajustar um amuleto | `data/charms.gd` (dados) e `game/player/player_body.gd` (efeito, seção Amuletos) |
 | Esconder um amuleto numa sala | caractere `C` no mapa + `"charm": "id"` no arquivo da sala |
 | Ajustar um chefe | `game/bosses/<chefe>/` |
 | Trocar uma animação do herói | colocar a imagem em `art_source/personagem principal/animacoes/`, ajustar `tools/slice_hero.gd` e rodar a ferramenta |
@@ -74,3 +74,27 @@ godot --headless --path . --script tools/slice_logo.gd
 
 O save do jogo fica em `user://save.json` (no Windows: `%APPDATA%\NOCT Crimson Rift\save.json`).
 Pacotes de assets não usados e os zips originais ficam fora do projeto, em `projetos/jogos/pacotes/`.
+
+## Herói (game/player/)
+
+Cada arquivo herda do anterior, então todos enxergam as mesmas variáveis:
+
+| Arquivo | O que tem |
+|---|---|
+| `player_body.gd` | constantes, estado, movimento, passos, dados dos golpes, amuletos, animação, dano e morte |
+| `player_spells.gd` | bola de energia, trovão, cura e Ultimate |
+| `player_combat.gd` | entrada de ataque, combos (chão e ar), golpes para cima/baixo, golpe no chão, acertos |
+| `player.gd` | `_ready`, troca de sala, renascer e o ciclo principal (`_physics_process`) |
+
+Uma camada de baixo não pode chamar funções de uma de cima (o Godot dá erro ao carregar).
+
+## Cópia de segurança (Git)
+
+O projeto é um repositório Git local. Antes de mudanças grandes:
+
+```
+git add -A
+git commit -m "o que mudou"
+```
+
+Para ver o histórico: `git log --oneline`. Para desfazer mudanças não salvas num arquivo: `git restore caminho/do/arquivo`.
