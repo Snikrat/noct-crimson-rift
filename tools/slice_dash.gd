@@ -1,6 +1,6 @@
 extends SceneTree
 ## Dash carmesim: escala pelo corpo, com espaço para os rastros à esquerda.
-const SOURCE := "res://Sequência de Dash em Pixel Art.png"
+const SOURCE := "res://art_source/personagem principal/animacoes/dash.png"
 const BOUNDS := [0, 210, 440, 690, 1000, 1390, 1680, 1930, 2172]
 const ANCHORS := [125, 360, 580, 865, 1210, 1530, 1845, 2080]
 const FACTOR := 0.19

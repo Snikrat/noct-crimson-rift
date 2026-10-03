@@ -1,6 +1,6 @@
 extends SceneTree
 ## Recortes do combo aéreo; escala baseada no corpo, sem contar a energia.
-const SOURCE := "res://Combo Aéreo de Energia Carmesim.png"
+const SOURCE := "res://art_source/personagem principal/animacoes/combo_aereo.png"
 const BOUNDS := [0, 220, 525, 790, 1100, 1450, 1730, 1935, 2172]
 const ANCHORS := [150, 355, 655, 935, 1200, 1600, 1840, 2100]
 const FACTOR := 0.16

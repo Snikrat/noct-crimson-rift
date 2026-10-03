@@ -1,6 +1,6 @@
 extends SceneTree
 ## Recorta somente o salto novo, sem regenerar as outras animações.
-const SOURCE := "res://Sprite de Salto com Energia Carmesim.png"
+const SOURCE := "res://art_source/personagem principal/animacoes/pulo_duplo.png"
 const BOUNDS := [0, 210, 365, 565, 745, 945, 1110, 1275, 1450, 1672]
 # Referências do corpo: a aura não determina a escala nem o ponto dos pés.
 const ANCHORS := [Vector2i(144, 565), Vector2i(298, 556), Vector2i(496, 558),
