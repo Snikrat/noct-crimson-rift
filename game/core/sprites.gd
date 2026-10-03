@@ -30,9 +30,22 @@ const HERO_ANIMS := {
 }
 
 
+# Formas carmesim (tools/slice_crimson.gd): c<nível>_<animação>, só as animações básicas.
+const CRIMSON_DIR := HERO_DIR + "crimson/"
+const CRIMSON_LEVELS := 3
+const CRIMSON_ANIMS := {
+	"idle": [4, true, "pingpong"], "run": [11, true], "jump": [10, false],
+	"double_jump": [14, false], "dash": [22, false], "crouch": [6, false],
+}
+
+
 ## Medidas de cada tira do herói (gerado por tools/slice_hero.gd): quadros, w, h e ponto dos pés (ax, ay).
+## Inclui as formas carmesim (crimson.json).
 static func hero_meta() -> Dictionary:
-	return JSON.parse_string(FileAccess.get_file_as_string(HERO_DIR + "hero.json"))
+	var meta: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(HERO_DIR + "hero.json"))
+	if FileAccess.file_exists(CRIMSON_DIR + "crimson.json"):
+		meta.merge(JSON.parse_string(FileAccess.get_file_as_string(CRIMSON_DIR + "crimson.json")))
+	return meta
 
 
 ## Projétil da magia do herói: surge (0-2), voa em loop (3-5) e se desfaz (6-7).
@@ -60,7 +73,23 @@ static func hero() -> SpriteFrames:
 			var count := f.get_frame_count(anim)
 			for i in range(count - 2, 0, -1):
 				f.add_frame(anim, f.get_frame_texture(anim, i))
+	_add_crimson(f, meta)
 	return f
+
+
+static func _add_crimson(f: SpriteFrames, meta: Dictionary) -> void:
+	for lv in range(1, CRIMSON_LEVELS + 1):
+		for anim in CRIMSON_ANIMS:
+			var key := "c%d_%s" % [lv, anim]
+			if not meta.has(key):
+				continue
+			var m: Dictionary = meta[key]
+			var cfg: Array = CRIMSON_ANIMS[anim]
+			add_sheet(f, key, CRIMSON_DIR + key + ".png", Vector2(m["w"], m["h"]), 0, int(m["frames"]) - 1, cfg[0], cfg[1])
+			if cfg.size() > 2 and cfg[2] == "pingpong":
+				var count := f.get_frame_count(key)
+				for i in range(count - 2, 0, -1):
+					f.add_frame(key, f.get_frame_texture(key, i))
 
 ## Adiciona uma animação recortando quadros [first, last] de uma spritesheet horizontal.
 static func add_sheet(frames: SpriteFrames, anim: String, path: String, frame_size: Vector2, first: int, last: int, fps: float, loop := true) -> void:

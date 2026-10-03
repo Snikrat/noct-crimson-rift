@@ -27,7 +27,7 @@ func _process(_delta: float) -> void:
 				return
 		closing = false
 		open = false
-		get_tree().paused = false
+		get_tree().paused = level.is_dialog_open()   # um diálogo aberto continua segurando o jogo
 		Audio.play_sfx("unpause")
 		queue_redraw()
 		return

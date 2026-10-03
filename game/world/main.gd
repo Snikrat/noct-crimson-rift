@@ -48,6 +48,7 @@ const COMBAT_RANGE := 170.0
 const COMBAT_LINGER := 4.0
 var combat_timer := 0.0
 var bench_visits := 0
+const CRIMSON_NAMES := ["Forma normal", "Carmesim 1 · Despertar", "Carmesim 2 · Corrupção avançada", "Carmesim 3 · Consumido"]
 const BENCH_MOMENTS := [
 	["Noct se senta numa ponta do banco. O outro lado fica vazio.", "@cansado: Cinco minutos. Depois o mundo pode voltar a tentar me matar."],
 	["Os dedos dele encontram a fita carmesim no pulso. Ficam ali um tempo.", "@fechando_olhos: Um dia de cada vez."],
@@ -475,8 +476,9 @@ func on_boss_defeated(b: Node2D) -> void:
 func try_interact() -> bool:
 	var dialog = hud.dialog
 	if dialog.is_open():
-		dialog.advance()
-		return true
+		return true   # a própria caixa passa as falas (ela roda com o jogo pausado)
+	if dialog.just_closed():
+		return true   # o botão que fechou a conversa não abre outra
 	if interactable:
 		interactable.interact()
 		if dialog.is_open():
@@ -553,6 +555,14 @@ func _process_debug_keys() -> void:
 			player.gain_xp(Progression.XP_FOR_LEVEL[player.lvl + 1] - player.xp)
 		else:
 			hud.show_banner("Nível máximo", 1.5)
+	if Input.is_action_just_pressed("debug_crimson"):
+		player.crimson_level = (player.crimson_level + 1) % (CRIMSON_NAMES.size())
+		hud.show_banner(CRIMSON_NAMES[player.crimson_level], 1.8)
+		if player.crimson_level > 0:
+			flash_screen(Color(0.9, 0.1, 0.25), 0.35)
+			Audio.play_sfx("charge", 0.0, 1.6 + player.crimson_level * 0.2)
+		else:
+			Audio.play_sfx("unequip")
 	if Input.is_action_just_pressed("debug_soul"):
 		player.soul = player.MAX_SOUL
 		player.hp = player.max_hp

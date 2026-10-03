@@ -16,6 +16,7 @@ var level
 var canvas: Control           # onde o HUD é desenhado
 var dialog: Control
 var shop: Control
+var pause: Control
 var charms: Control
 var fade: ColorRect
 var flash: ColorRect
@@ -49,7 +50,7 @@ func _ready() -> void:
 	fade.color = Color(0, 0, 0, 0)
 	flash = _full_rect(ColorRect.new())
 	flash.color = Color(1, 1, 1, 0)
-	var pause = PauseScript.new()
+	pause = PauseScript.new()
 	pause.level = level
 	add_child(pause)
 	charms = _full_rect(CharmsScript.new())
@@ -104,12 +105,13 @@ func show_saved() -> void:
 ## Clarão colorido na tela inteira que some aos poucos.
 func flash_screen(color: Color, duration: float) -> void:
 	flash.color = Color(color, 0.55)
-	create_tween().tween_property(flash, "color:a", 0.0, duration)
+	create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS).tween_property(flash, "color:a", 0.0, duration)
 
 
 ## Escurece (alpha 1) ou clareia (alpha 0) a tela; usado nas trocas de sala.
 func fade_to(alpha: float, duration: float) -> Tween:
 	var tw := create_tween()
+	tw.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)   # continua se um diálogo pausar o jogo no meio da troca de sala
 	tw.tween_property(fade, "color:a", alpha, duration)
 	return tw
 

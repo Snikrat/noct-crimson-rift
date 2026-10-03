@@ -20,6 +20,7 @@ static func setup() -> void:
 		"ultimate": [KEY_U],
 		"debug_level": [KEY_F1],   # atalho de teste: sobe um nível
 		"debug_soul": [KEY_F2],    # atalho de teste: enche alma e vida
+		"debug_crimson": [KEY_F3], # atalho de teste: troca a forma carmesim (0 -> 1 -> 2 -> 3 -> 0)
 	}
 	for action in keys:
 		InputMap.add_action(action, 0.4)
@@ -42,6 +43,7 @@ static func setup() -> void:
 		"pause": [JOY_BUTTON_START],
 		"ultimate": [JOY_BUTTON_Y],
 		"debug_level": [JOY_BUTTON_BACK],
+		"debug_crimson": [JOY_BUTTON_LEFT_STICK],
 	}
 	for action in pad_buttons:
 		for button in pad_buttons[action]:
@@ -88,6 +90,7 @@ const CONTROLS := [
 	["Ultimate (alma cheia, nível 10)", "U", "Y"],
 	["Pausa", "Esc", "Start"],
 	["Teste: subir nível / encher alma", "F1 / F2", "Select"],
+	["Teste: forma carmesim", "F3", "Analógico esq."],
 ]
 
 

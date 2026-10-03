@@ -54,6 +54,7 @@ hollow-like/
 | Trocar a música de uma área, da luta ou de um chefe | `"music"`/`"combat"` e `BOSS_MUSIC` em `data/themes.gd` (caminhos em `data/asset_paths.gd`) |
 | Trocar o logo da tela de título | `art_source/logo/logo_sheet.png` e rodar `tools/slice_logo.gd` (quadros em `FRAMES`) |
 | Trocar um efeito sonoro | tabela `SFX` em `autoload/audio.gd` |
+| Trocar as formas carmesim (níveis 1-3) | `art_source/personagem principal/carmesim/niveis_carmesim.png` e rodar `tools/slice_crimson.gd`; velocidades em `CRIMSON_ANIMS` (`game/core/sprites.gd`) |
 | Mudar velocidade das animações do herói | `HERO_ANIMS` em `game/core/sprites.gd` |
 | Arquivo de arte mudou de lugar | só `data/asset_paths.gd` |
 
@@ -70,6 +71,7 @@ godot --headless --path . --script tests/regression_test.gd
 godot --headless --path . --script tools/slice_hero.gd
 godot --headless --path . --script tools/slice_portraits.gd
 godot --headless --path . --script tools/slice_logo.gd
+godot --headless --path . --script tools/slice_crimson.gd
 ```
 
 O save do jogo fica em `user://save.json` (no Windows: `%APPDATA%\NOCT Crimson Rift\save.json`).

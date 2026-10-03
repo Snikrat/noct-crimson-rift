@@ -126,6 +126,9 @@ var focus_progress := 0.0
 var sprite: AnimatedSprite2D
 var cam: Camera2D
 var meta := {}
+# Forma carmesim (0 = normal, 1-3 = níveis). Por enquanto só troca as animações básicas.
+var crimson_level := 0
+const CRIMSON_ALIAS := {"fall": "jump", "land": "crouch"}   # animações sem versão carmesim própria
 
 
 # --- Habilidades e nível -----------------------------------------------
@@ -288,6 +291,10 @@ func _apply_offset() -> void:
 
 
 func _play(anim: String) -> void:
+	if crimson_level > 0:
+		var key := "c%d_%s" % [crimson_level, CRIMSON_ALIAS.get(anim, anim)]
+		if sprite.sprite_frames.has_animation(key):
+			anim = key
 	if sprite.animation != anim:
 		sprite.play(anim)
 

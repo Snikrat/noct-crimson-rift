@@ -38,6 +38,14 @@ func tap(action: String, hold := 2) -> void:
 	await wait(2)
 
 
+## Fecha falas abertas (elas pausam o jogo; o teste não quer esperar cada uma).
+func skip_dialogs() -> void:
+	var main = current_scene
+	while main.is_dialog_open():
+		main.hud.dialog.close()
+	await wait(2)
+
+
 func enemies() -> Array:
 	return get_nodes_in_group("enemies").filter(func(e): return not e.is_in_group("harmful"))
 
@@ -182,6 +190,15 @@ func _run() -> void:
 	p.gain_xp(5000)
 	await wait(2)
 	check("sobe até o nível 10", p.lvl == 10 and p.unlocked.size() == 6, "nv=%d skills=%d" % [p.lvl, p.unlocked.size()])
+	check("fala de nível pausa o jogo", main.is_dialog_open() and paused)
+	await skip_dialogs()
+	await tap("debug_crimson")
+	await wait(3)
+	check("F3 troca para a forma carmesim 1", p.crimson_level == 1 and String(p.sprite.animation).begins_with("c1_"), p.sprite.animation)
+	for i in 3:
+		await tap("debug_crimson")
+	await wait(3)
+	check("forma carmesim volta ao normal", p.crimson_level == 0 and not String(p.sprite.animation).begins_with("c"), p.sprite.animation)
 
 	# --- Magias ---
 	p.soul = 99
@@ -226,6 +243,8 @@ func _run() -> void:
 	check("Gato acorda e fecha o portão", main.boss != null and main.boss.is_awake() and main.solid.has(Vector2i(0, 12)))
 	check("Noct fala quando o chefe acorda", main.is_dialog_open())
 	check("chefe tem música própria", music_path() == main.Rooms.BOSS_MUSIC["gato"], music_path())
+	check("fala do chefe pausa a luta", paused)
+	await skip_dialogs()
 	main.boss.hp = 1
 	main.boss.take_hit(Vector2.RIGHT, 1)
 	await wait(10)
@@ -240,6 +259,7 @@ func _run() -> void:
 	await wait(30)
 	Input.action_release("move_right")
 	check("Bringer acorda", main.boss != null and main.boss.is_awake())
+	await skip_dialogs()
 	main.boss.hp = 1
 	main.boss.take_hit(Vector2.RIGHT, 1)
 	await wait(120)
@@ -340,14 +360,16 @@ func _run() -> void:
 	await wait(30)
 	Input.action_release("move_right")
 	check("Demon Slime acorda e fecha o portão", main.boss != null and main.boss.is_awake() and main.solid.has(Vector2i(0, 12)))
+	await skip_dialogs()
 	p.invuln_timer = 999.0
 	await wait(120)   # deixa ele atacar um pouco
 	main.boss.hp = 1
 	main.boss.take_hit(Vector2.RIGHT, 1)
 	await wait(150)
 	check("Demon Slime derrotado (fim do jogo)", defeated("demon_slime") and main.is_dialog_open())
-	for i in 6:
+	for i in 12:
 		await tap("up")
+	check("falas do final passam com o botão", not main.is_dialog_open())
 
 	# --- Pausa ---
 	var x_before: float = p.global_position.x
