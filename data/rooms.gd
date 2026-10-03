@@ -13,6 +13,7 @@ extends RefCounted
 ##   G  chefe Gato Infernal   D  chefe Bringer of Death   M  chefe Demon Slime
 ##   C  amuleto escondido (qual amuleto: chave "charm" da sala)
 ##   X  parede carmesim: sólida; com o Passo da Fenda (depois do Bringer), dash contra ela atravessa
+##   w  água parada (só visual: Noct anda dentro dela)
 ##   "memories": [{"id": ..., "feet": Vector2(x, y)}] = fragmentos de memória de Mira (data/memories.gd)
 ##   1-9  NPC (definido em "npcs" da sala; com "shop": true vira loja)
 ##
@@ -48,4 +49,7 @@ const ROOMS := {
 	"sanctum": preload("res://data/rooms/sanctum.gd").ROOM,
 	"inferno": preload("res://data/rooms/inferno.gd").ROOM,
 	"demon_lair": preload("res://data/rooms/demon_lair.gd").ROOM,
+	"tower": preload("res://data/rooms/tower.gd").ROOM,
+	"well": preload("res://data/rooms/well.gd").ROOM,
+	"station": preload("res://data/rooms/station.gd").ROOM,
 }

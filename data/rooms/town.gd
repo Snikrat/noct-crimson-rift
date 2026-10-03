@@ -12,12 +12,14 @@ const ROOM := {
 	"intro": ["@olhar_lateral: Pedravelha. Duas saídas, uma torre e gente demais olhando pela janela.", "@neutro: Quieta demais pra tão perto da fenda."],   # comentário de Noct na 1ª visita
 	"left": "",
 	"right": "swamp",
-	"entries": {"MOUNTAIN": Vector2(376, 256), "FOREST": Vector2(840, 256), "MINES": Vector2(64, 256)},
+	"entries": {"MOUNTAIN": Vector2(376, 256), "FOREST": Vector2(840, 256), "MINES": Vector2(64, 256), "TOWER": Vector2(280, 256), "WELL": Vector2(456, 256)},
 	"markers": [
 		{"feet": Vector2(376, 256), "title": "Trilha da serra", "target": "mountain", "entry": "L", "portal": true},
 		{"feet": Vector2(712, 176), "title": "Atalho do vigia", "target": "cemetery", "entry": "MOUNTAIN", "portal": true, "requires": "mountain_pass"},
 		{"feet": Vector2(840, 256), "title": "Trilha do bosque", "target": "forest", "entry": "L", "portal": true},
 		{"feet": Vector2(64, 256), "title": "Minas da Fenda", "target": "mines", "entry": "L", "portal": true},   # atrás da parede carmesim
+		{"feet": Vector2(280, 256), "title": "Porta da torre", "target": "tower", "entry": "TOWN", "portal": true},
+		{"feet": Vector2(456, 256), "title": "Poço", "target": "well", "entry": "TOWN", "portal": true},
 	],
 	# Cenário: [arquivo em props-sliced, centro x em px, linha do chão]
 	"props": [

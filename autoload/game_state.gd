@@ -10,7 +10,7 @@ const Progression := preload("res://data/progression.gd")
 const Memories := preload("res://data/memories.gd")
 const SKILLS := ["combo", "wave", "charged", "uppercut", "slam", "ultimate"]
 const BOSSES := ["gato", "bringer", "demon_slime"]
-const DISCOVERIES := ["mountain_pass", "nameless_grave", "watcher_note", "mountain_memory", "bandit_captain", "evil_wizard", "knight_duel", "forest_cache", "ruins_memory"]
+const DISCOVERIES := ["mountain_pass", "nameless_grave", "watcher_note", "mountain_memory", "bandit_captain", "evil_wizard", "knight_duel", "forest_cache", "ruins_memory", "tower_marks", "tower_view", "tower_bell", "well_note", "station_board", "station_tracks"]
 # Marcos da história (Tessa, final).
 const FLAGS := ["tessa_saved", "tessa_jacket", "tessa_thanked", "tessa_cathedral", "ending_seen"]
 var save_path := SAVE_PATH      # o teste automático usa outro arquivo para não mexer no seu save
