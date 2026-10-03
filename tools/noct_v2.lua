@@ -1,4 +1,4 @@
--- Noct v2: recriação no Aseprite a partir do noct.aseprite, fiel ao design.
+-- Noct v2: recriação no Aseprite a partir do noct_v1.aseprite (remaster), fiel ao design.
 -- Gera art_source/personagem principal/noct_v2.aseprite com duas camadas:
 --   corpo: o personagem com paleta enxuta (uma rampa por material), sem pixels soltos;
 --   vfx:   a energia carmesim separada do corpo.
@@ -7,7 +7,8 @@
 -- Uso (na pasta do projeto): Aseprite.exe -b --script tools/noct_v2.lua
 
 local root = app.fs.currentPath
-local src_path = app.fs.joinPath(root, "art_source", "personagem principal", "noct.aseprite")
+-- Fonte congelada: o noct.aseprite do remaster (antes do v2 entrar no jogo).
+local src_path = app.fs.joinPath(root, "art_source", "personagem principal", "noct_v1.aseprite")
 local out_path = app.fs.joinPath(root, "art_source", "personagem principal", "noct_v2.aseprite")
 local PALETTE_SIZE = 32
 

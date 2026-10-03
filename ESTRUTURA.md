@@ -88,6 +88,9 @@ godot --headless --path . --script tests/areas_test.gd
 # Regressões: saves inválidos, falha de escrita, bônus, dano simultâneo e transições.
 godot --headless --path . --script tests/regression_test.gd
 
+# Noct v2 (corpo do jogo): tools/noct_v2.lua gera noct_v2.aseprite a partir de noct_v1.aseprite
+# (remaster congelado); tools/noct_v2_export.lua leva as tiras para assets/hero; depois remonte o
+# noct.aseprite (modo=montar), rode noct_crouch_loop.lua e noct_look_up.lua e exporte.
 # Noct no Aseprite: art_source/personagem principal/noct.aseprite é a fonte final das animações
 # (uma tag por animação). Depois de editar, grave as tiras do jogo:
 "<Aseprite.exe>" -b --script-param modo=exportar --script tools/noct_aseprite.lua

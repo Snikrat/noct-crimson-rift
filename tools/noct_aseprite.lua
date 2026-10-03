@@ -16,7 +16,7 @@ local ase_path = app.fs.joinPath(root, "art_source", "personagem principal", "no
 
 -- Ordem das animações e quadros por segundo (iguais a HERO_ANIMS/CRIMSON_ANIMS em game/core/sprites.gd).
 local ANIMS = {
-  {"idle", 4}, {"run", 14}, {"jump", 10}, {"fall", 8}, {"land", 1}, {"double_jump", 30},
+  {"idle", 2}, {"idle_var", 2}, {"walk", 7}, {"run", 14}, {"jump", 10}, {"fall", 8}, {"land", 1}, {"double_jump", 30},
   {"dash", 50}, {"crouch", 4.5}, {"jab", 18}, {"cross", 16}, {"kick", 16}, {"charged", 12},
   {"up_punch", 20}, {"low_punch", 16}, {"uppercut", 18}, {"cast", 22}, {"slam", 10},
   {"air_punch", 20}, {"air_kick", 20}, {"air_finish", 20}, {"hurt", 14}, {"death", 8},
@@ -34,9 +34,12 @@ local function strip_path(anim, crimson)
   return app.fs.joinPath(crimson and crimson_dir or hero_dir, anim .. ".png")
 end
 
+-- Tamanho do quadro: o mesmo para todas as animações (hero.json, campo w/h do idle).
 local function cell_size()
-  local img = Image{ fromFile = strip_path("idle") }
-  return img.width // 6, img.height   -- o idle tem 6 quadros
+  local f = io.open(app.fs.joinPath(hero_dir, "hero.json"), "r")
+  local meta = json.decode(f:read("a"))
+  f:close()
+  return math.floor(meta.idle.w), math.floor(meta.idle.h)
 end
 
 local function montar()

@@ -144,6 +144,8 @@ var meta := {}
 var crimson_level := 0
 var aura: Sprite2D            # brilho carmesim em volta do herói (criado em player.gd)
 var crouching := false        # segurando baixo no chão
+var idle_time := 0.0          # segundos parado no Idle
+const IDLE_VAR_AFTER := 8.0   # depois disso o Noct abaixa a cabeça (idle_var)
 var looking_up := false       # segurando cima parado no chão: olha para cima e a câmera sobe
 var look_hold := 0.0
 var look_offset := Vector2.ZERO   # deslocamento da câmera (somado ao tremor em main.gd)
@@ -398,6 +400,8 @@ func _update_animation() -> void:
 	var blink := invuln_timer > 0 and hurt_timer <= 0 and ultimate_timer <= 0 and not slamming \
 		and int(invuln_timer * 20) % 2 == 0
 	sprite.modulate.a = 0.35 if blink else 1.0
+	var idle_before := idle_time
+	idle_time = 0.0
 
 	if ultimate_timer > 0:
 		pass  # a sequência da Ultimate é controlada por _on_anim_finished
@@ -428,7 +432,15 @@ func _update_animation() -> void:
 	elif absf(velocity.x) > 10:
 		_play("run")
 	else:
-		_play("idle")
+		# Parado um tempo (forma normal): o Noct abaixa a cabeça uma vez (idle_var) e volta.
+		idle_time = idle_before + get_physics_process_delta_time()
+		if sprite.animation == "idle_var" and sprite.is_playing():
+			pass
+		elif idle_time > IDLE_VAR_AFTER and crimson_level == 0 and sprite.sprite_frames.has_animation("idle_var"):
+			sprite.play("idle_var")
+			idle_time = 0.0
+		else:
+			_play("idle")
 	_apply_offset()
 	_update_aura()
 

@@ -21,7 +21,9 @@ const HERO_DIR := Paths.HERO
 # Um terceiro valor "pingpong" faz a animação ir e voltar (1-2-3-4-3-2) em vez de reiniciar.
 const HERO_ANIMS := {
 	"air_punch": [20, false], "air_kick": [20, false], "air_finish": [20, false],
-	"idle": [4, true, "pingpong"], "run": [14, true], "jump": [10, false], "fall": [8, false], "land": [1, false],
+	# Noct v2: respiração lenta (0,5 s por quadro); idle_var = abaixa a cabeça; walk = caminhada.
+	"idle": [2, true, "pingpong"], "idle_var": [2, false], "walk": [7, true],
+	"run": [14, true], "jump": [10, false], "fall": [8, false], "land": [1, false],
 	"jab": [18, false], "cross": [16, false], "kick": [16, false], "charged": [12, false],
 	"up_punch": [20, false], "low_punch": [16, false], "uppercut": [18, false], "cast": [22, false],
 	"slam": [10, false], "dash": [50, false], "double_jump": [30, false],
@@ -59,12 +61,14 @@ static func hero_meta() -> Dictionary:
 	for lv in range(1, CRIMSON_LEVELS + 1):
 		for anim in CRIMSON_ANIMS:
 			missing["c%d_%s" % [lv, anim]] = CRIMSON_DIR + "c%d_%s.png" % [lv, anim]
+	# O número de quadros sempre sai da largura da tira (as tiras do Aseprite podem mudar).
 	for key in missing:
-		if not meta.has(key) and meta.has("idle") and ResourceLoader.exists(missing[key]):
-			var m: Dictionary = meta["idle"].duplicate()
-			var tex: Texture2D = load(missing[key])
-			m["frames"] = tex.get_width() / int(m["w"])
-			meta[key] = m
+		if not ResourceLoader.exists(missing[key]) or not meta.has("idle"):
+			continue
+		if not meta.has(key):
+			meta[key] = meta["idle"].duplicate()
+		var tex: Texture2D = load(missing[key])
+		meta[key]["frames"] = tex.get_width() / int(meta[key]["w"])
 	return meta
 
 
