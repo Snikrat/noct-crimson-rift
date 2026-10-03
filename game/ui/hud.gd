@@ -94,6 +94,7 @@ func refresh() -> void:
 func show_banner(text: String, duration := 2.5) -> void:
 	banner_text = text
 	banner_timer = duration
+	refresh()   # a sala pode abrir com uma fala (jogo pausado): mostra o nome novo mesmo assim
 
 
 func show_level_up(new_level: int, reward: Dictionary) -> void:

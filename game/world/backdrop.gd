@@ -34,6 +34,10 @@ func set_theme_layers(theme: Dictionary) -> void:
 			texs.append(load(path))
 		layers.append({"tex": texs, "scroll": l["scroll"], "align": l["align"], "gap": l.get("gap", 0), "cover": l.get("cover", false),
 			"tint": l.get("tint", Color.WHITE)})
+	# Redesenha já: se a sala abrir com uma fala, o jogo fica pausado e o _process não roda.
+	# Sem isso o fundo antigo (com as texturas já liberadas) aparecia branco durante a fala.
+	canvas.queue_redraw()
+	foreground_canvas.queue_redraw()
 
 
 func _process(_delta: float) -> void:
