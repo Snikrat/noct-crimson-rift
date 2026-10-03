@@ -16,7 +16,7 @@ run/main_scene="res://game/ui/title.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="NOCT Crimson Rift"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="res://Emblema Gótico de Energia Carmesim.png"
+config/icon="res://assets/ui/emblem.png"
 
 [autoload]
 

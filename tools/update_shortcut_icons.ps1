@@ -1,7 +1,7 @@
 param([switch]$UpdateShortcuts)
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
-$sourcePath = Join-Path $projectRoot 'Emblema Gótico de Energia Carmesim.png'
+$sourcePath = Join-Path $projectRoot 'art_source\ui\emblema.png'
 $iconPath = Join-Path $projectRoot 'assets\ui\noct.ico'
 
 if (!$UpdateShortcuts) {
