@@ -25,6 +25,9 @@ func _ready() -> void:
 	sprite.play("idle")
 	_apply_offset()
 
+	aura = Fx.glow(Color(1, 0.15, 0.35), 34, 0.0)
+	aura.visible = false
+	add_child(aura)
 	cam = Camera2D.new()
 	cam.position_smoothing_enabled = true
 	cam.position_smoothing_speed = 8.0
@@ -134,6 +137,8 @@ func _try_rift_step(input_x: float) -> bool:
 			facing = dir
 			level.spawn_crimson("trail", from, dir)
 			level.spawn_crimson("trail", global_position, dir)
+			Fx.sparks(level.world, from, Color(1, 0.25, 0.4), 14, 100, 0)
+			Fx.sparks(level.world, global_position, Color(1, 0.25, 0.4), 14, 100, 0)
 			level.flash_screen(Color(0.9, 0.1, 0.3), 0.25)
 			Audio.play_sfx("dash", 0.0, 0.7)
 			Audio.play_sfx("absorb", 0.0, 1.4)
@@ -235,6 +240,7 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor() and not was_on_floor and fall_speed > LAND_MIN_SPEED:
 		land_timer = LAND_TIME
 		Audio.play_sfx("land", 0.1)
+		Fx.sparks(level.world, global_position + Vector2(0, SIZE.y / 2), Color(0.85, 0.8, 0.75, 0.8), 6, 50, 80, 1.2)
 	was_on_floor = is_on_floor()
 	_footsteps(delta)
 

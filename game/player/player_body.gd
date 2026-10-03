@@ -1,6 +1,7 @@
 extends CharacterBody2D
 ## Noct, camada 1: constantes, estado, movimento, animação, amuletos e dano.
 ## As camadas de cima (magias, combate, player.gd) herdam daqui.
+const Fx := preload("res://game/core/fx.gd")
 
 const Sprites := preload("res://game/core/sprites.gd")
 const Progression := preload("res://data/progression.gd")
@@ -128,6 +129,7 @@ var cam: Camera2D
 var meta := {}
 # Forma carmesim (0 = normal, 1-3 = níveis). Por enquanto só troca as animações básicas.
 var crimson_level := 0
+var aura: Sprite2D            # brilho carmesim em volta do herói (criado em player.gd)
 var crouching := false        # segurando baixo no chão
 const CROUCH_HEIGHT := 0.6    # fração da altura que continua levando dano agachado
 const CRIMSON_ALIAS := {"fall": "jump", "land": "crouch"}   # animações sem versão carmesim própria
@@ -283,6 +285,20 @@ func on_charms_changed() -> void:
 # --- Animação ----------------------------------------------------------
 
 ## Cada animação tem um tamanho de quadro e um ponto dos pés diferente (hero.json).
+## Brilho em volta do herói: forma carmesim (níveis), cura e Ultimate. Só visual.
+func _update_aura() -> void:
+	if aura == null:
+		return
+	var energy: float = [0.0, 0.22, 0.38, 0.55][crimson_level]
+	if focusing:
+		energy = maxf(energy, 0.35)
+	if ultimate_timer > 0:
+		energy = maxf(energy, 0.7)
+	var t := Time.get_ticks_msec() / 1000.0
+	aura.modulate.a = energy * (0.8 + 0.2 * sin(t * 5.0))
+	aura.visible = energy > 0.01
+
+
 func _apply_offset() -> void:
 	var m: Dictionary = meta[sprite.animation]
 	var ax: float = m["ax"]
@@ -334,6 +350,7 @@ func _update_animation() -> void:
 	else:
 		_play("idle")
 	_apply_offset()
+	_update_aura()
 
 
 # --- Dano --------------------------------------------------------------

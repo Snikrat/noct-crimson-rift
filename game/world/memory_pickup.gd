@@ -1,12 +1,17 @@
 extends Node2D
 ## Fragmento de memória de Mira: um pedaço de fita carmesim flutuando. Pego ao encostar;
 ## libera o texto na aba "Memórias" da pausa (data/memories.gd).
+const Fx := preload("res://game/core/fx.gd")
 
 const Memories := preload("res://data/memories.gd")
 
 var level
 var memory_id := ""
 var t := 0.0
+
+
+func _ready() -> void:
+	add_child(Fx.glow(Color(1, 0.15, 0.35), 30, 0.6))
 
 
 func place_feet_at(feet: Vector2) -> void:
@@ -26,6 +31,7 @@ func _collect() -> void:
 	GameState.memories[memory_id] = true
 	Audio.play_sfx("absorb", 0.0, 0.8)
 	level.flash_screen(Color(0.9, 0.15, 0.3), 0.4)
+	Fx.sparks(level.world, global_position, Color(1, 0.3, 0.45), 26, 120, 40, 2.0)
 	level.hud.show_banner("Memória de Mira · %d/%d" % [GameState.memories.size(), Memories.ORDER.size()], 2.2)
 	var lines: Array = m["lines"].duplicate()
 	lines.append(m["noct"])

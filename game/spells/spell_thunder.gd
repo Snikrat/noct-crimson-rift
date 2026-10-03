@@ -1,6 +1,7 @@
 extends Node2D
 ## Trovão (estilo Howling Wraiths): cai do céu acertando tudo logo acima do herói.
 ## A origem deste nó fica nos pés do herói.
+const Fx := preload("res://game/core/fx.gd")
 
 const Sprites := preload("res://game/core/sprites.gd")
 const DAMAGE := 3
@@ -20,6 +21,9 @@ func _ready() -> void:
 	sprite.offset = Vector2(-32, -128)
 	sprite.animation_finished.connect(queue_free)
 	add_child(sprite)
+	var light := Fx.glow(Color(1, 0.75, 0.9), 56, 0.75)
+	light.position = Vector2(0, -40)
+	add_child(light)
 	sprite.play("strike")
 
 

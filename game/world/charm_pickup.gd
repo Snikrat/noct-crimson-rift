@@ -1,5 +1,6 @@
 extends Node2D
 ## Amuleto escondido no mapa (caractere C): flutua brilhando e é pego ao encostar.
+const Fx := preload("res://game/core/fx.gd")
 
 const Charms := preload("res://data/charms.gd")
 
@@ -11,6 +12,7 @@ var t := 0.0
 
 func _ready() -> void:
 	icon = Charms.icon(charm_id)
+	add_child(Fx.glow(Color(1, 0.8, 0.4), 22, 0.5))
 
 
 func place_feet_at(feet: Vector2) -> void:

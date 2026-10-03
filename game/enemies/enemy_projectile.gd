@@ -1,6 +1,7 @@
 extends Node2D
 ## Bola de fogo em linha reta (dos magos). Some ao bater numa parede ou depois de um tempo.
 ## Também pode ser rebatida com um golpe.
+const Fx := preload("res://game/core/fx.gd")
 
 const Sprites := preload("res://game/core/sprites.gd")
 const SIZE := Vector2(12, 12)
@@ -18,6 +19,7 @@ func _ready() -> void:
 	sprite.sprite_frames = Sprites.church_fireball()
 	sprite.flip_h = velocity.x > 0
 	add_child(sprite)
+	add_child(Fx.glow(Color(1, 0.5, 0.2), 18, 0.6))
 	sprite.play("fly")
 
 

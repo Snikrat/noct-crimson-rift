@@ -1,5 +1,6 @@
 extends Node2D
 ## ULTIMATE: o Dragão de Energia surge do herói, avança rugindo e acerta todos os inimigos na tela.
+const Fx := preload("res://game/core/fx.gd")
 
 const Paths := preload("res://data/asset_paths.gd")
 const TEX_PATH := Paths.HERO + "dragon.png"
@@ -25,6 +26,9 @@ func _ready() -> void:
 	sprite.modulate = Color(1, 1, 1, 0)
 	sprite.scale = Vector2(0.4, 0.4)
 	add_child(sprite)
+	var light := Fx.glow(Color(1, 0.2, 0.4), 110, 0.7)
+	light.position = Vector2(dir * 130, -24)
+	add_child(light)
 	level.flash_screen(Color(1, 0.2, 0.5), 0.35)
 
 

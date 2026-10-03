@@ -1,5 +1,6 @@
 extends Node2D
 ## Bola de energia do herói (estilo Vengeful Spirit): voa reto, atravessa inimigos e some na parede.
+const Fx := preload("res://game/core/fx.gd")
 
 const Sprites := preload("res://game/core/sprites.gd")
 const SPEED := 320.0
@@ -22,6 +23,7 @@ func _ready() -> void:
 	sprite.flip_h = dir < 0
 	sprite.animation_finished.connect(_on_anim_finished)
 	add_child(sprite)
+	add_child(Fx.glow(Color(1, 0.3, 0.55), 26, 0.8))
 	sprite.play("grow")
 
 

@@ -2,6 +2,7 @@ extends Node2D
 ## Coordena o mundo: monta as salas a partir de data/rooms/, faz as transições,
 ## cuida dos chefes, do banco e dos eventos do jogo (inimigo morto, morte do herói...).
 ## Desenho do cenário, fundo e interface ficam em room_view.gd, backdrop.gd e ui/hud.gd.
+const Fx := preload("res://game/core/fx.gd")
 
 const PlayerScript := preload("res://game/player/player.gd")
 const CrawlerScript := preload("res://game/enemies/enemy_crawler.gd")
@@ -50,6 +51,8 @@ var boss: Node2D
 const COMBAT_RANGE := 170.0
 const COMBAT_LINGER := 4.0
 var combat_timer := 0.0
+var time_base := 1.0         # velocidade normal do jogo (cai na câmera lenta do golpe final)
+var slowmo_boss: Node2D
 var bench_visits := 0
 var play_ending := true     # os testes desligam para não trocar de cena no meio
 # A revelação depois do Demon Slime (a fenda fala; ver docs/noct_personalidade.md, fase 5).
@@ -113,6 +116,8 @@ func _process(delta: float) -> void:
 	player.cam.offset = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * shake_amount
 	_process_debug_keys()
 	_update_music(delta)
+	if boss and is_instance_valid(boss) and boss != slowmo_boss and "hp" in boss and boss.hp <= 0:
+		_boss_slowmo(boss)
 	interactable = null
 	if not transitioning and not hud.shop.is_open():
 		var nearest := INF
@@ -421,6 +426,7 @@ func spawn_explosion(pos: Vector2, sound := true) -> void:
 	s.animation_finished.connect(s.queue_free)
 	world.add_child(s)
 	s.play("boom")
+	Fx.sparks(world, pos, Color(1, 0.55, 0.25), 14, 120, 120)
 	if sound:
 		Audio.play_sfx("explosion", 0.1)
 
@@ -434,7 +440,23 @@ func shake(amount: float) -> void:
 func hitstop(duration: float) -> void:
 	Engine.time_scale = 0.05
 	await get_tree().create_timer(duration, true, false, true).timeout
+	Engine.time_scale = time_base
+
+
+## Golpe final num chefe: câmera lenta, zoom e clarão por um instante.
+func _boss_slowmo(b: Node2D) -> void:
+	slowmo_boss = b
+	time_base = 0.3
+	Engine.time_scale = time_base
+	flash_screen(Color(1, 0.85, 0.9), 0.5)
+	Audio.play_sfx("thunder", 0.0, 0.6)
+	var tw := create_tween().set_ignore_time_scale(true).set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tw.tween_property(player.cam, "zoom", Vector2.ONE * 1.15, 0.25)
+	await get_tree().create_timer(1.1, true, false, true).timeout
+	time_base = 1.0
 	Engine.time_scale = 1.0
+	var back := create_tween().set_ignore_time_scale(true)
+	back.tween_property(player.cam, "zoom", Vector2.ONE, 0.4)
 
 
 func show_cutin(face: String, duration := 1.2, color := Color(1, 0.2, 0.45)) -> void:

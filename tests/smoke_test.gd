@@ -382,7 +382,11 @@ func _run() -> void:
 	await wait(120)   # deixa ele atacar um pouco
 	main.boss.hp = 1
 	main.boss.take_hit(Vector2.RIGHT, 1)
-	await wait(150)
+	for i in 40:   # o golpe final tem câmera lenta
+		await wait(10)
+		if defeated("demon_slime"):
+			break
+	await wait(5)
 	check("Demon Slime derrotado (fim do jogo)", defeated("demon_slime") and main.is_dialog_open())
 	for i in 12:
 		await tap("up")

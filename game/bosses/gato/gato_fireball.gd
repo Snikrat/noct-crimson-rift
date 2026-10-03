@@ -1,5 +1,6 @@
 extends Node2D
 ## Bola de fogo cuspida pelo Gato Infernal: voa em arco e explode ao tocar o chão ou a parede.
+const Fx := preload("res://game/core/fx.gd")
 
 const Sprites := preload("res://game/core/sprites.gd")
 const GRAVITY := 600.0
@@ -18,6 +19,7 @@ func _ready() -> void:
 	sprite.sprite_frames = Sprites.fireball()
 	sprite.animation_finished.connect(queue_free)
 	add_child(sprite)
+	add_child(Fx.glow(Color(1, 0.55, 0.2), 20, 0.7))
 	sprite.play("fly")
 
 
