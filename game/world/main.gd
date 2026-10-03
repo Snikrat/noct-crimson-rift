@@ -427,6 +427,14 @@ func is_rift(cell: Vector2i) -> bool:
 	return rift.has(cell)
 
 
+## Ponto dentro de espinhos ou lava (inimigos usam para não pisar neles).
+func is_hazard(world_pos: Vector2) -> bool:
+	for h in hazards:
+		if h.has_point(world_pos):
+			return true
+	return false
+
+
 func is_solid(world_pos: Vector2) -> bool:
 	return solid.has(Vector2i((world_pos / TILE).floor()))
 

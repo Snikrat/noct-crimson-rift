@@ -177,7 +177,8 @@ func _physics_process(delta: float) -> void:
 				if timer <= 0:
 					state = "chase"
 	var ahead := position + Vector2(dir * (size.x / 2 + 5), size.y / 2 + 4)
-	if is_on_floor() and velocity.x != knock and (not level.is_solid(ahead) or absf(position.x - home.x) > 180):
+	var hazard_ahead: bool = level.is_hazard(position + Vector2(dir * (size.x / 2 + 6), size.y / 2 - 3))
+	if is_on_floor() and velocity.x != knock and (not level.is_solid(ahead) or hazard_ahead or absf(position.x - home.x) > 180):
 		velocity.x = knock
 		if state == "patrol":
 			dir *= -1

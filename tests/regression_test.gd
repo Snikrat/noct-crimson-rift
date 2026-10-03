@@ -220,6 +220,9 @@ func _run() -> void:
 	main._hurt_enemies_on_hazards(0.016)
 	check("chefe é imune a armadilhas", captain.hp == captain_hp)
 	captain.queue_free()
+	var cautious = main._spawn(load("res://game/enemies/enemy_crawler.gd"), Vector2(lava.position.x - 12, lava.end.y), {"kind": "skeleton"})
+	check("inimigo enxerga a armadilha à frente e não o chão livre atrás", cautious._hazard_ahead(1) and not cautious._hazard_ahead(-1))
+	cautious.queue_free()
 	p.hurt_timer = 0
 	p.global_position.y = p.world_size.y + p.SIZE.y * 2
 	p.slamming = true

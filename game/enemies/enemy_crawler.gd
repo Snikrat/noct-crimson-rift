@@ -93,7 +93,7 @@ func _physics_process(delta: float) -> void:
 		_process_leap()
 		return
 	var ahead := global_position + Vector2(dir * (size.x / 2 + 4), size.y / 2 + 4)
-	if is_on_floor() and knock == 0 and not level.is_solid(ahead):
+	if is_on_floor() and knock == 0 and (not level.is_solid(ahead) or _hazard_ahead(dir)):
 		dir = -dir
 	var move_speed := speed
 	var chasing := false
@@ -102,8 +102,8 @@ func _physics_process(delta: float) -> void:
 	if chase > 0 and knock == 0 and absf(p.global_position.y - global_position.y) < 40 \
 			and absf(p.global_position.x - global_position.x) < 160:
 		var want := 1 if p.global_position.x > global_position.x else -1
-		# Só persegue se não for cair da beirada.
-		if level.is_solid(global_position + Vector2(want * (size.x / 2 + 4), size.y / 2 + 4)):
+		# Só persegue se não for cair da beirada nem pisar em espinhos.
+		if level.is_solid(global_position + Vector2(want * (size.x / 2 + 4), size.y / 2 + 4)) and not _hazard_ahead(want):
 			dir = want
 			move_speed = chase
 			chasing = true
@@ -134,6 +134,11 @@ func _physics_process(delta: float) -> void:
 		dir = -dir
 	_face()
 	sprite.modulate = Color(1, 0.35, 0.35) if flash > 0 else Color.WHITE
+
+
+## Espinhos ou lava logo à frente dos pés: o inimigo não entra neles por vontade própria.
+func _hazard_ahead(side: int) -> bool:
+	return level.is_hazard(global_position + Vector2(side * (size.x / 2 + 6), size.y / 2 - 3))
 
 
 ## Vira o desenho para o lado em que anda (os dos pacotes olham para a esquerda).
