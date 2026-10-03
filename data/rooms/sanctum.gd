@@ -9,6 +9,7 @@ const ROOM := {
 	"theme": "cathedral",
 	"left": "cathedral",
 	"right": "inferno",
+	"entries": {"MIND": Vector2(26 * 16 + 8, 14 * 16)},   # volta da Mente do Noct (onde o Bringer estava)
 	"gate": [[0, 10], [0, 11], [0, 12], [0, 13], [35, 10], [35, 11], [35, 12], [35, 13]],
 	"props": [
 		[T.CHURCH_ENV + "backgrounds.png", 90, 14, T.CHURCH_TORCH],

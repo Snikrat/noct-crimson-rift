@@ -84,7 +84,8 @@ func _run() -> void:
 	check("mapa: vila marcada como visitada", gs().visited.has("town"))
 	var world_map_view = load("res://game/ui/world_map_view.gd")   # carregado depois dos autoloads
 	var rects: Dictionary = world_map_view.layout(Vector2(240, 135))
-	check("mapa: todas as salas têm lugar", rects.size() == Rooms.ROOMS.size(), "%d/%d" % [rects.size(), Rooms.ROOMS.size()])
+	var on_map := Rooms.ROOMS.keys().filter(func(r): return not Rooms.ROOMS[r].get("hidden", false))
+	check("mapa: todas as salas têm lugar", rects.size() == on_map.size(), "%d/%d" % [rects.size(), on_map.size()])
 	var inside := true
 	for r in rects:
 		if not Rect2(16, 18, 448, 234).encloses(rects[r]):

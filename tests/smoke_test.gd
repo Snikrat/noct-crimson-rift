@@ -307,10 +307,27 @@ func _run() -> void:
 	Input.action_release("move_right")
 	check("Bringer acorda", main.boss != null and main.boss.is_awake())
 	await skip_dialogs()
+	# Metade da vida: a luta vai para dentro da cabeça de Noct, com o mesmo Bringer.
+	main.boss.hp = main.boss.MAX_HP / 2 + 1
+	main.boss.take_hit(Vector2.RIGHT, 1)
+	for i in 180:
+		if main.room_name == "mind" and not main.transitioning:
+			break
+		await wait(1)
+	check("Bringer leva a luta para a Mente do Noct", main.room_name == "mind" and main.boss != null and main.boss.in_mind
+		and main.boss.hp == main.boss.MAX_HP / 2, "sala=%s" % main.room_name)
+	check("Mente do Noct fica fora do mapa", not game_state().visited.has("mind"))
+	main.player.hp = main.player.max_hp
+	await wait(300)
+	check("Bringer provoca Noct sem pausar a luta", main.boss.taunt_index > 0 and not main.get_tree().paused)
 	main.boss.hp = 1
 	main.boss.take_hit(Vector2.RIGHT, 1)
-	await wait(120)
+	for i in 600:
+		if defeated("bringer") and main.room_name == "sanctum" and not main.transitioning:
+			break
+		await wait(1)
 	check("Bringer derrotado", defeated("bringer"))
+	check("Vitória volta para o Santuário", main.room_name == "sanctum", "sala=%s" % main.room_name)
 	for i in 5:
 		await tap("up")
 

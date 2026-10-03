@@ -112,7 +112,7 @@ local function draw_piece(img, col, row, up, down, left, right, kind)
 			local lit = ((near[1] - x) + (near[2] - y)) / 10
 			local c = ramp({ 3, 4, 5, 6 }, 0.35 + lit - d1 / 14, x, y)
 			if border < 1.0 then
-				c = near[3] and C[8] or C[2]
+				c = near[3] and C[7] or C[2]
 				if kind == "spark" and near[3] then c = (border < 0.5) and C[13] or C[11] end
 			end
 			-- Bordas expostas ao ar.
@@ -222,7 +222,7 @@ do
 	local top, bottom = 18, 226
 	for y = top, bottom do
 		local t = (y - top) / (bottom - top)
-		local half = math.sin(t * math.pi) ^ 0.8 * 5 + 0.5
+		local half = math.sin(t * math.pi) ^ 0.8 * 3.5 + 0.5
 		local cx = CX + (vnoise(0, y, 14, 9) - 0.5) * 18 + math.sin(y * 0.11) * 2
 		for x = math.floor(cx - half - 8), math.floor(cx + half + 8) do
 			local d = math.abs(x + 0.5 - cx)

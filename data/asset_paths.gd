@@ -28,6 +28,7 @@ const UNDEAD := VENDOR + "undead-props/PNG/Objects_separately/"
 const AREAS := "res://assets/areas/"            # arte própria das áreas novas (fontes .aseprite em art_source/cenarios_novos/)
 const MINES := AREAS + "minas_da_fenda/"
 const ARCHIVE := AREAS + "arquivo_submerso/"
+const MIND := AREAS + "mente_do_noct/"        # arena da fase 2 do Bringer (tools/make_mind.lua)
 
 # --- Cenários -----------------------------------------------------------
 const SWAMP_ENV := SWAMP + "Evironment/"

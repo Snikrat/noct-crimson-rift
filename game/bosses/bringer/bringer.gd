@@ -1,7 +1,9 @@
 extends CharacterBody2D
 ## Bringer of Death: chefe da catedral.
 ## Ataques: golpe de foice de perto, mãos sombrias que caem do alto e teleporte.
-## Fase 2 (metade da vida): invoca três mãos de uma vez e se teleporta mais.
+## Fase 2 (metade da vida): arrasta a luta para dentro da cabeça de Noct (Mente do Noct, enter_mind em
+## main.gd), invoca três mãos de uma vez, se teleporta mais e provoca Noct com Mira sem pausar a luta.
+## Ele nunca tocou em Mira: o que ele faz é achar o pior medo de cada um e falar com a voz dele.
 
 const Sprites := preload("res://game/core/sprites.gd")
 const SpellScript := preload("res://game/bosses/bringer/bringer_spell.gd")
@@ -10,6 +12,22 @@ const BOSS_ID := "bringer"
 const BOSS_NAME := "Bringer of Death"
 # Sem ironia: a provocação atravessa a armadura de Noct.
 const WAKE_LINES := ["Mais uma alma que ouviu a fenda.", "Ela gritou seu nome antes de morrer.", "@furioso: Repete."]
+# Fase 2: ao puxar Noct para a própria cabeça e ao chegar lá (balões que não pausam a luta).
+const RIFT_LINE := "Vamos ver o que você esconde aí dentro."
+const MIND_LINE := "Bem-vindo à sua cabeça, Noct. Eu só acendi a luz."
+# Provocações na Mente do Noct, em ordem: [fala do Bringer, resposta de Noct ou ""].
+# Ele confessa a mentira cedo: não precisa ter feito nada com Mira, o medo de Noct faz o trabalho.
+const TAUNTS := [
+	["Eu menti. Nunca vi a sua Mira.", "@chocado: ..."],
+	["Mas você acreditou na hora. Porque é exatamente o que você teme.", "@furioso: Cala a boca."],
+	["Eu não tiro nada de ninguém. Só mostro o que vocês já perderam.", ""],
+	["O lado esquerdo do banco. Ainda vazio?", "@sombrio: ..."],
+	["A fita no seu pulso. Pra lembrar de voltar... pra quem?", "@furioso: Não fala dela."],
+	["\"Volto logo.\" Quantas vezes você leu esse bilhete?", ""],
+	["Cada golpe seu tem gosto de medo. Continua.", "@maligno: Então engole."],
+	["Ela não está aqui. Você está. Sozinho, como sempre quis parecer.", "@furioso: Repete."],
+]
+const TAUNT_EVERY := Vector2(6.0, 8.5)   # intervalo (s) entre provocações
 const SIZE := Vector2(30, 52)
 const GRAVITY := 1100.0
 const MAX_HP := 40
@@ -31,6 +49,10 @@ var flash := 0.0
 var last_action := ""
 var dying := false
 var sprite: AnimatedSprite2D
+var mind_done := false      # já puxou Noct para a Mente do Noct (só uma vez por luta)
+var in_mind := false
+var taunt_timer := 0.0
+var taunt_index := 0
 
 
 func _ready() -> void:
@@ -57,7 +79,7 @@ func place_feet_at(feet: Vector2) -> void:
 
 
 func get_hurtbox() -> Rect2:
-	if dying:
+	if dying or state == "rift":
 		return Rect2(-99999, -99999, 0, 0)
 	return Rect2(global_position - SIZE / 2, SIZE)
 
@@ -85,6 +107,8 @@ func _physics_process(delta: float) -> void:
 	velocity.x = 0
 	var p: Node2D = level.player
 
+	if in_mind and not dying and state != "rift":
+		_taunt(delta)
 	if not dying:
 		match state:
 			"sleep":
@@ -103,6 +127,10 @@ func _physics_process(delta: float) -> void:
 					_to_idle()
 			"attack":
 				_scythe_hit(p)
+			"rift":
+				# Segurança: se a troca de sala não acontecer, volta a lutar aqui mesmo.
+				if timer <= 0:
+					_to_idle()
 			"vanish":
 				sprite.modulate.a = clampf(timer / 0.3, 0, 1)
 				if timer <= 0:
@@ -235,13 +263,61 @@ func _on_anim_finished() -> void:
 			queue_free()
 
 
+## Metade da vida: para, conjura e puxa a luta para dentro da cabeça de Noct.
+func _start_rift() -> void:
+	mind_done = true
+	state = "rift"
+	timer = 3.0
+	velocity = Vector2.ZERO
+	sprite.modulate.a = 1
+	sprite.play("cast")
+	level.say(self, BOSS_NAME, RIFT_LINE, 2.4, 64.0)
+	level.enter_mind(self)
+
+
+## Chamado por main.gd depois da troca de sala: reaparece na Mente do Noct e retoma a luta.
+func arrive_in_mind(feet: Vector2) -> void:
+	in_mind = true
+	place_feet_at(feet)
+	velocity = Vector2.ZERO
+	state = "appear"
+	timer = 0.6
+	sprite.modulate.a = 0
+	sprite.play("idle")
+	_face(level.player)
+	taunt_timer = 4.5
+	level.say(self, BOSS_NAME, MIND_LINE, 3.2, 64.0)
+
+
+## Provocações na Mente do Noct: uma fala de tempos em tempos, às vezes com a resposta de Noct.
+func _taunt(delta: float) -> void:
+	taunt_timer -= delta
+	if taunt_timer > 0:
+		return
+	taunt_timer = randf_range(TAUNT_EVERY.x, TAUNT_EVERY.y)
+	# Depois da última, volta a repetir as do meio da lista (sem as respostas, Noct já não responde).
+	var i := taunt_index if taunt_index < TAUNTS.size() else randi_range(2, TAUNTS.size() - 1)
+	var reply: String = TAUNTS[i][1] if taunt_index < TAUNTS.size() else ""
+	taunt_index += 1
+	level.say(self, BOSS_NAME, TAUNTS[i][0], 3.2, 64.0)
+	level.flash_screen(Color(0.8, 0.05, 0.2), 0.25)
+	level.shake(2.0)
+	if reply != "":
+		get_tree().create_timer(1.6, false).timeout.connect(func():
+			if is_instance_valid(self) and not dying and is_instance_valid(level.player):
+				level.say(level.player, "", reply, 2.4))
+
+
 func take_hit(_from_dir: Vector2, damage: int) -> void:
-	if dying:
+	if dying or state == "rift":
 		return
 	if state == "sleep":
 		_wake()
 	hp -= damage
 	flash = 0.1
+	if hp > 0 and phase2() and not mind_done:
+		_start_rift()
+		return
 	if hp <= 0:
 		dying = true
 		state = "dead"

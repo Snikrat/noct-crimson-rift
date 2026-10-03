@@ -52,4 +52,5 @@ const ROOMS := {
 	"tower": preload("res://data/rooms/tower.gd").ROOM,
 	"well": preload("res://data/rooms/well.gd").ROOM,
 	"station": preload("res://data/rooms/station.gd").ROOM,
+	"mind": preload("res://data/rooms/mind.gd").ROOM,
 }

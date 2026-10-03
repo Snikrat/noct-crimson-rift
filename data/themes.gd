@@ -141,6 +141,19 @@ const THEMES := {
 		"step": "water", "music": Paths.MUSIC_AMBIENT_4, "combat": Paths.MUSIC_UNHOLY_SURGE,
 		"layers": [],
 	},
+	# Mente do Noct: arena da fase 2 do Bringer (dentro da cabeça de Noct). Arte em tools/make_mind.lua.
+	# "motes": fagulhas carmesim subindo (game/world/motes.gd), mais fortes quanto mais o Bringer apanha.
+	# A música é a mesma da luta, para não cortar na transição.
+	"mind": {
+		"tileset": Paths.MIND + "tileset.png", "autotile": true,
+		"top_variants": [Vector2i(4, 2)], "fill_variants": [Vector2i(3, 1), Vector2i(4, 1)],
+		"clear": Color("12050d"), "motes": true,
+		"step": "rock", "music": Paths.MUSIC_SILVER_BULLET,
+		"layers": [
+			{"tex": [Paths.MIND + "fundo.png"], "scroll": 0.02, "align": "bottom", "cover": true},
+			{"tex": [Paths.MIND + "ecos.png"], "scroll": 0.18, "align": "bottom"},
+		],
+	},
 }
 
 # Peças soltas dos tilesets novos (coluna e linha de 16 px), usadas como "props" nas salas.

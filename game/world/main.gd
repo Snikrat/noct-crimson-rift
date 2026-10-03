@@ -26,6 +26,8 @@ const MarkerScript := preload("res://game/world/world_marker.gd")
 const CrimsonScript := preload("res://game/world/crimson_effect.gd")
 const HumanoidScript := preload("res://game/enemies/enemy_humanoid.gd")
 const RainScript := preload("res://game/world/rain.gd")
+const MotesScript := preload("res://game/world/motes.gd")
+const BubbleScript := preload("res://game/ui/speech_bubble.gd")
 
 const TILE := 16
 
@@ -59,6 +61,7 @@ const HAZARD_ENEMY_COOLDOWN := 1.0
 var time_base := 1.0         # velocidade normal do jogo (cai na câmera lenta do golpe final)
 var slowmo_boss: Node2D
 var bench_visits := 0
+var mind_return := ""        # sala de onde o Bringer puxou Noct para a Mente do Noct (volta para ela ao vencer)
 var play_ending := true     # os testes desligam para não trocar de cena no meio
 # A revelação depois do Demon Slime (a fenda fala; ver docs/noct_personalidade.md, fase 5).
 const REVELATION := [
@@ -185,7 +188,8 @@ func _update_music(delta: float) -> void:
 func load_room(name: String, entry: String) -> void:
 	room_name = name
 	room = Rooms.ROOMS[name]
-	GameState.visited[name] = true
+	if not room.get("hidden", false):
+		GameState.visited[name] = true
 	theme = Rooms.THEMES[room["theme"]]
 	tileset = load(theme["tileset"])
 	backdrop.set_theme_layers(theme)
@@ -307,6 +311,10 @@ func load_room(name: String, entry: String) -> void:
 
 	if theme.get("rain", false):
 		world.add_child(RainScript.new())
+	if theme.get("motes", false):
+		var motes := MotesScript.new()
+		motes.level = self
+		world.add_child(motes)
 	player.set_world_size(Vector2(map_size * TILE))
 	var spawn: Vector2 = entries.get(entry, entries.values()[0])
 	player.enter_room(spawn)
@@ -562,8 +570,41 @@ func on_boss_wake(b: Node2D) -> void:
 	Audio.play_music(Rooms.BOSS_MUSIC.get(b.BOSS_ID, theme["music"]), 1.0, 0.0, 0.6)
 
 
+## Fase 2 do Bringer: na metade da vida ele arrasta a luta para dentro da cabeça de Noct
+## (data/rooms/mind.gd). O chefe vai junto, com a vida que tinha; ao vencer, Noct volta (on_boss_defeated).
+func enter_mind(b: Node2D) -> void:
+	if transitioning or room_name == "mind":
+		return
+	mind_return = room_name
+	flash_screen(Color(0.9, 0.1, 0.25), 0.6)
+	shake(8.0)
+	Audio.play_sfx("charge", 0.0, 0.6)
+	await get_tree().create_timer(0.8, false).timeout
+	if not is_instance_valid(b) or transitioning or room_name != mind_return:
+		return
+	await _transition(func():
+		b.get_parent().remove_child(b)
+		load_room("mind", "L")
+		world.add_child(b)
+		boss = b
+		b.arrive_in_mind(entries["BOSS"]))
+
+
+## Fala curta num balão que não pausa a luta (provocações do chefe e respostas de Noct).
+func say(target: Node2D, who: String, text: String, duration := 3.0, lift := 44.0) -> void:
+	var bubble := BubbleScript.new()
+	bubble.level = self
+	bubble.target = target
+	bubble.who = who
+	bubble.text = text
+	bubble.duration = duration
+	bubble.lift = lift
+	world.add_child(bubble)
+
+
 func on_boss_defeated(b: Node2D) -> void:
-	GameState.defeated_bosses[b.BOSS_ID] = true
+	var boss_id: String = b.BOSS_ID
+	GameState.defeated_bosses[boss_id] = true
 	boss = null
 	var lines: Array
 	match b.BOSS_ID:
@@ -603,11 +644,18 @@ func on_boss_defeated(b: Node2D) -> void:
 		spawn_explosion(b.global_position + Vector2(randf_range(-40, 40), randf_range(-30, 20)), i == 0)
 	shake(10.0)
 	hitstop(0.3)
+	if room_name == "mind" and mind_return != "":
+		# A Mente do Noct desaba: ele volta para a sala da luta antes da vitória.
+		var back := mind_return
+		mind_return = ""
+		await get_tree().create_timer(1.4, true, false, true).timeout
+		flash_screen(Color(1, 0.85, 0.9), 0.4)
+		await _transition(func(): load_room(back, "MIND"))
 	set_gate(false)
 	combat_timer = 0.0
 	Audio.play_music(theme["music"], 1.0, 0.0, 2.5)
 	start_dialog("Vitória", lines)
-	if b.BOSS_ID == "demon_slime" and play_ending:
+	if boss_id == "demon_slime" and play_ending:
 		_ending_sequence()
 
 
