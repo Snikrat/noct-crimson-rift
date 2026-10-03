@@ -27,7 +27,7 @@
   O zip veio sem arquivo de licença (original em `pacotes/zips/RPG_Essentials_Free.zip`): **confira a licença na página do pacote antes de publicar**.
 
 ## Logo
-- Logo animado **NOCT: CRIMSON RIFT**: arte criada para o jogo (`art_source/logo/logo_sheet.png`), recortada por `tools/slice_logo.gd`.
+- Logo animado **NOCT: CRIMSON RIFT**: pixel art feita no Aseprite para o jogo (`art_source/logo/noct_logo.aseprite`, gerado por `tools/make_logo.lua`).
 - Emblema carmesim (vaso de alma e ícone de jogo salvo): arte criada para o jogo (`art_source/ui/emblema.png`), reduzido por `tools/make_emblem.gd`.
 
 ## Catedral

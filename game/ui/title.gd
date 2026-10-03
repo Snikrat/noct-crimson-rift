@@ -6,17 +6,17 @@ const InputSetup := preload("res://game/core/input_setup.gd")
 const Paths := preload("res://data/asset_paths.gd")
 const FINAL := Paths.TITLE_BG
 const MUSIC := Paths.MUSIC_TITLE
-const LOGO := Paths.LOGO   # quadros recortados por tools/slice_logo.gd
+const LOGO := Paths.LOGO   # quadros em pixel art feitos no Aseprite por tools/make_logo.lua
 
 # Logo animado: abertura (a fenda se abre e as letras se formam), loop pulsando e saída ao começar.
 const LOGO_INTRO := [0, 1, 2, 3, 4, 5, 6, 7]
-const LOGO_LOOP := [8, 9, 10, 11, 12, 14, 15]
-const LOGO_OUTRO := 16
-const LOGO_COUNT := 17
+const LOGO_LOOP := [8, 9, 10, 11, 12, 13]
+const LOGO_OUTRO := 14
+const LOGO_COUNT := 15
 const LOGO_INTRO_FPS := 11.0
-const LOGO_LOOP_FRAME := 0.24          # segundos por quadro do loop (com cruzamento suave)
+const LOGO_LOOP_FRAME := 0.24          # segundos por quadro do loop
 const LOGO_DELAY := 0.5                # espera o fade da tela antes de abrir a fenda
-const LOGO_RECT := Rect2(90, 2, 300, 139)
+const LOGO_POS := Vector2(90, 4)       # o logo é desenhado 1:1 (300x112 pixels de jogo)
 
 const GAME_SCENE := "res://game/world/main.tscn"
 
@@ -55,6 +55,7 @@ var logo_frames: Array[Texture2D] = []
 var logo_t := -LOGO_DELAY      # tempo da animação do logo
 var outro_t := -1.0             # >= 0: o logo está se desfazendo
 var logo_boom := false
+var logo_layer := Node2D.new()   # o logo fica num nó próprio com filtro nítido (pixel art)
 
 
 func _ready() -> void:
@@ -70,6 +71,9 @@ func _ready() -> void:
 	for l in [["Background_0", 3.0], ["Background_1", 8.0], ["Grass_background_2", 16.0], ["Grass_background_1", 26.0]]:
 		layers.append({"tex": load(FINAL + l[0] + ".png"), "speed": l[1]})
 
+	logo_layer.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	logo_layer.draw.connect(_draw_logo)
+	add_child(logo_layer)
 	for i in LOGO_COUNT:
 		logo_frames.append(load(LOGO + "logo_%02d.png" % i))
 
@@ -99,6 +103,7 @@ func _process(delta: float) -> void:
 		fade = maxf(fade - delta * 1.2, 0.0)
 		_handle_input()
 	queue_redraw()
+	logo_layer.queue_redraw()
 
 
 func _handle_input() -> void:
@@ -191,7 +196,6 @@ func _draw() -> void:
 
 
 func _draw_menu() -> void:
-	_draw_logo()
 	if save_error != "":
 		draw_string(font, Vector2(0, 252), save_error, HORIZONTAL_ALIGNMENT_CENTER, SCREEN.x, 9, GOLD)
 
@@ -210,10 +214,10 @@ func _draw_menu() -> void:
 		HORIZONTAL_ALIGNMENT_CENTER, SCREEN.x, 8, Color(1, 1, 1, 0.45))
 
 
-## Logo animado: abertura quadro a quadro, depois um loop que cruza um quadro com o próximo
-## (o fogo da fenda "ferve" sem o logo pular), e a saída quando o jogo começa.
+## Logo animado (desenhado no nó logo_layer, por cima do fundo): abertura quadro a quadro,
+## loop do fogo e da fenda pulsando, e a saída quando o jogo começa. Some fora do menu.
 func _draw_logo() -> void:
-	if logo_t < 0:
+	if logo_t < 0 or page != "menu":
 		return
 	var intro_len := LOGO_INTRO.size() / LOGO_INTRO_FPS
 	if outro_t >= 0:
@@ -223,16 +227,15 @@ func _draw_logo() -> void:
 	elif logo_t < intro_len:
 		_logo_frame(LOGO_INTRO[int(logo_t * LOGO_INTRO_FPS)], 1.0)
 	else:
-		var pos := (logo_t - intro_len) / LOGO_LOOP_FRAME
-		var i := int(pos)
-		var k := pos - i
+		var i := int((logo_t - intro_len) / LOGO_LOOP_FRAME)
 		_logo_frame(LOGO_LOOP[i % LOGO_LOOP.size()], 1.0)
-		_logo_frame(LOGO_LOOP[(i + 1) % LOGO_LOOP.size()], k)
 
 
 func _logo_frame(i: int, alpha: float) -> void:
+	# O escurecimento da tela é desenhado embaixo deste nó, então o logo também apaga com ele.
+	alpha *= 1.0 - fade
 	if alpha > 0:
-		draw_texture_rect(logo_frames[i], LOGO_RECT, false, Color(1, 1, 1, alpha))
+		logo_layer.draw_texture(logo_frames[i], LOGO_POS, Color(1, 1, 1, alpha))
 
 
 func _draw_credits() -> void:

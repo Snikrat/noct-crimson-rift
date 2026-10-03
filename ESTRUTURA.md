@@ -57,7 +57,7 @@ hollow-like/
 | Trocar a música de uma área, da luta ou de um chefe | `"music"`/`"combat"` e `BOSS_MUSIC` em `data/themes.gd` (caminhos em `data/asset_paths.gd`) |
 | Trocar a barra de XP ou a fonte pixel | arte em `art_source/ui/hud/` (feita no Aseprite) e rodar `tools/make_hud_ui.gd` |
 | Trocar o emblema do HUD (vida e magia no orbe) | `assets/ui/hud/emblema_*.png` (base, vida, magia, fenda); posição e raio do orbe em `ORB_POS`/`ORB_C`/`ORB_R` (`game/ui/hud.gd`) |
-| Trocar o logo da tela de título | `art_source/logo/logo_sheet.png` e rodar `tools/slice_logo.gd` (quadros em `FRAMES`) |
+| Trocar o logo da tela de título | editar `tools/make_logo.lua` e rodar no Aseprite: `Aseprite.exe -b --script-param src=art_source/logo/noct_logo.aseprite --script-param out=assets/ui/logo --script tools/make_logo.lua` |
 | Trocar um efeito sonoro | tabela `SFX` em `autoload/audio.gd` |
 | Trocar as formas carmesim (níveis 1-3) | `art_source/personagem principal/carmesim/niveis_carmesim.png` e rodar `tools/slice_crimson.gd`; velocidades em `CRIMSON_ANIMS` (`game/core/sprites.gd`) |
 | Esconder uma memória de Mira | texto em `data/memories.gd` + `"memories": [{"id", "feet"}]` no arquivo da sala |
@@ -89,7 +89,6 @@ godot --headless --path . --script tests/regression_test.gd
 # Recortar de novo as animações e os rostos do herói
 godot --headless --path . --script tools/slice_hero.gd
 godot --headless --path . --script tools/slice_portraits.gd
-godot --headless --path . --script tools/slice_logo.gd
 godot --headless --path . --script tools/slice_crimson.gd
 ```
 
