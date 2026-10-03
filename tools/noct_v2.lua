@@ -390,6 +390,38 @@ add("idle", idle_body, idle_vfx, 2)   -- respiração lenta: 0,5 s por quadro
 add("idle_var", idle_var_body, idle_var_vfx, 2)
 add("walk", walk_body, walk_vfx, 7)
 add("run", run_body, run_vfx, 14)
+
+-- DEMAIS ANIMAÇÕES: mesma limpeza e energia separada; a cabeça do Noct v2 entra onde a cabeça
+-- está de pé no alto do desenho (HEAD_OK: true = todos os quadros, ou a lista dos quadros).
+local REST = {
+  "jump", "fall", "land", "double_jump", "dash", "crouch", "jab", "cross", "kick", "charged",
+  "up_punch", "low_punch", "uppercut", "cast", "slam", "air_punch", "air_kick", "air_finish",
+  "hurt", "death", "ultimate_charge", "ultimate_burst", "ultimate_pose",
+}
+-- Conferido quadro a quadro: onde a cabeça está deitada, inclinada ou coberta por energia
+-- (punho/arco acima da cabeça), a cabeça original fica.
+local function set(list) local t = {} for _, i in ipairs(list) do t[i] = true end return t end
+local HEAD_OK = {
+  jump = true, fall = true, land = true, crouch = true, double_jump = true, jab = true, hurt = true,
+  air_punch = true, air_kick = true, ultimate_charge = true,
+  dash = set{1, 2, 3, 4, 5, 7, 8}, cross = set{1, 4}, kick = set{1, 2}, charged = set{1, 2},
+  cast = set{1, 2, 3, 5, 6, 7, 8}, up_punch = set{1, 2, 3, 8}, uppercut = set{1, 2, 3, 8},
+  low_punch = set{1, 2, 3, 6, 7}, slam = set{1}, air_finish = set{2, 3}, death = set{1, 3},
+  ultimate_burst = set{1, 2, 8}, ultimate_pose = set{1, 2, 3},
+}
+for _, name in ipairs(REST) do
+  local t = tag(name)
+  local bodies_, vfx_ = {}, {}
+  for i, img in ipairs(frames_of(name)) do
+    local body, vfx = split(img)
+    body = clean(drop_specks(body, 8), pal)
+    local ok = HEAD_OK[name]
+    if ok == true or (type(ok) == "table" and ok[i]) or app.params.all_heads then body = put_head(body) end
+    bodies_[i] = body
+    vfx_[i] = vfx
+  end
+  add(name, bodies_, vfx_, 1 / src.frames[t.fromFrame.frameNumber].duration)
+end
 for _, r in ipairs(ranges) do
   local t = out:newTag(r[2], r[3])
   t.name = r[1]
