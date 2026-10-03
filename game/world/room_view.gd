@@ -8,6 +8,9 @@ const SPIKES_TEX := preload("res://assets/props/spikes.png")
 const RIFT_TEX := preload("res://assets/props/rift_wall.png")
 const RIFT_VARIANTS := 3
 const RIFT_LEVELS := 4
+# Fundo dos poços de espinhos: distância máxima até a parede e quanto a terra de trás escurece.
+const PIT_REACH := 6
+const PIT_SHADE := Color(0.42, 0.42, 0.48)
 
 var level
 var lava_tex: Texture2D
@@ -64,10 +67,12 @@ func _draw() -> void:
 	var theme: Dictionary = level.theme
 	var tileset: Texture2D = level.tileset
 	var solid: Dictionary = level.solid
+	var pits := _pit_cells(solid)
+	_draw_pit_walls(theme, tileset, solid, pits)
 	if theme.get("autotile", false):
-		_draw_autotile(theme, tileset, solid)
+		_draw_autotile(theme, tileset, solid, pits)
 	else:
-		_draw_blocks(theme, tileset, solid)
+		_draw_blocks(theme, tileset, solid, pits)
 
 	_draw_lava(theme)
 	_draw_water(theme)
@@ -89,15 +94,18 @@ func _draw() -> void:
 
 
 ## Tilesets dos pacotes: blocos de chão em colunas (blocks/block_w) e cor sólida abaixo de "rows" tiles.
-func _draw_blocks(theme: Dictionary, tileset: Texture2D, solid: Dictionary) -> void:
+func _draw_blocks(theme: Dictionary, tileset: Texture2D, solid: Dictionary, pits: Dictionary) -> void:
 	var blocks: Array = theme["blocks"]
 	var block_w: int = theme["block_w"]
 	var rows: int = theme["rows"]
 	var top: int = theme["top"]
 	for cell: Vector2i in solid:
 		var dest := Rect2(cell.x * TILE, cell.y * TILE, TILE, TILE)
-		# Profundidade = quantos blocos sólidos existem acima até chegar no ar.
+		# Profundidade = quantos blocos sólidos existem acima até chegar no ar. O fundo de um poço
+		# de espinhos já começa como terra (sem uma faixa de grama solta embaixo das pontas).
 		var depth := 0
+		if pits.has(cell + Vector2i.UP):
+			depth = 1
 		while depth < rows and solid.has(cell + Vector2i(0, -(depth + 1))):
 			depth += 1
 		if depth < rows:
@@ -115,11 +123,11 @@ func _draw_blocks(theme: Dictionary, tileset: Texture2D, solid: Dictionary) -> v
 ## Tilesets próprios (assets/areas/): bloco 3x3 nas colunas 0-2 (cantos, bordas e meio) e o bloco
 ## isolado em (3,2). Cada célula escolhe a peça pelos lados expostos ao ar.
 ## "top_variants"/"fill_variants": peças (coluna, linha) que às vezes trocam o topo e o meio.
-func _draw_autotile(theme: Dictionary, tileset: Texture2D, solid: Dictionary) -> void:
+func _draw_autotile(theme: Dictionary, tileset: Texture2D, solid: Dictionary, pits: Dictionary) -> void:
 	var top_variants: Array = theme.get("top_variants", [])
 	var fill_variants: Array = theme.get("fill_variants", [])
 	for cell: Vector2i in solid:
-		var up := not solid.has(cell + Vector2i.UP)
+		var up := not solid.has(cell + Vector2i.UP) and not pits.has(cell + Vector2i.UP)
 		var down := not solid.has(cell + Vector2i.DOWN)
 		var left := not solid.has(cell + Vector2i.LEFT)
 		var right := not solid.has(cell + Vector2i.RIGHT)
@@ -137,3 +145,55 @@ func _draw_autotile(theme: Dictionary, tileset: Texture2D, solid: Dictionary) ->
 			piece = fill_variants[(cell.x + cell.y) % fill_variants.size()]
 		var src := Rect2(Vector2(piece * TILE), Vector2(TILE, TILE))
 		draw_texture_rect_region(tileset, Rect2(Vector2(cell * TILE), Vector2(TILE, TILE)), src)
+
+
+## Espinhos e lava no fundo de poços (com chão dos dois lados). Espinhos em cima de plataformas ficam de fora.
+func _pit_cells(solid: Dictionary) -> Dictionary:
+	var cells := {}
+	for h: Rect2 in level.hazards:
+		var cell := Vector2i(int(h.position.x) / TILE, int(h.position.y) / TILE)
+		if _walled(solid, cell):
+			cells[cell] = true
+	return cells
+
+
+## Fundo dos poços de espinhos: a terra do chão continua atrás do buraco, mais escura (recuada),
+## em vez de o fundo da sala aparecer como um retângulo liso embaixo das árvores e do mato.
+## Sobe de cada espinho enquanto houver chão dos dois lados (até PIT_REACH tiles de distância).
+func _draw_pit_walls(theme: Dictionary, tileset: Texture2D, solid: Dictionary, pits: Dictionary) -> void:
+	var tint: Color = theme.get("tint", Color.WHITE) * PIT_SHADE
+	for pit: Vector2i in pits:
+		var cell := pit
+		while not solid.has(cell) and _walled(solid, cell):
+			var dest := Rect2(Vector2(cell * TILE), Vector2(TILE, TILE))
+			if theme.get("autotile", false):
+				draw_texture_rect_region(tileset, dest, Rect2(TILE, TILE, TILE, TILE), PIT_SHADE)
+			else:
+				var wall := _wall_beside(solid, cell)
+				var depth := 0
+				while depth < theme["rows"] and solid.has(wall + Vector2i(0, -(depth + 1))):
+					depth += 1
+				depth = maxi(depth, 1)   # sem grama na parede do fundo
+				if depth < theme["rows"]:
+					var blocks: Array = theme["blocks"]
+					var block_w: int = theme["block_w"]
+					var block: int = blocks[(cell.x / block_w) % blocks.size()]
+					var src := Rect2(block + (cell.x % block_w) * TILE, theme["top"] + depth * TILE, TILE, TILE)
+					draw_texture_rect_region(tileset, dest, src, tint)
+				else:
+					draw_rect(dest, Color(theme["rock"]) * PIT_SHADE)
+			cell += Vector2i.UP
+
+
+## A célula está entre chão dos dois lados (parede do poço) na mesma linha?
+func _walled(solid: Dictionary, cell: Vector2i) -> bool:
+	return _wall_beside(solid, cell) != cell and _wall_beside(solid, cell, 1) != cell
+
+
+## Primeiro bloco sólido à esquerda (side = -1) ou à direita (side = 1); a própria célula se não houver.
+func _wall_beside(solid: Dictionary, cell: Vector2i, side := -1) -> Vector2i:
+	for i in range(1, PIT_REACH + 1):
+		var c := cell + Vector2i(side * i, 0)
+		if solid.has(c):
+			return c
+	return cell

@@ -17,8 +17,8 @@ const ROOM := {
 	"props": [
 		[P.FOREST + "trees.png", 176, 20, Rect2(0, 0, 512, 244)],
 		[P.FOREST + "trees.png", 1104, 20, Rect2(0, 0, 512, 244)],
-		[P.FOREST + "pushes.png", 640, 20, Rect2(0, 200, 512, 100)],
-		["crate-stack", 488, 20], ["wagon", 664, 20],
+		[P.FOREST + "pushes.png", 640, 20, Rect2(0, 125, 512, 175), 0.55],   # arbusto com o contorno de cima inteiro (sem corte reto)
+		["crate-stack", 488, 20], ["wagon", 640, 20],   # carroça fora de baixo da plataforma (x 688)
 		[U + "Bones_shadow1_1.png", 784, 20, Rect2(3, 5, 26, 22), 0.75, Color(0.65, 0.72, 0.8)],
 		[U + "Crystal_shadow1_1.png", 520, 10, Rect2(9, 7, 46, 50), 0.45, Color(0.6, 0.65, 0.9)],
 	],
