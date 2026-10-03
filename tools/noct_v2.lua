@@ -349,15 +349,19 @@ local function drop_specks(img, limit)
   return out
 end
 
--- WALK: caminhada da prancha de movimentos (recortada por tools/remaster_hero.gd --only=walk
--- em art_source/personagem principal/extra/walk.png), com a paleta e a cabeça do Noct v2.
+-- WALK: caminhada com a paleta e a cabeça do Noct v2.
 local walk_body, walk_vfx = {}, {}
-local walk_strip = Image{ fromFile = app.fs.joinPath(root, "art_source", "personagem principal", "extra", "walk.png") }
-for i = 0, walk_strip.width // W - 1 do
-  local img = Image(W, H, ColorMode.RGB)
-  img:drawImage(walk_strip, Point(-i * W, 0))
-  walk_body[i + 1] = put_head(clean(drop_specks(img, 12), pal))
-  walk_vfx[i + 1] = Image(W, H, ColorMode.RGB)
+-- (A caminhada da prancha de movimentos ficou com outro traço e foi descartada.) A base é a
+-- caminhada do nível carmesim 1 (c1_run), do mesmo traço do Idle: a chama do cabelo sai com a
+-- cabeça do Noct v2 e a energia restante vai para a camada vfx.
+for i, img in ipairs(frames_of("c1_run")) do
+  local body, vfx = split(img)
+  walk_body[i] = put_head(clean(drop_specks(body, 60), pal))
+  -- Sem a chama do cabelo (a forma normal não tem): a energia acima dos ombros sai.
+  local v = aura_outside(vfx, walk_body[i])
+  local cut = top(walk_body[i]) + HEAD_ROWS + 2
+  for y = 0, cut do for x = 0, W - 1 do v:drawPixel(x, y, pc.rgba(0, 0, 0, 0)) end end
+  walk_vfx[i] = drop_specks(v, 3)
 end
 
 -------------------------------------------------------------------------------
