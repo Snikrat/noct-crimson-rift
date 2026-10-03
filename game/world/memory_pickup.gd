@@ -4,6 +4,9 @@ extends Node2D
 const Fx := preload("res://game/core/fx.gd")
 
 const Memories := preload("res://data/memories.gd")
+const SHEET := preload("res://assets/hero/vfx/memory_ribbon.png")  # fonte: art_source/vfx/memory.aseprite
+const FRAMES := 6
+const SIZE := Vector2(22, 28)
 
 var level
 var memory_id := ""
@@ -11,7 +14,10 @@ var t := 0.0
 
 
 func _ready() -> void:
-	add_child(Fx.glow(Color(1, 0.15, 0.35), 30, 0.6))
+	var glow := Fx.glow(Color(1, 0.15, 0.35), 30, 0.6)
+	glow.z_index = 0
+	glow.show_behind_parent = true
+	add_child(glow)
 
 
 func place_feet_at(feet: Vector2) -> void:
@@ -40,15 +46,8 @@ func _collect() -> void:
 
 
 func _draw() -> void:
-	var bob := sin(t * 2.0) * 3
-	var pulse := 0.5 + 0.5 * sin(t * 3.0)
-	draw_circle(Vector2(0, bob), 12 + pulse * 3, Color(1, 0.15, 0.3, 0.12 + pulse * 0.08))
-	# Fita: duas pontas que balançam a partir de um nó.
-	var knot := Vector2(0, bob - 4)
-	for side in [-1, 1]:
-		var pts := PackedVector2Array()
-		for i in 7:
-			var k := i / 6.0
-			pts.append(knot + Vector2(side * (2 + k * 5) + sin(t * 3 + k * 4) * 1.5, k * 13))
-		draw_polyline(pts, Color(0.92, 0.12, 0.28), 2.0)
-	draw_circle(knot, 2.2, Color(1, 0.4, 0.5))
+	var bob := roundf(sin(t * 2.0) * 3)
+	var frame := int(t * 7) % FRAMES
+	var src := Rect2(Vector2(frame * SIZE.x, 0), SIZE)
+	# O nó da fita (pixel 11,8 de cada quadro) fica 4px acima do centro do halo.
+	draw_texture_rect_region(SHEET, Rect2(Vector2(-11, -12 + bob), SIZE), src)

@@ -12,13 +12,21 @@ var reveals := false          # luneta da torre: marca a região no mapa da paus
 var reward := 0
 var portal := false
 var phase := 0.0
-var textures: Array[Texture2D] = []
+const PORTAL_SHEET := preload("res://assets/hero/vfx/portal_sheet.png")
+const PORTAL_FRAMES := 6
+const PORTAL_SIZE := Vector2(40, 56)
+const Fx := preload("res://game/core/fx.gd")
+var glow: Sprite2D
 
 func _ready() -> void:
 	add_to_group("interactables")
 	if portal:
-		for name in ["portal1", "portal2"]:
-			textures.append(load("res://assets/hero/vfx/" + name + ".png"))
+		# Halo radial (redondo) atrás da fenda; a textura do portal tem bordas transparentes.
+		glow = Fx.glow(Color(1, 0.12, 0.35), 34, 0.45)
+		glow.position = Vector2(0, -30)
+		glow.z_index = 0
+		glow.show_behind_parent = true
+		add_child(glow)
 
 func place_feet_at(feet: Vector2) -> void:
 	position = feet
@@ -58,8 +66,11 @@ func _process(delta: float) -> void:
 func _draw() -> void:
 	var active: bool = requires == "" or level.requirement_met(requires)
 	if portal:
-		var tex := textures[int(phase * 5) % textures.size()]
-		draw_texture_rect(tex, Rect2(-24, -52, 48, 48), false, Color(1, 0.75, 1, 0.95 if active else 0.25))
+		var frame := int(phase * 8) % PORTAL_FRAMES
+		var src := Rect2(Vector2(frame * PORTAL_SIZE.x, 0), PORTAL_SIZE)
+		draw_texture_rect_region(PORTAL_SHEET, Rect2(Vector2(-20, -58), PORTAL_SIZE), src, Color(1, 1, 1, 1.0 if active else 0.3))
+		if glow:
+			glow.visible = active
 	else:
 		var alpha := 0.35 + 0.25 * sin(phase * 3)
 		draw_circle(Vector2(0, -34), 2, Color(1, 0.35, 0.6, alpha))
