@@ -213,8 +213,18 @@ func _run() -> void:
 	await tap("debug_crimson")
 	await wait(3)
 	check("F3 troca para a forma carmesim 1", p.crimson_level == 1 and String(p.sprite.animation).begins_with("c1_"), p.sprite.animation)
-	for i in 3:
-		await tap("debug_crimson")
+	# Abaixado em todos os níveis: depois de abaixar, a energia carmesim continua animando.
+	for lv in range(1, 4):
+		Input.action_press("down")
+		await wait(60)
+		var f0: int = p.sprite.frame
+		await wait(8)
+		check("carmesim %d abaixado continua animando" % lv, p.sprite.animation == "c%d_crouch_loop" % lv 			and p.sprite.is_playing() and p.sprite.frame != f0, "%s quadro %d" % [p.sprite.animation, p.sprite.frame])
+		Input.action_release("down")
+		await wait(5)
+		if lv < 3:
+			await tap("debug_crimson")
+	await tap("debug_crimson")   # nível 3 -> normal
 	await wait(3)
 	check("forma carmesim volta ao normal", p.crimson_level == 0 and not String(p.sprite.animation).begins_with("c"), p.sprite.animation)
 

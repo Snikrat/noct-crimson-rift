@@ -22,7 +22,8 @@ local ANIMS = {
   {"air_punch", 20}, {"air_kick", 20}, {"air_finish", 20}, {"hurt", 14}, {"death", 8},
   {"ultimate_charge", 14}, {"ultimate_burst", 12}, {"ultimate_pose", 8},
 }
-local CRIMSON = {{"idle", 4}, {"run", 11}, {"jump", 10}, {"double_jump", 14}, {"dash", 22}, {"crouch", 6}}
+local CRIMSON = {{"idle", 4}, {"run", 11}, {"jump", 10}, {"double_jump", 14}, {"dash", 22}, {"crouch", 6},
+  {"crouch_loop", 8}}   -- crouch_loop: criado por tools/noct_crouch_loop.lua
 for lv = 1, 3 do
   for _, a in ipairs(CRIMSON) do
     table.insert(ANIMS, {"c" .. lv .. "_" .. a[1], a[2], true})

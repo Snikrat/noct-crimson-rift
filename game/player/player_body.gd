@@ -371,6 +371,9 @@ func _play(anim: String) -> void:
 		var key := "c%d_%s" % [crimson_level, CRIMSON_ALIAS.get(anim, anim)]
 		if sprite.sprite_frames.has_animation(key):
 			anim = key
+		# Abaixado na forma carmesim: o loop da energia continua depois do crouch.
+		if sprite.animation == anim + "_loop":
+			return
 	if sprite.animation != anim:
 		sprite.play(anim)
 

@@ -36,6 +36,8 @@ const CRIMSON_LEVELS := 3
 const CRIMSON_ANIMS := {
 	"idle": [4, true, "pingpong"], "run": [11, true], "jump": [10, false],
 	"double_jump": [14, false], "dash": [22, false], "crouch": [6, false],
+	# Abaixado: depois de cN_crouch, a energia continua se mexendo (tools/noct_crouch_loop.lua).
+	"crouch_loop": [8, true],
 }
 
 
@@ -46,6 +48,15 @@ static func hero_meta() -> Dictionary:
 	var meta: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(HERO_DIR + "hero.json"))
 	if FileAccess.file_exists(CRIMSON_DIR + "crimson.json"):
 		meta.merge(JSON.parse_string(FileAccess.get_file_as_string(CRIMSON_DIR + "crimson.json")))
+	# Loops que saem do Aseprite (sem entrada no json): mesmo quadro do crouch, quadros pela largura.
+	for lv in range(1, CRIMSON_LEVELS + 1):
+		var key := "c%d_crouch_loop" % lv
+		var base := "c%d_crouch" % lv
+		if not meta.has(key) and meta.has(base) and ResourceLoader.exists(CRIMSON_DIR + key + ".png"):
+			var m: Dictionary = meta[base].duplicate()
+			var tex: Texture2D = load(CRIMSON_DIR + key + ".png")
+			m["frames"] = tex.get_width() / int(m["w"])
+			meta[key] = m
 	return meta
 
 

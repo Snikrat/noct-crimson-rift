@@ -273,6 +273,10 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_anim_finished() -> void:
+	var loop := String(sprite.animation) + "_loop"
+	if String(sprite.animation).ends_with("_crouch") and sprite.sprite_frames.has_animation(loop):
+		sprite.play(loop)
+		return
 	if ultimate_timer > 0:
 		match sprite.animation:
 			"ultimate_charge":
