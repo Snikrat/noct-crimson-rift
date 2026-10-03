@@ -210,14 +210,40 @@ for _, r in ipairs(RETOQUES) do
   base:drawPixel(r[1], r[2], pc.rgba(c[1], c[2], c[3], 255))
 end
 local t0 = top(base)
+
+-- Cabeça menor (pedido: a cabeça destoava do corpo): o volume do cabelo perde 1 linha (no meio
+-- do cabelo) e 1 coluna (na nuca). Rosto, óculos e queixo ficam como estão.
+local function shrink_head(img, head_top)
+  local out = img:clone()
+  local hx0, hx1 = W, 0
+  for y = head_top, head_top + 10 do
+    for x = 0, W - 1 do
+      if pc.rgbaA(img:getPixel(x, y)) > 0 then hx0 = math.min(hx0, x); hx1 = math.max(hx1, x) end
+    end
+  end
+  local cut_row = head_top + 2            -- linha de cabelo que sai
+  for y = cut_row, head_top + 1, -1 do
+    for x = hx0 - 1, hx1 + 1 do out:drawPixel(x, y, out:getPixel(x, y - 1)) end
+  end
+  for x = hx0 - 1, hx1 + 1 do out:drawPixel(x, head_top, pc.rgba(0, 0, 0, 0)) end
+  local cut_col = hx0 + 2                 -- coluna de cabelo da nuca que sai
+  for y = head_top, head_top + 5 do
+    for x = cut_col, hx0, -1 do out:drawPixel(x, y, out:getPixel(x - 1, y)) end
+    out:drawPixel(hx0 - 1, y, pc.rgba(0, 0, 0, 0))
+  end
+  return out
+end
+base = shrink_head(base, t0)
+
+-- Respiração sutil: só ombros e peito sobem 1 px (a cabeça não se mexe).
 local chest = t0 + 17                       -- até o meio do peito (a cintura fica parada)
-local breath = lift(base, t0, chest, 1)
+local breath = lift(base, t0 + 12, chest, 1)
 local idle_body = { base, base, breath, breath }
 local idle_vfx = { aura_outside(vfxs.idle2, base), aura_outside(vfxs.idle4, base),
   aura_outside(vfxs.idle6, breath), aura_outside(vfxs.idle4, breath) }
 
 -- IDLE_VAR: o Noct abaixa a cabeça (cansaço), fica e volta. Cabeça = 11 linhas do topo.
-local head_down = lift(base, t0, t0 + 10, -1)
+local head_down = lift(base, t0 + 1, t0 + 10, -1)
 local idle_var_body = { base, head_down, head_down, head_down, base }
 local idle_var_vfx = { idle_vfx[1], idle_vfx[2], idle_vfx[2], idle_vfx[1], idle_vfx[1] }
 
