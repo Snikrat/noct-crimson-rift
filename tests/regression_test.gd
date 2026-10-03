@@ -25,6 +25,13 @@ func check(label: String, success: bool) -> void:
 		failed += 1
 
 
+## Termina na hora o voo dos fragmentos dos espinhos (o efeito dura menos de 1 s).
+func finish_shatter() -> void:
+	if p.shatter != null:
+		p.shatter._process(p.ShardScript.TOTAL)
+		p._process_shatter()
+
+
 func write_json(path: String, data: Variant) -> void:
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	file.store_string(JSON.stringify(data))
@@ -193,9 +200,12 @@ func _run() -> void:
 	p.hp = p.max_hp
 	var before_lava: int = p.hp
 	p.global_position = Vector2(16 * 16 + 8, 25 * 16 - 4)
+	p.soul = 20
 	p.slamming = true
 	p._process_slam()
-	check("mergulho na lava causa dano e retorna ao chão seguro", p.hp == before_lava - 1 and not p.slamming and p.global_position == p.safe_pos)
+	check("lava desfaz o Noct em fragmentos e custa 1/3 de uma magia em alma", p.hp == before_lava - 1 and not p.slamming and p.shatter != null and not p.sprite.visible and p.soul == 20 - p.SPELL_COST / 3)
+	finish_shatter()
+	check("fragmentos remontam o Noct no chão seguro", p.shatter == null and p.sprite.visible and p.global_position == p.safe_pos)
 	var lava: Rect2 = main.hazards[0]
 	var walker = main._spawn(load("res://game/enemies/enemy_crawler.gd"), lava.get_center(), {"kind": "skeleton"})
 	var walker_hp: int = walker.hp
@@ -214,8 +224,12 @@ func _run() -> void:
 	p.global_position.y = p.world_size.y + p.SIZE.y * 2
 	p.slamming = true
 	var before_fall: int = p.hp
+	p.invuln_timer = 0
+	p.soul = 5
 	p._process_slam()
+	finish_shatter()
 	check("mergulho sem chão retorna à posição segura", p.hp == before_fall - 1 and not p.slamming and p.global_position == p.safe_pos)
+	check("alma não fica negativa ao cair", p.soul == 0)
 	# Espera hitstops/efeitos pendentes antes de liberar a cena do teste.
 	await create_timer(0.6, true, false, true).timeout
 	change_scene_to_file("res://game/ui/title.tscn")

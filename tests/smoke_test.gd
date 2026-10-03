@@ -325,6 +325,11 @@ func _run() -> void:
 	var hp_lava: int = p.hp
 	p.global_position = Vector2(16 * 16 + 8, 25 * 16 - 4)
 	await wait(10)
+	# Os fragmentos carmesim levam menos de 1 s para remontar o Noct no chão seguro.
+	for i in 120:
+		if p.shatter == null:
+			break
+		await wait(1)
 	check("lava machuca e devolve ao chão seguro", p.hp < hp_lava and p.global_position.y < 24 * 16, "hp %d->%d" % [hp_lava, p.hp])
 	p.hp = p.max_hp
 

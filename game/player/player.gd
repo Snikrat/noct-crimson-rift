@@ -52,6 +52,7 @@ func enter_room(feet: Vector2) -> void:
 
 ## Ações de combate e movimento não atravessam salas nem sobrevivem à morte.
 func _reset_actions() -> void:
+	_end_shatter()
 	crouching = false
 	_cancel_move()
 	velocity = Vector2.ZERO
@@ -166,6 +167,10 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		if death_timer <= delta:
 			level.respawn_player()
+		return
+
+	if shatter != null:
+		_process_shatter()
 		return
 
 	if ultimate_timer > 0:

@@ -8,6 +8,7 @@ const Progression := preload("res://data/progression.gd")
 const OrbScript := preload("res://game/spells/spell_orb.gd")
 const ThunderScript := preload("res://game/spells/spell_thunder.gd")
 const DragonScript := preload("res://game/spells/ultimate_dragon.gd")
+const ShardScript := preload("res://game/player/shard_return.gd")
 
 const SIZE := Vector2(14, 40)
 const SPEED := 150.0
@@ -45,6 +46,7 @@ const STILL_SOUL_RATE := 8.0    # alma por segundo
 const MAX_SOUL := 99
 const SOUL_PER_HIT := 11
 const SPELL_COST := 33
+const HAZARD_SOUL_LOSS := SPELL_COST / 3   # cair nos espinhos também custa um pouco de alma
 const TAP_TIME := 0.2      # soltar a magia antes disso = lançar; segurar = concentrar
 const FOCUS_TIME := 0.9    # tempo concentrando para curar 1 máscara
 const SPELL_COOLDOWN := 0.35
@@ -107,6 +109,7 @@ var hurt_timer := 0.0
 var death_timer := 0.0
 var recoil_x := 0.0
 var safe_pos := Vector2.ZERO
+var shatter: Node2D = null    # fragmentos voando até o chão seguro depois dos espinhos
 var wall_dir := 0             # lado da parede em que está agarrado (-1/1; 0 = nenhuma)
 var still_timer := 0.0        # tempo parado no chão (amuleto Um Dia de Cada Vez)
 var still_soul := 0.0
@@ -449,6 +452,8 @@ func _take_damage(knock_dir: float, from_hazard: bool) -> void:
 	slamming = false
 	slam_recover = 0
 	hp -= 1
+	if from_hazard:
+		soul = maxi(soul - HAZARD_SOUL_LOSS, 0)
 	invuln_timer = INVULN_TIME
 	hurt_timer = HURT_TIME
 	dash_timer = 0
@@ -465,9 +470,7 @@ func _take_damage(knock_dir: float, from_hazard: bool) -> void:
 		_die()
 		return
 	if from_hazard:
-		global_position = safe_pos
-		velocity = Vector2.ZERO
-		recoil_x = 0
+		_shatter_to_safe_pos()
 	else:
 		velocity.y = -220
 		recoil_x = knock_dir * 240
@@ -483,6 +486,47 @@ func _die() -> void:
 	sprite.flip_h = facing < 0
 	sprite.play("death")
 	level.show_cutin("dor", 1.0, Color(0.7, 0.1, 0.15))
+
+
+## Espinhos: Noct se desfaz em fragmentos carmesim que voam até o último chão seguro.
+func _shatter_to_safe_pos() -> void:
+	_end_shatter()
+	velocity = Vector2.ZERO
+	recoil_x = 0
+	hurt_timer = 0
+	shatter = ShardScript.new()
+	shatter.from = global_position
+	shatter.to = safe_pos
+	level.world.add_child(shatter)
+	invuln_timer = ShardScript.TOTAL + INVULN_TIME
+	sprite.visible = false
+	if aura:
+		aura.visible = false
+	level.flash_screen(Color(0.9, 0.1, 0.3), 0.2)
+	Audio.play_sfx("absorb", 0.0, 0.7)
+
+
+## Enquanto os fragmentos voam o Noct fica invisível seguindo o meio deles (a câmera vai junto).
+func _process_shatter() -> void:
+	velocity = Vector2.ZERO
+	if not is_instance_valid(shatter):
+		_end_shatter()
+		return
+	if not shatter.done:
+		global_position = shatter.center()
+		return
+	global_position = safe_pos
+	_end_shatter()
+	was_on_floor = true
+	sprite.play("idle")
+	_apply_offset()
+	Audio.play_sfx("absorb", 0.0, 1.3)
+
+
+## Volta a mostrar o Noct; os fragmentos que ainda brilham somem sozinhos.
+func _end_shatter() -> void:
+	shatter = null
+	sprite.visible = true
 
 
 ## Guarda o último chão firme longe de espinhos, para voltar ao cair neles.
