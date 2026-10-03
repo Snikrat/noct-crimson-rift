@@ -199,10 +199,11 @@ end
 local base = clean(bodies.idle1, pal)
 -- O corpo do Idle fica com os punhos inteiros (a energia do próprio quadro faz parte da mão).
 base = clean(idle_src[1], pal)
--- Retoques à mão no Idle (a base de todo o Noct v2): óculos escuros com reflexo e o brinco.
+-- Retoques à mão no Idle (a base de todo o Noct v2). O Noct não usa óculos: a faixa escura
+-- dos olhos (sobra das pranchas) vira pele com o olho, e o brinco fica destacado.
 local RETOQUES = {
-  {49, 28, "#120610"}, {50, 28, "#695a5e"}, {51, 28, "#120610"}, {48, 28, "#190c19"},
-  {50, 29, "#190c19"}, {51, 29, "#190c19"},
+  {48, 28, "#a55b40"}, {49, 28, "#c17247"}, {50, 28, "#2e161d"}, {51, 28, "#85543f"},
+  {50, 29, "#c17247"}, {51, 29, "#6c3329"},
   {46, 31, "#9d8481"},
 }
 for _, r in ipairs(RETOQUES) do
