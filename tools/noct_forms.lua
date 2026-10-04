@@ -17,8 +17,13 @@ local W, H = spr.width, spr.height
 local crimson_dir = app.fs.joinPath(root, "assets", "hero", "crimson")
 
 -- Animações de cada forma (as básicas). crouch_loop = a pose abaixada com a aura se mexendo.
-local ANIMS = { "idle", "walk", "run", "run_start", "run_stop", "jump", "fall", "land", "double_jump",
-  "dash", "air_dash", "crouch", "crouch_loop", "look_up", "look_up_loop" }
+-- TODAS as animações do Noct base (movimento, golpes, combos, magia, dano, morte, Ultimate),
+-- para a forma valer em tudo, mais o crouch_loop. A Forma Demoníaca (demon_form.gd) só desenha
+-- por código quando falta a arte.
+local ANIMS = { "crouch_loop" }
+for _, t in ipairs(spr.tags) do
+  if not t.name:match("^c%d_") then table.insert(ANIMS, t.name) end
+end
 if app.params.anims then
   ANIMS = {}
   for n in string.gmatch(app.params.anims, "[^,]+") do table.insert(ANIMS, n) end

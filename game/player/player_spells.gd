@@ -43,7 +43,7 @@ func _handle_spells(delta: float) -> void:
 		if focusing:
 			level.spawn_crimson("circle", global_position + Vector2(0, 19), facing, _focus_time(), self)
 			sprite.frame = 0  # a aura recomeça a crescer para a próxima máscara
-			sprite.play("crouch")
+			sprite.play(_form_anim("crouch"))
 		level.refresh_hud()
 
 
@@ -99,7 +99,7 @@ func _start_ultimate() -> void:
 	invuln_timer = ULTIMATE_TIME + 0.5
 	velocity = Vector2.ZERO
 	# 1) Em pé acumulando poder -> 2) agachado carregando a esfera -> 3) pose final, que solta o dragão.
-	sprite.play("ultimate_charge")
+	sprite.play(_form_anim("ultimate_charge"))
 	level.show_cutin("ultimate", 1.3)
 	Audio.play_sfx("charge", 0.0, 0.9)
 	level.shake(2.0)
@@ -107,7 +107,7 @@ func _start_ultimate() -> void:
 
 ## Fim da preparação: explosão de aura e o dragão sai.
 func _release_dragon() -> void:
-	sprite.play("ultimate_pose")
+	sprite.play(_form_anim("ultimate_pose"))
 	Audio.play_sfx("explosion", 0.0, 0.6)
 	level.shake(6.0)
 	var dragon = DragonScript.new()

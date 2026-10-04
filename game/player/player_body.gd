@@ -310,7 +310,7 @@ func _start_move(name: String) -> void:
 	attack_queued = false
 	hit_this_swing.clear()
 	combo_timer = COMBO_WINDOW + 0.4
-	sprite.play(MOVES[name]["anim"])
+	sprite.play(_form_anim(MOVES[name]["anim"]))
 	if demon:
 		demon.on_move_started(name)
 	Audio.play_sfx("swing", 0.08, 0.8 if name in ["kick", "charged", "combo4", "finisher"] else 1.0)
@@ -389,6 +389,13 @@ func _apply_offset() -> void:
 		ax = m["w"] - 1 - ax
 	sprite.offset = Vector2(-ax, -m["ay"] - 1)
 	sprite.position.y = SIZE.y / 2
+
+
+## A animação na forma carmesim atual (c<n>_<anim>) quando existe; senão, a normal.
+func _form_anim(anim: String) -> String:
+	if crimson_level > 0 and sprite.sprite_frames.has_animation("c%d_%s" % [crimson_level, anim]):
+		return "c%d_%s" % [crimson_level, anim]
+	return anim
 
 
 ## Nome da animação atual sem o prefixo da forma carmesim ("c2_run" -> "run").
@@ -553,7 +560,7 @@ func _die() -> void:
 	recoil_x = 0
 	sprite.modulate.a = 1.0
 	sprite.flip_h = facing < 0
-	sprite.play("death")
+	sprite.play(_form_anim("death"))
 	level.show_cutin("dor", 1.0, Color(0.7, 0.1, 0.15))
 
 

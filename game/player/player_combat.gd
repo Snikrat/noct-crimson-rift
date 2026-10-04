@@ -17,7 +17,7 @@ func _handle_attack_input(delta: float) -> void:
 		elif Input.is_action_pressed("down"):
 			if is_on_floor():
 				_start_move("low_punch")
-			elif move.begins_with("air_") or (combo_timer > 0 and String(sprite.animation).begins_with("air_")):
+			elif move.begins_with("air_") or (combo_timer > 0 and _base_anim().begins_with("air_")):
 				_start_slam()
 			else:
 				_start_vertical(Vector2.DOWN)
@@ -68,7 +68,7 @@ func _start_slam() -> void:
 	dash_timer = 0
 	velocity = Vector2(0, SLAM_SPEED)
 	invuln_timer = maxf(invuln_timer, 0.2)
-	sprite.play("slam")
+	sprite.play(_form_anim("slam"))
 	sprite.pause()
 	sprite.frame = 0
 	Audio.play_sfx("rise", 0.05, 0.6)
@@ -107,7 +107,7 @@ func _process_hits() -> void:
 		_release_orb()
 	if move != "":
 		var m: Dictionary = MOVES[move]
-		if sprite.animation == m["anim"] and sprite.frame >= m["frames"][0] and sprite.frame <= m["frames"][1]:
+		if _base_anim() == m["anim"] and sprite.frame >= m["frames"][0] and sprite.frame <= m["frames"][1]:
 			_hit_area(_move_rect(move), Vector2(facing, 0), m["damage"] + _melee_bonus(), m.get("knock", 0.0))
 	if vertical_timer > 0:
 		var landed := _hit_area(_vertical_rect(), vertical_dir, 1 + _melee_bonus(), 0.0)

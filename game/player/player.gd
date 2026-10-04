@@ -304,15 +304,15 @@ func _on_anim_finished() -> void:
 		sprite.play(loop)
 		return
 	if ultimate_timer > 0:
-		match sprite.animation:
+		match _base_anim():
 			"ultimate_charge":
-				sprite.play("ultimate_burst")
+				sprite.play(_form_anim("ultimate_burst"))
 				Audio.play_sfx("thunder", 0.0, 0.7)
 				level.shake(3.0)
 			"ultimate_burst":
 				_release_dragon()
 		return
-	if move != "" and sprite.animation == MOVES[move]["anim"]:
+	if move != "" and _base_anim() == MOVES[move]["anim"]:
 		move = ""
 		if attack_queued:
 			_start_combo_hit()

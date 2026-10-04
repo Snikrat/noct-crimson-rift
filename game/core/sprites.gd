@@ -64,7 +64,7 @@ static func hero_meta() -> Dictionary:
 	for anim in HERO_ANIMS:
 		missing[anim] = HERO_DIR + anim + ".png"
 	for lv in range(1, CRIMSON_LEVELS + 1):
-		for anim in CRIMSON_ANIMS:
+		for anim in crimson_anims():
 			missing["c%d_%s" % [lv, anim]] = CRIMSON_DIR + "c%d_%s.png" % [lv, anim]
 	# O número de quadros sempre sai da largura da tira (as tiras do Aseprite podem mudar).
 	for key in missing:
@@ -106,14 +106,22 @@ static func hero() -> SpriteFrames:
 	return f
 
 
+## Animações das formas carmesim: todas as do Noct base (mesma velocidade) e as próprias delas.
+static func crimson_anims() -> Dictionary:
+	var all := HERO_ANIMS.duplicate()
+	all.merge(CRIMSON_ANIMS, true)
+	return all
+
+
 static func _add_crimson(f: SpriteFrames, meta: Dictionary) -> void:
+	var anims := crimson_anims()
 	for lv in range(1, CRIMSON_LEVELS + 1):
-		for anim in CRIMSON_ANIMS:
+		for anim in anims:
 			var key := "c%d_%s" % [lv, anim]
 			if not meta.has(key):
 				continue
 			var m: Dictionary = meta[key]
-			var cfg: Array = CRIMSON_ANIMS[anim]
+			var cfg: Array = anims[anim]
 			add_sheet(f, key, CRIMSON_DIR + key + ".png", Vector2(m["w"], m["h"]), 0, int(m["frames"]) - 1, cfg[0], cfg[1])
 			if cfg.size() > 2 and cfg[2] == "pingpong":
 				var count := f.get_frame_count(key)
