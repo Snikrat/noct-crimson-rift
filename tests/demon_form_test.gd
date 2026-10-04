@@ -211,12 +211,28 @@ func _run() -> void:
 	check("cancelar desliga", not d.active)
 	check("cancelar cedo não dá ressaca", d.hangover <= 0)
 
-	# --- Troca de sala desliga a forma ---
+	# --- Troca de sala mantém a forma (inclusive durante a fala de chegada) ---
 	await transform_now()
+	gs().seen_intros.erase("swamp")
 	main.load_room("swamp", "L")
 	await wait(6)
+	check("sala nova abre a fala de chegada", main.is_dialog_open())
+	check("trocar de sala mantém a forma", d.active and p.crimson_level == 1)
+	check("na fala de chegada o Noct segue transformado", String(p.sprite.animation).begins_with("c1_"), p.sprite.animation)
 	await skip_dialogs()
-	check("trocar de sala desliga a forma", not d.active and d.transforming <= 0)
+	await wait(4)
+	check("depois da fala segue transformado", d.active and String(p.sprite.animation).begins_with("c1_"), p.sprite.animation)
+	await tap("transform")
+	check("cancelar depois da troca de sala desliga", not d.active and p.crimson_level == 0)
+
+	# --- Forma carmesim de teste (F3) também atravessa a sala ---
+	p.crimson_level = 2
+	await wait(4)
+	main.load_room("town", "R")
+	await wait(4)
+	await skip_dialogs()
+	check("forma carmesim 2 atravessa a sala", p.crimson_level == 2 and String(p.sprite.animation).begins_with("c2_"), p.sprite.animation)
+	p.crimson_level = 0
 
 	print("== RESULTADO: %d OK, %d FALHOU ==" % [passed, failed.size()])
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(gs().save_path))

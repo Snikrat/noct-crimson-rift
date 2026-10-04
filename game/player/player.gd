@@ -52,13 +52,14 @@ func set_world_size(size: Vector2) -> void:
 func enter_room(feet: Vector2) -> void:
 	position = feet - Vector2(0, SIZE.y / 2)
 	safe_pos = position
-	_reset_actions()
+	_reset_actions(true)
 	cam.reset_smoothing()
 	cam.force_update_scroll()
 
 
 ## Ações de combate e movimento não atravessam salas nem sobrevivem à morte.
-func _reset_actions() -> void:
+## A forma (Forma Demoníaca e arte carmesim) atravessa salas: keep_form mantém o Noct transformado.
+func _reset_actions(keep_form := false) -> void:
 	_end_shatter()
 	crouching = false
 	_cancel_move()
@@ -91,8 +92,9 @@ func _reset_actions() -> void:
 	if ultimate_timer > 0:
 		invuln_timer = minf(invuln_timer, 0.3)
 	ultimate_timer = 0
-	demon.reset()
-	sprite.play("idle")
+	if not keep_form:
+		demon.reset()
+	_play("idle")
 	_apply_offset()
 
 
