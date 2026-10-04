@@ -95,6 +95,21 @@ func _run() -> void:
 		p._on_anim_finished()
 		ground_chain.append(p.move)
 	check("combo no chão tem 5 golpes até o finalizador: " + str(ground_chain), ground_chain == ["punch", "combo", "kick", "combo4", "finisher"])
+	# Cada forma carmesim tem o seu combo no chão.
+	for lv in [1, 2, 3]:
+		p._cancel_move()
+		p.combo_timer = 0
+		p.crimson_level = lv
+		var form_chain := []
+		p._start_combo_hit()
+		form_chain.append(p.move)
+		for i in p.FORM_COMBOS[lv]["ground"].size() - 1:
+			p.attack_queued = true
+			p._on_anim_finished()
+			form_chain.append(p.move)
+		check("forma %d tem o próprio combo no chão: %s" % [lv, str(form_chain)], form_chain == p.FORM_COMBOS[lv]["ground"])
+		check("forma %d toca a arte da forma no golpe" % lv, String(p.sprite.animation).begins_with("c%d_" % lv))
+	p.crimson_level = 0
 	p._cancel_move()
 	p.combo_timer = 0
 	var before_air: Vector2 = p.position

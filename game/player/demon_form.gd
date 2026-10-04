@@ -134,7 +134,7 @@ func on_kill() -> void:
 
 ## Golpes que soltam a lâmina carmesim (fim do combo no chão e no ar).
 func on_move_started(move_name: String) -> void:
-	if not active or not move_name in SLASH_MOVES:
+	if not active or not (move_name in SLASH_MOVES or move_name.begins_with("finisher_")):
 		return
 	var s := SlashScript.new()
 	s.level = level

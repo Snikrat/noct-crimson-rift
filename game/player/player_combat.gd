@@ -45,8 +45,21 @@ func _start_combo_hit() -> void:
 	if combo_timer <= 0 or (not airborne and not has("combo")):
 		combo_step = 0
 	var chain := ["air_punch", "air_kick", "air_spin", "air_finish"] if airborne else (["punch", "combo", "kick", "combo4", "finisher"] if has("combo") else ["punch"])
+	if FORM_COMBOS.has(crimson_level):
+		chain = FORM_COMBOS[crimson_level]["air" if airborne else "ground"]
 	_start_move(chain[combo_step % chain.size()])
 	combo_step += 1
+
+
+## Combos de cada forma carmesim (cada nível tem a sua sequência no chão e no ar; ver MOVES).
+const FORM_COMBOS := {
+	1: {"ground": ["f1_claw", "f1_claw2", "f1_tail", "f1_fang", "finisher_f1"],
+		"air": ["air_punch", "air_kick", "air_finish"]},
+	2: {"ground": ["f2_cross", "f2_upper", "f2_sweep", "finisher_f2"],
+		"air": ["air_kick", "air_spin", "air_finish"]},
+	3: {"ground": ["f3_rush", "f3_kick", "f3_upper", "f3_orb", "finisher_f3"],
+		"air": ["air_spin", "air_kick", "air_spin", "air_finish"]},
+}
 
 
 func _start_vertical(dir: Vector2) -> void:
@@ -109,6 +122,11 @@ func _process_hits() -> void:
 		var m: Dictionary = MOVES[move]
 		if _base_anim() == m["anim"] and sprite.frame >= m["frames"][0] and sprite.frame <= m["frames"][1]:
 			_hit_area(_move_rect(move), Vector2(facing, 0), m["damage"] + _melee_bonus(), m.get("knock", 0.0))
+			if not move_fx_done and m.has("fx"):
+				move_fx_done = true
+				level.spawn_crimson(m["fx"], global_position + Vector2(facing * 22, 4), facing, 0.35)
+				if m.has("shake"):
+					level.shake(m["shake"])
 	if vertical_timer > 0:
 		var landed := _hit_area(_vertical_rect(), vertical_dir, 1 + _melee_bonus(), 0.0)
 		if vertical_dir == Vector2.DOWN and not "spike" in hit_this_swing:

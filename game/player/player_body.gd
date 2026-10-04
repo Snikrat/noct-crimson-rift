@@ -67,6 +67,25 @@ const MOVES := {
 	# Combo no chão: jab -> cross -> chute -> soco ascendente -> finalizador (soco no chão).
 	"combo4": {"anim": "up_punch", "frames": [3, 5], "area": Rect2(-4, -54, 52, 50), "damage": 2},
 	"finisher": {"anim": "low_punch", "frames": [3, 4], "area": Rect2(-6, -26, 66, 46), "damage": 3, "knock": 340},
+	# --- Combos das formas carmesim (demônio-raposa); a animação vira a da forma (cN_) sozinha. ---
+	# fx = efeito carmesim no primeiro quadro que acerta; shake = tremor da tela.
+	# Nível 1, Juramento: garras rápidas, chicote da cauda, presa e explosão de energia à frente.
+	"f1_claw": {"anim": "jab", "frames": [1, 2], "area": Rect2(2, -20, 50, 36), "damage": 1},
+	"f1_claw2": {"anim": "cross", "frames": [1, 2], "area": Rect2(2, -22, 56, 38), "damage": 1},
+	"f1_tail": {"anim": "kick", "frames": [2, 4], "area": Rect2(-8, -24, 54, 34), "damage": 2, "knock": 260, "fx": "trail"},
+	"f1_fang": {"anim": "up_punch", "frames": [3, 5], "area": Rect2(-4, -60, 52, 56), "damage": 2},
+	"finisher_f1": {"anim": "charged", "frames": [3, 3], "area": Rect2(2, -24, 76, 34), "damage": 3, "knock": 320, "fx": "impact", "shake": 3.0},
+	# Nível 2, Ruptura: golpes pesados, varrida das caudas dos dois lados e esmagamento no chão.
+	"f2_cross": {"anim": "cross", "frames": [1, 2], "area": Rect2(2, -22, 58, 38), "damage": 2},
+	"f2_upper": {"anim": "uppercut", "frames": [3, 5], "area": Rect2(-14, -70, 46, 78), "damage": 2},
+	"f2_sweep": {"anim": "air_spin", "frames": [1, 3], "area": Rect2(-34, -26, 68, 46), "damage": 2, "knock": 200, "fx": "circle"},
+	"finisher_f2": {"anim": "low_punch", "frames": [3, 4], "area": Rect2(-10, -28, 76, 48), "damage": 4, "knock": 380, "fx": "shockwave", "shake": 5.0},
+	# Nível 3, Consumido: investida, chute, uppercut, rajada de energia e a explosão das cinco caudas.
+	"f3_rush": {"anim": "cross", "frames": [1, 2], "area": Rect2(2, -22, 62, 40), "damage": 2},
+	"f3_kick": {"anim": "kick", "frames": [2, 4], "area": Rect2(-4, -26, 54, 36), "damage": 3, "knock": 280},
+	"f3_upper": {"anim": "uppercut", "frames": [3, 5], "area": Rect2(-14, -72, 48, 80), "damage": 3},
+	"f3_orb": {"anim": "cast", "frames": [3, 5], "area": Rect2(4, -32, 64, 42), "damage": 3, "fx": "impact"},
+	"finisher_f3": {"anim": "ultimate_burst", "frames": [4, 6], "area": Rect2(-46, -42, 92, 60), "damage": 5, "knock": 420, "fx": "shockwave", "shake": 8.0},
 	"charged": {"anim": "charged", "frames": [3, 3], "area": Rect2(2, -22, 66, 30), "damage": 4, "knock": 320},
 	"uppercut": {"anim": "uppercut", "frames": [3, 5], "area": Rect2(-14, -70, 44, 78), "damage": 3},
 	# Socos diagonais: para cima (cima + ataque) e para baixo até o chão (baixo + ataque, no chão).
@@ -132,6 +151,7 @@ var vertical_dir := Vector2.ZERO
 var orb_pending := false      # a magia foi lançada e a bola sai quando a pose chegar no soco
 const CAST_RELEASE_FRAME := 4
 var hit_this_swing := []
+var move_fx_done := false     # o efeito carmesim do golpe já saiu
 var slamming := false
 var slam_recover := 0.0
 var ultimate_timer := 0.0
@@ -310,6 +330,7 @@ func _start_move(name: String) -> void:
 	move = name
 	attack_queued = false
 	hit_this_swing.clear()
+	move_fx_done = false
 	combo_timer = COMBO_WINDOW + 0.4
 	sprite.play(_form_anim(MOVES[name]["anim"]))
 	if demon:
