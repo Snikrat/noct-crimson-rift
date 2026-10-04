@@ -3,7 +3,8 @@ extends Control
 ## Toda fala espera o botão para passar; nenhuma passa sozinha.
 ## Com "anchor", a fala vira um balão fixo e centralizado sobre esse ponto do mundo (comentário de chegada).
 ## Falas do herói ("@expressão: texto") mostram o rosto dele à esquerda;
-## falas do NPC mostram o desenho dele ampliado à direita.
+## falas dos personagens mostram o rosto deles à direita (ou o desenho ampliado, se não tiver rosto).
+## Com o Noct transformado, o rosto dele é o da forma atual (assets/hero/crimson/portrait_c<n>_<expressão>.png).
 
 const Paths := preload("res://data/asset_paths.gd")
 const GOLD := Color("e8c872")
@@ -15,11 +16,22 @@ const FACES := [
 	"olhar_cima", "olhar_baixo", "fechando_olhos", "calmo", "sombrio", "maligno", "magia_olhos", "magia_aura", "em_combate", "ultimate",
 ]
 
+# Rosto de cada personagem que fala (assets/portraits/<id>.png, tools/make_npc_portraits.lua).
+const NPC_PORTRAITS := {
+	"Velho Zeno": "zeno", "Irmã Lívia": "livia", "Ferreiro Brom": "brom", "Forasteiro": "forasteiro",
+	"Tessa": "tessa", "Bringer of Death": "bringer", "Demon Slime": "demon_slime", "Gato Infernal": "gato",
+	"Velário, o Carcereiro": "velario", "Capitão dos Desgarrados": "capitao", "Custódio do Selo": "custodio",
+	"Vigia Errante": "vigia", "Mira": "mira", "A Fenda": "fenda",
+}
+const CRIMSON_LEVELS := 3
+
 signal finished               # a conversa acabou (fechou)
 signal chosen(option: int)    # resposta de uma escolha (ask)
 
 var level
 var portraits := {}         # rostos já carregados (carregar durante o desenho deixava o rosto branco)
+var crimson_portraits := {} # "<nível>:<expressão>" -> rosto da Forma Demoníaca
+var npc_portraits := {}     # nome de quem fala -> rosto
 var speaker := ""
 var lines: Array = []
 var index := -1
@@ -40,11 +52,36 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	for face in FACES:
 		portraits[face] = load(Paths.HERO + "portrait_%s.png" % face)
+		for n in range(1, CRIMSON_LEVELS + 1):
+			var path := Paths.HERO + "crimson/portrait_c%d_%s.png" % [n, face]
+			if ResourceLoader.exists(path):
+				crimson_portraits["%d:%s" % [n, face]] = load(path)
+	for who in NPC_PORTRAITS:
+		var path: String = Paths.PORTRAITS + NPC_PORTRAITS[who] + ".png"
+		if ResourceLoader.exists(path):
+			npc_portraits[who] = load(path)
 
 
-## Rosto pelo nome da expressão (usado também no HUD).
+## Rosto pelo nome da expressão (usado também no HUD). Com o Noct transformado, o da forma atual.
 func portrait(face: String) -> Texture2D:
-	return portraits.get(face, portraits["neutro"])
+	if not portraits.has(face):
+		face = "neutro"
+	var form := form_level()
+	if form > 0 and crimson_portraits.has("%d:%s" % [form, face]):
+		return crimson_portraits["%d:%s" % [form, face]]
+	return portraits[face]
+
+
+## Nível da Forma Demoníaca ativa (0 = Noct normal).
+func form_level() -> int:
+	if level == null or not is_instance_valid(level.player):
+		return 0
+	return int(level.player.crimson_level)
+
+
+## Rosto de quem fala (null se o personagem não tiver um).
+func npc_portrait(who: String) -> Texture2D:
+	return npc_portraits.get(who)
 
 
 func is_open() -> bool:
@@ -204,7 +241,7 @@ func _draw_balloon() -> void:
 	if face != "":
 		var frame := Rect2(box.position + Vector2(3, 3), Vector2(32, 32))
 		draw_rect(frame, Color(0.15, 0.05, 0.1))
-		draw_texture_rect(portraits[face], frame, false)
+		draw_texture_rect(portrait(face), frame, false)
 		draw_rect(frame, Color(1, 0.3, 0.6, 0.7), false, 1)
 		text_x = frame.end.x + 6
 	var name_color := Color(1, 0.55, 0.75) if who == HERO_NAME else GOLD
@@ -241,12 +278,19 @@ func _draw() -> void:
 		line = parsed[1]
 		var frame := Rect2(box.position + Vector2(4, 4), Vector2(72, 72))
 		draw_rect(frame, Color(0.15, 0.05, 0.1))
-		draw_texture_rect(portraits[face], frame, false)
+		draw_texture_rect(portrait(face), frame, false)
 		draw_rect(frame, Color(1, 0.3, 0.6, 0.7), false, 1)
 		who = HERO_NAME
 		name_color = Color(1, 0.55, 0.75)
 		text_x = frame.end.x + 8
 		text_w = box.end.x - text_x - 10
+	elif who != "" and npc_portraits.has(who):
+		# Fala de um personagem com rosto: quadro à direita, como o do Noct à esquerda.
+		var frame := Rect2(Vector2(box.end.x - 76, box.position.y + 4), Vector2(72, 72))
+		draw_rect(frame, Color(0.15, 0.05, 0.1))
+		draw_texture_rect(npc_portraits[who], frame, false)
+		draw_rect(frame, Color(GOLD, 0.7), false, 1)
+		text_w = frame.position.x - text_x - 8
 	elif npc_tex:
 		var tex_size := npc_tex.get_size()
 		var k := minf(1.5, 70.0 / tex_size.y)

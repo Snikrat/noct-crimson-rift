@@ -91,6 +91,13 @@ func _run() -> void:
 	check("jogo abre na vila", main.room_name == "town" and p != null)
 	check("Noct comenta ao chegar na vila", main.is_dialog_open() and main.hud.dialog.lines[0].begins_with("@"))
 	check("30 rostos carregados", main.hud.dialog.portraits.size() == 30 and main.hud.dialog.portrait("ultimate") != null)
+	var dlg = main.hud.dialog
+	check("90 rostos da Forma Demoníaca carregados", dlg.crimson_portraits.size() == 90)
+	check("personagens que falam têm rosto", dlg.npc_portraits.size() == dlg.NPC_PORTRAITS.size() and dlg.npc_portrait("Mira") != null)
+	p.crimson_level = 2
+	check("transformado, o diálogo usa o rosto da forma atual", dlg.portrait("serio") == dlg.crimson_portraits["2:serio"])
+	p.crimson_level = 0
+	check("sem a forma, volta o rosto normal", dlg.portrait("serio") == dlg.portraits["serio"])
 	check("comentário de chegada em balão sobre o Noct", main.hud.dialog.anchor.distance_to(p.global_position) < 40)
 	await wait(4 * 60)
 	check("comentário de chegada espera o botão", main.is_dialog_open())

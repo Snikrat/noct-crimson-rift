@@ -3,6 +3,7 @@ extends RefCounted
 ## Se um arquivo ou pasta mudar de lugar, só este arquivo precisa ser atualizado.
 
 const HERO := "res://assets/hero/"              # herói (gerado por tools/remaster_hero.gd)
+const PORTRAITS := "res://assets/portraits/"    # rostos dos personagens nos diálogos (tools/make_npc_portraits.lua, no Aseprite)
 const VENDOR := "res://assets/vendor/"          # pacotes de terceiros, sem alterações (licenças em CREDITOS.md)
 
 # --- Pacotes ------------------------------------------------------------
