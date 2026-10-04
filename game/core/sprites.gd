@@ -39,9 +39,12 @@ const HERO_ANIMS := {
 # Formas carmesim (tools/remaster_hero.gd): c<nível>_<animação>, só as animações básicas.
 const CRIMSON_DIR := HERO_DIR + "crimson/"
 const CRIMSON_LEVELS := 3
+# Refeitas sobre o Noct base por tools/noct_forms.lua (aura, chifres, olhos; ver o documento da
+# Forma Demoníaca): mesmas animações básicas e velocidades do Noct normal.
 const CRIMSON_ANIMS := {
-	"idle": [4, true, "pingpong"], "run": [11, true], "jump": [10, false],
-	"double_jump": [14, false], "dash": [22, false], "crouch": [6, false],
+	"idle": [2, true, "pingpong"], "walk": [7, true], "run": [14, true], "run_start": [12, false],
+	"run_stop": [10, false], "jump": [12, false], "fall": [8, false], "land": [14, false],
+	"double_jump": [30, false], "dash": [50, false], "air_dash": [50, false], "crouch": [4.5, false],
 	# Abaixado: depois de cN_crouch, a energia continua se mexendo (tools/noct_crouch_loop.lua).
 	"crouch_loop": [8, true],
 	"look_up": [14, false], "look_up_loop": [3, true],

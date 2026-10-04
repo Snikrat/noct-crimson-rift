@@ -162,7 +162,7 @@ const LOOK_DELAY := 0.3       # segundos segurando cima antes de olhar (um toque
 const LOOK_CAMERA := 48.0     # quanto a câmera sobe, em px
 const LOOK_SPEED := 160.0
 const CROUCH_HEIGHT := 0.6    # fração da altura que continua levando dano agachado
-const CRIMSON_ALIAS := {"fall": "jump", "land": "crouch"}   # animações sem versão carmesim própria
+const CRIMSON_ALIAS := {"fall": "jump", "land": "crouch"}   # usado só se a forma não tiver a animação
 
 
 # --- Habilidades e nível -----------------------------------------------
@@ -391,13 +391,23 @@ func _apply_offset() -> void:
 	sprite.position.y = SIZE.y / 2
 
 
+## Nome da animação atual sem o prefixo da forma carmesim ("c2_run" -> "run").
+func _base_anim() -> String:
+	var a := String(sprite.animation)
+	if a.length() > 3 and a[0] == "c" and a[1].is_valid_int() and a[2] == "_":
+		return a.substr(3)
+	return a
+
+
 func _has_anim(anim: String) -> bool:
 	return sprite.sprite_frames.has_animation(anim)
 
 
 func _play(anim: String) -> void:
 	if crimson_level > 0:
-		var key := "c%d_%s" % [crimson_level, CRIMSON_ALIAS.get(anim, anim)]
+		var key := "c%d_%s" % [crimson_level, anim]
+		if not sprite.sprite_frames.has_animation(key):
+			key = "c%d_%s" % [crimson_level, CRIMSON_ALIAS.get(anim, anim)]
 		if sprite.sprite_frames.has_animation(key):
 			anim = key
 	# Animações com continuação (crouch carmesim, olhar para cima): o _loop segue depois delas.
@@ -447,15 +457,15 @@ func _update_animation() -> void:
 	elif absf(velocity.x) > 10:
 		# Andar devagar (analógico pela metade) = walk; correr a partir do Idle = arranque antes.
 		var gait := "walk" if absf(velocity.x) < SPEED * WALK_FRACTION and _has_anim("walk") else "run"
-		if gait == "run" and String(sprite.animation) in START_FROM and _has_anim("run_start"):
-			sprite.play("run_start")
-		elif sprite.animation == "run_start" and sprite.is_playing():
+		if gait == "run" and _base_anim() in START_FROM and _has_anim("run_start"):
+			_play("run_start")
+		elif _base_anim() == "run_start" and sprite.is_playing():
 			pass
 		else:
 			_play(gait)
-	elif String(sprite.animation) == "run" and _has_anim("run_stop"):
-		sprite.play("run_stop")   # freada antes de parar
-	elif sprite.animation == "run_stop" and sprite.is_playing():
+	elif _base_anim() == "run" and _has_anim("run_stop"):
+		_play("run_stop")   # freada antes de parar
+	elif _base_anim() == "run_stop" and sprite.is_playing():
 		pass
 	else:
 		# Parado um tempo (forma normal): o Noct abaixa a cabeça uma vez (idle_var) e volta.
