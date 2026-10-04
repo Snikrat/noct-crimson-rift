@@ -2,6 +2,8 @@ extends RefCounted
 ## Memórias de Mira: fragmentos escondidos pelas salas (chave "memories" do arquivo da sala).
 ## Cada uma libera um texto curto na aba "Memórias" da pausa. Escritas pela bíblia de Noct:
 ## mostram Mira viva (rindo do sarcasmo, pegando as mentiras) e só aos poucos o que aconteceu.
+## Ela adorava raposas e tinha uma ligação estranha com elas; Noct a chamava de "raposinha".
+## Ninguém explica o porquê (a Forma Demoníaca dele é uma raposa: a ligação fica só sugerida).
 ## "noct" é o que ele diz (ou não diz) ao encontrar o fragmento.
 ## As três últimas ficam atrás de paredes carmesim (Passo da Fenda, depois do Bringer).
 
@@ -15,6 +17,7 @@ const MEMORIES := {
 		"\"Funcionou?\"",
 		"\"Não. Tenta de novo amanhã.\"",
 		"Ele tentou. Todo dia. Nunca funcionou.",
+		"Ele passou a chamá-la de raposinha, para irritar. Ela nunca deixou ele parar.",
 	], "noct": "@olhar_lateral: Hm."},
 	"the_lie": {"title": "A sobrancelha", "lines": [
 		"\"Estou bem.\"",
@@ -31,6 +34,7 @@ const MEMORIES := {
 	"the_seat": {"title": "O lado esquerdo", "lines": [
 		"No banco da estação, ela sempre sentava à esquerda. Ele, à direita.",
 		"Nunca combinaram. Só ficou assim.",
+		"Ela contava as raposas na beira dos trilhos. Dizia que vinham por ela.",
 		"Quando o trem atrasava, ela encostava a cabeça no ombro dele e dizia que era por causa do frio.",
 		"Não estava frio.",
 	], "noct": "@olhar_baixo: Não estava frio."},

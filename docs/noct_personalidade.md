@@ -60,6 +60,12 @@ sabia quando ele mentia, respondia às provocações sem se intimidar. Conhecia 
 > "De onde veio?" — "De algum lugar." — "Isso não respondeu." — "Perceptivo." — (se insistirem) "É só uma fita."
 > A última frase é mentira. E ambos sabem.
 
+**Raposinha**: Mira adorava raposas e tinha com elas uma ligação forte, quase estranha (contava as que
+apareciam na beira dos trilhos e dizia que vinham vê-la). Noct a chamava de **"raposinha"**, primeiro para
+irritar, depois por costume; é o único carinho que ele dizia em voz alta. O porquê da ligação **ainda não é
+explicado**. A Forma Demoníaca dele é uma raposa: o jogo só deixa a conexão sugerida (a energia que se dobra
+como cauda, as raposas que param para olhá-lo), nunca a afirma.
+
 ## O lugar vazio
 
 Em bancos, fogueiras, qualquer lugar com dois espaços: ele ocupa um lado. **O outro fica vazio.**

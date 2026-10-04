@@ -96,7 +96,7 @@ const PROMISE_MEMORY := [
 	"* Ele não respondeu. Ela esperou.",
 	"E outra. Se um dia você ouvir uma porta chamando... não abre com raiva.",
 	"Raiva abre tudo. Abre lembrando de mim.",
-	"@olhar_baixo: ...Prometo.",
+	"@olhar_baixo: ...Prometo, raposinha.",
 	"* A mão dele não foi até a sobrancelha.",
 	"Não coçou. Tá vendo? Você consegue.",
 ]
@@ -104,6 +104,7 @@ const PROMISE_AFTER := [
 	"* De volta ao lago. Noct está de joelhos, a mão na fita.",
 	"@fechando_olhos: Eu prometi.",
 	"* A energia carmesim sobe. Dessa vez, ele não deixa ela tomar conta.",
+	"* Por um instante, ela se dobra atrás dele como uma cauda.",
 	"@magia_olhos: Lembrando de você, então.",
 ]
 const CRIMSON_NAMES := ["Forma normal", "Carmesim 1 · Despertar", "Carmesim 2 · Corrupção avançada", "Carmesim 3 · Consumido"]
@@ -112,6 +113,7 @@ const BENCH_MOMENTS := [
 	["Os dedos dele encontram a fita carmesim no pulso. Ficam ali um tempo.", "@fechando_olhos: Um dia de cada vez."],
 	["Noct se senta numa ponta do banco. O outro lado fica vazio.", "@calmo: Hoje primeiro. Amanhã depois."],
 	["A mão ainda treme um pouco. Ele espera passar.", "@olhar_lateral: Hm."],
+	["Uma raposa para na beira da luz e fica olhando. Noct não se mexe até ela ir embora.", "@fechando_olhos: ...Oi."],
 ]
 var interactable: Node2D      # NPC/banco ao alcance do herói
 var transitioning := false

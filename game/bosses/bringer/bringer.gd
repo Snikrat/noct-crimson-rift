@@ -24,6 +24,7 @@ const TAUNTS := [
 	["O lado esquerdo do banco. Ainda vazio?", "@sombrio: ..."],
 	["A fita no seu pulso. Pra lembrar de voltar... pra quem?", "@furioso: Não fala dela."],
 	["\"Volto logo.\" Quantas vezes você leu esse bilhete?", ""],
+	["\"Raposinha.\" Ainda chama ela assim, quando ninguém está ouvindo?", "@sombrio: ..."],
 	["Cada golpe seu tem gosto de medo. Continua.", "@maligno: Então engole."],
 	["Ela não está aqui. Você está. Sozinho, como sempre quis parecer.", "@furioso: Repete."],
 ]
