@@ -6,6 +6,8 @@
 -- vermelho). É a única Forma Demoníaca do jogo (c3_*: a folha inteira, com o leque de caudas).
 -- LEVEL_TAILS/strip_fan/sheet_tail fazem versões com menos caudas (níveis 1 e 2), que hoje não
 -- entram no jogo.
+-- A terceira ("Folha de sprites de ataques aéreos.png") tem os golpes para cima, para baixo, no ar e o
+-- mergulho, com fundo vermelho liso (remove_flat_bg).
 -- A segunda folha ("... - golpes.png") tem os golpes do combo (garra, giro, salto, espírito da raposa
 -- e investida da raposa), que vão no quadro grande dos golpes (181x107, pés em 70,90).
 -- Saída: art_source/personagem principal/noct_raposa.aseprite e noct_raposa_golpes.aseprite (tags
@@ -18,12 +20,57 @@
 
 local root = app.fs.currentPath
 local pc = app.pixelColor
+-- A folha de golpes aéreos e diagonais vem com fundo vermelho liso (quase da cor das caudas): ele sai
+-- por enchimento a partir das bordas, só por pixels com o matiz do fundo que mudam pouco de um
+-- vizinho para o outro (as caudas têm borda acesa e miolo escuro, então o enchimento para nelas).
+local function remove_flat_bg(img, step)
+  local W, H = img.width, img.height
+  local R, G, B = {}, {}, {}
+  for y = 0, H - 1 do for x = 0, W - 1 do
+    local c = img:getPixel(x, y); local k = y * W + x
+    R[k], G[k], B[k] = pc.rgbaR(c), pc.rgbaG(c), pc.rgbaB(c)
+  end end
+  local function bglike(k) local r = R[k]; return r >= 80 and G[k] <= 30 and B[k] <= r * 0.48 and B[k] >= r * 0.1 end
+  local bg, stack = {}, {}
+  local function seed(k) if not bg[k] and bglike(k) then bg[k] = true; stack[#stack + 1] = k end end
+  for x = 0, W - 1 do seed(x); seed((H - 1) * W + x) end
+  for y = 0, H - 1 do seed(y * W); seed(y * W + W - 1) end
+  while #stack > 0 do
+    local k = table.remove(stack)
+    local x, y = k % W, k // W
+    for _, d in ipairs({ { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } }) do
+      local nx, ny = x + d[1], y + d[2]
+      if nx >= 0 and ny >= 0 and nx < W and ny < H then
+        local n = ny * W + nx
+        if not bg[n] and bglike(n) and math.abs(R[n] - R[k]) <= step and math.abs(G[n] - G[k]) <= step
+          and math.abs(B[n] - B[k]) <= step then
+          bg[n] = true; stack[#stack + 1] = n
+        end
+      end
+    end
+  end
+  local out = Image(W, H, ColorMode.RGB)
+  for k in pairs(R) do if not bg[k] then out:drawPixel(k % W, k // W, pc.rgba(R[k], G[k], B[k], 255)) end end
+  return out
+end
+
 local SRC = {
   Image{ fromFile = app.fs.joinPath(root, "Sprite de Guerreiro Raposa Demoníaco.png") },
   Image{ fromFile = app.fs.joinPath(root, "Sprite de Guerreiro Raposa Demoníaco - golpes.png") },
+  remove_flat_bg(Image{ fromFile = app.fs.joinPath(root, "Folha de sprites de ataques aéreos.png") }, 9),
 }
+-- Sobra de fundo que o enchimento não alcança: o brilho rosado em volta da ponta do arco do salto
+-- (folha aérea, linha 1, quadro 4). Ali só fica o miolo claro do rasgo.
+for y = 0, 60 do for x = 930, 1023 do
+  local c = SRC[3]:getPixel(x, y)
+  if pc.rgbaA(c) > 0 and pc.rgbaG(c) < 110 then SRC[3]:drawPixel(x, y, pc.rgba(0, 0, 0, 0)) end
+end end
 local src = SRC[1]
-local S = tonumber(app.params.scale or 0.272)
+local S0 = tonumber(app.params.scale or 0.272)
+local S = S0
+-- Escala por folha: na folha de golpes aéreos o personagem foi desenhado menor (~125 px de altura
+-- contra ~158 nas outras), então ela é reduzida menos para o Noct sair do mesmo tamanho.
+local SHEET_SCALE = { 1, 1, 158 / 125 }
 local CW, CH, AX, AY = 117, 77, 50, 64
 local BODY_SHARE = tonumber(app.params.body_share or 0.3)
 
@@ -42,6 +89,16 @@ local ROWS = {
   { "fox_spirit", 602, 801, { { 15, 231 }, { 233, 465 }, { 467, 706 }, { 708, 957 }, { 959, 1224 }, { 1226, 1439 } }, sheet = 2 },
   { "fox_rush", 803, 1024, { { 14, 247 }, { 249, 469 }, { 471, 769 }, { 771, 1191 }, { 1193, 1433 } }, sheet = 2 },
 }
+-- Folha de golpes aéreos e diagonais: grade de 6 x 6 quadros de 256 x 170,67 px.
+for r, name in ipairs({ "fox_rise", "fox_air_claw", "fox_dive", "fox_pound", "fox_air_up", "fox_low" }) do
+  local y0, y1 = math.floor((r - 1) * 1024 / 6), math.floor(r * 1024 / 6) - 1
+  local cols = {}
+  for c = 0, 5 do cols[#cols + 1] = { c * 256, c * 256 + 255 } end
+  -- O rasgo do quadro 4 passa da célula: esse recorte vai mais à direita e o do quadro 5 começa depois.
+  local reach = ({ fox_air_claw = 1050, fox_air_up = 1080, fox_low = 1075 })[name]
+  if reach then cols[4] = { 768, reach }; cols[5] = { reach + 1, 1279 } end
+  ROWS[#ROWS + 1] = { name, y0, y1, cols, sheet = 3 }
+end
 -- Quadro grande dos golpes: os pés no mesmo ponto do quadro normal colado em (20, 26).
 local BW, BH, BAX, BAY = 181, 107, 70, 90
 
@@ -131,7 +188,14 @@ local function median_cut(colors, k)
     end
     if not bi then break end
     local box = table.remove(boxes, bi)
-    table.sort(box, function(p, q) return p[axis] < q[axis] end)
+    -- Desempate pelos três canais: o sort do Lua sorteia o pivô, e sem desempate a paleta mudava
+    -- um pouco a cada execução.
+    table.sort(box, function(p, q)
+      if p[axis] ~= q[axis] then return p[axis] < q[axis] end
+      if p[1] ~= q[1] then return p[1] < q[1] end
+      if p[2] ~= q[2] then return p[2] < q[2] end
+      return p[3] < q[3]
+    end)
     local mid = #box // 2
     local a, b = {}, {}
     for i, c in ipairs(box) do if i <= mid then a[#a + 1] = c else b[#b + 1] = c end end
@@ -161,6 +225,7 @@ local frames = {}
 local body_cols, energy_cols = {}, {}
 for ri, row in ipairs(ROWS) do
   src = SRC[row.sheet or 1]
+  S = S0 * SHEET_SCALE[row.sheet or 1]
   for i, fx in ipairs(row[4]) do
     local img, body, eyes, core = shrink(fx[1], row[2], fx[2], row[3])
     -- Pés = linha mais baixa com corpo; centro = média x do corpo.
@@ -184,7 +249,7 @@ for ri, row in ipairs(ROWS) do
         if body[y * img.width + x] then feet = math.max(feet, y) end
       end
     end
-    frames[#frames + 1] = { tag = row[1], row = ri, big = row.sheet == 2, nbody = n, i = i, img = img, body = body, core = core, eyes = eyes, feet = feet, cx = n > 0 and sx // n or img.width // 2 }
+    frames[#frames + 1] = { tag = row[1], row = ri, big = (row.sheet or 1) >= 2, nbody = n, i = i, img = img, body = body, core = core, eyes = eyes, feet = feet, cx = n > 0 and sx // n or img.width // 2 }
   end
 end
 -- Quadros em que o corpo quase some (o Noct vira o espírito da raposa): ficam alinhados pela posição
@@ -321,8 +386,9 @@ for _, f in ipairs(frames) do
     local near = f.body[key] == 1 or f.body[key + 1] == 1 or f.body[key - 1] == 1 or f.body[key + w] == 1
     if top and y >= top + 2 and y <= top + 14 and near then q:drawPixel(x, y, ne >= 4 and EYE_HOT or EYE) end
   end
-  -- Some com pedacinhos soltos (fagulhas de menos de 5 px que viram sujeira na escala do jogo).
-  local seen = {}
+  -- Some com pedacinhos soltos (fagulhas de menos de 5 px que viram sujeira na escala do jogo) e com
+  -- pedaços do quadro vizinho da folha que entram pela borda do recorte (uma mão solta, por exemplo).
+  local seen, comps, biggest = {}, {}, 0
   for y = 0, q.height - 1 do
     for x = 0, w - 1 do
       local k0 = y * w + x
@@ -342,8 +408,23 @@ for _, f in ipairs(frames) do
             end
           end
         end
-        if #comp < 5 then for _, k in ipairs(comp) do q:drawPixel(k % w, k // w, pc.rgba(0, 0, 0, 0)) end end
+        if #comp < 5 then for _, k in ipairs(comp) do q:drawPixel(k % w, k // w, pc.rgba(0, 0, 0, 0)) end
+        else comps[#comps + 1] = comp; biggest = math.max(biggest, #comp) end
       end
+    end
+  end
+  for _, comp in ipairs(comps) do
+    -- Os rasgos de energia grandes que tocam a borda ficam.
+    local edge, y0, y1 = false, 1e9, -1
+    for _, k in ipairs(comp) do
+      local x, y = k % w, k // w
+      y0, y1 = math.min(y0, y), math.max(y1, y)
+      if x == 0 or x == w - 1 or y == 0 or y == q.height - 1 then edge = true end
+    end
+    -- Pedaço pequeno na borda, ou faixa baixa colada em cima/embaixo (o pé do quadro de cima).
+    local strip = (y0 == 0 or y1 == q.height - 1) and y1 - y0 <= 6
+    if #comp < biggest and edge and (#comp < biggest * 0.15 or strip) then
+      for _, k in ipairs(comp) do q:drawPixel(k % w, k // w, pc.rgba(0, 0, 0, 0)) end
     end
   end
   local shift = 0
@@ -469,8 +550,11 @@ end
 -- (181x107, pés em 70,90 = quadro normal colado em 20,26).
 save_strip("c3_tailburst", cells["c3_attack"], BW, BH, BAX - AX, BAY - AY)
 -- Golpes do combo novo (folha de golpes).
-for _, k in ipairs({ "fox_claw", "fox_spin", "fox_leap", "fox_spirit", "fox_rush" }) do
+for _, k in ipairs({ "fox_claw", "fox_spin", "fox_leap", "fox_spirit", "fox_rush", "fox_rise", "fox_air_claw",
+    "fox_air_up", "fox_low" }) do
   save_strip("c3_" .. k, cells["c3_" .. k], BW, BH)
 end
+-- Mergulho (baixo + ataque no ar): quadro 0 = descendo com as garras, quadro 1 = o impacto no chão.
+save_strip("c3_slam", { cells["c3_fox_dive"][4], cells["c3_fox_pound"][4] }, BW, BH)
 print("raposa: " .. #frames .. " quadros da folha, paleta " .. #body_pal .. " corpo + " .. #energy_pal .. " energia")
 for k, v in pairs(TAIL_PAL) do print(k, string.format("#%06x", v & 0xffffff)) end

@@ -1,18 +1,4 @@
 {
-	"c3_air_barrage": {
-		"ax": 70,
-		"ay": 90,
-		"frames": 1,
-		"h": 107,
-		"w": 181
-	},
-	"c3_air_foxfire": {
-		"ax": 70,
-		"ay": 90,
-		"frames": 1,
-		"h": 107,
-		"w": 181
-	},
 	"c3_crouch": {
 		"ax": 50,
 		"ay": 64,
@@ -91,6 +77,41 @@
 		"w": 181
 	},
 	"c3_fox_rush": {
+		"ax": 70,
+		"ay": 90,
+		"frames": 1,
+		"h": 107,
+		"w": 181
+	},
+	"c3_fox_rise": {
+		"ax": 70,
+		"ay": 90,
+		"frames": 1,
+		"h": 107,
+		"w": 181
+	},
+	"c3_fox_low": {
+		"ax": 70,
+		"ay": 90,
+		"frames": 1,
+		"h": 107,
+		"w": 181
+	},
+	"c3_fox_air_claw": {
+		"ax": 70,
+		"ay": 90,
+		"frames": 1,
+		"h": 107,
+		"w": 181
+	},
+	"c3_fox_air_up": {
+		"ax": 70,
+		"ay": 90,
+		"frames": 1,
+		"h": 107,
+		"w": 181
+	},
+	"c3_slam": {
 		"ax": 70,
 		"ay": 90,
 		"frames": 1,

@@ -10,13 +10,15 @@ func _handle_attack_input(delta: float) -> void:
 	if Input.is_action_just_pressed("attack"):
 		attack_held = 0.0
 		if Input.is_action_pressed("up"):
-			if has("uppercut"):
+			if crimson_level > 0:
+				_start_move("fox_rise")
+			elif has("uppercut"):
 				_start_move("uppercut")
 			else:
 				_start_move("up_punch")
 		elif Input.is_action_pressed("down"):
 			if is_on_floor():
-				_start_move("low_punch")
+				_start_move("fox_low" if crimson_level > 0 else "low_punch")
 			elif move.begins_with("air_") or (combo_timer > 0 and _base_anim().begins_with("air_")):
 				_start_slam()
 			else:
@@ -55,7 +57,7 @@ func _start_combo_hit() -> void:
 ## que só existem nela (ver MOVES).
 const FORM_COMBOS := {
 	3: {"ground": ["fox_claw", "fox_spin", "fox_leap", "fox_spirit", "finisher_fox"],
-		"air": ["f3_air_barrage", "f3_air_foxfire", "f3_air_barrage"]},
+		"air": ["fox_air_claw", "fox_air_up", "fox_air_low"]},
 }
 
 

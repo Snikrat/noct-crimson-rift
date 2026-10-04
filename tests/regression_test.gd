@@ -118,6 +118,8 @@ func _run() -> void:
 				check("golpe %s da forma %d é inédito" % [mv, lv], not p.Sprites.HERO_ANIMS.has(anim) \
 					and p.sprite.sprite_frames.has_animation("c%d_%s" % [lv, anim]))
 	check("combo da forma no chão vem da folha de golpes", p.FORM_COMBOS[p.DEMON_FORM]["ground"] == ["fox_claw", "fox_spin", "fox_leap", "fox_spirit", "finisher_fox"])
+	for anim in ["fox_rise", "fox_low", "slam"]:
+		check("Forma Demoníaca tem arte de %s (folha de golpes aéreos)" % anim, p.sprite.sprite_frames.has_animation("c%d_%s" % [p.DEMON_FORM, anim]))
 	check("segurar o ataque na forma faz o giro das caudas", p.sprite.sprite_frames.has_animation("c%d_tailburst" % p.DEMON_FORM) and p.MOVES.has("fox_burst"))
 	p.crimson_level = 0
 	p._cancel_move()

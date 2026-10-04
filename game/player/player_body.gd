@@ -69,7 +69,7 @@ const MOVES := {
 	"finisher": {"anim": "low_punch", "frames": [3, 4], "area": Rect2(-6, -26, 66, 46), "damage": 3, "knock": 340},
 	# --- Combos das formas carmesim (demônio-raposa); a animação vira a da forma (cN_) sozinha. ---
 	# fx = efeito carmesim no primeiro quadro que acerta; shake = tremor da tela.
-	# Forma Demoníaca (a raposa de nove caudas). No ar: rajada de caudas e fogo de raposa.
+	# Forma Demoníaca (a raposa de nove caudas).
 	# Combo no chão, da folha de golpes (tools/noct_raposa.lua): garra, giro com a meia-lua, salto,
 	# espírito da raposa (a esfera vira uma raposa que avança) e a investida da raposa gigante.
 	"fox_claw": {"anim": "fox_claw", "frames": [2, 4], "area": Rect2(0, -34, 80, 44), "damage": 2, "fx": "trail"},
@@ -77,10 +77,16 @@ const MOVES := {
 	"fox_leap": {"anim": "fox_leap", "frames": [2, 4], "area": Rect2(-12, -60, 56, 70), "damage": 3},
 	"fox_spirit": {"anim": "fox_spirit", "frames": [3, 4], "area": Rect2(0, -32, 84, 42), "damage": 3, "knock": 300, "fx": "impact"},
 	"finisher_fox": {"anim": "fox_rush", "frames": [2, 3], "area": Rect2(-10, -42, 104, 58), "damage": 5, "knock": 420, "fx": "shockwave", "shake": 8.0},
+	# Folha de golpes aéreos e diagonais: para cima + ataque (salto com a garra em arco), baixo +
+	# ataque no chão (garra na diagonal para baixo) e o combo no ar (garra à frente, garra subindo e
+	# garra descendo). O mergulho (baixo no ar) usa c3_slam, da mesma folha.
+	"fox_rise": {"anim": "fox_rise", "frames": [2, 4], "area": Rect2(-14, -80, 58, 90), "damage": 3},
+	"fox_low": {"anim": "fox_low", "frames": [2, 4], "area": Rect2(0, -14, 76, 40), "damage": 2, "knock": 220},
+	"fox_air_claw": {"anim": "fox_air_claw", "frames": [2, 4], "area": Rect2(0, -30, 74, 40), "damage": 2},
+	"fox_air_up": {"anim": "fox_air_up", "frames": [2, 4], "area": Rect2(-6, -62, 68, 66), "damage": 2},
+	"fox_air_low": {"anim": "fox_low", "frames": [2, 4], "area": Rect2(0, -14, 76, 44), "damage": 3, "knock": 220},
 	# Segurando o ataque na forma: o giro das caudas e a garra da primeira folha.
 	"fox_burst": {"anim": "tailburst", "frames": [2, 5], "area": Rect2(-50, -46, 100, 66), "damage": 5, "knock": 420, "fx": "shockwave", "shake": 6.0},
-	"f3_air_barrage": {"anim": "air_barrage", "frames": [1, 5], "area": Rect2(0, -40, 64, 48), "damage": 2},
-	"f3_air_foxfire": {"anim": "air_foxfire", "frames": [2, 4], "area": Rect2(6, -14, 56, 46), "damage": 3, "fx": "impact"},
 	"charged": {"anim": "charged", "frames": [3, 3], "area": Rect2(2, -22, 66, 30), "damage": 4, "knock": 320},
 	"uppercut": {"anim": "uppercut", "frames": [3, 5], "area": Rect2(-14, -70, 44, 78), "damage": 3},
 	# Socos diagonais: para cima (cima + ataque) e para baixo até o chão (baixo + ataque, no chão).
