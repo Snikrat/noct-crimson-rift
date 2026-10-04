@@ -403,6 +403,50 @@ out:saveAs(app.fs.joinPath(root, "art_source", "personagem principal", "noct_rap
 for _, r in ipairs(ranges_big) do local t = out_big:newTag(r[2], r[3]); t.name = r[1] end
 out_big:saveAs(app.fs.joinPath(root, "art_source", "personagem principal", "noct_raposa_golpes.aseprite"))
 
+-- Garra mais comprida: na folha a garra só vai até o braço esticado; no jogo ela solta três
+-- rasgos de energia à frente da mão (quadros 4 e 5 do golpe), no estilo da folha (núcleo claro,
+-- brilho carmesim e borda escura).
+local CLAW_LEN = { [4] = 40, [5] = 32 }
+local SLASH = { core = pc.rgba(255, 214, 226, 255), hot = pc.rgba(255, 77, 122, 255),
+  mid = pc.rgba(208, 24, 72, 255), deep = pc.rgba(110, 13, 42, 255) }
+local function claw_reach(cell, i)
+  local L = CLAW_LEN[i]
+  if not L then return end
+  local w, h = cell.width, cell.height
+  -- Mão = pixel mais à frente na altura dos braços (as caudas ficam atrás).
+  local hx, hy = nil, nil
+  for y = BAY - 40, BAY - 14 do
+    for x = w - 1, 0, -1 do
+      if pc.rgbaA(cell:getPixel(x, y)) > 0 then
+        if not hx or x > hx then hx, hy = x, y end
+        break
+      end
+    end
+  end
+  if not hx then return end
+  local function put(x, y, c) if x >= 0 and y >= 0 and x < w and y < h then cell:drawPixel(x, y, c) end end
+  local function empty(x, y) return x >= 0 and y >= 0 and x < w and y < h and pc.rgbaA(cell:getPixel(x, y)) == 0 end
+  for k, o in ipairs({ -5, 0, 5 }) do
+    local len = L + ({ -4, 2, -6 })[k]
+    local pts = {}
+    for t = 0, len do
+      local u = t / len
+      -- Arco de garra: sobe um pouco e cai no fim; grosso no meio, fino nas pontas.
+      local y = hy + o - math.sin(u * math.pi) * 4 + u * u * 5
+      pts[#pts + 1] = { math.floor(hx + 1 + t + 0.5), math.floor(y + 0.5), u, math.sin(u * math.pi) * 1.6 }
+    end
+    for _, q in ipairs(pts) do
+      local r = math.floor(q[4] + 1.5)
+      for dy = -r, r do if empty(q[1], q[2] + dy) then put(q[1], q[2] + dy, math.abs(dy) == r and SLASH.deep or SLASH.mid) end end
+    end
+    for _, q in ipairs(pts) do
+      local r = math.floor(q[4] + 0.5)
+      for dy = -r, r do put(q[1], q[2] + dy, (dy == 0 and q[3] > 0.1 and q[3] < 0.9) and SLASH.core or SLASH.hot) end
+    end
+  end
+end
+for i, cell in ipairs(cells["c3_fox_claw"] or {}) do claw_reach(cell, i) end
+
 -- 3) Tiras do jogo. Cada animação do jogo pega uma linha da folha (ou parte dela).
 local crimson_dir = app.fs.joinPath(root, "assets", "hero", "crimson")
 local function save_strip(key, list, cw, ch, dx, dy)

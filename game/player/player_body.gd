@@ -72,7 +72,7 @@ const MOVES := {
 	# Forma Demoníaca (a raposa de nove caudas). No ar: rajada de caudas e fogo de raposa.
 	# Combo no chão, da folha de golpes (tools/noct_raposa.lua): garra, giro com a meia-lua, salto,
 	# espírito da raposa (a esfera vira uma raposa que avança) e a investida da raposa gigante.
-	"fox_claw": {"anim": "fox_claw", "frames": [1, 4], "area": Rect2(0, -32, 62, 42), "damage": 2, "fx": "trail"},
+	"fox_claw": {"anim": "fox_claw", "frames": [2, 4], "area": Rect2(0, -34, 80, 44), "damage": 2, "fx": "trail"},
 	"fox_spin": {"anim": "fox_spin", "frames": [1, 4], "area": Rect2(-38, -52, 80, 72), "damage": 2, "knock": 200},
 	"fox_leap": {"anim": "fox_leap", "frames": [2, 4], "area": Rect2(-12, -60, 56, 70), "damage": 3},
 	"fox_spirit": {"anim": "fox_spirit", "frames": [3, 4], "area": Rect2(0, -32, 84, 42), "damage": 3, "knock": 300, "fx": "impact"},
