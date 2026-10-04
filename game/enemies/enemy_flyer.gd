@@ -6,10 +6,11 @@ extends CharacterBody2D
 ## - eye (olho demoníaco): fica afastado e atira bolas de fogo na direção do herói.
 ## - grimoire (grimório voraz, Arquivo Submerso): paira acima do herói e mergulha mordendo.
 ## - lament (Lamento, Lago Velado): espectro fraco e lento; chora quando o herói chega perto.
-##   Visual provisório: o fantasma desbotado ("tint").
+##   Arte: tools/make_new_enemies.lua (lamento_fly.png).
 
 const Sprites := preload("res://game/core/sprites.gd")
 const ProjectileScript := preload("res://game/enemies/enemy_projectile.gd")
+const ExpSprites := preload("res://game/enemies/expansion_sprites.gd")
 
 const KINDS := {
 	"ghost": {"size": Vector2(20, 30), "hp": 3, "speed": 70.0, "range": 160.0, "geo": 4},
@@ -23,7 +24,7 @@ const KINDS := {
 	"grimoire": {"size": Vector2(22, 22), "hp": 4, "speed": 65.0, "range": 220.0, "geo": 9,
 		"hover": Vector2(0, -44), "swoop": 1.9, "faces_right": true},
 	"lament": {"size": Vector2(18, 26), "hp": 3, "speed": 42.0, "range": 130.0, "geo": 4,
-		"tint": Color(0.62, 0.66, 0.85, 0.75), "wail": true},
+		"wail": true, "faces_right": true},
 }
 const SWOOP_SPEED := 240.0
 const SWOOP_TIME := 0.55
@@ -61,6 +62,7 @@ func _ready() -> void:
 		"skull": sprite.sprite_frames = Sprites.fire_skull()
 		"eye": sprite.sprite_frames = Sprites.flying_eye()
 		"grimoire": sprite.sprite_frames = Sprites.grimoire()
+		"lament": sprite.sprite_frames = ExpSprites.frames("lamento", Vector2(32, 40), {"fly": [8, true]})
 		_: sprite.sprite_frames = Sprites.ghost()
 	add_child(sprite)
 	sprite.play("fly")

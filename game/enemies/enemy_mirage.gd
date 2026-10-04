@@ -3,9 +3,9 @@ extends CharacterBody2D
 ## que o Noct conhece de longe. Quando ele chega perto, some e reaparece perto dele com duas cópias falsas;
 ## só a verdadeira avança e machuca. A verdadeira é a única que tem reflexo no chão.
 ## As cópias têm 1 de vida, não machucam e somem ao levar um golpe.
-## Visual provisório: silhueta escura de um morador da vila (a arte própria vem depois).
+## Arte: tools/make_new_enemies.lua (miragem_idle, _windup, _lunge; pés na linha 46 do quadro 32x48).
 
-const Sprites := preload("res://game/core/sprites.gd")
+const ExpSprites := preload("res://game/enemies/expansion_sprites.gd")
 const Fx := preload("res://game/core/fx.gd")
 
 const SIZE := Vector2(16, 36)
@@ -17,7 +17,6 @@ const CYCLE := 3.2           # segundos entre um sumiço e outro
 const WINDUP := 0.6          # parada antes de avançar
 const LUNGE_SPEED := 210.0
 const LUNGE_TIME := 0.35
-const SILHOUETTE := Color(0.09, 0.07, 0.13)
 
 var level
 var hp := MAX_HP
@@ -43,10 +42,9 @@ func _ready() -> void:
 	shape.shape = rect
 	add_child(shape)
 	sprite = AnimatedSprite2D.new()
-	sprite.sprite_frames = Sprites.npc("hat-man")
+	sprite.sprite_frames = ExpSprites.frames("miragem", Vector2(32, 48), {"idle": [4, true], "windup": [8, false], "lunge": [10, false]})
 	sprite.play("idle")
-	var tex: Texture2D = sprite.sprite_frames.get_frame_texture("idle", 0)
-	sprite.position.y = SIZE.y / 2 - tex.get_height() / 2.0
+	sprite.position.y = SIZE.y / 2 - 46 + 24   # pés na linha 46 do quadro de 48
 	add_child(sprite)
 
 
@@ -91,16 +89,18 @@ func _physics_process(delta: float) -> void:
 			if timer <= 0:
 				state = "lunge"
 				timer = LUNGE_TIME
+				sprite.play("lunge")
 		"lunge":
 			velocity.x = dir * LUNGE_SPEED * (0.0 if fake else 1.0)
 			if timer <= 0:
 				state = "idle"
 				timer = CYCLE
+				sprite.play("idle")
 	move_and_slide()
-	sprite.flip_h = dir > 0
+	sprite.flip_h = dir < 0
 	if state != "gone":
 		var a := clampf(sprite.modulate.a + delta * 4.0, 0, 1)
-		sprite.modulate = Color(1, 0.4, 0.45, a) if flash > 0 else Color(SILHOUETTE, a)
+		sprite.modulate = Color(1, 0.4, 0.45, a) if flash > 0 else Color(1, 1, 1, a)
 	queue_redraw()
 
 
@@ -137,6 +137,7 @@ func _start_windup() -> void:
 	state = "windup"
 	timer = WINDUP
 	sprite.modulate.a = 0.0
+	sprite.play("windup")
 
 
 func _vanish_fake() -> void:
