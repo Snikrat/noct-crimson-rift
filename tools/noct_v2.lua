@@ -313,13 +313,6 @@ local function put_head(img)
   return out
 end
 
--- RUN: os 8 quadros limpos com a mesma paleta e a cabeça do Noct v2; energia na camada separada.
-local run_body, run_vfx = {}, {}
-for i = 1, #run_src do
-  run_body[i] = put_head(clean(run_src[i], pal))
-  run_vfx[i] = Image(W, H, ColorMode.RGB)   -- a energia do Run já está no próprio quadro
-end
-
 -- Apaga pedacinhos soltos (menos de "limit" pixels sem encostar no resto): sobras de recorte.
 local function drop_specks(img, limit)
   local out, seen = img:clone(), {}
@@ -348,6 +341,55 @@ local function drop_specks(img, limit)
     end
   end
   return out
+end
+
+-- Tira os fiapos de energia soltos em volta do corpo (energia com poucos vizinhos de corpo),
+-- sem mexer no logo da regata nem no brilho que fica dentro da mão.
+local function remove_wisps(img)
+  local out = img
+  for _ = 1, 2 do
+    local fy = feet(out)
+    local res = out:clone()
+    for y = 1, H - 2 do
+      for x = 1, W - 2 do
+        local c = out:getPixel(x, y)
+        if is_energy(c, y, fy) then
+          local solid = 0
+          for dy = -1, 1 do for dx = -1, 1 do
+            local n = out:getPixel(x + dx, y + dy)
+            if pc.rgbaA(n) > 0 and not is_energy(n, y + dy, fy) then solid = solid + 1 end
+          end end
+          if solid < 3 then res:drawPixel(x, y, pc.rgba(0, 0, 0, 0)) end
+        end
+      end
+    end
+    out = res
+  end
+  return out
+end
+
+-- RUN: os 8 quadros limpos com a mesma paleta e a cabeça do Noct v2; energia na camada separada.
+local run_body, run_vfx = {}, {}
+-- Corrida mais limpa: sem os fiapos de energia nas costas (piscavam a cada quadro) e com um
+-- balanço regular: cabeça embaixo nos dois apoios (quadros 1 e 5) e 1 px acima nos outros.
+local RUN_BOB = { 0, -1, -1, -1, 0, -1, -1, -1 }
+local run_top = {}
+for i = 1, #run_src do
+  run_body[i] = put_head(clean(drop_specks(remove_wisps(run_src[i]), 10), pal))
+  run_vfx[i] = Image(W, H, ColorMode.RGB)
+  run_top[i] = top(run_body[i])
+end
+local low = 0
+for i = 1, #run_top do low = math.max(low, run_top[i]) end
+for i = 1, #run_body do
+  local dy = run_top[i] - (low + RUN_BOB[i])   -- > 0: precisa subir; < 0: precisa descer
+  if dy > 0 then
+    local moved = Image(W, H, ColorMode.RGB)
+    moved:drawImage(run_body[i], Point(0, -dy))   -- fase no ar: o corpo todo sobe
+    run_body[i] = moved
+  elseif dy < 0 then
+    run_body[i] = lift(run_body[i], run_top[i], run_top[i] + 20, dy)   -- apoio: o tronco desce
+  end
 end
 
 -- WALK: caminhada com a paleta e a cabeça do Noct v2.
