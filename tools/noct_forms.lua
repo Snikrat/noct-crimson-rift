@@ -469,41 +469,198 @@ local function ring(img, cx, cy, r, col, flat)
   end
 end
 
--- Cabeça de raposa feita de energia, olhando para a frente: crânio, focinho, orelhas, olho e
--- mandíbula que abre (open = px de abertura).
-local function fox_head(img, x, y, s, open)
-  for dy = -s, s + open do
-    for dx = -s, s * 2 do
-      local inside
-      if dx <= 0 then
-        inside = (dx / s) ^ 2 + (dy / s) ^ 2 <= 1                     -- crânio
-      elseif dy <= 0 then
-        inside = dy >= -s + dx * 0.5                                   -- focinho de cima
-      else
-        inside = dy >= open and dy <= open + 2 and dx <= s * 2 - 2     -- mandíbula de baixo
+-- CAUDA DE RAPOSA para os golpes (manto de chakra da raposa): corpo largo que engrossa logo depois
+-- da base e afina até uma ponta curvada, com tufos de chama nas bordas (pelo de energia), listras
+-- escuras ao longo do comprimento, borda de cima acesa e contorno escuro.
+-- a0 -> a1 = ângulo do caminho (0 = para trás, pi/2 = para cima, pi = para a frente); width = meia
+-- largura máxima; ghost = só o rastro do quadro anterior (pontilhado escuro, sem contorno).
+-- Caminho da cauda por ângulo (curva de a0 até a1) ou por curva de Bézier até um ponto (ver
+-- tail_to). Cada ponto guarda posição, direção (th), u = 0..1 ao longo da cauda e meia largura r.
+local function tail_radius(u, width)
+  local r
+  if u < 0.3 then r = width * (0.5 + 0.5 * u / 0.3) else r = width * (1 - ((u - 0.3) / 0.7) ^ 1.6) end
+  return math.max(0.5, r)
+end
+local function path_by_angle(x0, y0, a0, a1, len, width, curve)
+  local pts = {}
+  local px, py = x0, y0
+  local dir = (a1 >= a0) and 1 or -1
+  for s = 0, len do
+    local u = s / len
+    local th = a0 + (a1 - a0) * u ^ (curve or 1)
+    if u > 0.78 then th = th + dir * (u - 0.78) * 2.8 end          -- ponta curvada, como a da raposa
+    px = px - math.cos(th)
+    py = py - math.sin(th)
+    pts[#pts + 1] = { x = px, y = py, th = th, u = u, r = tail_radius(u, width), s = s }
+  end
+  return pts
+end
+-- Bézier: base (x0, y0), controle (cx, cy), ponta (tx, ty); hook = curva extra na ponta (rad).
+local function path_bezier(x0, y0, cx, cy, tx, ty, width, hook)
+  local n = math.floor((math.abs(cx - x0) + math.abs(cy - y0) + math.abs(tx - cx) + math.abs(ty - cy)) * 2.5) + 8
+  local pts, len = {}, 0
+  local lx, ly = x0, y0
+  local raw = {}
+  for i = 0, n do
+    local t = i / n
+    local x = (1 - t) ^ 2 * x0 + 2 * (1 - t) * t * cx + t * t * tx
+    local y = (1 - t) ^ 2 * y0 + 2 * (1 - t) * t * cy + t * t * ty
+    local dx = 2 * (1 - t) * (cx - x0) + 2 * t * (tx - cx)
+    local dy = 2 * (1 - t) * (cy - y0) + 2 * t * (ty - cy)
+    raw[#raw + 1] = { x = x, y = y, th = math.atan(-dy, -dx) }
+  end
+  -- Ponta curvada: dobra os últimos 20% para o lado em que a cauda já curva.
+  local turn = (cx - x0) * (ty - cy) - (cy - y0) * (tx - cx)
+  local side = turn >= 0 and 1 or -1
+  local start = math.floor(#raw * 0.8)
+  local steps = {}
+  for i = start + 1, #raw do
+    steps[i] = math.sqrt((raw[i].x - raw[i - 1].x) ^ 2 + (raw[i].y - raw[i - 1].y) ^ 2)
+  end
+  local hx, hy = raw[start].x, raw[start].y
+  for i = start + 1, #raw do
+    local q = (i - start) / (#raw - start)
+    local th = raw[i].th + side * (hook or 0.6) * q * q
+    local step = steps[i]
+    hx, hy = hx - math.cos(th) * step, hy - math.sin(th) * step
+    raw[i].x, raw[i].y, raw[i].th = hx, hy, th
+  end
+  for i, p in ipairs(raw) do
+    local u = (i - 1) / (#raw - 1)
+    pts[i] = { x = p.x, y = p.y, th = p.th, u = u, r = tail_radius(u, width), s = math.floor(u * n) }
+  end
+  return pts
+end
+
+local function render_tail(img, pts, ghost, k)
+  local mask, list = {}, {}
+  for _, p in ipairs(pts) do
+    local nx, ny = math.sin(p.th), -math.cos(p.th)
+    for l = -p.r, p.r + 0.01, 0.5 do
+      local qx, qy = math.floor(p.x + nx * l + 0.5), math.floor(p.y + ny * l + 0.5)
+      local key = qy * BIG_W + qx
+      local lat = l / p.r
+      local rec = mask[key]
+      if not rec then
+        rec = { x = qx, y = qy }
+        mask[key] = rec
+        list[#list + 1] = rec
+        rec.lat = 9
       end
-      if inside then
-        local edge = (dx <= 0 and (dx / s) ^ 2 + (dy / s) ^ 2 > 0.7) or dy == open + 2 or (dx > 0 and dy <= 0 and dy <= -s + dx * 0.5 + 1)
-        bput(img, x + dx, y + dy, edge and C.blood or ((dx + dy) % 5 == 0 and C.pink or C.hot))
+      if math.abs(lat) < math.abs(rec.lat) then rec.lat, rec.u, rec.s = lat, p.u, p.s end
+    end
+  end
+  if ghost then
+    for _, r in ipairs(list) do
+      if (r.x + r.y) % 2 == 0 and bempty(img, r.x, r.y) then bput(img, r.x, r.y, C.deep) end
+    end
+    return pts[#pts].x, pts[#pts].y
+  end
+  -- Tufos de chama nas bordas, apontando para trás ao longo da cauda.
+  for i = 4, #pts - 4, 4 do
+    local p = pts[i]
+    if p.u > 0.12 and p.u < 0.85 then
+      local nx, ny = math.sin(p.th), -math.cos(p.th)
+      local bx, by = math.cos(p.th), math.sin(p.th)            -- para trás (de volta à base)
+      for _, side in ipairs({ -1, 1 }) do
+        if noise(i, side + 2, k or 0) < 0.75 then
+          for j = 1, 3 do
+            local qx = math.floor(p.x + nx * side * (p.r + j * 0.8) + bx * j * 1.2 + 0.5)
+            local qy = math.floor(p.y + ny * side * (p.r + j * 0.8) + by * j * 1.2 + 0.5)
+            if bempty(img, qx, qy) then bput(img, qx, qy, j == 3 and C.deep or (side < 0 and C.pink or C.crimson)) end
+          end
+        end
       end
     end
   end
-  -- Dentes (em cima e embaixo) e língua de luz dentro da boca aberta.
-  for dx = 3, s * 2 - 2, 2 do
-    bput(img, x + dx, y + 1, C.tip)
-    if open > 2 then bput(img, x + dx, y + open - 1, C.tip) end
-  end
-  -- Olho e duas orelhas para trás.
-  bput(img, x + 1, y - s // 2, C.eye3)
-  bput(img, x + 2, y - s // 2, C.eye3)
-  for e = 0, 1 do
-    local ex = x - 2 - e * 4
-    for i = 0, s - 1 do
-      local half = (s - 1 - i) // 3
-      for dx = -half, half do
-        bput(img, ex - i // 2 + dx, y - s + 1 - i, i >= s - 2 and C.tip or (e == 0 and C.hot or C.crimson))
-      end
+  -- Corpo da cauda.
+  for _, r in ipairs(list) do
+    local col
+    if r.u > 0.86 then col = r.u > 0.94 and C.tip or C.pink
+    elseif r.lat < -0.7 then col = C.pink                       -- borda acesa (lado de fora da curva)
+    elseif r.lat > 0.7 then col = C.blood                       -- borda de dentro, na sombra
+    else
+      local stripe = math.floor((r.lat + 1) * 2.5)
+      if noise(stripe, r.s // 5, (k or 0) + 7) < 0.3 and (r.s % 5) > 0 then col = C.red
+      else col = math.abs(r.lat) < 0.35 and C.hot or C.crimson end
     end
+    bput(img, r.x, r.y, col)
+  end
+  -- Contorno escuro.
+  for _, r in ipairs(list) do
+    for _, d in ipairs({ { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } }) do
+      local qx, qy = r.x + d[1], r.y + d[2]
+      if not mask[qy * BIG_W + qx] and bempty(img, qx, qy) then bput(img, qx, qy, C.dark) end
+    end
+  end
+  return pts[#pts].x, pts[#pts].y
+end
+
+local function fox_tail(img, x0, y0, a0, a1, len, width, curve, ghost, k)
+  return render_tail(img, path_by_angle(x0, y0, a0, a1, len, width, curve), ghost, k)
+end
+local function tail_to(img, x0, y0, cx, cy, tx, ty, width, ghost, k, hook)
+  return render_tail(img, path_bezier(x0, y0, cx, cy, tx, ty, width, hook), ghost, k)
+end
+
+-- Estouro na ponta da cauda quando acerta.
+local function tail_hit(img, x, y)
+  x, y = math.floor(x + 0.5), math.floor(y + 0.5)
+  for a = 0, 7 do
+    local ca, sa = math.cos(a * math.pi / 4), math.sin(a * math.pi / 4)
+    for j = 3, 6 do bput(img, x + math.floor(ca * j + 0.5), y + math.floor(sa * j + 0.5), j < 5 and C.tip or C.pink) end
+  end
+end
+
+-- CABEÇA DE RAPOSA do manto, de perfil olhando para a frente: orelhas altas e pontudas para trás,
+-- focinho comprido e fino, olho puxado, bochecha com tufos para trás, mandíbula que abre.
+local FOX_TOP = {
+  ".....o......o............",
+  "....oho....oho...........",
+  "....ohho...ohho..........",
+  "...ohhpo..ohhhpo.........",
+  "...ohhhpo.ohhhhpo........",
+  "..ohhhhhoohhhhhhpo.......",
+  "..ohhhhhhhhhhpppphoo.....",
+  ".ohhhhhhhhhhhhhpppphoo...",
+  ".ohhhhhhhkehhhhhhhpppphoo",
+  "ohhhhhhhhhkkhhhhhhhhhhhoo",
+  "ohrhhhhhhhhhhhhhhhhhhhhkk",
+  "orrhhhhhhhhhhthtthtthtoo.",
+}
+local FOX_JAW = {
+  "orrhhhhhhhhhhhtthtthoo...",
+  "owrrhhhhhhhhhhhhoooo.....",
+  "owwrrrhhhhhhooo..........",
+  ".owwwrrrooo..............",
+  "owwwwroo.................",
+  ".owoowo..................",
+  "..o..o...................",
+}
+local FOX_COL = { o = "deep", h = "hot", r = "crimson", p = "pink", t = "tip", e = "eye3", k = "dark", w = "tip" }
+local function stamp(img, rows, x, y)
+  for j, row in ipairs(rows) do
+    for i = 1, #row do
+      local ch = row:sub(i, i)
+      if ch ~= "." then bput(img, x + i - 1, y + j - 1, C[FOX_COL[ch]]) end
+    end
+  end
+end
+-- (x, y) = nuca da cabeça, na altura do olho; open = px de boca aberta.
+local function fox_head(img, x, y, open)
+  local top_y = y - 9
+  local jaw_y = top_y + #FOX_TOP + open
+  -- Boca aberta: a parte de trás da cabeça liga as duas mandíbulas (a dobradiça); escuro por dentro,
+  -- com uma luz no fundo da garganta.
+  for j = 0, open - 1 do
+    for i = 0, 11 - j // 2 do bput(img, x + i, top_y + #FOX_TOP + j, i == 0 and C.deep or (i < 4 and C.crimson or C.hot)) end
+    for i = 12, 22 - j // 2 do bput(img, x + i, top_y + #FOX_TOP + j, (i < 15 and j == open // 2) and C.pink or C.dark) end
+  end
+  stamp(img, FOX_JAW, x, jaw_y)
+  stamp(img, FOX_TOP, x, top_y)
+  -- Dentes de baixo também apontam para cima quando a boca abre.
+  if open > 1 then
+    for i = 15, 19, 2 do bput(img, x + i, jaw_y - 1, C.tip) end
   end
 end
 
@@ -521,17 +678,40 @@ local function rep(pose, n) local t = {} for i = 1, n do t[i] = pose end return 
 
 local NEW_MOVES = {}
 
+-- Golpe de caudas por quadros-chave: para cada quadro, a ponta (tx, ty) e o controle da curva (cx, cy),
+-- relativos à base das caudas na cintura (y negativo = para cima, x positivo = para a frente). O
+-- quadro anterior fica como rastro escuro e o quadro de impacto (hit) estoura na ponta.
+-- spread = quanto as caudas se separam (px por cauda).
+local function tail_swing(img, m, i, count, keys, width, spread, hit, k)
+  local bx, by = m.back, m.top + 19
+  local function draw(f, ghost)
+    local key = keys[f]
+    local tip_x, tip_y
+    for t = count, 1, -1 do
+      local o = (t - (count + 1) / 2) * spread
+      tip_x, tip_y = tail_to(img, bx, by + t - 1, bx + key[3] - o * 0.6, by + key[4] - o * 0.4,
+        bx + key[1] - o, by + key[2] + o, width - (t - 1) * 0.25, ghost, k + t)
+    end
+    return tip_x, tip_y
+  end
+  if i > 1 then
+    local a, b = keys[i - 1], keys[i]
+    if math.abs(a[1] - b[1]) + math.abs(a[2] - b[2]) > 16 then draw(i - 1, true) end
+  end
+  local tx, ty = draw(i, false)
+  if hit == i then tail_hit(img, tx, ty) end
+end
+
 -- ===== NÍVEL 2, RUPTURA: as três caudas e as garras do manto viram as armas =====
 NEW_MOVES[2] = {
-  -- Chicote das caudas: as três caudas passam por cima da cabeça e chicoteiam à frente.
+  -- Chicote das caudas: as três caudas sobem atrás, passam por cima da cabeça e batem na frente.
   tailwhip = function(level)
-    local ang = { 1.2, 1.8, 2.6, 3.05, 2.9, 2.0 }
-    local len = { 18, 23, 28, 32, 27, 20 }
+    -- { ponta x, ponta y, controle x, controle y }: armar atrás, subir, passar por cima, bater à
+    -- frente na altura do peito, seguir até o chão e voltar.
+    local keys = { { -16, -20, -14, -4 }, { -8, -36, -16, -16 }, { 18, -40, -8, -36 },
+      { 46, -6, 14, -44 }, { 48, 12, 24, -34 }, { -12, -28, -14, -10 } }
     return make_move(level, rep(P("jab", 1), 6), false, function(img, m, i)
-      if i >= 3 and i <= 5 then arc(img, m.back + 8, m.top - 2, len[i] + 2, ang[i - 1], ang[i], C.tip) end
-      for t = 1, 3 do
-        energy_stroke(img, m.back, m.top + 19 + t, 1.7, ang[i] - (t - 2) * 0.2, len[i] + 18 - t * 2, 1.2, 0.6)
-      end
+      tail_swing(img, m, i, 3, keys, 3.6, 5, 4, i)
     end)
   end,
   -- Garra do manto: um braço de energia sai do ombro, rasga à frente e volta.
@@ -545,45 +725,45 @@ NEW_MOVES[2] = {
       claw(img, m.front, m.top + 12, math.pi - 0.1, len[i])
     end)
   end,
-  -- Pião das caudas: abaixado, as três caudas giram em volta do corpo (acerta dos dois lados).
+  -- Pião das caudas: abaixado, as três caudas varrem em volta do corpo (acerta dos dois lados).
   tailspin = function(level)
     return make_move(level, rep(P("crouch", -1), 6), false, function(img, m, i)
-      local cy = m.feet - 10
-      ring(img, m.cx, cy, 26, C.blood, 0.45)
+      local cy = m.feet - 9
       for t = 0, 2 do
         local a = (i - 1) * 1.05 + t * 2.09
-        energy_stroke(img, m.cx, cy, a, a + 0.7, 26, 1.1)
+        fox_tail(img, m.cx, cy, a - 0.9, a - 0.2, 30, 3.0, 1, true, i + t)
+      end
+      for t = 0, 2 do
+        local a = (i - 1) * 1.05 + t * 2.09
+        fox_tail(img, m.cx, cy, a, a + 0.6, 32, 3.2, 1, false, i + t)
       end
     end)
   end,
-  -- Finalizador: as caudas sobem bem alto e desabam na frente, rachando o chão.
+  -- Finalizador: as caudas sobem retas bem alto e desabam na frente, rachando o chão.
   tailslam = function(level)
     local poses = { P("jab", 1), P("jab", 1), P("jab", 1), P("crouch", -1), P("crouch", -1), P("crouch", -1), P("jab", 1) }
-    local ang = { 1.5, 1.6, 1.7, 3.6, 3.75, 3.75, 2.2 }
-    local len = { 22, 28, 34, 34, 32, 28, 18 }
     return make_move(level, poses, false, function(img, m, i)
-      for t = 1, 3 do
-        energy_stroke(img, m.back, m.top + 18 + t, 1.7, ang[i] - (t - 2) * 0.15, len[i] + 18 - t, 1.4, 0.6)
-      end
+      local ground = m.feet - (m.top + 19) - 1
+      -- Sobem retas bem alto e desabam na frente até o chão.
+      local keys = { { -4, -34, -6, -16 }, { -2, -46, -6, -22 }, { 0, -56, -4, -28 },
+        { 44, ground, 12, -50 }, { 48, ground, 20, -44 }, { 50, ground, 26, -38 }, { -10, -30, -12, -12 } }
+      tail_swing(img, m, i, 3, keys, 4.0, 4, 4, i)
       if i >= 4 and i <= 6 then
-        local gx = m.front + 24
-        for dx = -12, 12 do   -- rachadura no chão e pedaços subindo
+        local gx = m.front + 30
+        for dx = -14, 14 do   -- rachadura no chão e pedaços subindo
           if (dx + i) % 3 ~= 0 then bput(img, gx + dx, m.feet + 1, C.hot) end
           if dx % 4 == 0 then bput(img, gx + dx, m.feet - math.floor(math.abs(dx) / 3) - (i - 3) * 2, C.pink) end
         end
-        ring(img, gx, m.feet - 3, 6 + (i - 4) * 8, i == 6 and C.crimson or C.tip, 0.4)
+        ring(img, gx, m.feet - 3, 6 + (i - 4) * 9, i == 6 and C.crimson or C.tip, 0.4)
       end
     end)
   end,
   -- No ar: chicote das caudas.
   air_tailwhip = function(level)
-    local ang = { 1.4, 2.2, 2.9, 3.15, 2.4 }
-    local len = { 18, 24, 30, 28, 20 }
+    local keys = { { -14, -24, -14, -6 }, { 6, -40, -14, -30 }, { 46, -2, 12, -44 },
+      { 44, 20, 26, -30 }, { -10, -28, -14, -10 } }
     return make_move(level, rep(P("air_punch", 1), 5), false, function(img, m, i)
-      if i >= 2 and i <= 4 then arc(img, m.back + 8, m.top - 2, len[i] + 2, ang[i - 1], ang[i], C.tip) end
-      for t = 1, 3 do
-        energy_stroke(img, m.back, m.top + 19 + t, 1.7, ang[i] - (t - 2) * 0.22, len[i] + 18 - t * 2, 1.2, 0.6)
-      end
+      tail_swing(img, m, i, 3, keys, 3.6, 5, 3, i)
     end)
   end,
   -- No ar: garra para baixo, em diagonal.
@@ -596,17 +776,30 @@ NEW_MOVES[2] = {
   end,
 }
 
+-- Rajada de caudas: as caudas paradas abertas em leque atrás e, a cada quadro, uma delas arqueia
+-- por cima do ombro e bate à frente (a anterior fica como rastro).
+local function barrage_frame(img, m, i, k)
+  local active = i - 1
+  for t = 5, 1, -1 do
+    if t ~= active and t ~= active - 1 then
+      fox_tail(img, m.back, m.top + 16 + t, 0.4, 0.9 + t * 0.32, 26 - t, 2.6, 1.6, false, k + t)
+    end
+  end
+  if active - 1 >= 1 and active - 1 <= 5 then
+    local o = (active - 4) * 5
+    tail_to(img, m.back, m.top + 16 + active - 1, m.back - 2, m.top - 22, m.back + 50, m.top + 10 + o, 3.0, true, k, 0.3)
+  end
+  if active >= 1 and active <= 5 then
+    local o = (active - 3) * 5
+    local tx, ty = tail_to(img, m.back, m.top + 16 + active, m.back + 4, m.top - 24, m.back + 54, m.top + 6 + o, 3.2, false, k + 9, 0.3)
+    tail_hit(img, tx, ty)
+  end
+end
+
 -- ===== NÍVEL 3, CONSUMIDO: cinco caudas, garras em X, fogo de raposa e a cabeça da raposa =====
 NEW_MOVES[3] = {
-  -- Rajada de caudas: as cinco caudas furam à frente, uma por vez, em alturas diferentes.
   barrage = function(level)
-    return make_move(level, rep(P("jab", 1), 7), false, function(img, m, i)
-      for t = 1, 5 do
-        local active = (i - 1) == t or (i - 2) == t
-        local a = active and (math.pi - 0.05 + (t - 3) * 0.09) or (1.1 + t * 0.28)
-        energy_stroke(img, m.back, m.top + 16 + t, active and 1.7 or 0.5, a, active and 50 or 15, active and 1.1 or 0.8, active and 0.7 or 2)
-      end
-    end)
+    return make_move(level, rep(P("jab", 1), 7), false, function(img, m, i) barrage_frame(img, m, i, i) end)
   end,
   -- Garras em X: duas garras do manto cruzam à frente (uma de cima, outra de baixo).
   xclaws = function(level)
@@ -635,19 +828,23 @@ NEW_MOVES[3] = {
       end
     end)
   end,
-  -- Mordida da raposa: o manto forma uma cabeça de raposa que avança e morde.
+  -- Mordida da raposa: o manto forma uma cabeça de raposa que avança de boca aberta e fecha.
   foxbite = function(level)
     local d = frames_of("dash")
     local poses = {}
     local pick = { 1, 2, 3, #d, #d, #d, #d }
     for i, f in ipairs(pick) do poses[i] = { img = d[f], head = head_visible("dash", f) } end
-    local open = { 1, 3, 5, 7, 0, 0, 0 }
-    local reach = { 2, 8, 16, 22, 28, 18, 8 }
+    local open = { 0, 3, 6, 8, 0, 0, 0 }
+    local reach = { -6, 0, 8, 14, 20, 12, 2 }
     return make_move(level, poses, true, function(img, m, i)
+      local hx, hy = m.front + reach[i], m.top + 8
       -- Pescoço de energia ligando o manto à cabeça.
-      energy_stroke(img, m.front - 2, m.top + 13, math.pi, math.pi, reach[i], 2.0)
-      fox_head(img, m.front + reach[i] + 2, m.top + 12, 7, open[i])
-      if i == 5 then ring(img, m.front + reach[i] + 12, m.top + 14, 9, C.tip) end
+      energy_stroke(img, m.front - 4, m.top + 14, math.pi + 0.2, math.pi - 0.1, math.max(4, reach[i] + 8), 3.0)
+      fox_head(img, hx, hy, open[i])
+      if i == 5 then
+        ring(img, hx + 30, hy + 3, 7, C.tip)
+        tail_hit(img, hx + 30, hy + 3)
+      end
     end)
   end,
   -- Finalizador: as cinco caudas se abrem em volta do corpo inteiro e explodem em anéis.
@@ -657,24 +854,18 @@ NEW_MOVES[3] = {
       local cy = m.top + 20
       local grow = math.min(1, i / 4)
       for t = 0, 4 do
-        local a = t * 1.256 + i * 0.15
-        energy_stroke(img, m.cx, cy, a, a + 0.5, math.floor(14 + 20 * grow), 1.2)
+        local a = 0.35 + t * 0.6 + (i >= 4 and 0 or (4 - i) * 0.05)
+        fox_tail(img, m.cx, cy, a, a + 0.35, math.floor(16 + 26 * grow), 2.4 + grow, 1, false, i + t)
       end
       if i >= 4 and i <= 7 then
-        ring(img, m.cx, cy, 14 + (i - 4) * 11, C.tip)
-        ring(img, m.cx, cy, 9 + (i - 4) * 11, C.hot)
+        ring(img, m.cx, cy, 16 + (i - 4) * 11, C.tip)
+        ring(img, m.cx, cy, 11 + (i - 4) * 11, C.hot)
       end
     end)
   end,
   -- No ar: rajada de caudas.
   air_barrage = function(level)
-    return make_move(level, rep(P("air_punch", 1), 6), false, function(img, m, i)
-      for t = 1, 5 do
-        local active = (i - 1) == t
-        energy_stroke(img, m.back, m.top + 16 + t, active and 1.7 or 0.5, active and (math.pi - 0.1 + (t - 3) * 0.1) or (1.1 + t * 0.28),
-          active and 46 or 14, active and 1.1 or 0.8, active and 0.7 or 2)
-      end
-    end)
+    return make_move(level, rep(P("air_punch", 1), 6), false, function(img, m, i) barrage_frame(img, m, i, i + 20) end)
   end,
   -- No ar: fogo de raposa disparado para baixo, em diagonal.
   air_foxfire = function(level)
