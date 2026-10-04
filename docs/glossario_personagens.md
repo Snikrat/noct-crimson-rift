@@ -6,6 +6,9 @@
 > (`docs/noct_personalidade.md`).
 >
 > **Contém spoilers do jogo inteiro**, inclusive dos dois finais.
+>
+> Dentro do jogo, a versão curta e sem spoilers adiantados fica na pausa, aba **Glossário**
+> (`data/glossary.gd`): cada verbete e cada parágrafo só aparecem quando a história chega neles.
 
 Legenda das fontes: entre parênteses fica o arquivo onde o fato aparece no jogo.
 

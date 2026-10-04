@@ -457,6 +457,7 @@ func _ending_sequence() -> void:
 	var picked: int = await hud.dialog.chosen
 	GameState.ending_choice = "stay" if picked == 0 else "leave"
 	GameState.flags["ending_seen"] = true
+	GameState.flags["ending_" + GameState.ending_choice] = true   # o glossário lembra a escolha
 	GameState.save_game(player)
 	await hud.fade_to(1.0, 1.2).finished
 	Audio.fade_out_music(1.0)

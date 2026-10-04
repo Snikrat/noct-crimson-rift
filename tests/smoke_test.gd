@@ -426,7 +426,7 @@ func _run() -> void:
 		await wait(20)
 		check("herói ao lado do banco", main.is_at_bench(), "pos=%s" % p.global_position)
 		await tap("pause")
-		for i in 3:   # Continuar, Mapa, Memórias -> Amuletos
+		for i in 4:   # Continuar, Mapa, Memórias, Glossário -> Amuletos
 			await tap("down")
 		await tap("attack")
 		await tap("attack")

@@ -1,12 +1,13 @@
 extends Control
-## Menu de pausa (Esc / Start): continuar, mapa, memórias de Mira, amuletos, opções, controles ou voltar ao título.
+## Menu de pausa (Esc / Start): continuar, mapa, memórias de Mira, glossário de personagens, amuletos, opções, controles ou voltar ao título.
 ## O botão de mapa (M / Tab / LB) abre o mapa direto; sair do mapa nesse caso já volta ao jogo.
 
 const InputSetup := preload("res://game/core/input_setup.gd")
 const OptionsPanel := preload("res://game/ui/options_panel.gd")
 const WorldMapView := preload("res://game/ui/world_map_view.gd")
 const MemoriesView := preload("res://game/ui/memories_view.gd")
-const OPTIONS := ["Continuar", "Mapa", "Memórias", "Amuletos", "Opções", "Controles", "Voltar ao título"]
+const GlossaryView := preload("res://game/ui/glossary_view.gd")
+const OPTIONS := ["Continuar", "Mapa", "Memórias", "Glossário", "Amuletos", "Opções", "Controles", "Voltar ao título"]
 const GOLD := Color("e8c872")
 
 var level
@@ -17,6 +18,7 @@ var page := "menu"
 var map_direct := false   # mapa aberto pelo botão de mapa: sair dele fecha a pausa
 var options_panel := OptionsPanel.new()
 var memories_view := MemoriesView.new()
+var glossary_view := GlossaryView.new()
 
 
 func _ready() -> void:
@@ -66,6 +68,9 @@ func _process(_delta: float) -> void:
 	elif page == "memories":
 		if memories_view.handle_input():
 			page = "menu"
+	elif page == "glossary":
+		if glossary_view.handle_input():
+			page = "menu"
 	elif page == "options":
 		if options_panel.handle_input():
 			page = "menu"
@@ -94,6 +99,8 @@ func _process(_delta: float) -> void:
 				map_direct = false
 			"Memórias":
 				page = "memories"
+			"Glossário":
+				page = "glossary"
 			"Opções":
 				page = "options"
 				options_panel.index = 0
@@ -119,6 +126,9 @@ func _draw() -> void:
 		return
 	if page == "memories":
 		memories_view.draw(self, font, screen)
+		return
+	if page == "glossary":
+		glossary_view.draw(self, font, screen)
 		return
 	if page == "options":
 		options_panel.draw(self, font, Rect2(70, 30, screen.x - 140, screen.y - 60))
