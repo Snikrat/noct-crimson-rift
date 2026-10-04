@@ -16,10 +16,11 @@ local ase_path = app.fs.joinPath(root, "art_source", "personagem principal", "no
 
 -- Ordem das animações e quadros por segundo (iguais a HERO_ANIMS/CRIMSON_ANIMS em game/core/sprites.gd).
 local ANIMS = {
-  {"idle", 2}, {"idle_var", 2}, {"walk", 7}, {"run", 14}, {"jump", 12}, {"fall", 8}, {"land", 14}, {"double_jump", 30},
+  {"idle", 2}, {"idle_var", 2}, {"walk", 7}, {"run", 14}, {"run_start", 12}, {"run_stop", 10},
+  {"air_dash", 50}, {"air_spin", 22}, {"jump", 12}, {"fall", 8}, {"land", 14}, {"double_jump", 30},
   {"dash", 50}, {"crouch", 4.5}, {"jab", 18}, {"cross", 16}, {"kick", 16}, {"charged", 12},
   {"up_punch", 20}, {"low_punch", 16}, {"uppercut", 18}, {"cast", 22}, {"slam", 10},
-  {"air_punch", 20}, {"air_kick", 20}, {"air_spin", 22}, {"air_finish", 20}, {"hurt", 14}, {"death", 8},
+  {"air_punch", 20}, {"air_kick", 20}, {"air_finish", 20}, {"hurt", 14}, {"death", 8},
   {"ultimate_charge", 14}, {"ultimate_burst", 12}, {"ultimate_pose", 8},
 }
 local CRIMSON = {{"idle", 4}, {"run", 11}, {"jump", 10}, {"double_jump", 14}, {"dash", 22}, {"crouch", 6},

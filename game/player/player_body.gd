@@ -149,6 +149,8 @@ var meta := {}
 var crimson_level := 0
 var aura: Sprite2D            # brilho carmesim em volta do herói (criado em player.gd)
 var crouching := false        # segurando baixo no chão
+const WALK_FRACTION := 0.6    # abaixo desta fração da velocidade, anda (walk) em vez de correr
+const START_FROM := ["idle", "idle_var", "walk", "land", "run_stop", "look_up", "look_up_loop"]
 var idle_time := 0.0          # segundos parado no Idle
 const IDLE_VAR_AFTER := 8.0   # depois disso o Noct abaixa a cabeça (idle_var)
 var looking_up := false       # segurando cima parado no chão: olha para cima e a câmera sobe
@@ -385,6 +387,10 @@ func _apply_offset() -> void:
 	sprite.position.y = SIZE.y / 2
 
 
+func _has_anim(anim: String) -> bool:
+	return sprite.sprite_frames.has_animation(anim)
+
+
 func _play(anim: String) -> void:
 	if crimson_level > 0:
 		var key := "c%d_%s" % [crimson_level, CRIMSON_ALIAS.get(anim, anim)]
@@ -419,7 +425,7 @@ func _update_animation() -> void:
 	elif focusing or crouching:
 		_play("crouch")
 	elif dash_timer > 0:
-		_play("dash")
+		_play("air_dash" if not is_on_floor() and sprite.sprite_frames.has_animation("air_dash") else "dash")
 	elif land_timer > 0 and is_on_floor():
 		_play("land")
 	elif wall_dir != 0:
@@ -435,7 +441,18 @@ func _update_animation() -> void:
 	elif looking_up:
 		_play("look_up")
 	elif absf(velocity.x) > 10:
-		_play("run")
+		# Andar devagar (analógico pela metade) = walk; correr a partir do Idle = arranque antes.
+		var gait := "walk" if absf(velocity.x) < SPEED * WALK_FRACTION and _has_anim("walk") else "run"
+		if gait == "run" and String(sprite.animation) in START_FROM and _has_anim("run_start"):
+			sprite.play("run_start")
+		elif sprite.animation == "run_start" and sprite.is_playing():
+			pass
+		else:
+			_play(gait)
+	elif String(sprite.animation) == "run" and _has_anim("run_stop"):
+		sprite.play("run_stop")   # freada antes de parar
+	elif sprite.animation == "run_stop" and sprite.is_playing():
+		pass
 	else:
 		# Parado um tempo (forma normal): o Noct abaixa a cabeça uma vez (idle_var) e volta.
 		idle_time = idle_before + get_physics_process_delta_time()

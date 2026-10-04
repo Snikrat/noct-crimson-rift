@@ -174,6 +174,19 @@ func _run() -> void:
 	await wait(40)
 	check("soltar cima volta a câmera", not p.looking_up and absf(p.look_offset.y) < 1)
 
+	# --- Arranque, corrida e freada ---
+	await wait(30)
+	Input.action_press("move_left")
+	await wait(3)
+	check("correr a partir do Idle começa com o arranque", p.sprite.animation in ["run_start", "run"], p.sprite.animation)
+	await wait(12)
+	check("depois do arranque, corre", p.sprite.animation == "run", p.sprite.animation)
+	Input.action_release("move_left")
+	await wait(2)
+	check("parar de correr freia (run_stop)", p.sprite.animation == "run_stop", p.sprite.animation)
+	await wait(30)
+	check("depois da freada, volta ao Idle", String(p.sprite.animation).begins_with("idle"), p.sprite.animation)
+
 	# --- Todas as salas ---
 	for r in ["swamp", "cemetery", "lair", "cathedral", "sanctum", "inferno", "demon_lair", "town"]:
 		main.load_room(r, "L" if r != "town" else "B")

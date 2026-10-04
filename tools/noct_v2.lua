@@ -451,6 +451,20 @@ for i = 3, 6 do
   table.insert(rest.air_spin[2], rest.double_jump[2][i])
 end
 table.insert(REST, "air_spin")
+-- AIR DASH: os quadros do dash com o corpo esticado e o rastro (sem os agachados do começo/fim).
+rest.air_dash = { {}, {}, rest.dash[3] }
+for i = 2, 6 do
+  table.insert(rest.air_dash[1], rest.dash[1][i])
+  table.insert(rest.air_dash[2], rest.dash[2][i])
+end
+table.insert(REST, "air_dash")
+-- INÍCIO E PARADA DA CORRIDA: arranque agachado (1º quadro do dash, sem o rastro) e o primeiro
+-- passo; parada = freada agachada (último quadro do dash) e a recuperação da aterrissagem.
+local empty = Image(W, H, ColorMode.RGB)
+rest.run_start = { { rest.dash[1][1], run_body[1] }, { empty, empty }, 12 }
+rest.run_stop = { { rest.dash[1][#rest.dash[1]], rest.land[1][#rest.land[1]] }, { empty, empty }, 10 }
+table.insert(REST, "run_start")
+table.insert(REST, "run_stop")
 for _, name in ipairs(REST) do add(name, rest[name][1], rest[name][2], rest[name][3]) end
 for _, r in ipairs(ranges) do
   local t = out:newTag(r[2], r[3])

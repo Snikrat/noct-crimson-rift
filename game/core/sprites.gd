@@ -24,7 +24,8 @@ const HERO_ANIMS := {
 	# Noct v2: respiração lenta (0,5 s por quadro); idle_var = abaixa a cabeça; walk = caminhada.
 	"idle": [2, true, "pingpong"], "idle_var": [2, false], "walk": [7, true],
 	# Pulo completo: jump = impulso, subida, topo; land = agachamento e recuperação.
-	"run": [14, true], "jump": [12, false], "fall": [8, false], "land": [14, false],
+	"run": [14, true], "run_start": [12, false], "run_stop": [10, false], "air_dash": [50, false],
+	"jump": [12, false], "fall": [8, false], "land": [14, false],
 	"jab": [18, false], "cross": [16, false], "kick": [16, false], "charged": [12, false],
 	"up_punch": [20, false], "low_punch": [16, false], "uppercut": [18, false], "cast": [22, false],
 	"slam": [10, false], "dash": [50, false], "double_jump": [30, false],
