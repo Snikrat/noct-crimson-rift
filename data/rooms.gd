@@ -11,6 +11,7 @@ extends RefCounted
 ##   K  cão infernal   Z  caveira de fogo   O  olho demoníaco   ~  lava
 ##   N  mineiro cristalizado (Minas da Fenda)   V  grimório voraz (Arquivo Submerso)
 ##   l  Lamento   m  Miragem   s  Sanguessuga de alma (sobe até o teto acima da letra)   (Lago Velado)
+##   f  Faminto da Fenda   k  cristal carmesim (só o dash da Forma Demoníaca quebra)   j  rachadura que explode
 ##   G  chefe Gato Infernal   D  chefe Bringer of Death   M  chefe Demon Slime   Y  chefe Velário (Lago Velado)
 ##   C  amuleto escondido (qual amuleto: chave "charm" da sala)
 ##   X  parede carmesim: sólida; com o Passo da Fenda (depois do Bringer), dash contra ela atravessa
@@ -56,4 +57,5 @@ const ROOMS := {
 	"mind": preload("res://data/rooms/mind.gd").ROOM,
 	"lake_shore": preload("res://data/rooms/lake_shore.gd").ROOM,
 	"lake": preload("res://data/rooms/lake.gd").ROOM,
+	"rift_heart": preload("res://data/rooms/rift_heart.gd").ROOM,
 }

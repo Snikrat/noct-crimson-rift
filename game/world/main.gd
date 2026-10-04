@@ -16,6 +16,9 @@ const DemonSlimeScript := preload("res://game/bosses/demon_slime/demon_slime.gd"
 const VelarioScript := preload("res://game/bosses/velario/velario.gd")
 const MirageScript := preload("res://game/enemies/enemy_mirage.gd")
 const LeechScript := preload("res://game/enemies/enemy_leech.gd")
+const StarvedScript := preload("res://game/enemies/enemy_starved.gd")
+const CrystalScript := preload("res://game/world/rift_crystal.gd")
+const CrackScript := preload("res://game/world/rift_crack.gd")
 const CharmPickupScript := preload("res://game/world/charm_pickup.gd")
 const MemoryScript := preload("res://game/world/memory_pickup.gd")
 const TessaScript := preload("res://game/world/tessa.gd")
@@ -318,6 +321,12 @@ func load_room(name: String, entry: String) -> void:
 					_spawn(MirageScript, feet, {})
 				"s":
 					_spawn(LeechScript, feet, {})
+				"f":
+					_spawn(StarvedScript, feet, {})
+				"k":
+					_spawn(CrystalScript, feet, {})
+				"j":
+					_spawn(CrackScript, feet, {})
 				"Y":
 					if not GameState.defeated_bosses.has("velario"):
 						boss = _spawn(VelarioScript, feet, {})
@@ -367,6 +376,12 @@ func load_room(name: String, entry: String) -> void:
 	if room.has("intro") and not GameState.seen_intros.has(name):
 		GameState.seen_intros[name] = true
 		hud.dialog.start("", room["intro"], null, player.global_position - Vector2(0, player.SIZE.y / 2))
+
+
+## Refaz os colisores depois que um bloco some (cristal carmesim quebrado).
+func rebuild_colliders() -> void:
+	_build_colliders()
+	room_view.queue_redraw()
 
 
 ## Junta blocos vizinhos da mesma linha em um único colisor.

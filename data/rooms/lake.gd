@@ -8,7 +8,10 @@ const ROOM := {
 	"title": "Lago Velado", "theme": "lake",
 	"left": "lake_shore", "left_entry": "R", "right": "",
 	"gate": [[0, 10], [0, 11], [0, 12], [0, 13]],
+	"entries": {"RIFT": Vector2(584, 224)},
 	"markers": [
+		{"feet": Vector2(616, 224), "title": "Fenda do fundo do lago", "target": "rift_heart", "entry": "LAKE", "portal": true,
+		 "requires": "boss:velario", "locked_lines": ["* A água no fundo pulsa em vermelho, presa por alguma coisa."]},
 		{"feet": Vector2(568, 224), "title": "Lanterna apagada", "requires": "boss:velario",
 		 "locked_lines": ["* Uma lanterna boia parada, presa no fundo por uma corrente."],
 		 "lines": ["* A lanterna está aberta e vazia.", "@olhar_baixo: ...", "@fechando_olhos: Continua andando. Tá."]},

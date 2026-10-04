@@ -154,6 +154,17 @@ const THEMES := {
 			{"tex": [SWAMP_ENV + "mid-layer-01.png", SWAMP_ENV + "mid-layer-02.png"], "scroll": 0.25, "align": "center", "tint": Color(0.13, 0.1, 0.22)},
 		],
 	},
+	# Coração da Fenda: a matéria de pensamento da Mente do Noct, mais escura, com o fundo pulsando
+	# e fagulhas subindo ("motes").
+	"rift_heart": {
+		"tileset": Paths.MIND + "tileset.png", "autotile": true, "tint": Color(0.8, 0.62, 0.7),
+		"top_variants": [Vector2i(4, 2)], "fill_variants": [Vector2i(3, 1), Vector2i(4, 1)],
+		"clear": Color("0c0308"), "motes": true,
+		"step": "rock", "music": Paths.MUSIC_AMBIENT_4, "combat": Paths.MUSIC_UNHOLY_SURGE,
+		"layers": [
+			{"tex": [Paths.MIND + "fundo.png"], "scroll": 0.02, "align": "bottom", "cover": true, "tint": Color(0.6, 0.45, 0.5)},
+		],
+	},
 	# Mente do Noct: arena da fase 2 do Bringer (dentro da cabeça de Noct). Arte em tools/make_mind.lua.
 	# "motes": fagulhas carmesim subindo (game/world/motes.gd), mais fortes quanto mais o Bringer apanha.
 	# A música é a mesma da luta, para não cortar na transição.

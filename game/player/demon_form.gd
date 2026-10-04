@@ -215,6 +215,13 @@ func dash_tick(dash_started: bool) -> void:
 		hit_by_dash.clear()
 	if not active:
 		return
+	# Cristais carmesim do Coração da Fenda quebram com o dash da forma.
+	var front := Rect2(player.global_position + Vector2(player.facing * 8 - 4, -18), Vector2(16, 36))
+	if player.facing < 0:
+		front.position.x -= 8
+	for c in get_tree().get_nodes_in_group("rift_crystals"):
+		if front.intersects(Rect2(c.global_position, Vector2(16, 16))):
+			c.shatter()
 	var box := Rect2(player.global_position - Vector2(16, 20), Vector2(32, 40))
 	for e in get_tree().get_nodes_in_group("enemies"):
 		if e in hit_by_dash or not box.intersects(e.get_hurtbox()):
