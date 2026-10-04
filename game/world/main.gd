@@ -742,6 +742,7 @@ func on_enemy_killed(amount: int) -> void:
 	Audio.play_sfx("enemy_death", 0.15)
 	geo += int(amount * 1.5) if GameState.has_charm("geo_magnet") else amount
 	player.gain_xp(Progression.xp_for_geo(amount))
+	player.demon.on_kill()
 
 
 func on_player_died() -> void:

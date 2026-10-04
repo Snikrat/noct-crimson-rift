@@ -8,7 +8,8 @@ const Charms := preload("res://data/charms.gd")
 const ShopItems := preload("res://data/shop_items.gd")
 const Progression := preload("res://data/progression.gd")
 const Memories := preload("res://data/memories.gd")
-const SKILLS := ["combo", "wave", "charged", "uppercut", "slam", "ultimate"]
+# "demon1": Forma Demoníaca Nível 1 (derrotar o Velário; game/player/demon_form.gd).
+const SKILLS := ["combo", "wave", "charged", "uppercut", "slam", "ultimate", "demon1"]
 const BOSSES := ["gato", "bringer", "demon_slime"]
 const DISCOVERIES := ["mountain_pass", "nameless_grave", "watcher_note", "mountain_memory", "bandit_captain", "evil_wizard", "knight_duel", "forest_cache", "ruins_memory", "tower_marks", "tower_view", "tower_bell", "well_note", "station_board", "station_tracks"]
 # Marcos da história (Tessa, final).

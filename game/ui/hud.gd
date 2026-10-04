@@ -158,6 +158,7 @@ func _draw_hud() -> void:
 	# A fenda pulsa quando há alma para uma magia.
 	var pulse := 0.75 + 0.25 * sin(t * 6.0) if player.soul >= player.SPELL_COST else 0.7
 	c.draw_texture(orb["fenda"], ORB_POS, Color(1, 1, 1, pulse))
+	_draw_rift_ring(player.demon)
 
 	# Nível (XP) e Geo ao lado do emblema.
 	var bar_pos := ORB_POS + Vector2(orb["base"].get_width() - 2, 12)
@@ -190,6 +191,30 @@ func _draw_hud() -> void:
 				Controls.key_label("attack"), Controls.key_label("dash"),
 				Controls.key_label("spell"), Controls.key_label("up")],
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color(1, 1, 1, 0.4))
+
+
+## Barra da Fenda (Forma Demoníaca): anel carmesim de pixels em volta do orbe, enchendo
+## no sentido horário a partir do alto. Cheia, pulsa; com a forma ativa, drena; na ressaca, falha.
+func _draw_rift_ring(demon) -> void:
+	if demon == null or not demon.unlocked():
+		return
+	var c := canvas
+	var k: float = clampf(demon.gauge / demon.MAX_GAUGE, 0, 1)
+	var center := ORB_POS + ORB_C
+	var bright := Color("ff6f96")
+	if demon.full() and not demon.active:
+		bright = Color("ffd0dd") if int(t * 4.0) % 2 == 0 else Color("ff6f96")
+	elif demon.hangover > 0:
+		bright = Color("6e0d2a")
+	for y in range(-14, 15):
+		for x in range(-14, 15):
+			var d := Vector2(x + 0.5, y + 0.5).length()
+			if d < ORB_R + 0.6 or d > ORB_R + 2.4:
+				continue
+			var ang := fposmod(atan2(x + 0.5, -(y + 0.5)), TAU) / TAU
+			var on := ang <= k
+			c.draw_rect(Rect2(center + Vector2(x, y) - Vector2(0.5, 0.5), Vector2.ONE),
+				Color(bright, 0.95) if on else Color("2c0b16", 0.85))
 
 
 ## Metade do orbe do emblema cheia de baixo até "k" (0..1), com a superfície clara.

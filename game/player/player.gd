@@ -25,6 +25,10 @@ func _ready() -> void:
 	sprite.play("idle")
 	_apply_offset()
 
+	demon = DemonScript.new()
+	demon.player = self
+	demon.level = level
+	add_child(demon)
 	aura = Fx.glow(Color(1, 0.15, 0.35), 34, 0.0)
 	aura.visible = false
 	add_child(aura)
@@ -87,6 +91,7 @@ func _reset_actions() -> void:
 	if ultimate_timer > 0:
 		invuln_timer = minf(invuln_timer, 0.3)
 	ultimate_timer = 0
+	demon.reset()
 	sprite.play("idle")
 	_apply_offset()
 
@@ -181,6 +186,15 @@ func _physics_process(delta: float) -> void:
 		_update_animation()
 		return
 
+	# Forma Demoníaca: a transformação segura o Noct parado por um instante.
+	if Input.is_action_just_pressed("transform") and hurt_timer <= 0 and demon.try_toggle():
+		_cancel_move()
+	if demon.transforming > 0:
+		velocity = Vector2(0, minf(velocity.y + GRAVITY * delta, MAX_FALL))
+		move_and_slide()
+		_apply_offset()
+		return
+
 	if slamming:
 		_process_slam()
 		return
@@ -233,6 +247,7 @@ func _physics_process(delta: float) -> void:
 		if input_x != 0:
 			facing = int(signf(input_x))
 		dash_timer = DASH_TIME
+		demon.dash_tick(true)
 		Audio.play_sfx("dash", 0.1)
 		dash_cooldown = DASH_COOLDOWN * (0.5 if GameState.has_charm("swift_step") else 1.0)
 		focusing = false
@@ -252,6 +267,7 @@ func _physics_process(delta: float) -> void:
 		if trail_timer <= 0:
 			level.spawn_crimson("trail", global_position, facing)
 			trail_timer = 0.04
+		demon.dash_tick(false)
 		velocity = Vector2(facing * DASH_SPEED * (1.2 if GameState.has_charm("swift_step") else 1.0), 0)
 	else:
 		# Durante um golpe no chão o herói anda devagar.

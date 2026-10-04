@@ -9,6 +9,7 @@ const OrbScript := preload("res://game/spells/spell_orb.gd")
 const ThunderScript := preload("res://game/spells/spell_thunder.gd")
 const DragonScript := preload("res://game/spells/ultimate_dragon.gd")
 const ShardScript := preload("res://game/player/shard_return.gd")
+const DemonScript := preload("res://game/player/demon_form.gd")
 
 const SIZE := Vector2(14, 40)
 const SPEED := 150.0
@@ -148,6 +149,7 @@ var meta := {}
 # Forma carmesim (0 = normal, 1-3 = níveis). Por enquanto só troca as animações básicas.
 var crimson_level := 0
 var aura: Sprite2D            # brilho carmesim em volta do herói (criado em player.gd)
+var demon: Node2D             # Forma Demoníaca: barra da Fenda, transformação e visual (demon_form.gd)
 var crouching := false        # segurando baixo no chão
 const WALK_FRACTION := 0.6    # abaixo desta fração da velocidade, anda (walk) em vez de correr
 const START_FROM := ["idle", "idle_var", "walk", "land", "run_stop", "look_up", "look_up_loop"]
@@ -219,7 +221,7 @@ func _tick_timers(delta: float) -> void:
 func _move(input_x: float, delta: float) -> void:
 	if input_x != 0 and move == "":
 		facing = int(signf(input_x))
-	velocity.x = input_x * SPEED + recoil_x
+	velocity.x = input_x * SPEED * (demon.speed_mult() if demon else 1.0) + recoil_x
 
 	var g := GRAVITY * (FALL_MULT if velocity.y > 0 else 1.0)
 	velocity.y = minf(velocity.y + g * delta, MAX_FALL)
@@ -309,6 +311,8 @@ func _start_move(name: String) -> void:
 	hit_this_swing.clear()
 	combo_timer = COMBO_WINDOW + 0.4
 	sprite.play(MOVES[name]["anim"])
+	if demon:
+		demon.on_move_started(name)
 	Audio.play_sfx("swing", 0.08, 0.8 if name in ["kick", "charged", "combo4", "finisher"] else 1.0)
 
 
@@ -348,7 +352,7 @@ func _focus_time() -> float:
 
 ## Dano extra dos golpes (loja + Lâmina Rubra) e das magias (grimório + Magia Afiada).
 func _melee_bonus() -> int:
-	return nail_damage - 1 + (1 if GameState.has_charm("red_blade") else 0)
+	return nail_damage - 1 + (1 if GameState.has_charm("red_blade") else 0) + (demon.damage_bonus() if demon else 0)
 
 
 func _spell_bonus() -> int:
@@ -505,6 +509,8 @@ func _take_damage(knock_dir: float, from_hazard: bool) -> void:
 	slamming = false
 	slam_recover = 0
 	hp -= 1
+	if demon:
+		demon.on_hurt()
 	if from_hazard:
 		soul = maxi(soul - HAZARD_SOUL_LOSS, 0)
 	invuln_timer = INVULN_TIME

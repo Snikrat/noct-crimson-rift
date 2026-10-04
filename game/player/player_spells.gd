@@ -16,7 +16,7 @@ func _handle_spells(delta: float) -> void:
 		if Input.is_action_pressed("spell"):
 			spell_held += delta
 			if spell_held >= TAP_TIME and not focusing \
-					and is_on_floor() and soul >= SPELL_COST and hp < max_hp:
+					and is_on_floor() and soul >= SPELL_COST and hp < max_hp and (demon == null or demon.can_heal()):
 				focusing = true
 				level.spawn_crimson("circle", global_position + Vector2(0, 19), facing, _focus_time(), self)
 				_cancel_move()

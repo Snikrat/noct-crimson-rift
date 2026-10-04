@@ -7,7 +7,7 @@ const Rooms := preload("res://data/rooms.gd")
 const Progression := preload("res://data/progression.gd")
 const GOLD := Color("e8c872")
 const INFINITE_GEO := 99999
-const SKILLS := ["combo", "wave", "charged", "uppercut", "slam", "ultimate"]
+const SKILLS := ["combo", "wave", "charged", "uppercut", "slam", "ultimate", "demon1"]
 
 var level
 var open := false
@@ -40,6 +40,7 @@ func _options() -> Array:
 		"Invencível: %s" % _on_off(god_mode),
 		"Liberar habilidades: %s" % _on_off(all_powers),
 		"Forma carmesim: %d" % level.player.crimson_level,
+		"Forma Demoníaca: liberar e encher a barra",
 		"Fechar",
 	]
 
@@ -117,6 +118,10 @@ func _choose(option: int) -> void:
 		8:
 			level.cycle_crimson()
 		9:
+			p.unlocked["demon1"] = true
+			p.demon.gauge = p.demon.MAX_GAUGE
+			level.hud.show_banner("Barra da Fenda cheia: aperte %s" % Controls.key_label("transform"), 1.8)
+		10:
 			closing = true
 	level.refresh_hud()
 

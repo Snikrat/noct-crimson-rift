@@ -45,6 +45,8 @@ func _physics_process(delta: float) -> void:
 			continue
 		hit.append(e)
 		e.take_hit(Vector2(dir, 0), damage)
+		if level.player.demon:
+			level.player.demon.on_hit(true)
 	if life <= 0 or level.is_solid(global_position + Vector2(dir * 8, 0)):
 		done = true
 		sprite.play("burst")

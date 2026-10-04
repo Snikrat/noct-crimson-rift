@@ -7,7 +7,7 @@ const InputSetup := preload("res://game/core/input_setup.gd")
 
 const KEY_LABELS := {
 	"up": ["W", "Cima"], "down": ["S", "Baixo"], "jump": ["Espaço", "A"],
-	"attack": ["J", "X"], "dash": ["K", "RT"], "spell": ["L", "B"],
+	"attack": ["J", "X"], "dash": ["K", "RT"], "spell": ["L", "B"], "transform": ["R", "R3"],
 }
 
 var using_pad := false

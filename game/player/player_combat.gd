@@ -136,7 +136,10 @@ func _hit_area(area: Rect2, dir: Vector2, damage: int, knock: float) -> bool:
 		Fx.sparks(level.world, e.global_position, Color(1, 0.3, 0.45), 8, 110)
 		if knock > 0 and "knock" in e:
 			e.knock = dir.x * knock
-		soul = mini(soul + soul_per_hit + (6 if GameState.has_charm("hungry_heart") else 0), MAX_SOUL)
+		var gain := soul_per_hit + (6 if GameState.has_charm("hungry_heart") else 0)
+		soul = mini(soul + int(gain * (demon.soul_mult() if demon else 1.0)), MAX_SOUL)
+		if demon:
+			demon.on_hit()
 		landed = true
 	if landed:
 		if dir.x != 0:

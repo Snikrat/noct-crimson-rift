@@ -19,6 +19,7 @@ static func setup() -> void:
 		"pause": [KEY_ESCAPE, KEY_P],
 		"map": [KEY_M, KEY_TAB],
 		"ultimate": [KEY_U],
+		"transform": [KEY_R],      # Forma Demoníaca (barra da Fenda cheia)
 		"debug_menu": [KEY_F1],    # atalho de teste: menu de hacks (só em builds de debug)
 		"debug_soul": [KEY_F2],    # atalho de teste: enche alma e vida
 		"debug_crimson": [KEY_F3], # atalho de teste: troca a forma carmesim (0 -> 1 -> 2 -> 3 -> 0)
@@ -44,6 +45,7 @@ static func setup() -> void:
 		"pause": [JOY_BUTTON_START],
 		"map": [JOY_BUTTON_LEFT_SHOULDER],
 		"ultimate": [JOY_BUTTON_Y],
+		"transform": [JOY_BUTTON_RIGHT_STICK],
 		"debug_menu": [JOY_BUTTON_BACK],
 		"debug_crimson": [JOY_BUTTON_LEFT_STICK],
 	}
@@ -90,6 +92,7 @@ const CONTROLS := [
 	["Trovão", "W + L", "Cima + B"],
 	["Falar / Descansar / Loja", "W", "Cima"],
 	["Ultimate (alma cheia, nível 10)", "U", "Y"],
+	["Forma Demoníaca (barra da Fenda cheia)", "R", "Analógico dir."],
 	["Mapa", "M / Tab", "LB"],
 	["Pausa", "Esc", "Start"],
 	["Teste: menu de hacks / encher alma", "F1 / F2", "Select"],
