@@ -437,6 +437,10 @@ end
 table.insert(rest.jump[1], 1, rest.land[1][1])
 table.insert(rest.jump[2], 1, rest.land[2][1])
 rest.jump[3] = 12
+-- COMBO NO CHÃO: o chute (golpe 3) ganha antecipação, a guarda do jab, para emendar sem pulo
+-- de pose depois do cross.
+table.insert(rest.kick[1], 1, rest.jab[1][1])
+table.insert(rest.kick[2], 1, Image(W, H, ColorMode.RGB))
 for _, name in ipairs(REST) do add(name, rest[name][1], rest[name][2], rest[name][3]) end
 for _, r in ipairs(ranges) do
   local t = out:newTag(r[2], r[3])

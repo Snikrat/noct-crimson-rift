@@ -38,12 +38,13 @@ func _handle_attack_input(delta: float) -> void:
 		attack_held = 0.0
 
 
-## Próximo golpe da sequência: soco de energia -> rajada -> chute (combo liberado no nível 2).
+## Próximo golpe da sequência: jab -> cross -> chute -> soco ascendente -> finalizador
+## (combo liberado no nível 2). Cada golpe tem antecipação, golpe, impacto e recuperação.
 func _start_combo_hit() -> void:
 	var airborne := not is_on_floor()
 	if combo_timer <= 0 or (not airborne and not has("combo")):
 		combo_step = 0
-	var chain := ["air_punch", "air_kick", "air_finish"] if airborne else (["punch", "combo", "kick"] if has("combo") else ["punch"])
+	var chain := ["air_punch", "air_kick", "air_finish"] if airborne else (["punch", "combo", "kick", "combo4", "finisher"] if has("combo") else ["punch"])
 	_start_move(chain[combo_step % chain.size()])
 	combo_step += 1
 

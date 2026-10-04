@@ -80,6 +80,23 @@ func _run() -> void:
 	p._cancel_move()
 	p.combo_timer = 0
 	p.facing = 1
+	# Combo no chão de 5 golpes (com o combo liberado).
+	if not p.has("combo"):
+		p.unlocked["combo"] = true
+	var ground_chain := []
+	for i in 20:   # assenta no chão
+		p.velocity = Vector2(0, 400)
+		p.move_and_slide()
+	p.velocity = Vector2.ZERO
+	p._start_combo_hit()
+	ground_chain.append(p.move)
+	for i in 4:
+		p.attack_queued = true
+		p._on_anim_finished()
+		ground_chain.append(p.move)
+	check("combo no chão tem 5 golpes até o finalizador: " + str(ground_chain), ground_chain == ["punch", "combo", "kick", "combo4", "finisher"])
+	p._cancel_move()
+	p.combo_timer = 0
 	var before_air: Vector2 = p.position
 	p.position.y -= 120
 	p.velocity = Vector2.ZERO

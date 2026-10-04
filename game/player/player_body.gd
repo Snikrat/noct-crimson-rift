@@ -60,7 +60,10 @@ const MOVES := {
 	"air_finish": {"anim": "air_finish", "frames": [0, 0], "area": Rect2(0, -10, 40, 40), "damage": 2},
 	"punch": {"anim": "jab", "frames": [2, 2], "area": Rect2(2, -20, 46, 36), "damage": 1},
 	"combo": {"anim": "cross", "frames": [1, 2], "area": Rect2(2, -22, 54, 38), "damage": 1},
-	"kick": {"anim": "kick", "frames": [1, 3], "area": Rect2(0, -24, 44, 32), "damage": 2, "knock": 260},
+	"kick": {"anim": "kick", "frames": [2, 4], "area": Rect2(0, -24, 44, 32), "damage": 2, "knock": 260},
+	# Combo no chão: jab -> cross -> chute -> soco ascendente -> finalizador (soco no chão).
+	"combo4": {"anim": "up_punch", "frames": [3, 5], "area": Rect2(-4, -54, 52, 50), "damage": 2},
+	"finisher": {"anim": "low_punch", "frames": [3, 4], "area": Rect2(-6, -26, 66, 46), "damage": 3, "knock": 340},
 	"charged": {"anim": "charged", "frames": [3, 3], "area": Rect2(2, -22, 66, 30), "damage": 4, "knock": 320},
 	"uppercut": {"anim": "uppercut", "frames": [3, 5], "area": Rect2(-14, -70, 44, 78), "damage": 3},
 	# Socos diagonais: para cima (cima + ataque) e para baixo até o chão (baixo + ataque, no chão).
@@ -302,7 +305,7 @@ func _start_move(name: String) -> void:
 	hit_this_swing.clear()
 	combo_timer = COMBO_WINDOW + 0.4
 	sprite.play(MOVES[name]["anim"])
-	Audio.play_sfx("swing", 0.08, 0.8 if name in ["kick", "charged"] else 1.0)
+	Audio.play_sfx("swing", 0.08, 0.8 if name in ["kick", "charged", "combo4", "finisher"] else 1.0)
 
 
 func _cancel_move() -> void:
