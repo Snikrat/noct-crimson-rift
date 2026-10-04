@@ -1,9 +1,10 @@
 -- Formas carmesim (Forma Demoníaca) do Noct, refeitas como CAMADA por cima do Noct base, sem
 -- redesenhar o corpo (docs/expansao_forma_demoniaca.md, "Visual"):
---   Nível 1 Juramento: aura com chamas curtas no ritmo da respiração, um chifre de aura do lado
---                      esquerdo (atrás), olhos carmesim, leve tom carmesim.
---   Nível 2 Ruptura:   dois chifres sólidos, cauda de energia, fagulhas pretas, aura mais forte.
---   Nível 3 Consumido: chifres maiores e asas de energia, rosto escurecido, só os olhos acesos.
+-- O demônio é uma RAPOSA: chifres de energia (não físicos) e caudas de energia, mais a cada nível.
+--   Nível 1 Juramento: 1 cauda, um chifre de energia atrás, aura curta, olhos carmesim, tom leve.
+--   Nível 2 Ruptura:   3 caudas, dois chifres de energia, fagulhas pretas, aura mais forte.
+--   Nível 3 Consumido: 5 caudas, chifres maiores, rosto escurecido com só os olhos acesos.
+-- Em todos, um pouco de energia por cima do corpo (borda de trás acesa e veios), de leve.
 -- Lê as animações base do noct.aseprite e grava assets/hero/crimson/c<n>_<anim>.png.
 -- Rodar DEPOIS de exportar o noct.aseprite (modo=exportar), que regrava as tiras antigas.
 --
@@ -192,48 +193,69 @@ local function eyes(out, m, level)
   put(out, ex - 1, ey, level == 3 and C.eye or C.pink)
 end
 
--- Chifre: curva saindo do alto da cabeça. dir = -1 (para trás) ou 1 (para a frente).
-local function horn(out, x, y, dir, len, solid)
-  local pts = {}
+-- Chifre de ENERGIA (não é chifre físico): curva saindo do alto da cabeça, com a ponta piscando.
+-- dir = -1 (para trás) ou 1 (para a frente).
+local function horn(out, x, y, dir, len, k)
   for i = 0, len - 1 do
-    table.insert(pts, { x + dir * math.floor(i * 0.6 + 0.5), y - i })
+    local px, py = x + dir * math.floor(i * 0.6 + 0.5), y - i
+    local tip = i >= len - 2
+    put(out, px, py, tip and ((k // 2) % 2 == 0 and C.tip or C.pink) or (i < 2 and C.crimson or C.hot))
+    if i < len - 2 then put(out, px - dir, py, i < 2 and C.blood or C.crimson) end
   end
-  for i, p in ipairs(pts) do
-    if solid then
-      put(out, p[1], p[2], i == #pts and C.red or C.dark)
-      if i < #pts - 1 then put(out, p[1] - dir, p[2], C.dark) end
-      put(out, p[1] + dir, p[2], i < #pts - 1 and C.red or C.dark)
-    else
-      put(out, p[1], p[2], i > #pts - 2 and C.tip or C.pink)
-      if i < #pts - 1 then put(out, p[1] - dir, p[2], C.hot) end
+end
+
+-- Caudas de raposa de ENERGIA saindo do baixo das costas: grossas no meio, curvando para cima,
+-- com a ponta clara. count = quantas caudas (mais a cada nível); abrem em leque e balançam.
+local function tails(out, base, m, k, count, len)
+  local y0 = m.top + 26
+  local x0 = nil
+  for x = 0, W - 1 do if opaque(base, x, y0) then x0 = x + 2; break end end
+  if not x0 then return end
+  -- Desenha da cauda mais de trás para a da frente, para cada uma ter contorno próprio.
+  for t = count, 1, -1 do
+    local spread = count == 1 and 0.5 or (t - 1) / (count - 1)
+    local a0 = -0.25 + spread * 0.9                                   -- sai para trás (as de baixo mais baixas)
+    local a1 = 0.7 + spread * 1.9 + math.sin((k + t * 2) * 0.6) * 0.15 -- termina para cima, em leque
+    local l = len - math.floor(spread * 5)
+    local px, py = x0, y0 + (count > 1 and math.floor((1 - spread) * 3) or 0)
+    for s2 = 0, l do
+      local u = s2 / l
+      local theta = a0 + (a1 - a0) * u * u
+      px = px - math.cos(theta)
+      py = py - math.sin(theta)
+      local r = 0.4 + (count > 1 and 1.1 or 1.4) * math.sin(math.pi * math.min(1, u * 1.1))
+      for dy = -2, 2 do
+        for dx = -2, 2 do
+          local d = math.sqrt(dx * dx + dy * dy)
+          local qx, qy = math.floor(px + dx + 0.5), math.floor(py + dy + 0.5)
+          if d <= r + 0.7 and d > r then
+            put_if_empty(out, qx, qy, C.blood)                    -- contorno da cauda
+          elseif d <= r then
+            local col = u > 0.82 and C.tip or (d < r - 0.8 and C.hot or C.crimson)
+            if u < 0.12 then col = C.blood end
+            put(out, qx, qy, col)
+          end
+        end
+      end
     end
   end
 end
 
--- Cauda de energia (nível 2+): onda saindo do baixo das costas.
-local function tail(out, base, m, k)
-  local x0, y0 = nil, m.top + 24
-  for x = 0, W - 1 do if opaque(base, x, y0) then x0 = x; break end end
-  if not x0 then return end
-  for i = 1, 9 do
-    local wave = math.floor(math.sin((i + k) * 0.9) * 1.5 + 0.5)
-    put_if_empty(out, x0 - i, y0 + i // 2 + wave, i > 6 and C.pink or C.crimson)
-  end
-end
-
--- Asas de energia (nível 3): três penas de energia saindo das costas, batendo devagar.
-local function wings(out, base, m, k)
-  local y0 = m.top + 13
-  local x0 = nil
-  for x = 0, W - 1 do if opaque(base, x, y0) then x0 = x + 3; break end end
-  if not x0 then return end
-  local flap = math.floor(math.sin(k * 0.8) * 2 + 0.5)
-  for f, len in ipairs({ 14, 12, 9 }) do
-    for i = 0, len do
-      local px = x0 - i
-      local py = y0 - math.floor(i * (0.9 - f * 0.18) + 0.5) - flap + f * 2
-      put_if_empty(out, px, py, i > len - 3 and C.tip or (f == 1 and C.pink or C.crimson))
-      put_if_empty(out, px, py + 1, C.blood)
+-- Um pouco de energia por cima do corpo, sutil: brilho na borda de trás e faíscas soltas.
+local function body_energy(out, base, m, level, k)
+  local amount = level == 1 and 0.02 or level == 2 and 0.035 or 0.05
+  for y = m.top + 2, m.feet - 4 do
+    local first = true
+    for x = 0, W - 1 do
+      if opaque(base, x, y) then
+        local c = out:getPixel(x, y)
+        if first and noise(0, y // 2, k // 2) < 0.5 + level * 0.12 then
+          out:drawPixel(x, y, mix(c, C.hot, 0.45))   -- borda de trás acesa
+        elseif noise(x // 2, y // 2, k // 3 + 11) < amount then
+          out:drawPixel(x, y, mix(c, C.pink, 0.5))   -- veio de energia passando
+        end
+        first = false
+      end
     end
   end
 end
@@ -255,18 +277,15 @@ local function form_frame(img, level, k, n)
   local breath = 0.5 + 0.5 * math.sin(k / math.max(1, n) * math.pi * 2)
   local body = tint(img, level)
   local out = Image(W, H, ColorMode.RGB)
-  -- Atrás do corpo: asas, aura e cauda; depois o corpo; por cima: chifres, olhos e fagulhas.
-  if level == 3 then wings(out, img, m, k) end
+  -- Demônio-raposa. Atrás do corpo: caudas de energia (1, 3 e 5) e aura; depois o corpo com um
+  -- pouco de energia por cima; na frente: chifres de energia, olhos e fagulhas.
+  tails(out, img, m, k, ({ 1, 3, 5 })[level], ({ 20, 21, 23 })[level])
   aura(img, out, m, level, k, breath)
-  if level >= 2 then tail(out, img, m, k) end
   out:drawImage(body, Point(0, 0))
+  body_energy(out, img, m, level, k)
   local back_x = m.hx0 + 3
-  if level == 1 then
-    horn(out, back_x, m.top + 1, -1, 6, false)
-  else
-    horn(out, back_x, m.top + 1, -1, level == 2 and 6 or 8, true)
-    horn(out, m.hx1 - 3, m.top + 1, 1, level == 2 and 4 or 6, true)
-  end
+  horn(out, back_x, m.top + 1, -1, level == 3 and 8 or 6, k)
+  if level >= 2 then horn(out, m.hx1 - 3, m.top + 1, 1, level == 3 and 6 or 4, k) end
   eyes(out, m, level)
   if level >= 2 then sparks(out, img, m, k, level == 2 and 0.012 or 0.02) end
   return out
