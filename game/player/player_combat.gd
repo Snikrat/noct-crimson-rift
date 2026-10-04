@@ -44,7 +44,7 @@ func _start_combo_hit() -> void:
 	var airborne := not is_on_floor()
 	if combo_timer <= 0 or (not airborne and not has("combo")):
 		combo_step = 0
-	var chain := ["air_punch", "air_kick", "air_finish"] if airborne else (["punch", "combo", "kick", "combo4", "finisher"] if has("combo") else ["punch"])
+	var chain := ["air_punch", "air_kick", "air_spin", "air_finish"] if airborne else (["punch", "combo", "kick", "combo4", "finisher"] if has("combo") else ["punch"])
 	_start_move(chain[combo_step % chain.size()])
 	combo_step += 1
 

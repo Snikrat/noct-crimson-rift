@@ -109,10 +109,13 @@ func _run() -> void:
 	check("ataque emendado no ar passa ao chute", p.move == "air_kick")
 	p.attack_queued = true
 	p._on_anim_finished()
-	check("terceiro ataque usa finalização aérea", p.move == "air_finish")
+	check("terceiro ataque no ar é o corte giratório", p.move == "air_spin")
+	p.attack_queued = true
+	p._on_anim_finished()
+	check("quarto ataque usa finalização aérea", p.move == "air_finish")
 	check("combo aéreo não acrescenta impulso ou levitação", p.velocity.y == 0)
 	var air_duration := 0.0
-	for animation in ["air_punch", "air_kick", "air_finish"]:
+	for animation in ["air_punch", "air_kick", "air_spin", "air_finish"]:
 		air_duration += p.sprite.sprite_frames.get_frame_count(animation) / p.sprite.sprite_frames.get_animation_speed(animation)
 	check("combo inteiro cabe no salto normal", air_duration < 2.0 * absf(p.JUMP_VELOCITY) / p.GRAVITY)
 	p.soul = 0

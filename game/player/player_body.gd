@@ -56,7 +56,9 @@ const SPELL_COOLDOWN := 0.35
 # (o herói tem 40 px de altura: y = -20 é a cabeça, y = +20 são os pés).
 const MOVES := {
 	"air_punch": {"anim": "air_punch", "frames": [1, 2], "area": Rect2(2, -22, 42, 34), "damage": 1},
-	"air_kick": {"anim": "air_kick", "frames": [1, 1], "area": Rect2(2, -24, 48, 36), "damage": 2, "knock": 180},
+	"air_kick": {"anim": "air_kick", "frames": [2, 2], "area": Rect2(2, -24, 48, 36), "damage": 2, "knock": 180},
+	# Corte giratório: a energia gira em volta do corpo e acerta dos dois lados.
+	"air_spin": {"anim": "air_spin", "frames": [1, 2], "area": Rect2(-26, -30, 52, 50), "damage": 2},
 	"air_finish": {"anim": "air_finish", "frames": [0, 0], "area": Rect2(0, -10, 40, 40), "damage": 2},
 	"punch": {"anim": "jab", "frames": [2, 2], "area": Rect2(2, -20, 46, 36), "damage": 1},
 	"combo": {"anim": "cross", "frames": [1, 2], "area": Rect2(2, -22, 54, 38), "damage": 1},

@@ -441,6 +441,16 @@ rest.jump[3] = 12
 -- de pose depois do cross.
 table.insert(rest.kick[1], 1, rest.jab[1][1])
 table.insert(rest.kick[2], 1, Image(W, H, ColorMode.RGB))
+-- COMBO AÉREO: o chute aéreo ganha antecipação (o soco aéreo recolhido) e entra um golpe novo,
+-- o corte giratório (air_spin): os quadros do pulo duplo em que a energia gira em volta do corpo.
+table.insert(rest.air_kick[1], 1, rest.air_punch[1][1])
+table.insert(rest.air_kick[2], 1, rest.air_punch[2][1])
+rest.air_spin = { {}, {}, 22 }
+for i = 3, 6 do
+  table.insert(rest.air_spin[1], rest.double_jump[1][i])
+  table.insert(rest.air_spin[2], rest.double_jump[2][i])
+end
+table.insert(REST, "air_spin")
 for _, name in ipairs(REST) do add(name, rest[name][1], rest[name][2], rest[name][3]) end
 for _, r in ipairs(ranges) do
   local t = out:newTag(r[2], r[3])

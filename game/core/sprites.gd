@@ -20,7 +20,7 @@ const HERO_DIR := Paths.HERO
 # Velocidade (quadros/s) e se repete, para cada animação do herói.
 # Um terceiro valor "pingpong" faz a animação ir e voltar (1-2-3-4-3-2) em vez de reiniciar.
 const HERO_ANIMS := {
-	"air_punch": [20, false], "air_kick": [20, false], "air_finish": [20, false],
+	"air_punch": [20, false], "air_kick": [20, false], "air_spin": [22, false], "air_finish": [20, false],
 	# Noct v2: respiração lenta (0,5 s por quadro); idle_var = abaixa a cabeça; walk = caminhada.
 	"idle": [2, true, "pingpong"], "idle_var": [2, false], "walk": [7, true],
 	# Pulo completo: jump = impulso, subida, topo; land = agachamento e recuperação.
