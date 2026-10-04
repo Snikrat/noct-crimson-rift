@@ -307,7 +307,8 @@ local function head_visible(anim, i)
 end
 
 -- p = força da forma (1 = forma completa; menor na transição). head = desenhar orelhas e olhos.
-local function form_frame(img, level, k, n, p, head)
+-- no_tails = sem as caudas paradas (nos golpes em que as caudas são a arma).
+local function form_frame(img, level, k, n, p, head, no_tails)
   p = p or 1
   if head == nil then head = true end
   local m = measure(img)
@@ -316,7 +317,7 @@ local function form_frame(img, level, k, n, p, head)
   -- Atrás do corpo: caudas (1, 3, 5) e a casca do manto; depois o corpo com o véu do manto e veios;
   -- na frente: orelhas de energia, olhos e fagulhas.
   local count = math.max(0, math.floor(({ 1, 3, 5 })[level] * p + 0.5))
-  if count > 0 then tails(out, img, m, k, count, math.floor(({ 20, 21, 23 })[level] * (0.4 + 0.6 * p))) end
+  if count > 0 and not no_tails then tails(out, img, m, k, count, math.floor(({ 20, 21, 23 })[level] * (0.4 + 0.6 * p))) end
   cloak(img, out, m, level, k, breath, p)
   out:drawImage(veil(img, level, p), Point(0, 0))
   body_energy(out, img, m, level, k)
@@ -356,10 +357,349 @@ local function transform_frames(level)
 end
 
 -------------------------------------------------------------------------------
+-- GOLPES INÉDITOS DAS FORMAS 2 E 3: quem ataca é a energia da raposa (caudas, garras, fogo e a
+-- cabeça de raposa formada pelo manto); o corpo do Noct fica numa pose de base, com o manto.
+-- Quadro maior que o normal (o golpe vai longe): BIG_W x BIG_H, com o quadro normal colado em
+-- (DX, DY); os pés ficam em (ax + DX, ay + DY) (crimson.json).
+local DX, DY = 20, 26
+local BIG_W, BIG_H = W + 64, H + 30
+
+local function bput(img, x, y, c) if x >= 0 and y >= 0 and x < BIG_W and y < BIG_H then img:drawPixel(x, y, c) end end
+local function bempty(img, x, y)
+  return x >= 0 and y >= 0 and x < BIG_W and y < BIG_H and pc.rgbaA(img:getPixel(x, y)) == 0
+end
+
+-- Pose do corpo: quadro i da animação base anim (com orelhas e olhos só se a cabeça aparece).
+local function P(anim, i)
+  local list = frames_of(anim)
+  if i < 0 then i = #list + 1 + i end
+  return { img = list[i], head = head_visible(anim, i) }
+end
+
+-- Corpo com o manto da forma, colado no quadro grande. tails = desenhar as caudas paradas
+-- (falso quando as próprias caudas são o golpe).
+local function body_frame(pose, level, k, n, tails_on)
+  local img = pose.img
+  local f = form_frame(img, level, k, n, 1, pose.head, not tails_on)
+  local big = Image(BIG_W, BIG_H, ColorMode.RGB)
+  big:drawImage(f, Point(DX, DY))
+  local m = measure(img)
+  -- Borda de trás na cintura (base das caudas) e frente do ombro (base das garras).
+  local back, front
+  for x = 0, W - 1 do if opaque(img, x, m.top + 19) then back = x + 2; break end end
+  for x = W - 1, 0, -1 do if opaque(img, x, m.top + 12) then front = x - 1; break end end
+  local b = {
+    top = m.top + DY, feet = m.feet + DY, hx0 = m.hx0 + DX, hx1 = m.hx1 + DX,
+    back = (back or m.hx0 - 2) + DX, front = (front or m.hx1 + 2) + DX,
+  }
+  b.cx = (b.hx0 + b.hx1) // 2
+  return big, b
+end
+
+-- Traço grosso de energia saindo de (x0, y0), com o ângulo curvando de a0 até a1 (0 = para trás,
+-- pi/2 = para cima, pi = para a frente). rmax = grossura no meio; ponta clara.
+local function energy_stroke(img, x0, y0, a0, a1, len, rmax, curve)
+  local px, py = x0, y0
+  for s2 = 0, len do
+    local u = s2 / math.max(1, len)
+    local theta = a0 + (a1 - a0) * u ^ (curve or 2)
+    px = px - math.cos(theta)
+    py = py - math.sin(theta)
+    local r = 0.4 + rmax * math.sin(math.pi * math.min(1, u * 1.1))
+    for dy = -3, 3 do
+      for dx = -3, 3 do
+        local d = math.sqrt(dx * dx + dy * dy)
+        local qx, qy = math.floor(px + dx + 0.5), math.floor(py + dy + 0.5)
+        if d <= r + 0.7 and d > r then
+          if bempty(img, qx, qy) then bput(img, qx, qy, C.blood) end
+        elseif d <= r then
+          bput(img, qx, qy, u > 0.82 and C.tip or (d < r - 0.8 and C.hot or C.crimson))
+        end
+      end
+    end
+  end
+  return px, py
+end
+
+-- Rastro do golpe: arco fino e claro por onde a ponta passou.
+local function arc(img, cx, cy, r, a0, a1, col)
+  local steps = math.max(4, math.floor(math.abs(a1 - a0) * r))
+  for s = 0, steps do
+    local a = a0 + (a1 - a0) * s / steps
+    local x = math.floor(cx - math.cos(a) * r + 0.5)
+    local y = math.floor(cy - math.sin(a) * r + 0.5)
+    if bempty(img, x, y) then bput(img, x, y, col) end
+  end
+end
+
+-- Garra de energia: braço de energia saindo do ombro e três unhas claras na ponta.
+local function claw(img, x0, y0, ang, len)
+  if len <= 0 then return end
+  local ex, ey = energy_stroke(img, x0, y0, ang, ang, len, 1.6)
+  for c = -1, 1 do
+    local a = ang + c * 0.5
+    for i = 1, 5 do
+      bput(img, math.floor(ex - math.cos(a) * i + 0.5), math.floor(ey - math.sin(a) * i + 0.5), i >= 3 and C.tip or C.pink)
+    end
+  end
+end
+
+-- Bola de fogo de raposa (com rastro opcional para trás).
+local function orb(img, cx, cy, r, trail)
+  for i = 1, trail or 0 do
+    bput(img, cx - r - i, cy, i < 3 and C.hot or C.blood)
+    if i % 2 == 0 then bput(img, cx - r - i, cy - 1, C.crimson) end
+  end
+  for dy = -r - 1, r + 1 do
+    for dx = -r - 1, r + 1 do
+      local d = math.sqrt(dx * dx + dy * dy)
+      if d <= r + 0.6 then
+        bput(img, cx + dx, cy + dy, d < r * 0.4 and C.tip or (d < r * 0.75 and C.pink or (d <= r - 0.3 and C.hot or C.blood)))
+      end
+    end
+  end
+end
+
+-- Anel de choque (elipse).
+local function ring(img, cx, cy, r, col, flat)
+  for a = 0, 359, 3 do
+    local x = math.floor(cx + math.cos(math.rad(a)) * r + 0.5)
+    local y = math.floor(cy + math.sin(math.rad(a)) * r * (flat or 0.7) + 0.5)
+    if bempty(img, x, y) then bput(img, x, y, col) end
+  end
+end
+
+-- Cabeça de raposa feita de energia, olhando para a frente: crânio, focinho, orelhas, olho e
+-- mandíbula que abre (open = px de abertura).
+local function fox_head(img, x, y, s, open)
+  for dy = -s, s + open do
+    for dx = -s, s * 2 do
+      local inside
+      if dx <= 0 then
+        inside = (dx / s) ^ 2 + (dy / s) ^ 2 <= 1                     -- crânio
+      elseif dy <= 0 then
+        inside = dy >= -s + dx * 0.5                                   -- focinho de cima
+      else
+        inside = dy >= open and dy <= open + 2 and dx <= s * 2 - 2     -- mandíbula de baixo
+      end
+      if inside then
+        local edge = (dx <= 0 and (dx / s) ^ 2 + (dy / s) ^ 2 > 0.7) or dy == open + 2 or (dx > 0 and dy <= 0 and dy <= -s + dx * 0.5 + 1)
+        bput(img, x + dx, y + dy, edge and C.blood or ((dx + dy) % 5 == 0 and C.pink or C.hot))
+      end
+    end
+  end
+  -- Dentes (em cima e embaixo) e língua de luz dentro da boca aberta.
+  for dx = 3, s * 2 - 2, 2 do
+    bput(img, x + dx, y + 1, C.tip)
+    if open > 2 then bput(img, x + dx, y + open - 1, C.tip) end
+  end
+  -- Olho e duas orelhas para trás.
+  bput(img, x + 1, y - s // 2, C.eye3)
+  bput(img, x + 2, y - s // 2, C.eye3)
+  for e = 0, 1 do
+    local ex = x - 2 - e * 4
+    for i = 0, s - 1 do
+      local half = (s - 1 - i) // 3
+      for dx = -half, half do
+        bput(img, ex - i // 2 + dx, y - s + 1 - i, i >= s - 2 and C.tip or (e == 0 and C.hot or C.crimson))
+      end
+    end
+  end
+end
+
+-- Monta um golpe: para cada pose, o corpo com o manto, e por cima o desenho do ataque.
+local function make_move(level, poses, tails_on, draw)
+  local frames = {}
+  for i, pose in ipairs(poses) do
+    local big, m = body_frame(pose, level, i - 1, #poses, tails_on)
+    draw(big, m, i)
+    frames[i] = big
+  end
+  return frames
+end
+local function rep(pose, n) local t = {} for i = 1, n do t[i] = pose end return t end
+
+local NEW_MOVES = {}
+
+-- ===== NÍVEL 2, RUPTURA: as três caudas e as garras do manto viram as armas =====
+NEW_MOVES[2] = {
+  -- Chicote das caudas: as três caudas passam por cima da cabeça e chicoteiam à frente.
+  tailwhip = function(level)
+    local ang = { 1.2, 1.8, 2.6, 3.05, 2.9, 2.0 }
+    local len = { 18, 23, 28, 32, 27, 20 }
+    return make_move(level, rep(P("jab", 1), 6), false, function(img, m, i)
+      if i >= 3 and i <= 5 then arc(img, m.back + 8, m.top - 2, len[i] + 2, ang[i - 1], ang[i], C.tip) end
+      for t = 1, 3 do
+        energy_stroke(img, m.back, m.top + 19 + t, 1.7, ang[i] - (t - 2) * 0.2, len[i] + 18 - t * 2, 1.2, 0.6)
+      end
+    end)
+  end,
+  -- Garra do manto: um braço de energia sai do ombro, rasga à frente e volta.
+  claw = function(level)
+    local poses = { P("cross", 1), P("cross", 1), P("cross", 2), P("cross", 3), P("cross", 3), P("cross", 4) }
+    local len = { 4, 12, 24, 34, 22, 6 }
+    return make_move(level, poses, true, function(img, m, i)
+      if i == 4 then
+        for s = -1, 1 do arc(img, m.front + 26, m.top + 12 + s * 4, 10, 0.9, 2.2, C.tip) end
+      end
+      claw(img, m.front, m.top + 12, math.pi - 0.1, len[i])
+    end)
+  end,
+  -- Pião das caudas: abaixado, as três caudas giram em volta do corpo (acerta dos dois lados).
+  tailspin = function(level)
+    return make_move(level, rep(P("crouch", -1), 6), false, function(img, m, i)
+      local cy = m.feet - 10
+      ring(img, m.cx, cy, 26, C.blood, 0.45)
+      for t = 0, 2 do
+        local a = (i - 1) * 1.05 + t * 2.09
+        energy_stroke(img, m.cx, cy, a, a + 0.7, 26, 1.1)
+      end
+    end)
+  end,
+  -- Finalizador: as caudas sobem bem alto e desabam na frente, rachando o chão.
+  tailslam = function(level)
+    local poses = { P("jab", 1), P("jab", 1), P("jab", 1), P("crouch", -1), P("crouch", -1), P("crouch", -1), P("jab", 1) }
+    local ang = { 1.5, 1.6, 1.7, 3.6, 3.75, 3.75, 2.2 }
+    local len = { 22, 28, 34, 34, 32, 28, 18 }
+    return make_move(level, poses, false, function(img, m, i)
+      for t = 1, 3 do
+        energy_stroke(img, m.back, m.top + 18 + t, 1.7, ang[i] - (t - 2) * 0.15, len[i] + 18 - t, 1.4, 0.6)
+      end
+      if i >= 4 and i <= 6 then
+        local gx = m.front + 24
+        for dx = -12, 12 do   -- rachadura no chão e pedaços subindo
+          if (dx + i) % 3 ~= 0 then bput(img, gx + dx, m.feet + 1, C.hot) end
+          if dx % 4 == 0 then bput(img, gx + dx, m.feet - math.floor(math.abs(dx) / 3) - (i - 3) * 2, C.pink) end
+        end
+        ring(img, gx, m.feet - 3, 6 + (i - 4) * 8, i == 6 and C.crimson or C.tip, 0.4)
+      end
+    end)
+  end,
+  -- No ar: chicote das caudas.
+  air_tailwhip = function(level)
+    local ang = { 1.4, 2.2, 2.9, 3.15, 2.4 }
+    local len = { 18, 24, 30, 28, 20 }
+    return make_move(level, rep(P("air_punch", 1), 5), false, function(img, m, i)
+      if i >= 2 and i <= 4 then arc(img, m.back + 8, m.top - 2, len[i] + 2, ang[i - 1], ang[i], C.tip) end
+      for t = 1, 3 do
+        energy_stroke(img, m.back, m.top + 19 + t, 1.7, ang[i] - (t - 2) * 0.22, len[i] + 18 - t * 2, 1.2, 0.6)
+      end
+    end)
+  end,
+  -- No ar: garra para baixo, em diagonal.
+  air_claw = function(level)
+    local len = { 6, 16, 28, 30, 12 }
+    return make_move(level, rep(P("air_kick", 1), 5), true, function(img, m, i)
+      if i == 3 then arc(img, m.front + 14, m.top + 30, 12, 1.6, 3.4, C.tip) end
+      claw(img, m.front, m.top + 14, math.pi + 0.55, len[i])
+    end)
+  end,
+}
+
+-- ===== NÍVEL 3, CONSUMIDO: cinco caudas, garras em X, fogo de raposa e a cabeça da raposa =====
+NEW_MOVES[3] = {
+  -- Rajada de caudas: as cinco caudas furam à frente, uma por vez, em alturas diferentes.
+  barrage = function(level)
+    return make_move(level, rep(P("jab", 1), 7), false, function(img, m, i)
+      for t = 1, 5 do
+        local active = (i - 1) == t or (i - 2) == t
+        local a = active and (math.pi - 0.05 + (t - 3) * 0.09) or (1.1 + t * 0.28)
+        energy_stroke(img, m.back, m.top + 16 + t, active and 1.7 or 0.5, a, active and 50 or 15, active and 1.1 or 0.8, active and 0.7 or 2)
+      end
+    end)
+  end,
+  -- Garras em X: duas garras do manto cruzam à frente (uma de cima, outra de baixo).
+  xclaws = function(level)
+    local poses = { P("cross", 1), P("cross", 2), P("cross", 2), P("cross", 3), P("cross", 3), P("cross", 4) }
+    local len = { 6, 14, 26, 34, 24, 8 }
+    return make_move(level, poses, true, function(img, m, i)
+      claw(img, m.front, m.top + 6, math.pi + 0.45 - i * 0.1, len[i])
+      claw(img, m.front, m.top + 20, math.pi - 0.45 + i * 0.1, len[i])
+      if i == 4 then ring(img, m.front + 30, m.top + 13, 8, C.tip) end
+    end)
+  end,
+  -- Fogo de raposa: três bolas giram em volta do Noct e disparam à frente.
+  foxfire = function(level)
+    local poses = {}
+    for i, img in ipairs(frames_of("cast")) do poses[i] = { img = img, head = head_visible("cast", i) } end
+    return make_move(level, poses, true, function(img, m, i)
+      local cy = m.top + 18
+      local n = #poses
+      for t = 0, 2 do
+        if i <= n - 3 then
+          local a = i * 0.9 + t * 2.09
+          orb(img, m.cx + math.floor(math.cos(a) * 17), cy + math.floor(math.sin(a) * 11), 2)
+        else
+          orb(img, m.front + (i - n + 3) * 16 + t * 5, cy - 5 + t * 5, 3, 6)
+        end
+      end
+    end)
+  end,
+  -- Mordida da raposa: o manto forma uma cabeça de raposa que avança e morde.
+  foxbite = function(level)
+    local d = frames_of("dash")
+    local poses = {}
+    local pick = { 1, 2, 3, #d, #d, #d, #d }
+    for i, f in ipairs(pick) do poses[i] = { img = d[f], head = head_visible("dash", f) } end
+    local open = { 1, 3, 5, 7, 0, 0, 0 }
+    local reach = { 2, 8, 16, 22, 28, 18, 8 }
+    return make_move(level, poses, true, function(img, m, i)
+      -- Pescoço de energia ligando o manto à cabeça.
+      energy_stroke(img, m.front - 2, m.top + 13, math.pi, math.pi, reach[i], 2.0)
+      fox_head(img, m.front + reach[i] + 2, m.top + 12, 7, open[i])
+      if i == 5 then ring(img, m.front + reach[i] + 12, m.top + 14, 9, C.tip) end
+    end)
+  end,
+  -- Finalizador: as cinco caudas se abrem em volta do corpo inteiro e explodem em anéis.
+  tailburst = function(level)
+    local poses = { P("crouch", 1), P("crouch", -1), P("crouch", -1), P("idle", 1), P("idle", 1), P("idle", 1), P("idle", 1), P("idle", 1) }
+    return make_move(level, poses, false, function(img, m, i)
+      local cy = m.top + 20
+      local grow = math.min(1, i / 4)
+      for t = 0, 4 do
+        local a = t * 1.256 + i * 0.15
+        energy_stroke(img, m.cx, cy, a, a + 0.5, math.floor(14 + 20 * grow), 1.2)
+      end
+      if i >= 4 and i <= 7 then
+        ring(img, m.cx, cy, 14 + (i - 4) * 11, C.tip)
+        ring(img, m.cx, cy, 9 + (i - 4) * 11, C.hot)
+      end
+    end)
+  end,
+  -- No ar: rajada de caudas.
+  air_barrage = function(level)
+    return make_move(level, rep(P("air_punch", 1), 6), false, function(img, m, i)
+      for t = 1, 5 do
+        local active = (i - 1) == t
+        energy_stroke(img, m.back, m.top + 16 + t, active and 1.7 or 0.5, active and (math.pi - 0.1 + (t - 3) * 0.1) or (1.1 + t * 0.28),
+          active and 46 or 14, active and 1.1 or 0.8, active and 0.7 or 2)
+      end
+    end)
+  end,
+  -- No ar: fogo de raposa disparado para baixo, em diagonal.
+  air_foxfire = function(level)
+    return make_move(level, rep(P("air_kick", 1), 5), true, function(img, m, i)
+      for t = 0, 2 do
+        if i <= 2 then
+          orb(img, m.cx - 10 + t * 10, m.top - 2 + (t % 2) * 3, 2)
+        else
+          local s = (i - 2) * 12
+          orb(img, m.front + s + t * 4, m.top + 14 + s + t * 3 - 4, 3)
+        end
+      end
+    end)
+  end,
+}
+
+-- Medidas dos golpes no crimson.json: quadro grande, pés no mesmo ponto do quadro normal.
+local MOVE_W, MOVE_H, MOVE_DX, MOVE_DY = BIG_W, BIG_H, DX, DY
+
+-------------------------------------------------------------------------------
 local preview = app.params.preview
 local out_spr = preview and Sprite(W, H, ColorMode.RGB) or nil
 local first = true
 local ranges = {}
+if app.params.moves == "only" then ANIMS = {} end
 for _, level in ipairs(LEVELS) do
   for _, anim in ipairs(ANIMS) do
     local src = (anim == "crouch_loop" or anim == "transform") and {} or frames_of(anim)
@@ -391,6 +731,18 @@ for _, level in ipairs(LEVELS) do
     end
   end
 end
+-- Golpes inéditos (níveis 2 e 3), em quadro grande: assets/hero/crimson/c<n>_<golpe>.png.
+local move_count = 0
+for _, level in ipairs(LEVELS) do
+  for name, make in pairs(NEW_MOVES[level] or {}) do
+    local frames = make(level)
+    local strip = Image(MOVE_W * #frames, MOVE_H, ColorMode.RGB)
+    for i, img in ipairs(frames) do strip:drawImage(img, Point((i - 1) * MOVE_W, 0)) end
+    strip:saveAs(app.fs.joinPath(app.params.moves_out or crimson_dir, "c" .. level .. "_" .. name .. ".png"))
+    move_count = move_count + 1
+  end
+end
+print("golpes novos: " .. move_count .. " (quadro " .. MOVE_W .. "x" .. MOVE_H .. ", pés + " .. MOVE_DX .. "," .. MOVE_DY .. ")")
 if preview then
   for _, r in ipairs(ranges) do local t = out_spr:newTag(r[2], r[3]); t.name = r[1] end
   out_spr:saveAs(app.fs.joinPath(root, "art_source", "personagem principal", "noct_forms.aseprite"))

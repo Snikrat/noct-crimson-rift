@@ -75,17 +75,23 @@ const MOVES := {
 	"f1_tail": {"anim": "kick", "frames": [2, 4], "area": Rect2(-8, -24, 54, 34), "damage": 2, "knock": 260, "fx": "trail"},
 	"f1_fang": {"anim": "up_punch", "frames": [3, 5], "area": Rect2(-4, -60, 52, 56), "damage": 2},
 	"finisher_f1": {"anim": "charged", "frames": [3, 3], "area": Rect2(2, -24, 76, 34), "damage": 3, "knock": 320, "fx": "impact", "shake": 3.0},
-	# Nível 2, Ruptura: golpes pesados, varrida das caudas dos dois lados e esmagamento no chão.
-	"f2_cross": {"anim": "cross", "frames": [1, 2], "area": Rect2(2, -22, 58, 38), "damage": 2},
-	"f2_upper": {"anim": "uppercut", "frames": [3, 5], "area": Rect2(-14, -70, 46, 78), "damage": 2},
-	"f2_sweep": {"anim": "air_spin", "frames": [1, 3], "area": Rect2(-34, -26, 68, 46), "damage": 2, "knock": 200, "fx": "circle"},
-	"finisher_f2": {"anim": "low_punch", "frames": [3, 4], "area": Rect2(-10, -28, 76, 48), "damage": 4, "knock": 380, "fx": "shockwave", "shake": 5.0},
-	# Nível 3, Consumido: investida, chute, uppercut, rajada de energia e a explosão das cinco caudas.
-	"f3_rush": {"anim": "cross", "frames": [1, 2], "area": Rect2(2, -22, 62, 40), "damage": 2},
-	"f3_kick": {"anim": "kick", "frames": [2, 4], "area": Rect2(-4, -26, 54, 36), "damage": 3, "knock": 280},
-	"f3_upper": {"anim": "uppercut", "frames": [3, 5], "area": Rect2(-14, -72, 48, 80), "damage": 3},
-	"f3_orb": {"anim": "cast", "frames": [3, 5], "area": Rect2(4, -32, 64, 42), "damage": 3, "fx": "impact"},
-	"finisher_f3": {"anim": "ultimate_burst", "frames": [4, 6], "area": Rect2(-46, -42, 92, 60), "damage": 5, "knock": 420, "fx": "shockwave", "shake": 8.0},
+	# Nível 2, Ruptura (golpes inéditos, tools/noct_forms.lua): as três caudas e as garras do manto
+	# viram as armas. Chicote das caudas, garra do manto, pião das caudas e o esmagamento no chão.
+	"f2_tailwhip": {"anim": "tailwhip", "frames": [2, 4], "area": Rect2(-4, -46, 58, 52), "damage": 2},
+	"f2_claw": {"anim": "claw", "frames": [2, 4], "area": Rect2(4, -28, 54, 32), "damage": 2, "fx": "trail"},
+	"f2_tailspin": {"anim": "tailspin", "frames": [1, 5], "area": Rect2(-32, -18, 64, 38), "damage": 2, "knock": 200},
+	"finisher_f2": {"anim": "tailslam", "frames": [3, 5], "area": Rect2(0, -30, 66, 50), "damage": 4, "knock": 380, "fx": "shockwave", "shake": 5.0},
+	"f2_air_tailwhip": {"anim": "air_tailwhip", "frames": [1, 3], "area": Rect2(-4, -46, 58, 52), "damage": 2},
+	"f2_air_claw": {"anim": "air_claw", "frames": [2, 3], "area": Rect2(4, -16, 48, 44), "damage": 2, "knock": 200},
+	# Nível 3, Consumido (golpes inéditos): rajada das cinco caudas, garras em X, fogo de raposa,
+	# a mordida da cabeça de raposa do manto e a explosão das cinco caudas.
+	"f3_barrage": {"anim": "barrage", "frames": [1, 6], "area": Rect2(0, -42, 62, 36), "damage": 2},
+	"f3_xclaws": {"anim": "xclaws", "frames": [2, 4], "area": Rect2(4, -36, 54, 42), "damage": 3, "fx": "trail"},
+	"f3_foxfire": {"anim": "foxfire", "frames": [5, 7], "area": Rect2(8, -30, 70, 28), "damage": 3, "fx": "impact"},
+	"f3_foxbite": {"anim": "foxbite", "frames": [3, 4], "area": Rect2(6, -34, 60, 34), "damage": 3, "knock": 300},
+	"finisher_f3": {"anim": "tailburst", "frames": [3, 6], "area": Rect2(-50, -46, 100, 66), "damage": 5, "knock": 420, "fx": "shockwave", "shake": 8.0},
+	"f3_air_barrage": {"anim": "air_barrage", "frames": [1, 5], "area": Rect2(0, -42, 60, 36), "damage": 2},
+	"f3_air_foxfire": {"anim": "air_foxfire", "frames": [2, 4], "area": Rect2(6, -14, 56, 46), "damage": 3, "fx": "impact"},
 	"charged": {"anim": "charged", "frames": [3, 3], "area": Rect2(2, -22, 66, 30), "damage": 4, "knock": 320},
 	"uppercut": {"anim": "uppercut", "frames": [3, 5], "area": Rect2(-14, -70, 44, 78), "damage": 3},
 	# Socos diagonais: para cima (cima + ataque) e para baixo até o chão (baixo + ataque, no chão).

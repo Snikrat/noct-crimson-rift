@@ -55,10 +55,11 @@ func _start_combo_hit() -> void:
 const FORM_COMBOS := {
 	1: {"ground": ["f1_claw", "f1_claw2", "f1_tail", "f1_fang", "finisher_f1"],
 		"air": ["air_punch", "air_kick", "air_finish"]},
-	2: {"ground": ["f2_cross", "f2_upper", "f2_sweep", "finisher_f2"],
-		"air": ["air_kick", "air_spin", "air_finish"]},
-	3: {"ground": ["f3_rush", "f3_kick", "f3_upper", "f3_orb", "finisher_f3"],
-		"air": ["air_spin", "air_kick", "air_spin", "air_finish"]},
+	# A partir do nível 2 os golpes são inéditos (só existem na forma).
+	2: {"ground": ["f2_tailwhip", "f2_claw", "f2_tailspin", "finisher_f2"],
+		"air": ["f2_air_tailwhip", "f2_air_claw", "f2_air_tailwhip"]},
+	3: {"ground": ["f3_barrage", "f3_xclaws", "f3_foxfire", "f3_foxbite", "finisher_f3"],
+		"air": ["f3_air_barrage", "f3_air_foxfire", "f3_air_barrage"]},
 }
 
 

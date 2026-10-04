@@ -109,6 +109,13 @@ func _run() -> void:
 			form_chain.append(p.move)
 		check("forma %d tem o próprio combo no chão: %s" % [lv, str(form_chain)], form_chain == p.FORM_COMBOS[lv]["ground"])
 		check("forma %d toca a arte da forma no golpe" % lv, String(p.sprite.animation).begins_with("c%d_" % lv))
+	# A partir do nível 2 os golpes são inéditos: animação que o Noct base não tem, com arte da forma.
+	for lv in [2, 3]:
+		for kind in ["ground", "air"]:
+			for mv in p.FORM_COMBOS[lv][kind]:
+				var anim: String = p.MOVES[mv]["anim"]
+				check("golpe %s da forma %d é inédito" % [mv, lv], not p.Sprites.HERO_ANIMS.has(anim) \
+					and p.sprite.sprite_frames.has_animation("c%d_%s" % [lv, anim]))
 	p.crimson_level = 0
 	p._cancel_move()
 	p.combo_timer = 0
