@@ -402,6 +402,7 @@ local REST = {
 -- Conferido quadro a quadro: onde a cabeça está deitada, inclinada ou coberta por energia
 -- (punho/arco acima da cabeça), a cabeça original fica.
 local function set(list) local t = {} for _, i in ipairs(list) do t[i] = true end return t end
+local rest = {}
 local HEAD_OK = {
   jump = true, fall = true, land = true, crouch = true, double_jump = true, jab = true, hurt = true,
   air_punch = true, air_kick = true, ultimate_charge = true,
@@ -421,8 +422,22 @@ for _, name in ipairs(REST) do
     bodies_[i] = body
     vfx_[i] = vfx
   end
-  add(name, bodies_, vfx_, 1 / src.frames[t.fromFrame.frameNumber].duration)
+  local fps = 1 / src.frames[t.fromFrame.frameNumber].duration
+  if name == "land" then
+    -- PULO COMPLETO, aterrissagem: o agachamento e depois a recuperação (o corpo do Idle v2
+    -- encolhido 2 px na cintura, como os joelhos ainda dobrados) antes de voltar ao Idle.
+    table.insert(bodies_, lift(base, t0, t0 + 24, -2))
+    table.insert(vfx_, Image(W, H, ColorMode.RGB))
+    fps = 14
+  end
+  rest[name] = { bodies_, vfx_, fps }
 end
+-- PULO COMPLETO, subida: impulso (o mesmo agachamento da aterrissagem, com a energia nos pés),
+-- subida e topo.
+table.insert(rest.jump[1], 1, rest.land[1][1])
+table.insert(rest.jump[2], 1, rest.land[2][1])
+rest.jump[3] = 12
+for _, name in ipairs(REST) do add(name, rest[name][1], rest[name][2], rest[name][3]) end
 for _, r in ipairs(ranges) do
   local t = out:newTag(r[2], r[3])
   t.name = r[1]

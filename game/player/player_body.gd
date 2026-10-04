@@ -32,7 +32,7 @@ const DEATH_TIME := 1.4
 const COMBO_WINDOW := 0.5     # tempo para emendar o próximo golpe do combo
 const CHARGE_TIME := 0.6      # segurar o ataque por isso para carregar
 const SLAM_SPEED := 650.0
-const LAND_TIME := 0.12      # pose de aterrissagem depois de uma queda
+const LAND_TIME := 0.14      # aterrissagem depois de uma queda (agachamento + recuperação)
 const LAND_MIN_SPEED := 220.0 # só mostra a pose em quedas de verdade (não em degraus)
 const ULTIMATE_TIME := 2.5   # preparação (~1.25s) + dragão
 # Garras do Gato (depois do Gato Infernal): deslizar e saltar nas paredes.
