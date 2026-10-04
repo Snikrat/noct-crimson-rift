@@ -31,6 +31,8 @@ func _ready() -> void:
 	cam = Camera2D.new()
 	cam.position_smoothing_enabled = true
 	cam.position_smoothing_speed = 8.0
+	# Segue o herói mesmo com o jogo pausado (fala de chegada): senão a câmera fica parada no meio da sala nova.
+	cam.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(cam)
 
 
@@ -48,6 +50,7 @@ func enter_room(feet: Vector2) -> void:
 	safe_pos = position
 	_reset_actions()
 	cam.reset_smoothing()
+	cam.force_update_scroll()
 
 
 ## Ações de combate e movimento não atravessam salas nem sobrevivem à morte.
