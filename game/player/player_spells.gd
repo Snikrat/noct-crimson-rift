@@ -64,11 +64,13 @@ func _release_orb() -> void:
 	var orb = OrbScript.new()
 	orb.level = level
 	orb.dir = facing
+	orb.fox = crimson_level >= 3 and ResourceLoader.exists(Sprites.FOX_SPELL)
 	orb.damage += _spell_bonus()
 	if has("wave"):
 		orb.damage += 1
 		orb.scale = Vector2(1.4, 1.4)
-	orb.position = global_position + Vector2(facing * 24, -8)
+	# A raposa tem o focinho na frente do quadro: o centro fica mais perto do Noct.
+	orb.position = global_position + Vector2(facing * (8 if orb.fox else 24), -8)
 	level.add_to_world(orb)
 	Audio.play_sfx("wind", 0.1, 1.3)
 	recoil_x = -facing * 90

@@ -5,6 +5,7 @@ extends SceneTree
 ## Com janela e -- --screenshots salva recortes ampliados do Noct transformado em docs/content-preview/.
 
 const SLASH_PATH := "res://game/player/crimson_slash.gd"
+const ORB := preload("res://game/spells/spell_orb.gd")
 
 var main
 var p
@@ -154,6 +155,26 @@ func _run() -> void:
 	check("finalizador solta o corte carmesim", after == before + 1)
 	d.on_move_started("punch")
 	check("jab não solta corte", main.world.get_children().filter(func(n): return n.get_script() != null and n.get_script().resource_path == SLASH_PATH).size() == after)
+
+	# Magia: bola de energia nas formas 1 e 2, Raposa Espectral na forma 3.
+	p.soul = p.MAX_SOUL
+	p._release_orb()
+	var orbs: Array = main.world.get_children().filter(func(n): return n.get_script() == ORB)
+	check("forma 1 solta a bola de energia", orbs.size() > 0 and not orbs[-1].fox)
+	p.crimson_level = 3
+	p.soul = p.MAX_SOUL
+	p._release_orb()
+	await wait(2)
+	orbs = main.world.get_children().filter(func(n): return n.get_script() == ORB)
+	var fox = orbs[-1] if orbs.size() > 0 else null
+	check("forma 3 solta a Raposa Espectral", fox != null and fox.fox)
+	if fox:
+		var sf: SpriteFrames = fox.sprite.sprite_frames
+		check("raposa: 8 quadros (surge, voa, se desfaz)",
+			sf.get_frame_count("grow") + sf.get_frame_count("fly") + sf.get_frame_count("burst") == 8)
+		check("raposa: quadro maior que a bola", sf.get_frame_texture("fly", 0).get_size().x > 60)
+	p.crimson_level = 1
+	await wait(40)
 
 	# Pulo e golpe, para conferir o chifre em outras poses.
 	await tap("jump", 6)

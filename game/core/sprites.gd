@@ -96,6 +96,22 @@ static func spell_ball() -> SpriteFrames:
 	return f
 
 
+## Magia da forma carmesim 3: a Raposa Espectral (tools/make_fox_spell.lua), 8 quadros de mesma
+## largura, com o focinho na borda direita. Mesmas fases da bola: surge, voa em loop, se desfaz.
+const FOX_SPELL := CRIMSON_DIR + "c3_spell_ball.png"
+const FOX_SPELL_FRAMES := 8
+
+static func fox_spell() -> SpriteFrames:
+	var tex: Texture2D = load(FOX_SPELL)
+	var size := Vector2(tex.get_width() / float(FOX_SPELL_FRAMES), tex.get_height())
+	var f := SpriteFrames.new()
+	f.remove_animation("default")
+	add_sheet(f, "grow", FOX_SPELL, size, 0, 2, 20, false)
+	add_sheet(f, "fly", FOX_SPELL, size, 3, 5, 12)
+	add_sheet(f, "burst", FOX_SPELL, size, 6, 7, 14, false)
+	return f
+
+
 static func hero() -> SpriteFrames:
 	var meta := hero_meta()
 	var f := SpriteFrames.new()
