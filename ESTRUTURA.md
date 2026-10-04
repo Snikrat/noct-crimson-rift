@@ -69,7 +69,7 @@ hollow-like/
 | Mudar falas/etapas da Tessa | `game/world/tessa.gd` e a chave `"tessa"` nas salas (Bosque, vila, catedral) |
 | Mudar o final (revelação, escolha, epílogo) | `REVELATION` e `_ending_sequence` em `game/world/main.gd`; epílogo e créditos em `game/ui/ending.gd` |
 | Mudar o mapa da pausa | `data/world_map.gd` |
-| Testar sem jogar tudo (ir para sala, nível, alma/Geo infinitos, invencível) | F1 no jogo abre o menu de hacks (`game/ui/debug_menu.gd`); só existe em builds de debug e não grava o save |
+| Testar sem jogar tudo (ir para sala, nível, alma/Geo infinitos, invencível) | F1 no jogo abre o menu de hacks (`game/ui/debug_menu.gd`); fica ativo também no .exe exportado (DEBUG_KEYS em main.gd) e não grava o save |
 | Mudar velocidade das animações do herói | `HERO_ANIMS` em `game/core/sprites.gd` |
 | Arquivo de arte mudou de lugar | só `data/asset_paths.gd` |
 | Criar uma área com tileset próprio | PNG 8x3 tiles de 16 px em `assets/areas/<área>/` (bloco 3x3 nas colunas 0-2, isolado em (3,2)) e tema com `"autotile": true` em `data/themes.gd`; fontes .aseprite em `art_source/cenarios_novos/` |

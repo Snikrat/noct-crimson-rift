@@ -299,7 +299,7 @@ func _run() -> void:
 
 	# Menu de hacks (F1): só em debug, não grava save sozinho.
 	var hacks = main.debug_menu
-	check("menu de hacks existe na build de debug", hacks != null)
+	check("menu de hacks existe", hacks != null)
 	var save_before := FileAccess.file_exists(gs.save_path)
 	hacks.god_mode = true
 	p.invuln_timer = 0

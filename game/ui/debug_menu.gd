@@ -1,6 +1,6 @@
 extends Control
-## Menu de hacks para testar o jogo (F1 / Select). Só existe em builds de debug (OS.is_debug_build()),
-## então não vai para o jogo exportado. Não grava o save sozinho: ele só é salvo ao descansar num banco.
+## Menu de hacks para testar o jogo (F1 / Select). Fica ativo também no jogo exportado (DEBUG_KEYS em main.gd),
+## inclusive no .exe de release. Não grava o save sozinho: ele só é salvo ao descansar num banco.
 
 const InputSetup := preload("res://game/core/input_setup.gd")
 const Rooms := preload("res://data/rooms.gd")

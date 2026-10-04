@@ -20,7 +20,7 @@ static func setup() -> void:
 		"map": [KEY_M, KEY_TAB],
 		"ultimate": [KEY_U],
 		"transform": [KEY_R],      # Forma Demoníaca (barra da Fenda cheia)
-		"debug_menu": [KEY_F1],    # atalho de teste: menu de hacks (só em builds de debug)
+		"debug_menu": [KEY_F1],    # atalho de teste: menu de hacks (também no jogo exportado)
 		"debug_soul": [KEY_F2],    # atalho de teste: enche alma e vida
 		"debug_crimson": [KEY_F3], # atalho de teste: troca a forma carmesim (0 -> 1 -> 2 -> 3 -> 0)
 	}

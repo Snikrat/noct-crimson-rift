@@ -38,7 +38,7 @@ const BubbleScript := preload("res://game/ui/speech_bubble.gd")
 const TILE := 16
 
 # Atalhos de teste (F1 abre o menu de hacks, F2 enche alma e vida, F3 troca a forma carmesim).
-# Só funcionam em builds de debug (não vão para o jogo exportado); false desliga também no editor.
+# Ficam ativos também no jogo exportado (pedido do Felippe); mude para false para desligar tudo.
 const DEBUG_KEYS := true
 const DebugMenuScript := preload("res://game/ui/debug_menu.gd")
 
@@ -122,7 +122,7 @@ var shake_amount := 0.0
 var room_view: Node2D
 var backdrop: CanvasLayer
 var hud: CanvasLayer
-var debug_menu: Control       # menu de hacks (F1); null fora das builds de debug
+var debug_menu: Control       # menu de hacks (F1); null com DEBUG_KEYS = false
 
 ## Geo fica no GameState (sobrevive à troca de sala e vai para o save).
 var geo: int:
@@ -142,7 +142,7 @@ func _ready() -> void:
 	hud = HudScript.new()
 	hud.level = self
 	add_child(hud)
-	if DEBUG_KEYS and OS.is_debug_build():
+	if DEBUG_KEYS:
 		debug_menu = DebugMenuScript.new()
 		debug_menu.level = self
 		hud.add_child(debug_menu)
@@ -842,7 +842,7 @@ func on_level_up(new_level: int, reward: Dictionary) -> void:
 
 ## Atalhos rápidos de teste (o resto fica no menu de hacks, F1: game/ui/debug_menu.gd).
 func _process_debug_keys() -> void:
-	if not DEBUG_KEYS or not OS.is_debug_build() or transitioning or get_tree().paused:
+	if not DEBUG_KEYS or transitioning or get_tree().paused:
 		return
 	if Input.is_action_just_pressed("debug_crimson"):
 		cycle_crimson()
