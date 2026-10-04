@@ -167,6 +167,9 @@ func _try_rift_step(input_x: float, quiet := false) -> bool:
 func _physics_process(delta: float) -> void:
 	if frozen:
 		return
+	# Caixa de diálogo aberta: o botão é dela (passar fala), nunca do herói.
+	if level.hud.dialog.is_open():
+		return
 	_tick_timers(delta)
 
 	if death_timer > 0:

@@ -79,6 +79,13 @@ func _advance_held() -> bool:
 	return false
 
 
+## Solta os botões de passar fala: o toque que fechou a conversa não chega ao herói
+## (sem isso o Noct pulava/atacava no quadro em que o jogo despausava).
+func _consume_buttons() -> void:
+	for action in ["up", "jump", "attack", "ui_accept"]:
+		Input.action_release(action)
+
+
 ## A conversa acabou de fechar (neste quadro ou no anterior).
 func just_closed() -> bool:
 	return Engine.get_process_frames() - closed_frame <= 2 or Engine.get_physics_frames() - closed_physics <= 1
@@ -122,9 +129,12 @@ func close() -> void:
 	closed_frame = Engine.get_process_frames()
 	closed_physics = Engine.get_physics_frames()
 	if was_open:
+		_consume_buttons()
 		finished.emit()
-	# Volta o jogo, a não ser que o menu de pausa esteja aberto por cima.
-	if was_open and not level.hud.pause.open:
+	# Volta o jogo, a não ser que o menu de pausa esteja aberto por cima
+	# ou que quem esperava o "finished" já tenha aberto a próxima conversa
+	# (ex.: revelação da Fenda seguida da escolha); senão o jogo despausava com a caixa aberta.
+	if was_open and not is_open() and not level.hud.pause.open:
 		get_tree().paused = false
 	queue_redraw()
 
