@@ -392,6 +392,25 @@ for i = 1, #run_body do
   end
 end
 
+-- A corrida que vale no jogo é a ORIGINAL (a primeira, antes da remodelagem), a pedido: os 8
+-- quadros de art_source/personagem principal/extra/run_original.png, sem nenhuma mudança, só
+-- encaixados no quadro único com o ponto dos pés antigo (31, 41) no ponto dos pés do Noct v2.
+-- A versão limpa acima continua servindo de base para o arranque (run_start).
+local RUN_ORIGINAL = { w = 41, h = 42, ax = 31, ay = 41, frames = 8 }
+local run_clean = run_body
+local orig = Image{ fromFile = app.fs.joinPath(root, "art_source", "personagem principal", "extra", "run_original.png") }
+local hero_meta = json.decode(io.open(app.fs.joinPath(root, "assets", "hero", "hero.json")):read("a"))
+local OX, OY = hero_meta.idle.ax, hero_meta.idle.ay
+run_body, run_vfx = {}, {}
+for i = 0, RUN_ORIGINAL.frames - 1 do
+  local img = Image(W, H, ColorMode.RGB)
+  local part = Image(RUN_ORIGINAL.w, RUN_ORIGINAL.h, ColorMode.RGB)
+  part:drawImage(orig, Point(-i * RUN_ORIGINAL.w, 0))
+  img:drawImage(part, Point(OX - RUN_ORIGINAL.ax, OY - RUN_ORIGINAL.ay))
+  run_body[i + 1] = img
+  run_vfx[i + 1] = Image(W, H, ColorMode.RGB)
+end
+
 -- WALK: caminhada com a paleta e a cabeça do Noct v2.
 local walk_body, walk_vfx = {}, {}
 -- (A caminhada da prancha de movimentos ficou com outro traço e foi descartada.) A base é a
@@ -503,7 +522,7 @@ table.insert(REST, "air_dash")
 -- INÍCIO E PARADA DA CORRIDA: arranque agachado (1º quadro do dash, sem o rastro) e o primeiro
 -- passo; parada = freada agachada (último quadro do dash) e a recuperação da aterrissagem.
 local empty = Image(W, H, ColorMode.RGB)
-rest.run_start = { { rest.dash[1][1], run_body[1] }, { empty, empty }, 12 }
+rest.run_start = { { rest.dash[1][1], run_body[1] }, { empty, empty }, 12 }   -- arranque -> 1º quadro da corrida original
 rest.run_stop = { { rest.dash[1][#rest.dash[1]], rest.land[1][#rest.land[1]] }, { empty, empty }, 10 }
 table.insert(REST, "run_start")
 table.insert(REST, "run_stop")
