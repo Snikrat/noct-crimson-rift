@@ -141,6 +141,19 @@ const THEMES := {
 		"step": "water", "music": Paths.MUSIC_AMBIENT_4, "combat": Paths.MUSIC_UNHOLY_SURGE,
 		"layers": [],
 	},
+	# Lago Velado (Margem e arena do Velário): pedra do cemitério fria, pântano ao fundo quase preto,
+	# água parada (w) e névoa. Silencioso: sem música de luta.
+	"lake": {
+		"tileset": CEMETERY_ENV + "tileset.png", "tint": Color(0.42, 0.36, 0.62),
+		"blocks": [64], "block_w": 4, "top": 58, "rows": 2,
+		"rock": Color("07090f"), "side": Color("1c2433"), "clear": Color("0b0f17"),
+		"water": Color(0.07, 0.08, 0.16, 0.8),
+		"step": "water", "music": Paths.MUSIC_AMBIENT_4,
+		"layers": [
+			{"tex": [SWAMP_ENV + "background.png"], "scroll": 0.06, "align": "center", "tint": Color(0.2, 0.15, 0.32)},
+			{"tex": [SWAMP_ENV + "mid-layer-01.png", SWAMP_ENV + "mid-layer-02.png"], "scroll": 0.25, "align": "center", "tint": Color(0.13, 0.1, 0.22)},
+		],
+	},
 	# Mente do Noct: arena da fase 2 do Bringer (dentro da cabeça de Noct). Arte em tools/make_mind.lua.
 	# "motes": fagulhas carmesim subindo (game/world/motes.gd), mais fortes quanto mais o Bringer apanha.
 	# A música é a mesma da luta, para não cortar na transição.
@@ -173,4 +186,5 @@ const BOSS_MUSIC := {
 	"gato": Paths.MUSIC_REVENGES_WAITING,
 	"bringer": Paths.MUSIC_SILVER_BULLET,
 	"demon_slime": Paths.MUSIC_APOCALYPTIC_CARNAGE,
+	"velario": Paths.MUSIC_AMBIENT_4,   # fase 1 contida; a fase 2 troca para Revenge's Waiting (velario.gd)
 }

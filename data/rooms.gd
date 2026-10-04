@@ -10,7 +10,7 @@ extends RefCounted
 ##   H  carniçal em chamas   W  mago   A  anjo caído
 ##   K  cão infernal   Z  caveira de fogo   O  olho demoníaco   ~  lava
 ##   N  mineiro cristalizado (Minas da Fenda)   V  grimório voraz (Arquivo Submerso)
-##   G  chefe Gato Infernal   D  chefe Bringer of Death   M  chefe Demon Slime
+##   G  chefe Gato Infernal   D  chefe Bringer of Death   M  chefe Demon Slime   Y  chefe Velário (Lago Velado)
 ##   C  amuleto escondido (qual amuleto: chave "charm" da sala)
 ##   X  parede carmesim: sólida; com o Passo da Fenda (depois do Bringer), dash contra ela atravessa
 ##   w  água parada (só visual: Noct anda dentro dela)
@@ -53,4 +53,6 @@ const ROOMS := {
 	"well": preload("res://data/rooms/well.gd").ROOM,
 	"station": preload("res://data/rooms/station.gd").ROOM,
 	"mind": preload("res://data/rooms/mind.gd").ROOM,
+	"lake_shore": preload("res://data/rooms/lake_shore.gd").ROOM,
+	"lake": preload("res://data/rooms/lake.gd").ROOM,
 }

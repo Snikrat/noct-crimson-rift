@@ -129,7 +129,7 @@ func _run() -> void:
 	check("alma +50%", is_equal_approx(d.soul_mult(), 1.5))
 	await wait(20)
 	await shot("demon_1_idle")
-	check("cabeça encontrada no sprite", d._head() != null)
+	check("forma usa a arte carmesim oficial", p.crimson_level == 1 and d._has_art())
 	Input.action_press("move_right")
 	await wait(20)
 	check("velocidade +15%", is_equal_approx(p.velocity.x, p.SPEED * 1.15), str(p.velocity.x))

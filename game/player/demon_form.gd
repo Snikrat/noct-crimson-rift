@@ -3,9 +3,10 @@ extends Node2D
 ## Barra da Fenda: enche ao acertar e ao apanhar; cheia, a tecla da forma (R / R3) transforma.
 ## Nível 1, Juramento: +1 de dano, +15% de velocidade, dash carmesim que fere, corte carmesim
 ## no fim dos combos e +50% de alma. Sem cura enquanto ativa e uma ressaca quando acaba.
-## Visual: com a forma ativa o herói usa as animações carmesim do nível (cN_*, em assets/hero/crimson/,
-## feitas pela remodelagem do Noct) quando elas existem. Por cima vai uma camada: aura de chamas sempre;
-## chifre de aura e olhos acesos só nas animações sem versão carmesim (a arte carmesim já traz os dois).
+## Visual: a Forma Demoníaca oficial é a arte carmesim do Noct (cN_*, em assets/hero/crimson/, da
+## remodelagem do personagem). Com ela no jogo, este script não desenha nada por cima do Noct: só a
+## explosão da transformação e o brilho. A camada provisória (chamas, chifre de aura, olhos e tom) só
+## aparece se a arte carmesim do nível não existir.
 ## O nível que existe no jogo vem da habilidade "demon1" (liberada ao derrotar o Velário).
 
 const Fx := preload("res://game/core/fx.gd")
@@ -246,11 +247,13 @@ func _process(delta: float) -> void:
 		gauge = maxf(gauge - DECAY_RATE * delta, 0)
 
 	if active:
-		player.sprite.self_modulate = Color(1.0, 0.93, 0.95)
+		if not _has_art():
+			player.sprite.self_modulate = Color(1.0, 0.93, 0.95)
 		flame_timer -= delta
 		while flame_timer <= 0:
 			flame_timer += 0.035
-			_spawn_flame(false)
+			if not _has_art():
+				_spawn_flame(false)
 	for f in flames:
 		f[0] += f[1] * delta
 		f[1].x *= 0.92
@@ -298,8 +301,8 @@ func _draw() -> void:
 		return
 	if hangover > 0 and int(Time.get_ticks_msec() / 70) % 3 != 0:
 		return
-	if String(player.sprite.animation).begins_with("c%d_" % maxi(level_number(), 1)):
-		return   # a animação carmesim já desenha chifre e olhos
+	if _has_art():
+		return   # a arte carmesim do Noct é a forma oficial
 	var head = _head()
 	if head == null:
 		return
@@ -325,6 +328,11 @@ func _draw() -> void:
 	draw_circle(eye + Vector2(0.5, 0.5), 3.0, Color(MID, a * 0.3))
 	draw_rect(Rect2(eye, Vector2.ONE), Color(WHITE_HOT, a))
 	draw_rect(Rect2(eye + Vector2(-f, 0), Vector2.ONE), Color(HOT, a * 0.9))
+
+
+## A arte oficial da forma (animações cN_* do herói) existe para o nível atual?
+func _has_art() -> bool:
+	return player.sprite.sprite_frames.has_animation("c%d_idle" % maxi(level_number(), 1))
 
 
 ## Topo da cabeça e olho no quadro atual, em coordenadas locais do herói.

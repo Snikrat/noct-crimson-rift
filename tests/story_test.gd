@@ -114,7 +114,8 @@ func _run() -> void:
 	check("memória: pega a da vila", gs().memories.has("first_sarcasm"))
 	check("memória: mostra o texto", main.is_dialog_open() and main.hud.dialog.lines.size() >= 4)
 	await skip_dialogs()
-	check("memórias: as 8 têm lugar em alguma sala", _placed_memories() == Memories.ORDER.size(), str(_placed_memories()))
+	# "the_promise" não fica numa sala: o Velário a libera (main.gd, _promise_memory).
+	check("memórias: as 8 de sala têm lugar em alguma sala", _placed_memories() == Memories.ORDER.size() - 1, str(_placed_memories()))
 
 	# --- Passo da Fenda ---
 	await go("town", Vector2(104, 256))

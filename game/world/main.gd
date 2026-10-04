@@ -13,6 +13,7 @@ const BenchScript := preload("res://game/world/bench.gd")
 const GatoScript := preload("res://game/bosses/gato/gato.gd")
 const BringerScript := preload("res://game/bosses/bringer/bringer.gd")
 const DemonSlimeScript := preload("res://game/bosses/demon_slime/demon_slime.gd")
+const VelarioScript := preload("res://game/bosses/velario/velario.gd")
 const CharmPickupScript := preload("res://game/world/charm_pickup.gd")
 const MemoryScript := preload("res://game/world/memory_pickup.gd")
 const TessaScript := preload("res://game/world/tessa.gd")
@@ -77,6 +78,28 @@ const REVELATION := [
 	"@fechando_olhos: Então não foi por minha causa.",
 	"Não foi por sua causa que ela morreu. Mas é por sua causa que eu ainda existo.",
 	"Fique. Aqui dentro, ela ainda está esperando.",
+]
+# A lembrança que o Velário guardava (Mira fala; "* " narra; "@" é o Noct).
+const PROMISE_MEMORY := [
+	"* A última noite. Chuva no telhado.",
+	"* Mira estava acordada. Ele fingia que não.",
+	"Promete uma coisa.",
+	"@cansado: Depende.",
+	"Se eu demorar pra voltar... você continua andando.",
+	"@sarcastico: Andar eu já sei.",
+	"Não. Continua. Come, dorme, briga com alguém. Um dia de cada vez.",
+	"* Ele não respondeu. Ela esperou.",
+	"E outra. Se um dia você ouvir uma porta chamando... não abre com raiva.",
+	"Raiva abre tudo. Abre lembrando de mim.",
+	"@olhar_baixo: ...Prometo.",
+	"* A mão dele não foi até a sobrancelha.",
+	"Não coçou. Tá vendo? Você consegue.",
+]
+const PROMISE_AFTER := [
+	"* De volta ao lago. Noct está de joelhos, a mão na fita.",
+	"@fechando_olhos: Eu prometi.",
+	"* A energia carmesim sobe. Dessa vez, ele não deixa ela tomar conta.",
+	"@magia_olhos: Lembrando de você, então.",
 ]
 const CRIMSON_NAMES := ["Forma normal", "Carmesim 1 · Despertar", "Carmesim 2 · Corrupção avançada", "Carmesim 3 · Consumido"]
 const BENCH_MOMENTS := [
@@ -287,6 +310,9 @@ func load_room(name: String, entry: String) -> void:
 				"D":
 					if not GameState.defeated_bosses.has("bringer"):
 						boss = _spawn(BringerScript, feet, {})
+				"Y":
+					if not GameState.defeated_bosses.has("velario"):
+						boss = _spawn(VelarioScript, feet, {})
 				_:
 					if npcs.has(c):
 						var n: Dictionary = npcs[c]
@@ -410,6 +436,26 @@ func _ending_sequence() -> void:
 	await hud.fade_to(1.0, 1.2).finished
 	Audio.fade_out_music(1.0)
 	get_tree().change_scene_to_file("res://game/ui/ending.tscn")
+
+
+## Depois do Velário: a lembrança "Continua andando" volta (docs/expansao_forma_demoniaca.md, seção 4)
+## e libera a Forma Demoníaca Nível 1 (habilidade "demon1", game/player/demon_form.gd).
+func _promise_memory() -> void:
+	await hud.dialog.finished
+	Audio.fade_out_music(1.2)
+	flash_screen(Color(0.05, 0.02, 0.08), 1.2)
+	hud.dialog.start("Mira", PROMISE_MEMORY)
+	await hud.dialog.finished
+	GameState.memories["the_promise"] = true
+	player.unlocked["demon1"] = true
+	player.demon.gauge = player.demon.MAX_GAUGE
+	flash_screen(Color(0.9, 0.1, 0.25), 0.6)
+	shake(6.0)
+	Audio.play_sfx("charge", 0.0, 0.8)
+	hud.show_banner("FORMA DEMONÍACA · NÍVEL 1: JURAMENTO", 3.0)
+	hud.dialog.start("", PROMISE_AFTER + ["Barra da Fenda: enche ao acertar e ao apanhar. Cheia, aperte %s para a Forma Demoníaca. Ela não deixa curar, e o fim cobra o preço." % Controls.key_label("transform")])
+	await hud.dialog.finished
+	Audio.play_music(theme["music"], 1.0, 0.0, 2.5)
 
 
 ## Passo da Fenda: liberado ao derrotar o Bringer of Death (a fenda "gostou de cada golpe").
@@ -638,6 +684,13 @@ func on_boss_defeated(b: Node2D) -> void:
 				"@cansado: Acabou?",
 				"* A fenda responde.",
 			]
+		"velario":
+			geo += 350
+			lines = [
+				"O Velário foi derrotado! +350 Geo.",
+				"* A lanterna aberta flutua até o Noct. A luz sai dela como uma fita.",
+				"* E se enrola no pulso dele, por cima da fita carmesim.",
+			]
 		"bringer":
 			geo += 300
 			player.spell_bonus += 1
@@ -651,7 +704,7 @@ func on_boss_defeated(b: Node2D) -> void:
 				"As paredes carmesim deixam de ser paredes para ele. PASSO DA FENDA: dash contra uma parede carmesim para atravessá-la.",
 			]
 	player.hp = player.max_hp
-	player.gain_xp({"gato": 150, "bringer": 250, "demon_slime": 600}.get(b.BOSS_ID, 200))
+	player.gain_xp({"gato": 150, "bringer": 250, "demon_slime": 600, "velario": 400}.get(b.BOSS_ID, 200))
 	for i in 6:
 		spawn_explosion(b.global_position + Vector2(randf_range(-40, 40), randf_range(-30, 20)), i == 0)
 	shake(10.0)
@@ -669,6 +722,8 @@ func on_boss_defeated(b: Node2D) -> void:
 	start_dialog("Vitória", lines)
 	if boss_id == "demon_slime" and play_ending:
 		_ending_sequence()
+	elif boss_id == "velario":
+		_promise_memory()
 
 
 # --- Interação, banco e eventos ----------------------------------------

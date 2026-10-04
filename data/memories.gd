@@ -5,7 +5,8 @@ extends RefCounted
 ## "noct" é o que ele diz (ou não diz) ao encontrar o fragmento.
 ## As três últimas ficam atrás de paredes carmesim (Passo da Fenda, depois do Bringer).
 
-const ORDER := ["first_sarcasm", "the_lie", "the_ribbon", "the_seat", "one_day", "afraid", "the_hum", "last_night"]
+## "the_promise" não fica numa sala: é a lembrança que o Velário guardava (liberada ao vencê-lo, main.gd).
+const ORDER := ["first_sarcasm", "the_lie", "the_ribbon", "the_seat", "one_day", "afraid", "the_hum", "last_night", "the_promise"]
 
 const MEMORIES := {
 	"first_sarcasm": {"title": "Tenta de novo amanhã", "lines": [
@@ -58,4 +59,11 @@ const MEMORIES := {
 		"O bilhete ainda está no bolso dele, dobrado em quatro.",
 		"Ele nunca foi idiota o suficiente para jogá-lo fora.",
 	], "noct": "@triste: Você disse que voltava logo."},
+	"the_promise": {"title": "Continua andando", "lines": [
+		"A última noite. Ela estava acordada; ele fingia que não.",
+		"\"Se eu demorar pra voltar... você continua andando.\"",
+		"\"Se um dia uma porta chamar, não abre com raiva. Abre lembrando de mim.\"",
+		"Ele prometeu. A mão não foi até a sobrancelha.",
+		"\"Não coçou. Tá vendo? Você consegue.\"",
+	], "noct": "@fechando_olhos: Eu prometi."},
 }
