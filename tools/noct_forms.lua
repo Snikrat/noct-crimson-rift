@@ -207,14 +207,15 @@ end
 -- Caudas de raposa de ENERGIA saindo do baixo das costas: grossas no meio, curvando para cima,
 -- com a ponta clara. count = quantas caudas (mais a cada nível); abrem em leque e balançam.
 local function tails(out, base, m, k, count, len)
-  local y0 = m.top + 26
+  -- Base das caudas na cintura (lombar), não no quadril: assim elas não ficam baixas, nem na corrida.
+  local y0 = m.top + 19
   local x0 = nil
   for x = 0, W - 1 do if opaque(base, x, y0) then x0 = x + 2; break end end
   if not x0 then return end
   -- Desenha da cauda mais de trás para a da frente, para cada uma ter contorno próprio.
   for t = count, 1, -1 do
     local spread = count == 1 and 0.5 or (t - 1) / (count - 1)
-    local a0 = -0.25 + spread * 0.9                                   -- sai para trás (as de baixo mais baixas)
+    local a0 = 0.05 + spread * 0.8                                    -- sai para trás e um pouco para cima
     local a1 = 0.7 + spread * 1.9 + math.sin((k + t * 2) * 0.6) * 0.15 -- termina para cima, em leque
     local l = len - math.floor(spread * 5)
     local px, py = x0, y0 + (count > 1 and math.floor((1 - spread) * 3) or 0)
