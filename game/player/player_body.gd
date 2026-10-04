@@ -154,6 +154,7 @@ var crouching := false        # segurando baixo no chão
 const WALK_FRACTION := 0.6    # abaixo desta fração da velocidade, anda (walk) em vez de correr
 const START_FROM := ["idle", "idle_var", "walk", "land", "run_stop", "look_up", "look_up_loop"]
 var idle_time := 0.0          # segundos parado no Idle
+var last_crimson_level := 0   # para tocar a transição quando a forma muda
 const IDLE_VAR_AFTER := 8.0   # depois disso o Noct abaixa a cabeça (idle_var)
 var looking_up := false       # segurando cima parado no chão: olha para cima e a câmera sobe
 var look_hold := 0.0
@@ -434,6 +435,17 @@ func _update_animation() -> void:
 	sprite.modulate.a = 0.35 if blink else 1.0
 	var idle_before := idle_time
 	idle_time = 0.0
+
+	# Transição ao entrar numa forma carmesim (ou subir de nível): cN_transform toca inteira.
+	if crimson_level != last_crimson_level:
+		var trans := "c%d_transform" % crimson_level
+		if crimson_level > last_crimson_level and _has_anim(trans):
+			sprite.play(trans)
+		last_crimson_level = crimson_level
+	if _base_anim() == "transform" and sprite.is_playing():
+		_apply_offset()
+		_update_aura()
+		return
 
 	if ultimate_timer > 0:
 		pass  # a sequência da Ultimate é controlada por _on_anim_finished

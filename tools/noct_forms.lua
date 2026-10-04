@@ -21,7 +21,7 @@ local crimson_dir = app.fs.joinPath(root, "assets", "hero", "crimson")
 -- TODAS as animações do Noct base (movimento, golpes, combos, magia, dano, morte, Ultimate),
 -- para a forma valer em tudo, mais o crouch_loop. A Forma Demoníaca (demon_form.gd) só desenha
 -- por código quando falta a arte.
-local ANIMS = { "crouch_loop" }
+local ANIMS = { "crouch_loop", "transform" }
 for _, t in ipairs(spr.tags) do
   if not t.name:match("^c%d_") then table.insert(ANIMS, t.name) end
 end
@@ -115,73 +115,87 @@ local function measure(img)
   return m
 end
 
--- Tom do corpo: carmesim leve (1), mais forte (2), escurecido com só os olhos (3).
-local function tint(img, level)
+-- MANTO DE ENERGIA (inspirado no manto de chakra da raposa): a energia cobre o corpo.
+-- Por cima do corpo, um véu carmesim translúcido (mais forte a cada nível; no 3 o corpo quase some
+-- no manto escuro); em volta, a casca do manto, com bolhas na borda e um contorno escuro.
+-- p = 0..1 (força do manto; < 1 só na transição).
+local function veil(img, level, p)
   local out = img:clone()
+  local t = ({ 0.22, 0.38, 0.62 })[level] * p
+  local to = level == 3 and hex("#2a0612") or C.crimson
   for y = 0, H - 1 do
     for x = 0, W - 1 do
       local c = img:getPixel(x, y)
       if pc.rgbaA(c) > 0 and not is_energy(c) then
-        if level == 1 then
-          out:drawPixel(x, y, mix(c, C.blood, 0.12))
-        elseif level == 2 then
-          out:drawPixel(x, y, mix(c, C.blood, 0.22))
-        else
-          local d = is_skin(c) and 0.55 or 0.35
-          out:drawPixel(x, y, mix(darken(c, d), C.dark, 0.25))
-        end
+        local tt = t
+        if level == 3 and is_skin(c) then tt = math.min(0.85, t + 0.15) end
+        out:drawPixel(x, y, mix(c, to, tt))
       end
     end
   end
   return out
 end
 
--- Aura: anel em volta da silhueta (mais grosso a cada nível) e chamas subindo das bordas de cima.
--- k = quadro (anima a aura), breath = 0..1 (ritmo da respiração).
-local function aura(base, out, m, level, k, breath)
-  local rings = level == 1 and { 0.38 } or level == 2 and { 0.62, 0.25 } or { 0.9, 0.55, 0.25 }
-  local ring_colors = { C.crimson, C.red, C.blood }
-  local prev = {}
-  for y = 0, H - 1 do for x = 0, W - 1 do if opaque(base, x, y) then prev[y * W + x] = true end end end
-  local filled = {}
-  for k2, _ in pairs(prev) do filled[k2] = true end
-  for r, chance in ipairs(rings) do
-    local new = {}
-    for key in pairs(filled) do
+local function cloak(base, out, m, level, k, breath, p)
+  local thick = math.floor(({ 1, 2, 2 })[level] * p + 0.5)
+  local filled, ring = {}, {}
+  local frontier = {}
+  for y = 0, H - 1 do
+    for x = 0, W - 1 do
+      if opaque(base, x, y) then filled[y * W + x] = 0; table.insert(frontier, y * W + x) end
+    end
+  end
+  -- Casca: camadas cheias (coerentes), mais uma camada de bolhas na borda.
+  for r = 1, thick + 1 do
+    local nxt = {}
+    for _, key in ipairs(frontier) do
       local x, y = key % W, key // W
       for _, d in ipairs({ { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } }) do
         local nx, ny = x + d[1], y + d[2]
-        if nx >= 0 and ny >= 0 and nx < W and ny < H and not filled[ny * W + nx] and ny < m.feet - 1 then
-          new[ny * W + nx] = true
+        local nk = ny * W + nx
+        if nx >= 0 and ny >= 0 and nx < W and ny < H and filled[nk] == nil and ny <= m.feet then
+          local keep = r <= thick or noise(nx // 2, ny // 2, k // 2 + 3) < 0.35 + 0.3 * breath
+          if keep then
+            filled[nk] = r
+            ring[nk] = r
+            table.insert(nxt, nk)
+          end
         end
       end
     end
-    for key in pairs(new) do
-      local x, y = key % W, key // W
-      local flick = noise(x // 2, y // 3, k // 2 + r * 7)   -- manchas de 2x3 px: aura em blocos, não chuvisco
-      if flick < chance * (0.75 + 0.5 * breath) then put_if_empty(out, x, y, ring_colors[r]) end
-      filled[key] = true
-    end
+    frontier = nxt
   end
-  -- Chamas: das colunas com borda de cima livre, na metade de cima do corpo, sobem pela respiração.
-  local max_len = level == 1 and 2 or level == 2 and 4 or 6
+  -- Cores: dentro da casca vermelho vivo; borda externa escura (lê bem em qualquer fundo).
+  for key in pairs(ring) do
+    local x, y = key % W, key // W
+    local outer = false
+    for _, d in ipairs({ { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } }) do
+      if filled[(y + d[2]) * W + x + d[1]] == nil then outer = true end
+    end
+    local col
+    if outer then col = level == 3 and C.blood or C.deep
+    elseif level == 3 then col = (noise(x // 2, y // 2, k // 2) < 0.3) and C.hot or C.red
+    else col = (noise(x // 2, y // 2, k // 2) < 0.25) and C.pink or C.crimson end
+    put_if_empty(out, x, y, col)
+  end
+  -- Chamas curtas subindo do alto do manto (ombros e cabeça), no ritmo da respiração.
+  local max_len = math.floor(({ 2, 3, 4 })[level] * p + 0.5)
   for x = 0, W - 1 do
-    for y = m.top, math.min(m.feet, m.top + 22) do
-      if opaque(base, x, y) then
-        if not opaque(base, x, y - 1) then
-          local n = noise(x, 0, k // 2)
-          if n < 0.55 then
-            local len = math.floor((0.4 + n) * max_len * (0.6 + 0.6 * breath) + 0.5)
-            for i = 1, len do
-              local t = i / math.max(1, len)
-              local col = t < 0.4 and C.crimson or t < 0.8 and C.pink or C.tip
-              put_if_empty(out, x - (i > 2 and 1 or 0), y - 1 - i, col)
-            end
+    -- Sem chamas em cima da cabeça: ali ficam as orelhas, que precisam ser lidas.
+    if x >= m.hx0 - 2 and x <= m.hx1 + 2 then goto next_col end
+    for y = math.max(0, m.top - 4), math.min(m.feet, m.top + 20) do
+      if filled[y * W + x] ~= nil then
+        local n = noise(x, 0, k // 2)
+        if n < 0.45 then
+          local len = math.floor((0.5 + n) * max_len * (0.6 + 0.6 * breath) + 0.5)
+          for i = 1, len do
+            put_if_empty(out, x, y - i, i == len and C.tip or (i == 1 and C.crimson or C.pink))
           end
         end
         break
       end
     end
+    ::next_col::
   end
 end
 
@@ -193,14 +207,18 @@ local function eyes(out, m, level)
   put(out, ex - 1, ey, level == 3 and C.eye or C.pink)
 end
 
--- Chifre de ENERGIA (não é chifre físico): curva saindo do alto da cabeça, com a ponta piscando.
--- dir = -1 (para trás) ou 1 (para a frente).
-local function horn(out, x, y, dir, len, k)
-  for i = 0, len - 1 do
-    local px, py = x + dir * math.floor(i * 0.6 + 0.5), y - i
-    local tip = i >= len - 2
-    put(out, px, py, tip and ((k // 2) % 2 == 0 and C.tip or C.pink) or (i < 2 and C.crimson or C.hot))
-    if i < len - 2 then put(out, px - dir, py, i < 2 and C.blood or C.crimson) end
+-- ORELHAS de energia da raposa (no lugar de chifres físicos): triângulos do manto saindo do alto
+-- da cabeça, um atrás e um na frente, apontando para cima e um pouco para trás.
+local function ear(out, x, y, h, lean, k)
+  for i = 0, h - 1 do
+    local half = math.floor((h - 1 - i) * 0.45 + 0.3) -- base larga, ponta fina
+    local cx = x + math.floor(lean * i + 0.5)
+    for dx = -half, half do
+      local edge = dx == -half or dx == half
+      local tip = i >= h - 2
+      local col = tip and ((k // 2) % 2 == 0 and C.tip or C.pink) or (edge and C.deep or (dx >= 0 and C.pink or C.hot))
+      put(out, cx + dx, y - i, col)
+    end
   end
 end
 
@@ -216,7 +234,8 @@ local function tails(out, base, m, k, count, len)
   for t = count, 1, -1 do
     local spread = count == 1 and 0.5 or (t - 1) / (count - 1)
     local a0 = 0.05 + spread * 0.8                                    -- sai para trás e um pouco para cima
-    local a1 = 0.7 + spread * 1.9 + math.sin((k + t * 2) * 0.6) * 0.15 -- termina para cima, em leque
+    local fan = count >= 5 and 2.6 or 1.9                              -- no nível 3 o leque abre mais
+    local a1 = 0.6 + spread * fan + math.sin((k + t * 2) * 0.6) * 0.15 -- termina para cima, em leque
     local l = len - math.floor(spread * 5)
     local px, py = x0, y0 + (count > 1 and math.floor((1 - spread) * 3) or 0)
     for s2 = 0, l do
@@ -224,7 +243,7 @@ local function tails(out, base, m, k, count, len)
       local theta = a0 + (a1 - a0) * u * u
       px = px - math.cos(theta)
       py = py - math.sin(theta)
-      local r = 0.4 + (count > 1 and 1.1 or 1.4) * math.sin(math.pi * math.min(1, u * 1.1))
+      local r = 0.4 + (count >= 5 and 0.85 or count > 1 and 1.1 or 1.4) * math.sin(math.pi * math.min(1, u * 1.1))
       for dy = -2, 2 do
         for dx = -2, 2 do
           local d = math.sqrt(dx * dx + dy * dy)
@@ -273,23 +292,67 @@ local function sparks(out, base, m, k, amount)
   end
 end
 
-local function form_frame(img, level, k, n)
+-- Quadros em que a cabeça NÃO é o alto do desenho (punho, perna, chama ou energia por cima, ou
+-- deitado): ali as orelhas e os olhos ficariam no lugar errado, então só o manto e as caudas entram.
+-- (Análise quadro a quadro das formas; índices dos quadros de cada animação, a partir de 1.)
+local NO_HEAD = {
+  kick = { 4, 5 }, cross = { 2, 3 }, charged = { 3, 4 }, cast = { 4 }, up_punch = { 4, 5, 6, 7 },
+  uppercut = { 4, 5, 6, 7 }, low_punch = { 4, 5 }, slam = { 2 }, air_finish = { 1 },
+  death = { 2, 4, 5, 6, 7, 8 }, ultimate_burst = { 3, 4, 5, 6, 7 }, ultimate_pose = { 4 },
+  dash = { 6 }, air_dash = { 5 },
+}
+local function head_visible(anim, i)
+  for _, f in ipairs(NO_HEAD[anim] or {}) do if f == i then return false end end
+  return true
+end
+
+-- p = força da forma (1 = forma completa; menor na transição). head = desenhar orelhas e olhos.
+local function form_frame(img, level, k, n, p, head)
+  p = p or 1
+  if head == nil then head = true end
   local m = measure(img)
   local breath = 0.5 + 0.5 * math.sin(k / math.max(1, n) * math.pi * 2)
-  local body = tint(img, level)
   local out = Image(W, H, ColorMode.RGB)
-  -- Demônio-raposa. Atrás do corpo: caudas de energia (1, 3 e 5) e aura; depois o corpo com um
-  -- pouco de energia por cima; na frente: chifres de energia, olhos e fagulhas.
-  tails(out, img, m, k, ({ 1, 3, 5 })[level], ({ 20, 21, 23 })[level])
-  aura(img, out, m, level, k, breath)
-  out:drawImage(body, Point(0, 0))
+  -- Atrás do corpo: caudas (1, 3, 5) e a casca do manto; depois o corpo com o véu do manto e veios;
+  -- na frente: orelhas de energia, olhos e fagulhas.
+  local count = math.max(0, math.floor(({ 1, 3, 5 })[level] * p + 0.5))
+  if count > 0 then tails(out, img, m, k, count, math.floor(({ 20, 21, 23 })[level] * (0.4 + 0.6 * p))) end
+  cloak(img, out, m, level, k, breath, p)
+  out:drawImage(veil(img, level, p), Point(0, 0))
   body_energy(out, img, m, level, k)
-  local back_x = m.hx0 + 3
-  horn(out, back_x, m.top + 1, -1, level == 3 and 8 or 6, k)
-  if level >= 2 then horn(out, m.hx1 - 3, m.top + 1, 1, level == 3 and 6 or 4, k) end
-  eyes(out, m, level)
-  if level >= 2 then sparks(out, img, m, k, level == 2 and 0.012 or 0.02) end
+  if p > 0.3 and head then
+    local h = math.floor(({ 6, 7, 8 })[level] * p + 0.5)
+    local base_y = m.top - 1
+    ear(out, m.hx0 + 2, base_y, h, -0.35, k)        -- orelha de trás
+    ear(out, m.hx1 - 3, base_y, h - 1, -0.1, k)     -- orelha da frente
+  end
+  if head then eyes(out, m, level) end
+  if level >= 2 and p >= 1 then sparks(out, img, m, k, level == 2 and 0.012 or 0.02) end
   return out
+end
+
+-- TRANSIÇÃO ao transformar: o Noct se curva (agachado) e o manto cresce de nada até a forma
+-- completa, com um anel de energia explodindo para fora no meio; termina de pé.
+local function transform_frames(level)
+  local crouch, idle = frames_of("crouch"), frames_of("idle")
+  local seq = { crouch[1], crouch[2], crouch[#crouch], crouch[#crouch], crouch[#crouch], idle[1], idle[1], idle[1] }
+  local frames = {}
+  for i, img in ipairs(seq) do
+    local p = math.min(1, (i - 1) / 5)
+    local f = form_frame(img, level, i - 1, #seq, p)
+    if i >= 4 and i <= 6 then   -- anel de choque
+      local m = measure(img)
+      local cx, cy = (m.hx0 + m.hx1) // 2, (m.top + m.feet) // 2
+      local r = 10 + (i - 4) * 9
+      for a2 = 0, 359, 3 do
+        local x = math.floor(cx + math.cos(math.rad(a2)) * r + 0.5)
+        local y = math.floor(cy + math.sin(math.rad(a2)) * r * 0.75 + 0.5)
+        put_if_empty(f, x, y, i == 6 and C.crimson or C.pink)
+      end
+    end
+    frames[i] = f
+  end
+  return frames
 end
 
 -------------------------------------------------------------------------------
@@ -299,14 +362,15 @@ local first = true
 local ranges = {}
 for _, level in ipairs(LEVELS) do
   for _, anim in ipairs(ANIMS) do
-    local src = anim == "crouch_loop" and {} or frames_of(anim)
+    local src = (anim == "crouch_loop" or anim == "transform") and {} or frames_of(anim)
     if anim == "crouch_loop" then
       -- A pose abaixada final, repetida, com a aura se mexendo (8 quadros).
       local crouch = frames_of("crouch")
       for i = 1, 8 do src[i] = crouch[#crouch] end
     end
     local frames = {}
-    for i, img in ipairs(src) do frames[i] = form_frame(img, level, i - 1, #src) end
+    for i, img in ipairs(src) do frames[i] = form_frame(img, level, i - 1, #src, 1, head_visible(anim, i)) end
+    if anim == "transform" then frames = transform_frames(level) end
     local key = "c" .. level .. "_" .. anim
     if #frames > 0 then
       if preview then

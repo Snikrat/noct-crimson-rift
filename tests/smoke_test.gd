@@ -245,10 +245,11 @@ func _run() -> void:
 	await tap("debug_crimson")
 	await wait(3)
 	check("F3 troca para a forma carmesim 1", p.crimson_level == 1 and String(p.sprite.animation).begins_with("c1_"), p.sprite.animation)
+	check("transformar toca a transição (c1_transform)", p.sprite.animation == "c1_transform", p.sprite.animation)
 	# Abaixado em todos os níveis: depois de abaixar, a energia carmesim continua animando.
 	for lv in range(1, 4):
 		Input.action_press("down")
-		await wait(60)
+		await wait(110)   # a transição da forma toca antes de abaixar
 		var f0: int = p.sprite.frame
 		await wait(8)
 		check("carmesim %d abaixado continua animando" % lv, p.sprite.animation == "c%d_crouch_loop" % lv 			and p.sprite.is_playing() and p.sprite.frame != f0, "%s quadro %d" % [p.sprite.animation, p.sprite.frame])

@@ -47,6 +47,8 @@ const CRIMSON_ANIMS := {
 	"double_jump": [30, false], "dash": [50, false], "air_dash": [50, false], "crouch": [4.5, false],
 	# Abaixado: depois de cN_crouch, a energia continua se mexendo (tools/noct_crouch_loop.lua).
 	"crouch_loop": [8, true],
+	# Transição ao transformar (tools/noct_forms.lua): curva, o manto cresce, anel de choque.
+	"transform": [14, false],
 	"look_up": [14, false], "look_up_loop": [3, true],
 }
 
