@@ -172,6 +172,12 @@ func _run() -> void:
 	var crystals := get_nodes_in_group("rift_crystals")
 	check("parede de cristal (12 blocos)", crystals.size() == 12)
 	check("cristal é sólido", main.is_solid(crystals[0].global_position + Vector2(8, 8)))
+	await place(Vector2(36 * 16, 224))
+	for i in 120:
+		await wait(1)
+		if cracks[5].get_hurtbox().size != Vector2.ZERO:
+			break
+	await shot("cristais_rachadura")
 	await place(Vector2(41 * 16 - 10, 224))
 	p.facing = 1
 	d.gauge = 0.0
