@@ -7,6 +7,7 @@ extends SceneTree
 const SRC := "res://art_source/rostos_expressoes.png"
 const OUT := "res://assets/hero/"
 const SIZE := 72
+const WIDE_OUT := "res://art_source/portraits/noct_wide/"
 
 # Faixa vertical de cada linha de rostos (sem a faixa do nome) e as colunas [x0, x1] de cada rosto.
 const ROWS := [
@@ -47,6 +48,7 @@ func _initialize() -> void:
 					var sx := left + x
 					if sx < x0 or sx > x1 or crop.get_pixel(x, y).a8 < 60:
 						crop.set_pixel(x, y, Color(0, 0, 0, 0))
+			_save_wide(img, face[0], x0, x1, y0, y1, side, cx)
 			crop.resize(SIZE, SIZE, Image.INTERPOLATE_LANCZOS)
 			crop.save_png(ProjectSettings.globalize_path(OUT + "portrait_" + face[0] + ".png"))
 			count += 1
@@ -64,3 +66,27 @@ func _head_center(img: Image, x0: int, x1: int, y0: int, y1: int) -> int:
 				sum += x
 				n += 1
 	return sum / maxi(n, 1) if n > 0 else (x0 + x1) / 2
+
+
+## Base dos rostos da Forma Demoníaca: o mesmo rosto um pouco mais afastado, com espaço em cima e
+## dos lados para as orelhas e as caudas de energia (art_source/portraits/noct_wide/<expressão>.png).
+## tools/make_portraits.lua desenha a forma por cima, no Aseprite.
+func _save_wide(img: Image, face: String, x0: int, x1: int, y0: int, y1: int, side: int, cx: int) -> void:
+	var extra := int(side * 0.32)
+	var big := side + extra
+	var left := cx - big / 2
+	var top := y0 - extra
+	var crop := Image.create(big, big, false, Image.FORMAT_RGBA8)
+	for y in big:
+		for x in big:
+			var sx := left + x
+			var sy := top + y
+			if sx < x0 or sx > x1 or sy < y0 or sy >= y0 + side or sx < 0 or sx >= img.get_width():
+				continue
+			var c := img.get_pixel(sx, sy)
+			if c.a8 >= 60:
+				crop.set_pixel(x, y, c)
+	crop.resize(SIZE, SIZE, Image.INTERPOLATE_LANCZOS)
+	var dir := ProjectSettings.globalize_path(WIDE_OUT)
+	DirAccess.make_dir_recursive_absolute(dir)
+	crop.save_png(dir + face + ".png")
