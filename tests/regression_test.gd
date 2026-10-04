@@ -96,7 +96,7 @@ func _run() -> void:
 		ground_chain.append(p.move)
 	check("combo no chão tem 5 golpes até o finalizador: " + str(ground_chain), ground_chain == ["punch", "combo", "kick", "combo4", "finisher"])
 	# Cada forma carmesim tem o seu combo no chão.
-	for lv in [1, 2, 3]:
+	for lv in p.FORM_COMBOS:
 		p._cancel_move()
 		p.combo_timer = 0
 		p.crimson_level = lv
@@ -109,8 +109,9 @@ func _run() -> void:
 			form_chain.append(p.move)
 		check("forma %d tem o próprio combo no chão: %s" % [lv, str(form_chain)], form_chain == p.FORM_COMBOS[lv]["ground"])
 		check("forma %d toca a arte da forma no golpe" % lv, String(p.sprite.animation).begins_with("c%d_" % lv))
-	# A partir do nível 2 os golpes são inéditos: animação que o Noct base não tem, com arte da forma.
-	for lv in [2, 3]:
+	# Os golpes da Forma Demoníaca são inéditos: animação que o Noct base não tem, com arte da forma.
+	check("só existe uma Forma Demoníaca", p.FORM_COMBOS.keys() == [p.DEMON_FORM])
+	for lv in p.FORM_COMBOS:
 		for kind in ["ground", "air"]:
 			for mv in p.FORM_COMBOS[lv][kind]:
 				var anim: String = p.MOVES[mv]["anim"]

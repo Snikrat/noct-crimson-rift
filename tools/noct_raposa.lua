@@ -3,8 +3,9 @@
 -- Cada quadro da folha é recortado, reduzido (média por área, sem borrar o alfa), alinhado pelos pés
 -- e pelo centro do corpo no quadro do Noct (117x77, pés em 50,64) e levado para uma paleta curta
 -- tirada da própria folha (corpo e energia separados, para a pele, o cabelo e a roupa não sumirem no
--- vermelho). O nível 3 é a folha inteira (o leque de caudas); nos níveis 1 e 2 o leque sai e entram
--- 1 e 3 caudas desenhadas no mesmo estilo (sheet_tail).
+-- vermelho). É a única Forma Demoníaca do jogo (c3_*: a folha inteira, com o leque de caudas).
+-- LEVEL_TAILS/strip_fan/sheet_tail fazem versões com menos caudas (níveis 1 e 2), que hoje não
+-- entram no jogo.
 -- Saída: art_source/personagem principal/noct_raposa.aseprite (tags c<n>_<linha>) e as tiras do jogo
 -- em assets/hero/crimson (parado, andar, correr, dash, abaixar e o finalizador do nível 3).
 -- Rodar DEPOIS de tools/noct_forms.lua, que grava as outras animações das formas.
@@ -257,7 +258,7 @@ local EYE, EYE_HOT = pc.rgba(255, 48, 64, 255), pc.rgba(255, 190, 200, 255)
 local out = Sprite(CW, CH, ColorMode.RGB)
 local cells = {}   -- c<n>_<linha> -> quadros
 local ranges, first = {}, true
-for _, lv in ipairs({ 1, 2, 3 }) do
+for _, lv in ipairs({ 3 }) do
 for _, f in ipairs(frames) do
   local img, w = f.img, f.img.width
   local q = Image(img.width, img.height, ColorMode.RGB)
@@ -363,7 +364,7 @@ local function save_strip(key, list, cw, ch, dx, dy)
   strip:saveAs(app.fs.joinPath(crimson_dir, key .. ".png"))
 end
 local function pick(list, ids) local t = {} for _, i in ipairs(ids) do t[#t + 1] = list[i] end return t end
-for _, lv in ipairs({ 1, 2, 3 }) do
+for _, lv in ipairs({ 3 }) do
   local c = function(tag) return cells["c" .. lv .. "_" .. tag] end
   save_strip("c" .. lv .. "_idle", c("idle"), CW, CH)
   save_strip("c" .. lv .. "_walk", c("walk"), CW, CH)

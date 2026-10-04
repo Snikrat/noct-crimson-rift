@@ -92,10 +92,10 @@ func _run() -> void:
 	check("Noct comenta ao chegar na vila", main.is_dialog_open() and main.hud.dialog.lines[0].begins_with("@"))
 	check("30 rostos carregados", main.hud.dialog.portraits.size() == 30 and main.hud.dialog.portrait("ultimate") != null)
 	var dlg = main.hud.dialog
-	check("90 rostos da Forma Demoníaca carregados", dlg.crimson_portraits.size() == 90)
+	check("30 rostos da Forma Demoníaca carregados", dlg.crimson_portraits.size() == 30)
 	check("personagens que falam têm rosto", dlg.npc_portraits.size() == dlg.NPC_PORTRAITS.size() and dlg.npc_portrait("Mira") != null)
-	p.crimson_level = 2
-	check("transformado, o diálogo usa o rosto da forma atual", dlg.portrait("serio") == dlg.crimson_portraits["2:serio"])
+	p.crimson_level = p.DEMON_FORM
+	check("transformado, o diálogo usa o rosto da Forma Demoníaca", dlg.portrait("serio") == dlg.crimson_portraits["%d:serio" % p.DEMON_FORM])
 	p.crimson_level = 0
 	check("sem a forma, volta o rosto normal", dlg.portrait("serio") == dlg.portraits["serio"])
 	check("comentário de chegada em balão sobre o Noct", main.hud.dialog.anchor.distance_to(p.global_position) < 40)
@@ -251,20 +251,18 @@ func _run() -> void:
 	await skip_dialogs()
 	await tap("debug_crimson")
 	await wait(3)
-	check("F3 troca para a forma carmesim 1", p.crimson_level == 1 and String(p.sprite.animation).begins_with("c1_"), p.sprite.animation)
-	check("transformar toca a transição (c1_transform)", p.sprite.animation == "c1_transform", p.sprite.animation)
-	# Abaixado em todos os níveis: depois de abaixar, a energia carmesim continua animando.
-	for lv in range(1, 4):
-		Input.action_press("down")
-		await wait(110)   # a transição da forma toca antes de abaixar
-		var f0: int = p.sprite.frame
-		await wait(8)
-		check("carmesim %d abaixado continua animando" % lv, p.sprite.animation == "c%d_crouch_loop" % lv 			and p.sprite.is_playing() and p.sprite.frame != f0, "%s quadro %d" % [p.sprite.animation, p.sprite.frame])
-		Input.action_release("down")
-		await wait(5)
-		if lv < 3:
-			await tap("debug_crimson")
-	await tap("debug_crimson")   # nível 3 -> normal
+	var form := "c%d_" % p.DEMON_FORM
+	check("F3 liga a Forma Demoníaca (a única)", p.crimson_level == p.DEMON_FORM and String(p.sprite.animation).begins_with(form), p.sprite.animation)
+	check("transformar toca a transição", p.sprite.animation == form + "transform", p.sprite.animation)
+	# Abaixado: depois de abaixar, a energia carmesim continua animando.
+	Input.action_press("down")
+	await wait(110)   # a transição da forma toca antes de abaixar
+	var f0: int = p.sprite.frame
+	await wait(12)
+	check("Forma Demoníaca abaixada continua animando", p.sprite.animation == form + "crouch_loop" 		and p.sprite.is_playing() and p.sprite.frame != f0, "%s quadro %d" % [p.sprite.animation, p.sprite.frame])
+	Input.action_release("down")
+	await wait(5)
+	await tap("debug_crimson")   # forma -> normal
 	await wait(3)
 	check("forma carmesim volta ao normal", p.crimson_level == 0 and not String(p.sprite.animation).begins_with("c"), p.sprite.animation)
 

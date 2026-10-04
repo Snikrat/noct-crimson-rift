@@ -4,7 +4,7 @@ extends Control
 ## Com "anchor", a fala vira um balão fixo e centralizado sobre esse ponto do mundo (comentário de chegada).
 ## Falas do herói ("@expressão: texto") mostram o rosto dele à esquerda;
 ## falas dos personagens mostram o rosto deles à direita (ou o desenho ampliado, se não tiver rosto).
-## Com o Noct transformado, o rosto dele é o da forma atual (assets/hero/crimson/portrait_c<n>_<expressão>.png).
+## Com o Noct transformado, o rosto dele é o da Forma Demoníaca (assets/hero/crimson/portrait_c3_<expressão>.png).
 
 const Paths := preload("res://data/asset_paths.gd")
 const GOLD := Color("e8c872")

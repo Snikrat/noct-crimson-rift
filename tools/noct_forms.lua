@@ -29,7 +29,8 @@ if app.params.anims then
   ANIMS = {}
   for n in string.gmatch(app.params.anims, "[^,]+") do table.insert(ANIMS, n) end
 end
-local LEVELS = { 1, 2, 3 }
+-- Só existe uma Forma Demoníaca: a raposa de nove caudas, que usa o visual do nível 3 (c3_*).
+local LEVELS = { 3 }
 if app.params.levels then
   LEVELS = {}
   for n in string.gmatch(app.params.levels, "[^,]+") do table.insert(LEVELS, tonumber(n)) end
@@ -712,104 +713,6 @@ local function rep(pose, n) local t = {} for i = 1, n do t[i] = pose end return 
 
 local NEW_MOVES = {}
 
--- Golpe de caudas por quadros-chave: para cada quadro, a ponta (tx, ty) e o controle da curva (cx, cy),
--- relativos à base das caudas na cintura (y negativo = para cima, x positivo = para a frente). O
--- quadro anterior fica como rastro escuro e o quadro de impacto (hit) estoura na ponta.
--- spread = quanto as caudas se separam (px por cauda).
-local function tail_swing(img, m, i, count, keys, width, spread, hit, k)
-  local bx, by = m.back, m.top + 19
-  local function draw(f, ghost)
-    local key = keys[f]
-    local tip_x, tip_y
-    for t = count, 1, -1 do
-      local o = (t - (count + 1) / 2) * spread
-      tip_x, tip_y = tail_to(img, bx, by + t - 1, bx + key[3] - o * 0.6, by + key[4] - o * 0.4,
-        bx + key[1] - o, by + key[2] + o, width - (t - 1) * 0.25, ghost, k + t)
-    end
-    return tip_x, tip_y
-  end
-  if i > 1 then
-    local a, b = keys[i - 1], keys[i]
-    if math.abs(a[1] - b[1]) + math.abs(a[2] - b[2]) > 16 then draw(i - 1, true) end
-  end
-  local tx, ty = draw(i, false)
-  if hit == i then tail_hit(img, tx, ty) end
-end
-
--- ===== NÍVEL 2, RUPTURA: as três caudas e as garras do manto viram as armas =====
-NEW_MOVES[2] = {
-  -- Chicote das caudas: as três caudas sobem atrás, passam por cima da cabeça e batem na frente.
-  tailwhip = function(level)
-    -- { ponta x, ponta y, controle x, controle y }: armar atrás, subir, passar por cima, bater à
-    -- frente na altura do peito, seguir até o chão e voltar.
-    local keys = { { -16, -20, -14, -4 }, { -8, -36, -16, -16 }, { 18, -40, -8, -36 },
-      { 46, -6, 14, -44 }, { 48, 12, 24, -34 }, { -12, -28, -14, -10 } }
-    return make_move(level, rep(P("jab", 1), 6), false, function(img, m, i)
-      tail_swing(img, m, i, 3, keys, 3.6, 5, 4, i)
-    end)
-  end,
-  -- Garra do manto: um braço de energia sai do ombro, rasga à frente e volta.
-  claw = function(level)
-    local poses = { P("cross", 1), P("cross", 1), P("cross", 2), P("cross", 3), P("cross", 3), P("cross", 4) }
-    local len = { 4, 12, 24, 34, 22, 6 }
-    return make_move(level, poses, true, function(img, m, i)
-      if i == 4 then
-        for s = -1, 1 do arc(img, m.front + 26, m.top + 12 + s * 4, 10, 0.9, 2.2, C.tip) end
-      end
-      claw(img, m.front, m.top + 12, math.pi - 0.1, len[i])
-    end)
-  end,
-  -- Pião das caudas: abaixado, as três caudas varrem em volta do corpo (acerta dos dois lados).
-  tailspin = function(level)
-    return make_move(level, rep(P("crouch", -1), 6), false, function(img, m, i)
-      local cy = m.feet - 9
-      for t = 0, 2 do
-        local a = (i - 1) * 1.05 + t * 2.09
-        fox_tail(img, m.cx, cy, a - 0.9, a - 0.2, 30, 3.0, 1, true, i + t)
-      end
-      for t = 0, 2 do
-        local a = (i - 1) * 1.05 + t * 2.09
-        fox_tail(img, m.cx, cy, a, a + 0.6, 32, 3.2, 1, false, i + t)
-      end
-    end)
-  end,
-  -- Finalizador: as caudas sobem retas bem alto e desabam na frente, rachando o chão.
-  tailslam = function(level)
-    local poses = { P("jab", 1), P("jab", 1), P("jab", 1), P("crouch", -1), P("crouch", -1), P("crouch", -1), P("jab", 1) }
-    return make_move(level, poses, false, function(img, m, i)
-      local ground = m.feet - (m.top + 19) - 1
-      -- Sobem retas bem alto e desabam na frente até o chão.
-      local keys = { { -4, -34, -6, -16 }, { -2, -46, -6, -22 }, { 0, -56, -4, -28 },
-        { 44, ground, 12, -50 }, { 48, ground, 20, -44 }, { 50, ground, 26, -38 }, { -10, -30, -12, -12 } }
-      tail_swing(img, m, i, 3, keys, 4.0, 4, 4, i)
-      if i >= 4 and i <= 6 then
-        local gx = m.front + 30
-        for dx = -14, 14 do   -- rachadura no chão e pedaços subindo
-          if (dx + i) % 3 ~= 0 then bput(img, gx + dx, m.feet + 1, C.hot) end
-          if dx % 4 == 0 then bput(img, gx + dx, m.feet - math.floor(math.abs(dx) / 3) - (i - 3) * 2, C.pink) end
-        end
-        ring(img, gx, m.feet - 3, 6 + (i - 4) * 9, i == 6 and C.crimson or C.tip, 0.4)
-      end
-    end)
-  end,
-  -- No ar: chicote das caudas.
-  air_tailwhip = function(level)
-    local keys = { { -14, -24, -14, -6 }, { 6, -40, -14, -30 }, { 46, -2, 12, -44 },
-      { 44, 20, 26, -30 }, { -10, -28, -14, -10 } }
-    return make_move(level, rep(P("air_punch", 1), 5), false, function(img, m, i)
-      tail_swing(img, m, i, 3, keys, 3.6, 5, 3, i)
-    end)
-  end,
-  -- No ar: garra para baixo, em diagonal.
-  air_claw = function(level)
-    local len = { 6, 16, 28, 30, 12 }
-    return make_move(level, rep(P("air_kick", 1), 5), true, function(img, m, i)
-      if i == 3 then arc(img, m.front + 14, m.top + 30, 12, 1.6, 3.4, C.tip) end
-      claw(img, m.front, m.top + 14, math.pi + 0.55, len[i])
-    end)
-  end,
-}
-
 -- Rajada de caudas: as caudas paradas abertas em leque atrás e, a cada quadro, uma delas arqueia
 -- por cima do ombro e bate à frente (a anterior fica como rastro).
 local function barrage_frame(img, m, i, k)
@@ -830,7 +733,8 @@ local function barrage_frame(img, m, i, k)
   end
 end
 
--- ===== NÍVEL 3, CONSUMIDO: cinco caudas, garras em X, fogo de raposa e a cabeça da raposa =====
+-- ===== FORMA DEMONÍACA (a raposa de nove caudas): rajada de caudas, garras em X, fogo de raposa e
+-- a cabeça da raposa =====
 NEW_MOVES[3] = {
   barrage = function(level)
     return make_move(level, rep(P("jab", 1), 7), false, function(img, m, i) barrage_frame(img, m, i, i) end)

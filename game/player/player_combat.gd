@@ -51,13 +51,9 @@ func _start_combo_hit() -> void:
 	combo_step += 1
 
 
-## Combos de cada forma carmesim (cada nível tem a sua sequência no chão e no ar; ver MOVES).
+## Combo da Forma Demoníaca (a única forma, crimson_level = DEMON_FORM), no chão e no ar; golpes
+## que só existem nela (ver MOVES).
 const FORM_COMBOS := {
-	1: {"ground": ["f1_claw", "f1_claw2", "f1_tail", "f1_fang", "finisher_f1"],
-		"air": ["air_punch", "air_kick", "air_finish"]},
-	# A partir do nível 2 os golpes são inéditos (só existem na forma).
-	2: {"ground": ["f2_tailwhip", "f2_claw", "f2_tailspin", "finisher_f2"],
-		"air": ["f2_air_tailwhip", "f2_air_claw", "f2_air_tailwhip"]},
 	3: {"ground": ["f3_barrage", "f3_xclaws", "f3_foxfire", "f3_foxbite", "finisher_f3"],
 		"air": ["f3_air_barrage", "f3_air_foxfire", "f3_air_barrage"]},
 }

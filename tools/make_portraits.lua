@@ -420,7 +420,8 @@ local made = {}
 for _, face in ipairs(FACES) do
   local raw = Image{ fromFile = app.fs.joinPath(base_dir, face .. ".png") }
   local base = clean(raw)
-  for level = 1, 3 do
+  -- Só a Forma Demoníaca que existe no jogo (a raposa de nove caudas, nível 3).
+  for level = 3, 3 do
     local img = crimson_portrait(base, face, level)
     img:saveAs(app.fs.joinPath(out_dir, string.format("portrait_c%d_%s.png", level, face)))
     table.insert(made, img)

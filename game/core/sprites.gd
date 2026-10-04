@@ -52,9 +52,7 @@ const CRIMSON_ANIMS := {
 	# Transição ao transformar (tools/noct_forms.lua): curva, o manto cresce, anel de choque.
 	"transform": [14, false],
 	"look_up": [14, false], "look_up_loop": [3, true],
-	# Golpes inéditos das formas 2 e 3 (tools/noct_forms.lua), em quadro maior (crimson.json).
-	"tailwhip": [16, false], "claw": [16, false], "tailspin": [16, false], "tailslam": [14, false],
-	"air_tailwhip": [18, false], "air_claw": [18, false],
+	# Golpes da Forma Demoníaca (tools/noct_forms.lua), em quadro maior (crimson.json).
 	"barrage": [18, false], "xclaws": [16, false], "foxfire": [18, false], "foxbite": [16, false],
 	"tailburst": [14, false], "air_barrage": [20, false], "air_foxfire": [18, false],
 }

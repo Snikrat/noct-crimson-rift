@@ -130,7 +130,7 @@ func _run() -> void:
 	check("alma +50%", is_equal_approx(d.soul_mult(), 1.5))
 	await wait(20)
 	await shot("demon_1_idle")
-	check("forma usa a arte carmesim oficial", p.crimson_level == 1 and d._has_art())
+	check("forma usa a arte da raposa (a única Forma Demoníaca)", p.crimson_level == p.DEMON_FORM and d._has_art())
 	Input.action_press("move_right")
 	await wait(20)
 	check("velocidade +15%", is_equal_approx(p.velocity.x, p.SPEED * 1.15), str(p.velocity.x))
@@ -156,24 +156,25 @@ func _run() -> void:
 	d.on_move_started("punch")
 	check("jab não solta corte", main.world.get_children().filter(func(n): return n.get_script() != null and n.get_script().resource_path == SLASH_PATH).size() == after)
 
-	# Magia: bola de energia nas formas 1 e 2, Raposa Espectral na forma 3.
+	# Magia: sem a forma, bola de energia; na Forma Demoníaca, Raposa Espectral.
+	p.crimson_level = 0
 	p.soul = p.MAX_SOUL
 	p._release_orb()
 	var orbs: Array = main.world.get_children().filter(func(n): return n.get_script() == ORB)
-	check("forma 1 solta a bola de energia", orbs.size() > 0 and not orbs[-1].fox)
-	p.crimson_level = 3
+	check("sem a forma solta a bola de energia", orbs.size() > 0 and not orbs[-1].fox)
+	p.crimson_level = p.DEMON_FORM
 	p.soul = p.MAX_SOUL
 	p._release_orb()
 	await wait(2)
 	orbs = main.world.get_children().filter(func(n): return n.get_script() == ORB)
 	var fox = orbs[-1] if orbs.size() > 0 else null
-	check("forma 3 solta a Raposa Espectral", fox != null and fox.fox)
+	check("Forma Demoníaca solta a Raposa Espectral", fox != null and fox.fox)
 	if fox:
 		var sf: SpriteFrames = fox.sprite.sprite_frames
 		check("raposa: 8 quadros (surge, voa, se desfaz)",
 			sf.get_frame_count("grow") + sf.get_frame_count("fly") + sf.get_frame_count("burst") == 8)
 		check("raposa: quadro maior que a bola", sf.get_frame_texture("fly", 0).get_size().x > 60)
-	p.crimson_level = 1
+	p.crimson_level = p.DEMON_FORM
 	await wait(40)
 
 	# Pulo e golpe, para conferir o chifre em outras poses.
@@ -217,21 +218,21 @@ func _run() -> void:
 	main.load_room("swamp", "L")
 	await wait(6)
 	check("sala nova abre a fala de chegada", main.is_dialog_open())
-	check("trocar de sala mantém a forma", d.active and p.crimson_level == 1)
-	check("na fala de chegada o Noct segue transformado", String(p.sprite.animation).begins_with("c1_"), p.sprite.animation)
+	check("trocar de sala mantém a forma", d.active and p.crimson_level == p.DEMON_FORM)
+	check("na fala de chegada o Noct segue transformado", String(p.sprite.animation).begins_with("c%d_" % p.DEMON_FORM), p.sprite.animation)
 	await skip_dialogs()
 	await wait(4)
-	check("depois da fala segue transformado", d.active and String(p.sprite.animation).begins_with("c1_"), p.sprite.animation)
+	check("depois da fala segue transformado", d.active and String(p.sprite.animation).begins_with("c%d_" % p.DEMON_FORM), p.sprite.animation)
 	await tap("transform")
 	check("cancelar depois da troca de sala desliga", not d.active and p.crimson_level == 0)
 
 	# --- Forma carmesim de teste (F3) também atravessa a sala ---
-	p.crimson_level = 2
+	p.crimson_level = p.DEMON_FORM
 	await wait(4)
 	main.load_room("town", "R")
 	await wait(4)
 	await skip_dialogs()
-	check("forma carmesim 2 atravessa a sala", p.crimson_level == 2 and String(p.sprite.animation).begins_with("c2_"), p.sprite.animation)
+	check("forma de teste (F3) atravessa a sala", p.crimson_level == p.DEMON_FORM and String(p.sprite.animation).begins_with("c%d_" % p.DEMON_FORM), p.sprite.animation)
 	p.crimson_level = 0
 
 	print("== RESULTADO: %d OK, %d FALHOU ==" % [passed, failed.size()])

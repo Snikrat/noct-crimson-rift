@@ -3,8 +3,8 @@ extends Node2D
 ## Barra da Fenda: enche ao acertar e ao apanhar; cheia, a tecla da forma (R / R3) transforma.
 ## Nível 1, Juramento: +1 de dano, +15% de velocidade, dash carmesim que fere, corte carmesim
 ## no fim dos combos e +50% de alma. Sem cura enquanto ativa e uma ressaca quando acaba.
-## Visual: a Forma Demoníaca oficial é a arte carmesim do Noct (cN_*, em assets/hero/crimson/, da
-## remodelagem do personagem). Com ela no jogo, este script não desenha nada por cima do Noct: só a
+## Visual: a Forma Demoníaca é uma só, a raposa de nove caudas (arte c3_*, em assets/hero/crimson/,
+## da folha "Guerreiro Raposa Demoníaco"; crimson_level = player.DEMON_FORM). Com ela no jogo, este script não desenha nada por cima do Noct: só a
 ## explosão da transformação e o brilho. A camada provisória (chamas, chifre de aura, olhos e tom) só
 ## aparece se a arte carmesim do nível não existir.
 ## O nível que existe no jogo vem da habilidade "demon1" (liberada ao derrotar o Velário).
@@ -182,13 +182,13 @@ func _start() -> void:
 func _burst() -> void:
 	active = true
 	gauge = MAX_GAUGE
-	player.crimson_level = level_number()
+	player.crimson_level = player.DEMON_FORM
 	level.shake(6.0)
 	level.flash_screen(Color(0.9, 0.1, 0.25), 0.45)
 	Audio.play_sfx("thunder", 0.0, 0.8)
 	level.spawn_crimson("shockwave", player.global_position + Vector2(0, 20), player.facing, 0.5)
 	level.spawn_crimson("impact", player.global_position + Vector2(0, 10), player.facing, 0.4)
-	level.hud.show_banner("FORMA DEMONÍACA · NÍVEL 1: " + LEVELS[1]["name"].to_upper(), 1.8)
+	level.hud.show_banner("FORMA DEMONÍACA", 1.8)
 	for e in get_tree().get_nodes_in_group("enemies"):
 		if e.global_position.distance_to(player.global_position) < SHOCK_RADIUS and e.has_method("take_hit"):
 			var d := Vector2(signf(e.global_position.x - player.global_position.x), 0)
@@ -339,7 +339,7 @@ func _draw() -> void:
 
 ## A arte oficial da forma (animações cN_* do herói) existe para o nível atual?
 func _has_art() -> bool:
-	return player.sprite.sprite_frames.has_animation("c%d_idle" % maxi(level_number(), 1))
+	return player.sprite.sprite_frames.has_animation("c%d_idle" % player.DEMON_FORM)
 
 
 ## Topo da cabeça e olho no quadro atual, em coordenadas locais do herói.

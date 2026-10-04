@@ -107,7 +107,7 @@ const PROMISE_AFTER := [
 	"* Por um instante, ela se dobra atrás dele como uma cauda.",
 	"@magia_olhos: Lembrando de você, então.",
 ]
-const CRIMSON_NAMES := ["Forma normal", "Carmesim 1 · Despertar", "Carmesim 2 · Corrupção avançada", "Carmesim 3 · Consumido"]
+const CRIMSON_NAMES := ["Forma normal", "Forma Demoníaca"]
 const BENCH_MOMENTS := [
 	["Noct se senta numa ponta do banco. O outro lado fica vazio.", "@cansado: Cinco minutos. Depois o mundo pode voltar a tentar me matar."],
 	["Os dedos dele encontram a fita carmesim no pulso. Ficam ali um tempo.", "@fechando_olhos: Um dia de cada vez."],
@@ -851,12 +851,12 @@ func _process_debug_keys() -> void:
 		Audio.play_sfx("switch", 0.0, 1.4)
 
 
-## Troca a forma carmesim (0 -> 1 -> 2 -> 3 -> 0). Atalho F3 e menu de hacks.
+## Liga/desliga a Forma Demoníaca (só existe uma). Atalho F3 e menu de hacks.
 func cycle_crimson() -> void:
-	player.crimson_level = (player.crimson_level + 1) % (CRIMSON_NAMES.size())
-	hud.show_banner(CRIMSON_NAMES[player.crimson_level], 1.8)
+	player.crimson_level = 0 if player.crimson_level > 0 else player.DEMON_FORM
+	hud.show_banner(CRIMSON_NAMES[1 if player.crimson_level > 0 else 0], 1.8)
 	if player.crimson_level > 0:
 		flash_screen(Color(0.9, 0.1, 0.25), 0.35)
-		Audio.play_sfx("charge", 0.0, 1.6 + player.crimson_level * 0.2)
+		Audio.play_sfx("charge", 0.0, 2.2)
 	else:
 		Audio.play_sfx("unequip")

@@ -69,21 +69,7 @@ const MOVES := {
 	"finisher": {"anim": "low_punch", "frames": [3, 4], "area": Rect2(-6, -26, 66, 46), "damage": 3, "knock": 340},
 	# --- Combos das formas carmesim (demônio-raposa); a animação vira a da forma (cN_) sozinha. ---
 	# fx = efeito carmesim no primeiro quadro que acerta; shake = tremor da tela.
-	# Nível 1, Juramento: garras rápidas, chicote da cauda, presa e explosão de energia à frente.
-	"f1_claw": {"anim": "jab", "frames": [1, 2], "area": Rect2(2, -20, 50, 36), "damage": 1},
-	"f1_claw2": {"anim": "cross", "frames": [1, 2], "area": Rect2(2, -22, 56, 38), "damage": 1},
-	"f1_tail": {"anim": "kick", "frames": [2, 4], "area": Rect2(-8, -24, 54, 34), "damage": 2, "knock": 260, "fx": "trail"},
-	"f1_fang": {"anim": "up_punch", "frames": [3, 5], "area": Rect2(-4, -60, 52, 56), "damage": 2},
-	"finisher_f1": {"anim": "charged", "frames": [3, 3], "area": Rect2(2, -24, 76, 34), "damage": 3, "knock": 320, "fx": "impact", "shake": 3.0},
-	# Nível 2, Ruptura (golpes inéditos, tools/noct_forms.lua): as três caudas e as garras do manto
-	# viram as armas. Chicote das caudas, garra do manto, pião das caudas e o esmagamento no chão.
-	"f2_tailwhip": {"anim": "tailwhip", "frames": [2, 4], "area": Rect2(-4, -46, 58, 52), "damage": 2},
-	"f2_claw": {"anim": "claw", "frames": [2, 4], "area": Rect2(4, -28, 54, 32), "damage": 2, "fx": "trail"},
-	"f2_tailspin": {"anim": "tailspin", "frames": [1, 5], "area": Rect2(-32, -18, 64, 38), "damage": 2, "knock": 200},
-	"finisher_f2": {"anim": "tailslam", "frames": [3, 5], "area": Rect2(0, -30, 66, 50), "damage": 4, "knock": 380, "fx": "shockwave", "shake": 5.0},
-	"f2_air_tailwhip": {"anim": "air_tailwhip", "frames": [1, 3], "area": Rect2(-4, -46, 58, 52), "damage": 2},
-	"f2_air_claw": {"anim": "air_claw", "frames": [2, 3], "area": Rect2(4, -16, 48, 44), "damage": 2, "knock": 200},
-	# Nível 3, Consumido (golpes inéditos): rajada das cinco caudas, garras em X, fogo de raposa,
+	# Forma Demoníaca (a raposa de nove caudas): rajada das cinco caudas, garras em X, fogo de raposa,
 	# a mordida da cabeça de raposa do manto e a explosão das cinco caudas.
 	"f3_barrage": {"anim": "barrage", "frames": [1, 6], "area": Rect2(0, -40, 64, 48), "damage": 2},
 	"f3_xclaws": {"anim": "xclaws", "frames": [2, 4], "area": Rect2(4, -36, 54, 42), "damage": 3, "fx": "trail"},
@@ -174,6 +160,9 @@ var cam: Camera2D
 var meta := {}
 # Forma carmesim (0 = normal, 1-3 = níveis). Por enquanto só troca as animações básicas.
 var crimson_level := 0
+## A única Forma Demoníaca: a raposa de nove caudas (arte c3_*, tools/noct_raposa.lua e
+## tools/noct_forms.lua). Transformado, crimson_level vale DEMON_FORM; senão, 0.
+const DEMON_FORM := 3
 var aura: Sprite2D            # brilho carmesim em volta do herói (criado em player.gd)
 var demon: Node2D             # Forma Demoníaca: barra da Fenda, transformação e visual (demon_form.gd)
 var crouching := false        # segurando baixo no chão
@@ -426,7 +415,7 @@ func _form_anim(anim: String) -> String:
 	return anim
 
 
-## Nome da animação atual sem o prefixo da forma carmesim ("c2_run" -> "run").
+## Nome da animação atual sem o prefixo da forma carmesim ("c3_run" -> "run").
 func _base_anim() -> String:
 	var a := String(sprite.animation)
 	if a.length() > 3 and a[0] == "c" and a[1].is_valid_int() and a[2] == "_":
