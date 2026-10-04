@@ -14,6 +14,8 @@ const GatoScript := preload("res://game/bosses/gato/gato.gd")
 const BringerScript := preload("res://game/bosses/bringer/bringer.gd")
 const DemonSlimeScript := preload("res://game/bosses/demon_slime/demon_slime.gd")
 const VelarioScript := preload("res://game/bosses/velario/velario.gd")
+const MirageScript := preload("res://game/enemies/enemy_mirage.gd")
+const LeechScript := preload("res://game/enemies/enemy_leech.gd")
 const CharmPickupScript := preload("res://game/world/charm_pickup.gd")
 const MemoryScript := preload("res://game/world/memory_pickup.gd")
 const TessaScript := preload("res://game/world/tessa.gd")
@@ -310,6 +312,12 @@ func load_room(name: String, entry: String) -> void:
 				"D":
 					if not GameState.defeated_bosses.has("bringer"):
 						boss = _spawn(BringerScript, feet, {})
+				"l":
+					_spawn(FlyerScript, feet - Vector2(0, TILE / 2.0), {"kind": "lament"})
+				"m":
+					_spawn(MirageScript, feet, {})
+				"s":
+					_spawn(LeechScript, feet, {})
 				"Y":
 					if not GameState.defeated_bosses.has("velario"):
 						boss = _spawn(VelarioScript, feet, {})

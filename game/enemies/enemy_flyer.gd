@@ -5,6 +5,8 @@ extends CharacterBody2D
 ## - skull (caveira de fogo): igual ao anjo, mas mais rápida e insistente.
 ## - eye (olho demoníaco): fica afastado e atira bolas de fogo na direção do herói.
 ## - grimoire (grimório voraz, Arquivo Submerso): paira acima do herói e mergulha mordendo.
+## - lament (Lamento, Lago Velado): espectro fraco e lento; chora quando o herói chega perto.
+##   Visual provisório: o fantasma desbotado ("tint").
 
 const Sprites := preload("res://game/core/sprites.gd")
 const ProjectileScript := preload("res://game/enemies/enemy_projectile.gd")
@@ -20,6 +22,8 @@ const KINDS := {
 	# "faces_right": o desenho olha para a direita (os dos pacotes olham para a esquerda).
 	"grimoire": {"size": Vector2(22, 22), "hp": 4, "speed": 65.0, "range": 220.0, "geo": 9,
 		"hover": Vector2(0, -44), "swoop": 1.9, "faces_right": true},
+	"lament": {"size": Vector2(18, 26), "hp": 3, "speed": 42.0, "range": 130.0, "geo": 4,
+		"tint": Color(0.62, 0.66, 0.85, 0.75), "wail": true},
 }
 const SWOOP_SPEED := 240.0
 const SWOOP_TIME := 0.55
@@ -34,6 +38,7 @@ var flash := 0.0
 var t := 0.0
 var swoop_timer := 0.0
 var swoop_cooldown := 1.0
+var wailed := false
 var sprite: AnimatedSprite2D
 
 
@@ -78,6 +83,9 @@ func _physics_process(delta: float) -> void:
 	var cfg: Dictionary = KINDS[kind]
 	var p: Node2D = level.player
 	var near: bool = p and global_position.distance_to(p.global_position) < cfg["range"]
+	if cfg.get("wail", false) and near and not wailed:
+		wailed = true
+		Audio.play_sfx("rise", 0.1, 0.45)   # o choro do Lamento
 
 	if swoop_timer > 0:
 		pass  # mergulhando: mantém a velocidade do rasante
@@ -108,7 +116,7 @@ func _physics_process(delta: float) -> void:
 	# Os desenhos dos pacotes olham para a esquerda; os com "faces_right", para a direita.
 	if absf(velocity.x) > 5:
 		sprite.flip_h = (velocity.x > 0) != cfg.get("faces_right", false)
-	sprite.modulate = Color(1, 0.35, 0.35) if flash > 0 else Color.WHITE
+	sprite.modulate = Color(1, 0.35, 0.35) if flash > 0 else cfg.get("tint", Color.WHITE)
 
 
 ## Bola de fogo do olho demoníaco, mirada no herói.

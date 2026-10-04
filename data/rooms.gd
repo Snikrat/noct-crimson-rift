@@ -10,6 +10,7 @@ extends RefCounted
 ##   H  carniçal em chamas   W  mago   A  anjo caído
 ##   K  cão infernal   Z  caveira de fogo   O  olho demoníaco   ~  lava
 ##   N  mineiro cristalizado (Minas da Fenda)   V  grimório voraz (Arquivo Submerso)
+##   l  Lamento   m  Miragem   s  Sanguessuga de alma (sobe até o teto acima da letra)   (Lago Velado)
 ##   G  chefe Gato Infernal   D  chefe Bringer of Death   M  chefe Demon Slime   Y  chefe Velário (Lago Velado)
 ##   C  amuleto escondido (qual amuleto: chave "charm" da sala)
 ##   X  parede carmesim: sólida; com o Passo da Fenda (depois do Bringer), dash contra ela atravessa
