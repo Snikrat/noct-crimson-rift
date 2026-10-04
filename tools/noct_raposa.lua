@@ -1,11 +1,25 @@
+<<<<<<< Updated upstream
+-- FORMAS CARMESIM do Noct demônio-raposa a partir da folha "Sprite de Guerreiro Raposa Demoníaco.png" (raiz do
+=======
 -- TESTE: o Noct demônio-raposa a partir da folha "Sprite de Guerreiro Raposa Demoníaco.png" (raiz do
+>>>>>>> Stashed changes
 -- projeto), convertido em pixel art na escala do jogo, o mais fiel possível à folha.
 -- Cada quadro da folha é recortado, reduzido (média por área, sem borrar o alfa), alinhado pelos pés
 -- e pelo centro do corpo no quadro do Noct (117x77, pés em 50,64) e levado para uma paleta curta
 -- tirada da própria folha (corpo e energia separados, para a pele, o cabelo e a roupa não sumirem no
+<<<<<<< Updated upstream
+-- vermelho). O nível 3 é a folha inteira (o leque de caudas); nos níveis 1 e 2 o leque sai e entram
+-- 1 e 3 caudas desenhadas no mesmo estilo (sheet_tail).
+-- Saída: art_source/personagem principal/noct_raposa.aseprite (tags c<n>_<linha>) e as tiras do jogo
+-- em assets/hero/crimson (parado, andar, correr, dash, abaixar e o finalizador do nível 3).
+-- Rodar DEPOIS de tools/noct_forms.lua, que grava as outras animações das formas.
+--
+-- Uso (na pasta do projeto): Aseprite.exe -b --script tools/noct_raposa.lua
+=======
 -- vermelho). Saída: art_source/personagem principal/noct_raposa_teste.aseprite (uma tag por linha).
 --
 -- Uso (na pasta do projeto): Aseprite.exe -b --script tools/noct_raposa_teste.lua
+>>>>>>> Stashed changes
 --   --script-param scale=0.272   tamanho (o Noct base tem 43 px de altura; o da folha, ~158)
 
 local root = app.fs.currentPath
@@ -26,7 +40,11 @@ local ROWS = {
 }
 
 -- Energia = vermelho dominante (inclusive o vinho escuro de dentro das caudas).
+<<<<<<< Updated upstream
+local function is_energy(r, g, b) return r > 24 and r > g * 2.4 and r > b * 1.05 end
+=======
 local function is_energy(r, g, b) return r > 40 and r > g * 2.4 and r > b * 1.05 end
+>>>>>>> Stashed changes
 
 -- Reduz um retângulo da folha: média por área (cor ponderada pelo alfa).
 local function shrink(x0, y0, x1, y1)
@@ -128,17 +146,120 @@ for _, row in ipairs(ROWS) do
         end
       end
     end
+<<<<<<< Updated upstream
+    -- Pés de verdade: o pixel mais baixo perto do centro do corpo (as botas são vermelho escuro e
+    -- contam como energia, então não dá para usar só o corpo).
+    local cx0 = n > 0 and sx // n or img.width // 2
+    for y = 0, img.height - 1 do
+      for x = math.max(0, cx0 - 9), math.min(img.width - 1, cx0 + 9) do
+        if body[y * img.width + x] then feet = math.max(feet, y) end
+      end
+    end
+    frames[#frames + 1] = { tag = row[1], i = i, img = img, body = body, eyes = eyes, feet = feet, cx = n > 0 and sx // n or img.width // 2 }
+=======
     frames[#frames + 1] = { tag = row[1], img = img, body = body, eyes = eyes, feet = feet, cx = n > 0 and sx // n or img.width // 2 }
+>>>>>>> Stashed changes
   end
 end
 local body_pal = median_cut(body_cols, tonumber(app.params.body_colors or 20))
 local energy_pal = median_cut(energy_cols, tonumber(app.params.energy_colors or 10))
 
+<<<<<<< Updated upstream
+-- Raiz das caudas: a lombar (borda de trás do corpo, na metade da altura).
+local function tail_root(body, w, h)
+  local top, bottom = nil, 0
+  for y = 0, h - 1 do for x = 0, w - 1 do if body[y * w + x] == 1 then top = top or y; bottom = y end end end
+  if not top then return nil end
+  local yr = top + math.floor((bottom - top) * 0.5)
+  for x = 0, w - 1 do if body[yr * w + x] == 1 then return x + 2, yr, top, bottom end end
+end
+
+-- Nos níveis 1 e 2 o leque da folha sai: fica só a energia dentro da largura do corpo em cada
+-- linha (o brilho do manto), com 2 px de folga, mais as botas.
+local function strip_fan(q, body, w, h, cx, feet)
+  local lo, hi = {}, {}
+  for y = 0, h - 1 do for x = 0, w - 1 do
+    if body[y * w + x] == 1 then
+      for dy = -2, 2 do
+        lo[y + dy] = math.min(lo[y + dy] or 1e9, x)
+        hi[y + dy] = math.max(hi[y + dy] or -1, x)
+      end
+    end
+  end end
+  for y = 0, h - 1 do for x = 0, w - 1 do
+    -- As botas (vermelho escuro, contam como energia) ficam: perto dos pés e do centro do corpo.
+    local boots = y >= feet - 9 and math.abs(x - cx) <= 13
+    if body[y * w + x] ~= 1 and not boots and (not lo[y] or x < lo[y] - 2 or x > hi[y] + 2) then q:drawPixel(x, y, pc.rgba(0, 0, 0, 0)) end
+  end end
+end
+
+-- CAUDA NO ESTILO DA FOLHA: larga como chama, borda carmesim acesa, miolo vinho escuro com veios
+-- claros correndo ao longo dela, ponta fina curvada e contorno quase preto. a0 -> a1 = ângulo do
+-- caminho (0 = para trás, pi/2 = para cima); k = quadro (balanço).
+local function sheet_tail(img, x0, y0, a0, a1, len, width, k, pal)
+  local W2, H2 = img.width, img.height
+  local pts = {}
+  local px, py = x0, y0
+  for s2 = 0, len do
+    local u = s2 / len
+    local th = a0 + (a1 - a0) * u + (u > 0.75 and (u - 0.75) * 2.4 or 0) + math.sin(k * 0.9 + u * 3) * 0.06
+    px, py = px - math.cos(th), py - math.sin(th)
+    local r = u < 0.35 and width * (0.45 + 0.55 * u / 0.35) or width * (1 - ((u - 0.35) / 0.65) ^ 1.4)
+    pts[#pts + 1] = { x = px, y = py, th = th, u = u, r = math.max(0.5, r) }
+  end
+  local mask, list = {}, {}
+  for _, p in ipairs(pts) do
+    local nx, ny = math.sin(p.th), -math.cos(p.th)
+    for l = -p.r, p.r + 0.01, 0.5 do
+      local qx, qy = math.floor(p.x + nx * l + 0.5), math.floor(p.y + ny * l + 0.5)
+      if qx >= 0 and qy >= 0 and qx < W2 and qy < H2 then
+        local key = qy * W2 + qx
+        local rec = mask[key]
+        if not rec then rec = { x = qx, y = qy, lat = 9 }; mask[key] = rec; list[#list + 1] = rec end
+        if math.abs(l / p.r) < math.abs(rec.lat) then rec.lat, rec.u = l / p.r, p.u end
+      end
+    end
+  end
+  for _, r in ipairs(list) do
+    local edge = false
+    for _, d in ipairs({ { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } }) do
+      if not mask[(r.y + d[2]) * W2 + r.x + d[1]] then edge = true end
+    end
+    local col
+    if edge or math.abs(r.lat) > 0.78 or r.u > 0.9 then col = pal.rim
+    elseif math.abs(r.lat) > 0.55 then col = pal.mid
+    else
+      -- Veios claros ao longo da cauda (como as listras de energia da folha).
+      local vein = math.floor((r.lat + 1) * 3 + r.u * 4 + k * 0.5) % 4 == 0 and r.u > 0.15
+      col = vein and pal.vein or (r.u < 0.2 and pal.mid or pal.dark)
+    end
+    img:drawPixel(r.x, r.y, col)
+  end
+end
+
+-- 2) Paleta, contorno escuro e montagem no quadro do Noct.
+local function lum(c) return c[1] * 0.3 + c[2] * 0.59 + c[3] * 0.11 end
+table.sort(energy_pal, function(p, q) return lum(p) < lum(q) end)
+local function rgba(c) return pc.rgba(c[1], c[2], c[3], 255) end
+local TAIL_PAL = {
+  dark = rgba(energy_pal[1]), mid = rgba(energy_pal[math.max(2, #energy_pal // 2 - 1)]),
+  vein = rgba(energy_pal[#energy_pal // 2 + 1]), rim = rgba(energy_pal[#energy_pal - 1]),
+}
+-- Caudas dos níveis 1 e 2: quantas e para onde apontam (ângulo final; 0 = para trás, pi/2 = cima).
+local LEVEL_TAILS = { { 2.0 }, { 1.25, 1.85, 2.45 } }-- 2) Paleta, contorno escuro e montagem no quadro do Noct.
+local OUTLINE = pc.rgba(18, 6, 16, 255)
+local EYE, EYE_HOT = pc.rgba(255, 48, 64, 255), pc.rgba(255, 190, 200, 255)
+local out = Sprite(CW, CH, ColorMode.RGB)
+local cells = {}   -- c<n>_<linha> -> quadros
+local ranges, first = {}, true
+for _, lv in ipairs({ 1, 2, 3 }) do
+=======
 -- 2) Paleta, contorno escuro e montagem no quadro do Noct.
 local OUTLINE = pc.rgba(18, 6, 16, 255)
 local EYE, EYE_HOT = pc.rgba(255, 48, 64, 255), pc.rgba(255, 190, 200, 255)
 local out = Sprite(CW, CH, ColorMode.RGB)
 local ranges, first = {}, true
+>>>>>>> Stashed changes
 for _, f in ipairs(frames) do
   local img, w = f.img, f.img.width
   local q = Image(img.width, img.height, ColorMode.RGB)
@@ -186,9 +307,34 @@ for _, f in ipairs(frames) do
       end
     end
   end
+<<<<<<< Updated upstream
+  local shift = 0
+  if LEVEL_TAILS[lv] then
+    strip_fan(q, f.body, w, q.height, f.cx, f.feet)
+    local xr, yr, top, bottom = tail_root(f.body, w, q.height)
+    if xr then
+      -- As caudas ficam atrás do corpo: desenha num quadro à parte e põe o corpo por cima.
+      local pad = 40
+      local big = Image(w + pad, q.height + pad, ColorMode.RGB)
+      local tails = LEVEL_TAILS[lv]
+      for t = #tails, 1, -1 do
+        local len = math.floor((bottom - top) * (lv == 1 and 1.0 or 0.92))
+        sheet_tail(big, xr + pad, yr + pad, 0.45, tails[t], len, lv == 1 and 7.5 or 6.5, f.i + t, TAIL_PAL)
+      end
+      big:drawImage(q, Point(pad, pad))
+      q = big
+      w = big.width
+      shift = pad
+    end
+  end
+  -- Contorno de 1 px por fora de tudo (lê bem em qualquer fundo).
+  local cell = Image(CW, CH, ColorMode.RGB)
+  local ox, oy = AX - f.cx - shift, AY - f.feet - shift
+=======
   -- Contorno de 1 px por fora de tudo (lê bem em qualquer fundo).
   local cell = Image(CW, CH, ColorMode.RGB)
   local ox, oy = AX - f.cx, AY - f.feet
+>>>>>>> Stashed changes
   for y = 0, q.height - 1 do
     for x = 0, w - 1 do
       if pc.rgbaA(q:getPixel(x, y)) > 0 then
@@ -208,8 +354,43 @@ for _, f in ipairs(frames) do
   fr.duration = 0.1
   out:newCel(out.layers[1], fr, cell, Point(0, 0))
   local r = ranges[#ranges]
+<<<<<<< Updated upstream
+  local name = "c" .. lv .. "_" .. f.tag
+  cells[name] = cells[name] or {}
+  table.insert(cells[name], cell)
+  if r and r[1] == name then r[3] = fr.frameNumber else ranges[#ranges + 1] = { name, fr.frameNumber, fr.frameNumber } end
+end
+end
+for _, r in ipairs(ranges) do local t = out:newTag(r[2], r[3]); t.name = r[1] end
+out:saveAs(app.fs.joinPath(root, "art_source", "personagem principal", "noct_raposa.aseprite"))
+
+-- 3) Tiras do jogo. Cada animação do jogo pega uma linha da folha (ou parte dela).
+local crimson_dir = app.fs.joinPath(root, "assets", "hero", "crimson")
+local function save_strip(key, list, cw, ch, dx, dy)
+  local strip = Image(cw * #list, ch, ColorMode.RGB)
+  for i, c in ipairs(list) do strip:drawImage(c, Point((i - 1) * cw + (dx or 0), dy or 0)) end
+  strip:saveAs(app.fs.joinPath(crimson_dir, key .. ".png"))
+end
+local function pick(list, ids) local t = {} for _, i in ipairs(ids) do t[#t + 1] = list[i] end return t end
+for _, lv in ipairs({ 1, 2, 3 }) do
+  local c = function(tag) return cells["c" .. lv .. "_" .. tag] end
+  save_strip("c" .. lv .. "_idle", c("idle"), CW, CH)
+  save_strip("c" .. lv .. "_walk", c("walk"), CW, CH)
+  save_strip("c" .. lv .. "_run", c("run"), CW, CH)
+  save_strip("c" .. lv .. "_dash", c("dash"), CW, CH)
+  save_strip("c" .. lv .. "_air_dash", c("dash"), CW, CH)
+  save_strip("c" .. lv .. "_crouch", pick(c("crouch"), { 1, 2 }), CW, CH)
+  save_strip("c" .. lv .. "_crouch_loop", c("crouch"), CW, CH)
+end
+-- Finalizador do nível 3 (o giro das caudas e a garra da folha), no quadro grande dos golpes
+-- (181x107, pés em 70,90 = quadro normal colado em 20,26).
+save_strip("c3_tailburst", cells["c3_attack"], 181, 107, 20, 26)
+print("raposa: " .. #frames .. " quadros da folha, paleta " .. #body_pal .. " corpo + " .. #energy_pal .. " energia")
+for k, v in pairs(TAIL_PAL) do print(k, string.format("#%06x", v & 0xffffff)) end
+=======
   if r and r[1] == f.tag then r[3] = fr.frameNumber else ranges[#ranges + 1] = { f.tag, fr.frameNumber, fr.frameNumber } end
 end
 for _, r in ipairs(ranges) do local t = out:newTag(r[2], r[3]); t.name = r[1] end
 out:saveAs(app.fs.joinPath(root, "art_source", "personagem principal", "noct_raposa_teste.aseprite"))
 print("teste raposa: " .. #frames .. " quadros, paleta " .. #body_pal .. " corpo + " .. #energy_pal .. " energia")
+>>>>>>> Stashed changes

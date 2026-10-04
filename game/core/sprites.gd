@@ -42,11 +42,13 @@ const CRIMSON_LEVELS := 3
 # Refeitas sobre o Noct base por tools/noct_forms.lua (aura, chifres, olhos; ver o documento da
 # Forma Demoníaca): mesmas animações básicas e velocidades do Noct normal.
 const CRIMSON_ANIMS := {
-	"idle": [2, true, "pingpong"], "walk": [7, true], "run": [14, true], "run_start": [12, false],
+	# Parado, andar, correr, dash e abaixado vêm da folha "Guerreiro Raposa Demoníaco"
+	# (tools/noct_raposa.lua): 6 quadros de chama em loop, por isso mais rápidos que os do Noct base.
+	"idle": [8, true], "walk": [10, true], "run": [12, true], "run_start": [12, false],
 	"run_stop": [10, false], "jump": [12, false], "fall": [8, false], "land": [14, false],
-	"double_jump": [30, false], "dash": [50, false], "air_dash": [50, false], "crouch": [4.5, false],
-	# Abaixado: depois de cN_crouch, a energia continua se mexendo (tools/noct_crouch_loop.lua).
-	"crouch_loop": [8, true],
+	"double_jump": [30, false], "dash": [30, false], "air_dash": [30, false], "crouch": [8, false],
+	# Abaixado: depois de cN_crouch, a energia continua se mexendo.
+	"crouch_loop": [6, true],
 	# Transição ao transformar (tools/noct_forms.lua): curva, o manto cresce, anel de choque.
 	"transform": [14, false],
 	"look_up": [14, false], "look_up_loop": [3, true],

@@ -222,42 +222,76 @@ local function ear(out, x, y, h, lean, k)
   end
 end
 
--- Caudas de raposa de ENERGIA saindo do baixo das costas: grossas no meio, curvando para cima,
--- com a ponta clara. count = quantas caudas (mais a cada nível); abrem em leque e balançam.
+-- Caudas de raposa de ENERGIA no estilo da folha "Guerreiro Raposa Demoníaco" (ver
+-- tools/noct_raposa.lua): largas como chama, borda carmesim acesa, miolo vinho escuro com veios,
+-- ponta fina curvada e contorno quase preto. Saem da lombar e sobem curvando; nível 1 = 1 cauda,
+-- nível 2 = 3, nível 3 = o leque de 9.
+local TAIL = { dark = hex("#3c0718"), mid = hex("#9f0c2b"), vein = hex("#db043c"), rim = hex("#ec2a58"), line = hex("#120610") }
+local TAIL_SET = {
+  [1] = { angles = { 2.0 }, width = 7.5, len = 1.0 },
+  [3] = { angles = { 1.25, 1.85, 2.45 }, width = 6.5, len = 0.92 },
+  -- Nível 3: leque largo em volta das costas, cada cauda quase reta saindo da raiz (como na folha).
+  [5] = { angles = { -0.5, -0.15, 0.2, 0.55, 0.9, 1.25, 1.6, 1.95, 2.3 }, width = 8.5, len = 0.85, fan = true },
+}
+local function sheet_tail(out, x0, y0, a0, a1, len, width, k)
+  local pts = {}
+  local px, py = x0, y0
+  for s2 = 0, len do
+    local u = s2 / len
+    local th = a0 + (a1 - a0) * u + (u > 0.75 and (u - 0.75) * 2.4 or 0) + math.sin(k * 0.9 + u * 3) * 0.06
+    px, py = px - math.cos(th), py - math.sin(th)
+    local r = u < 0.35 and width * (0.45 + 0.55 * u / 0.35) or width * (1 - ((u - 0.35) / 0.65) ^ 1.4)
+    pts[#pts + 1] = { x = px, y = py, th = th, u = u, r = math.max(0.5, r) }
+  end
+  local mask, list = {}, {}
+  for _, p in ipairs(pts) do
+    local nx, ny = math.sin(p.th), -math.cos(p.th)
+    for l = -p.r, p.r + 0.01, 0.5 do
+      local qx, qy = math.floor(p.x + nx * l + 0.5), math.floor(p.y + ny * l + 0.5)
+      if qx >= 0 and qy >= 0 and qx < W and qy < H then
+        local key = qy * W + qx
+        local rec = mask[key]
+        if not rec then rec = { x = qx, y = qy, lat = 9 }; mask[key] = rec; list[#list + 1] = rec end
+        if math.abs(l / p.r) < math.abs(rec.lat) then rec.lat, rec.u = l / p.r, p.u end
+      end
+    end
+  end
+  for _, r in ipairs(list) do
+    local edge = false
+    for _, d in ipairs({ { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } }) do
+      if not mask[(r.y + d[2]) * W + r.x + d[1]] then edge = true end
+    end
+    local col
+    if edge or r.u > 0.93 then col = TAIL.rim
+    elseif math.abs(r.lat) > 0.7 or r.u > 0.85 then col = TAIL.mid
+    else
+      local vein = math.floor((r.lat + 1) * 3 + r.u * 4 + k * 0.5) % 4 == 0 and r.u > 0.15
+      col = vein and TAIL.vein or (r.u < 0.2 and TAIL.mid or TAIL.dark)
+    end
+    put(out, r.x, r.y, col)
+  end
+  for _, r in ipairs(list) do
+    for _, d in ipairs({ { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } }) do
+      put_if_empty(out, r.x + d[1], r.y + d[2], TAIL.line)
+    end
+  end
+end
+
 local function tails(out, base, m, k, count, len)
-  -- Base das caudas na cintura (lombar), não no quadril: assim elas não ficam baixas, nem na corrida.
+  -- Raiz na lombar (borda de trás do corpo na cintura), como na folha.
   local y0 = m.top + 19
   local x0 = nil
   for x = 0, W - 1 do if opaque(base, x, y0) then x0 = x + 2; break end end
   if not x0 then return end
-  -- Desenha da cauda mais de trás para a da frente, para cada uma ter contorno próprio.
-  for t = count, 1, -1 do
-    local spread = count == 1 and 0.5 or (t - 1) / (count - 1)
-    local a0 = 0.05 + spread * 0.8                                    -- sai para trás e um pouco para cima
-    local fan = count >= 5 and 2.6 or 1.9                              -- no nível 3 o leque abre mais
-    local a1 = 0.6 + spread * fan + math.sin((k + t * 2) * 0.6) * 0.15 -- termina para cima, em leque
-    local l = len - math.floor(spread * 5)
-    local px, py = x0, y0 + (count > 1 and math.floor((1 - spread) * 3) or 0)
-    for s2 = 0, l do
-      local u = s2 / l
-      local theta = a0 + (a1 - a0) * u * u
-      px = px - math.cos(theta)
-      py = py - math.sin(theta)
-      local r = 0.4 + (count >= 5 and 0.85 or count > 1 and 1.1 or 1.4) * math.sin(math.pi * math.min(1, u * 1.1))
-      for dy = -2, 2 do
-        for dx = -2, 2 do
-          local d = math.sqrt(dx * dx + dy * dy)
-          local qx, qy = math.floor(px + dx + 0.5), math.floor(py + dy + 0.5)
-          if d <= r + 0.7 and d > r then
-            put_if_empty(out, qx, qy, C.blood)                    -- contorno da cauda
-          elseif d <= r then
-            local col = u > 0.82 and C.tip or (d < r - 0.8 and C.hot or C.crimson)
-            if u < 0.12 then col = C.blood end
-            put(out, qx, qy, col)
-          end
-        end
-      end
-    end
+  local set = TAIL_SET[count] or TAIL_SET[1]
+  local body_h = m.feet - m.top
+  local scale = len / 23          -- len vem menor na transição (as caudas crescem)
+  for t = #set.angles, 1, -1 do
+    local l = math.floor(body_h * set.len * scale + 0.5)
+    local a = set.angles[t]
+    local a0, a1 = 0.45, a
+    if set.fan then a0, a1 = a - 0.55, a + 0.15 end
+    if l >= 4 then sheet_tail(out, x0, y0, a0, a1, l, set.width * math.min(1, scale + 0.2), k + t) end
   end
 end
 
