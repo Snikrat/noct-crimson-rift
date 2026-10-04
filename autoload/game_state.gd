@@ -11,7 +11,7 @@ const Memories := preload("res://data/memories.gd")
 # "demon1": Forma Demoníaca Nível 1 (derrotar o Velário; game/player/demon_form.gd).
 const SKILLS := ["combo", "wave", "charged", "uppercut", "slam", "ultimate", "demon1"]
 const BOSSES := ["gato", "bringer", "demon_slime", "velario"]
-const DISCOVERIES := ["mountain_pass", "nameless_grave", "watcher_note", "mountain_memory", "bandit_captain", "evil_wizard", "knight_duel", "forest_cache", "ruins_memory", "tower_marks", "tower_view", "tower_bell", "well_note", "station_board", "station_tracks"]
+const DISCOVERIES := ["mountain_pass", "nameless_grave", "watcher_note", "mountain_memory", "bandit_captain", "evil_wizard", "knight_duel", "forest_cache", "ruins_memory", "tower_marks", "tower_view", "tower_bell", "well_note", "station_board", "station_tracks", "mines_journal", "archive_page"]
 # Marcos da história (Tessa, final).
 const FLAGS := ["tessa_saved", "tessa_jacket", "tessa_thanked", "tessa_cathedral", "ending_seen"]
 var save_path := SAVE_PATH      # o teste automático usa outro arquivo para não mexer no seu save
