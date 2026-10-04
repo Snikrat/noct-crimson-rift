@@ -69,13 +69,16 @@ const MOVES := {
 	"finisher": {"anim": "low_punch", "frames": [3, 4], "area": Rect2(-6, -26, 66, 46), "damage": 3, "knock": 340},
 	# --- Combos das formas carmesim (demônio-raposa); a animação vira a da forma (cN_) sozinha. ---
 	# fx = efeito carmesim no primeiro quadro que acerta; shake = tremor da tela.
-	# Forma Demoníaca (a raposa de nove caudas): rajada das cinco caudas, garras em X, fogo de raposa,
-	# a mordida da cabeça de raposa do manto e a explosão das cinco caudas.
-	"f3_barrage": {"anim": "barrage", "frames": [1, 6], "area": Rect2(0, -40, 64, 48), "damage": 2},
-	"f3_xclaws": {"anim": "xclaws", "frames": [2, 4], "area": Rect2(4, -36, 54, 42), "damage": 3, "fx": "trail"},
-	"f3_foxfire": {"anim": "foxfire", "frames": [5, 7], "area": Rect2(8, -30, 70, 28), "damage": 3, "fx": "impact"},
-	"f3_foxbite": {"anim": "foxbite", "frames": [3, 4], "area": Rect2(6, -34, 60, 34), "damage": 3, "knock": 300},
-	"finisher_f3": {"anim": "tailburst", "frames": [2, 5], "area": Rect2(-50, -46, 100, 66), "damage": 5, "knock": 420, "fx": "shockwave", "shake": 8.0},
+	# Forma Demoníaca (a raposa de nove caudas). No ar: rajada de caudas e fogo de raposa.
+	# Combo no chão, da folha de golpes (tools/noct_raposa.lua): garra, giro com a meia-lua, salto,
+	# espírito da raposa (a esfera vira uma raposa que avança) e a investida da raposa gigante.
+	"fox_claw": {"anim": "fox_claw", "frames": [1, 4], "area": Rect2(0, -32, 62, 42), "damage": 2, "fx": "trail"},
+	"fox_spin": {"anim": "fox_spin", "frames": [1, 4], "area": Rect2(-38, -52, 80, 72), "damage": 2, "knock": 200},
+	"fox_leap": {"anim": "fox_leap", "frames": [2, 4], "area": Rect2(-12, -60, 56, 70), "damage": 3},
+	"fox_spirit": {"anim": "fox_spirit", "frames": [3, 4], "area": Rect2(0, -32, 84, 42), "damage": 3, "knock": 300, "fx": "impact"},
+	"finisher_fox": {"anim": "fox_rush", "frames": [2, 3], "area": Rect2(-10, -42, 104, 58), "damage": 5, "knock": 420, "fx": "shockwave", "shake": 8.0},
+	# Segurando o ataque na forma: o giro das caudas e a garra da primeira folha.
+	"fox_burst": {"anim": "tailburst", "frames": [2, 5], "area": Rect2(-50, -46, 100, 66), "damage": 5, "knock": 420, "fx": "shockwave", "shake": 6.0},
 	"f3_air_barrage": {"anim": "air_barrage", "frames": [1, 5], "area": Rect2(0, -40, 64, 48), "damage": 2},
 	"f3_air_foxfire": {"anim": "air_foxfire", "frames": [2, 4], "area": Rect2(6, -14, 56, 46), "damage": 3, "fx": "impact"},
 	"charged": {"anim": "charged", "frames": [3, 3], "area": Rect2(2, -22, 66, 30), "damage": 4, "knock": 320},

@@ -117,6 +117,8 @@ func _run() -> void:
 				var anim: String = p.MOVES[mv]["anim"]
 				check("golpe %s da forma %d é inédito" % [mv, lv], not p.Sprites.HERO_ANIMS.has(anim) \
 					and p.sprite.sprite_frames.has_animation("c%d_%s" % [lv, anim]))
+	check("combo da forma no chão vem da folha de golpes", p.FORM_COMBOS[p.DEMON_FORM]["ground"] == ["fox_claw", "fox_spin", "fox_leap", "fox_spirit", "finisher_fox"])
+	check("segurar o ataque na forma faz o giro das caudas", p.sprite.sprite_frames.has_animation("c%d_tailburst" % p.DEMON_FORM) and p.MOVES.has("fox_burst"))
 	p.crimson_level = 0
 	p._cancel_move()
 	p.combo_timer = 0

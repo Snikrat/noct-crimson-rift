@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://by4vwnjrpu7q7"
-path="res://.godot/imported/c3_foxfire.png-483522346b44dd7cd6f51651fa15c055.ctex"
+uid="uid://dwjolx6y2xpc6"
+path="res://.godot/imported/c3_fox_rush.png-40282f35b425f057e59bc839a8852aea.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/hero/crimson/c3_foxfire.png"
-dest_files=["res://.godot/imported/c3_foxfire.png-483522346b44dd7cd6f51651fa15c055.ctex"]
+source_file="res://assets/hero/crimson/c3_fox_rush.png"
+dest_files=["res://.godot/imported/c3_fox_rush.png-40282f35b425f057e59bc839a8852aea.ctex"]
 
 [params]
 

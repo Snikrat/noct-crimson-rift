@@ -6,8 +6,11 @@
 -- vermelho). É a única Forma Demoníaca do jogo (c3_*: a folha inteira, com o leque de caudas).
 -- LEVEL_TAILS/strip_fan/sheet_tail fazem versões com menos caudas (níveis 1 e 2), que hoje não
 -- entram no jogo.
--- Saída: art_source/personagem principal/noct_raposa.aseprite (tags c<n>_<linha>) e as tiras do jogo
--- em assets/hero/crimson (parado, andar, correr, dash, abaixar e o finalizador do nível 3).
+-- A segunda folha ("... - golpes.png") tem os golpes do combo (garra, giro, salto, espírito da raposa
+-- e investida da raposa), que vão no quadro grande dos golpes (181x107, pés em 70,90).
+-- Saída: art_source/personagem principal/noct_raposa.aseprite e noct_raposa_golpes.aseprite (tags
+-- c3_<linha>) e as tiras do jogo em assets/hero/crimson (parado, andar, correr, dash, abaixar, o giro
+-- das caudas e os golpes c3_fox_*).
 -- Rodar DEPOIS de tools/noct_forms.lua, que grava as outras animações das formas.
 --
 -- Uso (na pasta do projeto): Aseprite.exe -b --script tools/noct_raposa.lua
@@ -15,7 +18,11 @@
 
 local root = app.fs.currentPath
 local pc = app.pixelColor
-local src = Image{ fromFile = app.fs.joinPath(root, "Sprite de Guerreiro Raposa Demoníaco.png") }
+local SRC = {
+  Image{ fromFile = app.fs.joinPath(root, "Sprite de Guerreiro Raposa Demoníaco.png") },
+  Image{ fromFile = app.fs.joinPath(root, "Sprite de Guerreiro Raposa Demoníaco - golpes.png") },
+}
+local src = SRC[1]
 local S = tonumber(app.params.scale or 0.272)
 local CW, CH, AX, AY = 117, 77, 50, 64
 local BODY_SHARE = tonumber(app.params.body_share or 0.3)
@@ -28,7 +35,15 @@ local ROWS = {
   { "attack", 609, 802, { { 12, 234 }, { 252, 460 }, { 472, 702 }, { 708, 936 }, { 940, 1204 }, { 1206, 1436 } } },
   { "dash", 814, 941, { { 18, 251 }, { 275, 511 }, { 517, 764 }, { 767, 1031 }, { 1032, 1429 } } },
   { "crouch", 947, 1078, { { 118, 375 }, { 422, 677 }, { 721, 956 }, { 995, 1258 } } },
+  -- Folha de golpes (quadro grande).
+  { "fox_claw", 8, 192, { { 16, 222 }, { 224, 464 }, { 466, 734 }, { 736, 951 }, { 953, 1211 }, { 1213, 1433 } }, sheet = 2 },
+  { "fox_spin", 194, 391, { { 14, 225 }, { 227, 487 }, { 489, 712 }, { 714, 950 }, { 952, 1194 }, { 1196, 1439 } }, sheet = 2 },
+  { "fox_leap", 393, 600, { { 10, 222 }, { 224, 452 }, { 454, 699 }, { 701, 934 }, { 936, 1193 }, { 1195, 1439 } }, sheet = 2 },
+  { "fox_spirit", 602, 801, { { 15, 231 }, { 233, 465 }, { 467, 706 }, { 708, 957 }, { 959, 1224 }, { 1226, 1439 } }, sheet = 2 },
+  { "fox_rush", 803, 1024, { { 14, 247 }, { 249, 469 }, { 471, 769 }, { 771, 1191 }, { 1193, 1433 } }, sheet = 2 },
 }
+-- Quadro grande dos golpes: os pés no mesmo ponto do quadro normal colado em (20, 26).
+local BW, BH, BAX, BAY = 181, 107, 70, 90
 
 -- Energia = vermelho dominante (inclusive o vinho escuro de dentro das caudas).
 local function is_energy(r, g, b) return r > 40 and r > g * 2.4 and r > b * 1.05 end
@@ -144,7 +159,8 @@ end
 -- 1) Reduz todos os quadros.
 local frames = {}
 local body_cols, energy_cols = {}, {}
-for _, row in ipairs(ROWS) do
+for ri, row in ipairs(ROWS) do
+  src = SRC[row.sheet or 1]
   for i, fx in ipairs(row[4]) do
     local img, body, eyes, core = shrink(fx[1], row[2], fx[2], row[3])
     -- Pés = linha mais baixa com corpo; centro = média x do corpo.
@@ -168,7 +184,29 @@ for _, row in ipairs(ROWS) do
         if body[y * img.width + x] then feet = math.max(feet, y) end
       end
     end
-    frames[#frames + 1] = { tag = row[1], i = i, img = img, body = body, core = core, eyes = eyes, feet = feet, cx = n > 0 and sx // n or img.width // 2 }
+    frames[#frames + 1] = { tag = row[1], row = ri, big = row.sheet == 2, nbody = n, i = i, img = img, body = body, core = core, eyes = eyes, feet = feet, cx = n > 0 and sx // n or img.width // 2 }
+  end
+end
+-- Quadros em que o corpo quase some (o Noct vira o espírito da raposa): ficam alinhados pela posição
+-- média do corpo nos outros quadros da mesma linha, e pelos pés mais baixos da linha.
+do
+  local stats = {}
+  for _, f in ipairs(frames) do
+    local st = stats[f.row] or { n = {}, cx = 0, k = 0, feet = 0 }
+    stats[f.row] = st
+    st.n[#st.n + 1] = f.nbody
+  end
+  for _, st in pairs(stats) do table.sort(st.n); st.med = st.n[(#st.n + 1) // 2] end
+  for _, f in ipairs(frames) do
+    local st = stats[f.row]
+    f.ghost = f.nbody < st.med * 0.35
+    if not f.ghost then st.cx, st.k, st.feet = st.cx + f.cx, st.k + 1, math.max(st.feet, f.feet) end
+  end
+  for _, f in ipairs(frames) do
+    local st = stats[f.row]
+    if f.ghost and st.k > 0 then f.cx, f.feet = st.cx // st.k, st.feet end
+    -- Nos golpes o chão da linha vale para todos os quadros (o salto sobe de verdade).
+    if f.big and st.feet > 0 then f.feet = st.feet end
   end
 end
 local body_pal = median_cut(body_cols, tonumber(app.params.body_colors or 20))
@@ -256,8 +294,10 @@ local LEVEL_TAILS = { { 2.0 }, { 1.25, 1.85, 2.45 } }
 local OUTLINE = pc.rgba(18, 6, 16, 255)
 local EYE, EYE_HOT = pc.rgba(255, 48, 64, 255), pc.rgba(255, 190, 200, 255)
 local out = Sprite(CW, CH, ColorMode.RGB)
+local out_big = Sprite(BW, BH, ColorMode.RGB)
 local cells = {}   -- c<n>_<linha> -> quadros
 local ranges, first = {}, true
+local ranges_big, first_big = {}, true
 for _, lv in ipairs({ 3 }) do
 for _, f in ipairs(frames) do
   local img, w = f.img, f.img.width
@@ -326,8 +366,10 @@ for _, f in ipairs(frames) do
     end
   end
   -- Contorno de 1 px por fora de tudo (lê bem em qualquer fundo).
-  local cell = Image(CW, CH, ColorMode.RGB)
-  local ox, oy = AX - f.cx - shift, AY - f.feet - shift
+  local cw, ch, ax, ay = CW, CH, AX, AY
+  if f.big then cw, ch, ax, ay = BW, BH, BAX, BAY end
+  local cell = Image(cw, ch, ColorMode.RGB)
+  local ox, oy = ax - f.cx - shift, ay - f.feet - shift
   for y = 0, q.height - 1 do
     for x = 0, w - 1 do
       if pc.rgbaA(q:getPixel(x, y)) > 0 then
@@ -335,26 +377,31 @@ for _, f in ipairs(frames) do
           local nx, ny = x + d[1], y + d[2]
           if nx < 0 or ny < 0 or nx >= w or ny >= q.height or pc.rgbaA(q:getPixel(nx, ny)) == 0 then
             local cx, cy = nx + ox, ny + oy
-            if cx >= 0 and cy >= 0 and cx < CW and cy < CH then cell:drawPixel(cx, cy, OUTLINE) end
+            if cx >= 0 and cy >= 0 and cx < cw and cy < ch then cell:drawPixel(cx, cy, OUTLINE) end
           end
         end
       end
     end
   end
   cell:drawImage(q, Point(ox, oy))
-  local fr = first and out.frames[1] or out:newEmptyFrame()
-  first = false
+  local spr, rgs = out, ranges
+  if f.big then spr, rgs = out_big, ranges_big end
+  local fr
+  if f.big then fr = first_big and spr.frames[1] or spr:newEmptyFrame(); first_big = false
+  else fr = first and spr.frames[1] or spr:newEmptyFrame(); first = false end
   fr.duration = 0.1
-  out:newCel(out.layers[1], fr, cell, Point(0, 0))
-  local r = ranges[#ranges]
+  spr:newCel(spr.layers[1], fr, cell, Point(0, 0))
+  local r = rgs[#rgs]
   local name = "c" .. lv .. "_" .. f.tag
   cells[name] = cells[name] or {}
   table.insert(cells[name], cell)
-  if r and r[1] == name then r[3] = fr.frameNumber else ranges[#ranges + 1] = { name, fr.frameNumber, fr.frameNumber } end
+  if r and r[1] == name then r[3] = fr.frameNumber else rgs[#rgs + 1] = { name, fr.frameNumber, fr.frameNumber } end
 end
 end
 for _, r in ipairs(ranges) do local t = out:newTag(r[2], r[3]); t.name = r[1] end
 out:saveAs(app.fs.joinPath(root, "art_source", "personagem principal", "noct_raposa.aseprite"))
+for _, r in ipairs(ranges_big) do local t = out_big:newTag(r[2], r[3]); t.name = r[1] end
+out_big:saveAs(app.fs.joinPath(root, "art_source", "personagem principal", "noct_raposa_golpes.aseprite"))
 
 -- 3) Tiras do jogo. Cada animação do jogo pega uma linha da folha (ou parte dela).
 local crimson_dir = app.fs.joinPath(root, "assets", "hero", "crimson")
@@ -376,6 +423,10 @@ for _, lv in ipairs({ 3 }) do
 end
 -- Finalizador do nível 3 (o giro das caudas e a garra da folha), no quadro grande dos golpes
 -- (181x107, pés em 70,90 = quadro normal colado em 20,26).
-save_strip("c3_tailburst", cells["c3_attack"], 181, 107, 20, 26)
+save_strip("c3_tailburst", cells["c3_attack"], BW, BH, BAX - AX, BAY - AY)
+-- Golpes do combo novo (folha de golpes).
+for _, k in ipairs({ "fox_claw", "fox_spin", "fox_leap", "fox_spirit", "fox_rush" }) do
+  save_strip("c3_" .. k, cells["c3_" .. k], BW, BH)
+end
 print("raposa: " .. #frames .. " quadros da folha, paleta " .. #body_pal .. " corpo + " .. #energy_pal .. " energia")
 for k, v in pairs(TAIL_PAL) do print(k, string.format("#%06x", v & 0xffffff)) end

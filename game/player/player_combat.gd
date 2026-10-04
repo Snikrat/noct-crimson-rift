@@ -33,7 +33,7 @@ func _handle_attack_input(delta: float) -> void:
 	elif Input.is_action_just_released("attack"):
 		if charging:
 			charging = false
-			_start_move("charged")
+			_start_move("fox_burst" if crimson_level > 0 else "charged")
 			velocity.x = 0
 		attack_held = 0.0
 
@@ -54,7 +54,7 @@ func _start_combo_hit() -> void:
 ## Combo da Forma Demoníaca (a única forma, crimson_level = DEMON_FORM), no chão e no ar; golpes
 ## que só existem nela (ver MOVES).
 const FORM_COMBOS := {
-	3: {"ground": ["f3_barrage", "f3_xclaws", "f3_foxfire", "f3_foxbite", "finisher_f3"],
+	3: {"ground": ["fox_claw", "fox_spin", "fox_leap", "fox_spirit", "finisher_fox"],
 		"air": ["f3_air_barrage", "f3_air_foxfire", "f3_air_barrage"]},
 }
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ddmypla61oitn"
-path="res://.godot/imported/c3_foxbite.png-eade5c7926a8551de7ef159b244c33cf.ctex"
+uid="uid://b1vu6lcv13bmj"
+path="res://.godot/imported/c3_fox_leap.png-114c07654a52480342e2dd22ec3e03b0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/hero/crimson/c3_foxbite.png"
-dest_files=["res://.godot/imported/c3_foxbite.png-eade5c7926a8551de7ef159b244c33cf.ctex"]
+source_file="res://assets/hero/crimson/c3_fox_leap.png"
+dest_files=["res://.godot/imported/c3_fox_leap.png-114c07654a52480342e2dd22ec3e03b0.ctex"]
 
 [params]
 

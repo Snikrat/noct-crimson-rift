@@ -431,54 +431,6 @@ local function body_frame(pose, level, k, n, tails_on)
   return big, b
 end
 
--- Traço grosso de energia saindo de (x0, y0), com o ângulo curvando de a0 até a1 (0 = para trás,
--- pi/2 = para cima, pi = para a frente). rmax = grossura no meio; ponta clara.
-local function energy_stroke(img, x0, y0, a0, a1, len, rmax, curve)
-  local px, py = x0, y0
-  for s2 = 0, len do
-    local u = s2 / math.max(1, len)
-    local theta = a0 + (a1 - a0) * u ^ (curve or 2)
-    px = px - math.cos(theta)
-    py = py - math.sin(theta)
-    local r = 0.4 + rmax * math.sin(math.pi * math.min(1, u * 1.1))
-    for dy = -3, 3 do
-      for dx = -3, 3 do
-        local d = math.sqrt(dx * dx + dy * dy)
-        local qx, qy = math.floor(px + dx + 0.5), math.floor(py + dy + 0.5)
-        if d <= r + 0.7 and d > r then
-          if bempty(img, qx, qy) then bput(img, qx, qy, C.blood) end
-        elseif d <= r then
-          bput(img, qx, qy, u > 0.82 and C.tip or (d < r - 0.8 and C.hot or C.crimson))
-        end
-      end
-    end
-  end
-  return px, py
-end
-
--- Rastro do golpe: arco fino e claro por onde a ponta passou.
-local function arc(img, cx, cy, r, a0, a1, col)
-  local steps = math.max(4, math.floor(math.abs(a1 - a0) * r))
-  for s = 0, steps do
-    local a = a0 + (a1 - a0) * s / steps
-    local x = math.floor(cx - math.cos(a) * r + 0.5)
-    local y = math.floor(cy - math.sin(a) * r + 0.5)
-    if bempty(img, x, y) then bput(img, x, y, col) end
-  end
-end
-
--- Garra de energia: braço de energia saindo do ombro e três unhas claras na ponta.
-local function claw(img, x0, y0, ang, len)
-  if len <= 0 then return end
-  local ex, ey = energy_stroke(img, x0, y0, ang, ang, len, 1.6)
-  for c = -1, 1 do
-    local a = ang + c * 0.5
-    for i = 1, 5 do
-      bput(img, math.floor(ex - math.cos(a) * i + 0.5), math.floor(ey - math.sin(a) * i + 0.5), i >= 3 and C.tip or C.pink)
-    end
-  end
-end
-
 -- Bola de fogo de raposa (com rastro opcional para trás).
 local function orb(img, cx, cy, r, trail)
   for i = 1, trail or 0 do
@@ -492,15 +444,6 @@ local function orb(img, cx, cy, r, trail)
         bput(img, cx + dx, cy + dy, d < r * 0.4 and C.tip or (d < r * 0.75 and C.pink or (d <= r - 0.3 and C.hot or C.blood)))
       end
     end
-  end
-end
-
--- Anel de choque (elipse).
-local function ring(img, cx, cy, r, col, flat)
-  for a = 0, 359, 3 do
-    local x = math.floor(cx + math.cos(math.rad(a)) * r + 0.5)
-    local y = math.floor(cy + math.sin(math.rad(a)) * r * (flat or 0.7) + 0.5)
-    if bempty(img, x, y) then bput(img, x, y, col) end
   end
 end
 
@@ -647,58 +590,6 @@ local function tail_hit(img, x, y)
   end
 end
 
--- CABEÇA DE RAPOSA do manto, de perfil olhando para a frente: orelhas altas e pontudas para trás,
--- focinho comprido e fino, olho puxado, bochecha com tufos para trás, mandíbula que abre.
-local FOX_TOP = {
-  ".....o......o............",
-  "....oho....oho...........",
-  "....ohho...ohho..........",
-  "...ohhpo..ohhhpo.........",
-  "...ohhhpo.ohhhhpo........",
-  "..ohhhhhoohhhhhhpo.......",
-  "..ohhhhhhhhhhpppphoo.....",
-  ".ohhhhhhhhhhhhhpppphoo...",
-  ".ohhhhhhhkehhhhhhhpppphoo",
-  "ohhhhhhhhhkkhhhhhhhhhhhoo",
-  "ohrhhhhhhhhhhhhhhhhhhhhkk",
-  "orrhhhhhhhhhhthtthtthtoo.",
-}
-local FOX_JAW = {
-  "orrhhhhhhhhhhhtthtthoo...",
-  "owrrhhhhhhhhhhhhoooo.....",
-  "owwrrrhhhhhhooo..........",
-  ".owwwrrrooo..............",
-  "owwwwroo.................",
-  ".owoowo..................",
-  "..o..o...................",
-}
-local FOX_COL = { o = "deep", h = "hot", r = "crimson", p = "pink", t = "tip", e = "eye3", k = "dark", w = "tip" }
-local function stamp(img, rows, x, y)
-  for j, row in ipairs(rows) do
-    for i = 1, #row do
-      local ch = row:sub(i, i)
-      if ch ~= "." then bput(img, x + i - 1, y + j - 1, C[FOX_COL[ch]]) end
-    end
-  end
-end
--- (x, y) = nuca da cabeça, na altura do olho; open = px de boca aberta.
-local function fox_head(img, x, y, open)
-  local top_y = y - 9
-  local jaw_y = top_y + #FOX_TOP + open
-  -- Boca aberta: a parte de trás da cabeça liga as duas mandíbulas (a dobradiça); escuro por dentro,
-  -- com uma luz no fundo da garganta.
-  for j = 0, open - 1 do
-    for i = 0, 11 - j // 2 do bput(img, x + i, top_y + #FOX_TOP + j, i == 0 and C.deep or (i < 4 and C.crimson or C.hot)) end
-    for i = 12, 22 - j // 2 do bput(img, x + i, top_y + #FOX_TOP + j, (i < 15 and j == open // 2) and C.pink or C.dark) end
-  end
-  stamp(img, FOX_JAW, x, jaw_y)
-  stamp(img, FOX_TOP, x, top_y)
-  -- Dentes de baixo também apontam para cima quando a boca abre.
-  if open > 1 then
-    for i = 15, 19, 2 do bput(img, x + i, jaw_y - 1, C.tip) end
-  end
-end
-
 -- Monta um golpe: para cada pose, o corpo com o manto, e por cima o desenho do ataque.
 local function make_move(level, poses, tails_on, draw)
   local frames = {}
@@ -736,71 +627,6 @@ end
 -- ===== FORMA DEMONÍACA (a raposa de nove caudas): rajada de caudas, garras em X, fogo de raposa e
 -- a cabeça da raposa =====
 NEW_MOVES[3] = {
-  barrage = function(level)
-    return make_move(level, rep(P("jab", 1), 7), false, function(img, m, i) barrage_frame(img, m, i, i) end)
-  end,
-  -- Garras em X: duas garras do manto cruzam à frente (uma de cima, outra de baixo).
-  xclaws = function(level)
-    local poses = { P("cross", 1), P("cross", 2), P("cross", 2), P("cross", 3), P("cross", 3), P("cross", 4) }
-    local len = { 6, 14, 26, 34, 24, 8 }
-    return make_move(level, poses, true, function(img, m, i)
-      claw(img, m.front, m.top + 6, math.pi + 0.45 - i * 0.1, len[i])
-      claw(img, m.front, m.top + 20, math.pi - 0.45 + i * 0.1, len[i])
-      if i == 4 then ring(img, m.front + 30, m.top + 13, 8, C.tip) end
-    end)
-  end,
-  -- Fogo de raposa: três bolas giram em volta do Noct e disparam à frente.
-  foxfire = function(level)
-    local poses = {}
-    for i, img in ipairs(frames_of("cast")) do poses[i] = { img = img, head = head_visible("cast", i) } end
-    return make_move(level, poses, true, function(img, m, i)
-      local cy = m.top + 18
-      local n = #poses
-      for t = 0, 2 do
-        if i <= n - 3 then
-          local a = i * 0.9 + t * 2.09
-          orb(img, m.cx + math.floor(math.cos(a) * 17), cy + math.floor(math.sin(a) * 11), 2)
-        else
-          orb(img, m.front + (i - n + 3) * 16 + t * 5, cy - 5 + t * 5, 3, 6)
-        end
-      end
-    end)
-  end,
-  -- Mordida da raposa: o manto forma uma cabeça de raposa que avança de boca aberta e fecha.
-  foxbite = function(level)
-    local d = frames_of("dash")
-    local poses = {}
-    local pick = { 1, 2, 3, #d, #d, #d, #d }
-    for i, f in ipairs(pick) do poses[i] = { img = d[f], head = head_visible("dash", f) } end
-    local open = { 0, 3, 6, 8, 0, 0, 0 }
-    local reach = { -6, 0, 8, 14, 20, 12, 2 }
-    return make_move(level, poses, true, function(img, m, i)
-      local hx, hy = m.front + reach[i], m.top + 8
-      -- Pescoço de energia ligando o manto à cabeça.
-      energy_stroke(img, m.front - 4, m.top + 14, math.pi + 0.2, math.pi - 0.1, math.max(4, reach[i] + 8), 3.0)
-      fox_head(img, hx, hy, open[i])
-      if i == 5 then
-        ring(img, hx + 30, hy + 3, 7, C.tip)
-        tail_hit(img, hx + 30, hy + 3)
-      end
-    end)
-  end,
-  -- Finalizador: as cinco caudas se abrem em volta do corpo inteiro e explodem em anéis.
-  tailburst = function(level)
-    local poses = { P("crouch", 1), P("crouch", -1), P("crouch", -1), P("idle", 1), P("idle", 1), P("idle", 1), P("idle", 1), P("idle", 1) }
-    return make_move(level, poses, false, function(img, m, i)
-      local cy = m.top + 20
-      local grow = math.min(1, i / 4)
-      for t = 0, 4 do
-        local a = 0.35 + t * 0.6 + (i >= 4 and 0 or (4 - i) * 0.05)
-        fox_tail(img, m.cx, cy, a, a + 0.35, math.floor(16 + 26 * grow), 2.4 + grow, 1, false, i + t)
-      end
-      if i >= 4 and i <= 7 then
-        ring(img, m.cx, cy, 16 + (i - 4) * 11, C.tip)
-        ring(img, m.cx, cy, 11 + (i - 4) * 11, C.hot)
-      end
-    end)
-  end,
   -- No ar: rajada de caudas.
   air_barrage = function(level)
     return make_move(level, rep(P("air_punch", 1), 6), false, function(img, m, i) barrage_frame(img, m, i, i + 20) end)

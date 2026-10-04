@@ -53,8 +53,10 @@ const CRIMSON_ANIMS := {
 	"transform": [14, false],
 	"look_up": [14, false], "look_up_loop": [3, true],
 	# Golpes da Forma Demoníaca (tools/noct_forms.lua), em quadro maior (crimson.json).
-	"barrage": [18, false], "xclaws": [16, false], "foxfire": [18, false], "foxbite": [16, false],
 	"tailburst": [14, false], "air_barrage": [20, false], "air_foxfire": [18, false],
+	# Combo da folha de golpes (tools/noct_raposa.lua).
+	"fox_claw": [14, false], "fox_spin": [16, false], "fox_leap": [14, false], "fox_spirit": [12, false],
+	"fox_rush": [11, false],
 }
 
 
