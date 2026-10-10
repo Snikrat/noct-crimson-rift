@@ -90,13 +90,12 @@ const THEMES := {
 		"layers": [],
 	},
 	"town": {
-		"tileset": TOWN_ENV + "layers/tileset.png",
-		"blocks": [320], "block_w": 2, "top": 136, "rows": 2,
-		"rock": Color("1a1320"), "side": Color("3b2a3a"), "clear": Color("854a62"),
+		"tileset": "res://assets/areas/pedravelha/tileset.png", "wang_platform": true,
+		"rock": Color("1a1929"), "side": Color("343247"), "clear": Color("39364f"),
 		"music": MUSIC_TOWN,
 		"layers": [
-			{"tex": [TOWN_ENV + "layers/background.png"], "scroll": 0.05, "align": "center"},
-			{"tex": [TOWN_ENV + "layers/middleground.png"], "scroll": 0.3, "align": "center"},
+			{"tex": ["res://assets/areas/pedravelha/background.png"], "scroll": 0.05, "align": "center", "tint": Color(0.65, 0.65, 0.78)},
+			{"tex": ["res://assets/areas/pedravelha/middleground.png"], "scroll": 0.22, "align": "bottom", "tint": Color(0.6, 0.6, 0.75, 0.5)},
 		],
 	},
 	"swamp": {

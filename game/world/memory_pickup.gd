@@ -14,6 +14,10 @@ var t := 0.0
 
 
 func _ready() -> void:
+	if level.room_name == "town":
+		var effect := preload("res://game/world/pixel_effect.gd").new()
+		effect.setup("mira", Vector2(10, 6))
+		add_child(effect)
 	var glow := Fx.glow(Color(1, 0.15, 0.35), 30, 0.6)
 	glow.z_index = 0
 	glow.show_behind_parent = true

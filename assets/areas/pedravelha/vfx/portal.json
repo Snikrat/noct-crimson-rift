@@ -1,0 +1,339 @@
+{
+ "frames": [
+  {
+   "filename": "pedravelha-portal 0.png",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-portal 1.png",
+   "frame": {
+    "x": 32,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-portal 2.png",
+   "frame": {
+    "x": 64,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-portal 3.png",
+   "frame": {
+    "x": 96,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-portal 4.png",
+   "frame": {
+    "x": 0,
+    "y": 64,
+    "w": 32,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-portal 5.png",
+   "frame": {
+    "x": 32,
+    "y": 64,
+    "w": 32,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-portal 6.png",
+   "frame": {
+    "x": 64,
+    "y": 64,
+    "w": 32,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-portal 7.png",
+   "frame": {
+    "x": 96,
+    "y": 64,
+    "w": 32,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-portal 8.png",
+   "frame": {
+    "x": 0,
+    "y": 128,
+    "w": 32,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-portal 9.png",
+   "frame": {
+    "x": 32,
+    "y": 128,
+    "w": 32,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-portal 10.png",
+   "frame": {
+    "x": 64,
+    "y": 128,
+    "w": 32,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-portal 11.png",
+   "frame": {
+    "x": 96,
+    "y": 128,
+    "w": 32,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 125
+  }
+ ],
+ "meta": {
+  "app": "PixelLab VFX Creator",
+  "image": "pedravelha-portal.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 128,
+   "h": 192
+  },
+  "scale": "1",
+  "anchor": {
+   "kind": "origin",
+   "x": 16,
+   "y": 32
+  },
+  "frameTags": [
+   {
+    "name": "pedravelha-portal",
+    "from": 0,
+    "to": 11,
+    "direction": "forward"
+   }
+  ]
+ }
+}

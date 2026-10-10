@@ -5,9 +5,17 @@ const SPRITE := preload("res://assets/props/bench.png")  # fonte: art_source/vfx
 const Fx := preload("res://game/core/fx.gd")
 
 var level
+var bench_texture: Texture2D = SPRITE
+var bench_region := Rect2(0, 0, 48, 32)
+var bench_scale := 1.0
 
 
 func _ready() -> void:
+	if level.room.has("bench_texture"):
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		bench_texture = load(level.room["bench_texture"])
+		bench_region = bench_texture.get_image().get_used_rect()
+		bench_scale = level.room.get("bench_scale", 1.0)
 	add_to_group("interactables")
 	# Brilho suave na joia carmesim do encosto.
 	var glow := Fx.glow(Color(1, 0.15, 0.35), 10, 0.35)
@@ -34,8 +42,14 @@ func rest_here() -> void:
 
 
 func interact() -> void:
+	if level.room.has("bench_texture"):
+		var effect := preload("res://game/world/pixel_effect.gd").new()
+		effect.setup("bench-rest", Vector2(10, 14), false)
+		effect.position = position - Vector2(0, 3)
+		level.world.add_child(effect)
 	level.rest_at_bench()
 
 
 func _draw() -> void:
-	draw_texture(SPRITE, Vector2(-24, -32))
+	var size := bench_region.size * bench_scale
+	draw_texture_rect_region(bench_texture, Rect2(Vector2(-size.x / 2.0, -size.y), size), bench_region)

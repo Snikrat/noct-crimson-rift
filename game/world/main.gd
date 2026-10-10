@@ -427,18 +427,35 @@ func _build_props() -> void:
 		s.texture = tex
 		s.centered = false
 		var tex_size := tex.get_size()
-		if p.size() > 3:
+		if room.get("trim_props", false):
+			s.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+			var visible_rect := tex.get_image().get_used_rect()
+			s.region_enabled = true
+			s.region_rect = visible_rect
+			tex_size = visible_rect.size
+		if p.size() > 3 and p[3] is Rect2:
 			s.region_enabled = true
 			s.region_rect = p[3]
 			tex_size = p[3].size
 		var factor: float = p[4] if p.size() > 4 else 1.0
 		s.scale = Vector2.ONE * factor
 		tex_size *= factor
-		s.position = Vector2(p[1] - tex_size.x / 2.0, p[2] * TILE - tex_size.y)
+		var sinks: Dictionary = room.get("prop_sink", {})
+		var sink: float = sinks.get(path.get_file(), sinks.get("default", 0))
+		s.position = Vector2(p[1] - tex_size.x / 2.0, p[2] * TILE - tex_size.y + sink)
 		if p.size() > 5:
 			s.modulate = p[5]
 		s.z_index = -1
 		world.add_child(s)
+	for effect in room.get("ambient_effects", []):
+		var clip := preload("res://game/world/pixel_effect.gd").new()
+		clip.setup(effect[0], effect[2])
+		clip.position = effect[1]
+		clip.modulate.a = effect[3]
+		clip.cycle_gap = effect[4] if effect.size() > 4 else 0.0
+		clip.requires_rift = effect[5] if effect.size() > 5 else false
+		clip.level = self
+		world.add_child(clip)
 
 
 func _spawn(script: GDScript, feet: Vector2, props: Dictionary) -> Node2D:

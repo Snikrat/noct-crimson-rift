@@ -106,7 +106,8 @@ func _run() -> void:
 	check("comentário de chegada passa com o botão", not main.is_dialog_open(), "%s %d/%d %s" % [main.hud.dialog.speaker, main.hud.dialog.index, main.hud.dialog.lines.size(), main.hud.dialog.lines])
 
 	# --- Diálogo ---
-	p.global_position.x = 280
+	var zeno = get_nodes_in_group("interactables").filter(func(n): return "npc_name" in n and n.npc_name == "Velho Zeno")[0]
+	p.global_position.x = zeno.global_position.x
 	await wait(5)
 	await tap("up")
 	check("conversa com NPC abre", main.is_dialog_open())
@@ -125,7 +126,8 @@ func _run() -> void:
 
 	# --- Loja ---
 	main.geo = 500
-	p.global_position.x = 648
+	var brom = get_nodes_in_group("interactables").filter(func(n): return "shop" in n and n.shop)[0]
+	p.global_position.x = brom.global_position.x
 	await wait(5)
 	await tap("up")
 	check("loja abre", main.is_shop_open())
@@ -137,7 +139,7 @@ func _run() -> void:
 	check("loja fecha", not main.is_shop_open() and not p.frozen)
 
 	# --- Banco ---
-	p.global_position.x = 136
+	p.global_position.x = main.entries["B"].x
 	p.hp = 1
 	await wait(5)
 	await tap("up")
@@ -163,6 +165,9 @@ func _run() -> void:
 	check("soltar baixo levanta", not p.crouching)
 
 	# --- Olhar para cima ---
+	# Rua livre de moradores, memórias e placas: cima deve controlar a câmera.
+	p.enter_room(Vector2(720, 256))
+	await wait(5)
 	Input.action_press("move_right")
 	for i in 120:
 		if main.interactable == null and p.is_on_floor():

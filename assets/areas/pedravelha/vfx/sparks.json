@@ -1,0 +1,235 @@
+{
+ "frames": [
+  {
+   "filename": "pedravelha-sparks 0.png",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 19,
+    "h": 16
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 19,
+    "h": 16
+   },
+   "sourceSize": {
+    "w": 19,
+    "h": 16
+   },
+   "pivot": {
+    "x": 1.9473684210526316,
+    "y": 2.5
+   },
+   "duration": 77
+  },
+  {
+   "filename": "pedravelha-sparks 1.png",
+   "frame": {
+    "x": 19,
+    "y": 0,
+    "w": 19,
+    "h": 16
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 19,
+    "h": 16
+   },
+   "sourceSize": {
+    "w": 19,
+    "h": 16
+   },
+   "pivot": {
+    "x": 1.9473684210526316,
+    "y": 2.5
+   },
+   "duration": 77
+  },
+  {
+   "filename": "pedravelha-sparks 2.png",
+   "frame": {
+    "x": 38,
+    "y": 0,
+    "w": 19,
+    "h": 16
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 19,
+    "h": 16
+   },
+   "sourceSize": {
+    "w": 19,
+    "h": 16
+   },
+   "pivot": {
+    "x": 1.9473684210526316,
+    "y": 2.5
+   },
+   "duration": 77
+  },
+  {
+   "filename": "pedravelha-sparks 3.png",
+   "frame": {
+    "x": 0,
+    "y": 16,
+    "w": 19,
+    "h": 16
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 19,
+    "h": 16
+   },
+   "sourceSize": {
+    "w": 19,
+    "h": 16
+   },
+   "pivot": {
+    "x": 1.9473684210526316,
+    "y": 2.5
+   },
+   "duration": 77
+  },
+  {
+   "filename": "pedravelha-sparks 4.png",
+   "frame": {
+    "x": 19,
+    "y": 16,
+    "w": 19,
+    "h": 16
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 19,
+    "h": 16
+   },
+   "sourceSize": {
+    "w": 19,
+    "h": 16
+   },
+   "pivot": {
+    "x": 1.9473684210526316,
+    "y": 2.5
+   },
+   "duration": 77
+  },
+  {
+   "filename": "pedravelha-sparks 5.png",
+   "frame": {
+    "x": 38,
+    "y": 16,
+    "w": 19,
+    "h": 16
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 19,
+    "h": 16
+   },
+   "sourceSize": {
+    "w": 19,
+    "h": 16
+   },
+   "pivot": {
+    "x": 1.9473684210526316,
+    "y": 2.5
+   },
+   "duration": 77
+  },
+  {
+   "filename": "pedravelha-sparks 6.png",
+   "frame": {
+    "x": 0,
+    "y": 32,
+    "w": 19,
+    "h": 16
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 19,
+    "h": 16
+   },
+   "sourceSize": {
+    "w": 19,
+    "h": 16
+   },
+   "pivot": {
+    "x": 1.9473684210526316,
+    "y": 2.5
+   },
+   "duration": 77
+  },
+  {
+   "filename": "pedravelha-sparks 7.png",
+   "frame": {
+    "x": 19,
+    "y": 32,
+    "w": 19,
+    "h": 16
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 19,
+    "h": 16
+   },
+   "sourceSize": {
+    "w": 19,
+    "h": 16
+   },
+   "pivot": {
+    "x": 1.9473684210526316,
+    "y": 2.5
+   },
+   "duration": 77
+  }
+ ],
+ "meta": {
+  "app": "PixelLab VFX Creator",
+  "image": "pedravelha-sparks.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 57,
+   "h": 48
+  },
+  "scale": "1",
+  "anchor": {
+   "kind": "origin",
+   "x": 37,
+   "y": 40
+  },
+  "frameTags": [
+   {
+    "name": "pedravelha-sparks",
+    "from": 0,
+    "to": 7,
+    "direction": "forward"
+   }
+  ]
+ }
+}

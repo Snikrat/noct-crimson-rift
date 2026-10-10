@@ -1,0 +1,85 @@
+{
+  "provider": "PixelLab",
+  "background": "f41b7b77-b032-4408-ab84-a99f444f5804",
+  "middleground": "3861169f-8f25-4843-ba6d-89fecea87f6e",
+  "middleground_alpha_cleanup": "fbb894ba-3be4-4c7d-9ae9-4b668f3fa790",
+  "tree_correction": "8381571e-2b58-4483-a4b5-87f1ea98d988",
+  "tileset": {
+    "id": "f82881a2-182c-4bd4-8af3-ee43ba373078",
+    "tile_size": 16
+  },
+  "objects": {
+    "chapel": "207faacc-fdb4-4b16-baf8-a4203c62b17b",
+    "forge": "ae1dc6b3-c95a-48e0-ac39-3348a2f45424",
+    "inn": "944e8231-dbd5-4404-99d5-eec750a71b0a",
+    "tree": "2bca69bd-842f-45c6-9c9a-704cf01abdb1",
+    "monument": "95993395-3e37-4dd3-90fd-762a0217acb2",
+    "house": "83e4adcf-a615-4617-8af0-da45ede36099",
+    "tower": "f1f80492-10aa-4821-972f-125ac6a0bf35",
+    "well": "5fd86f79-00a1-4ac2-90b6-9071dd50898f",
+    "wagon": "a988bec9-5963-4235-ba08-489c0404b45a",
+    "bench": "7cc584ad-b33d-4100-81e4-26552d712778",
+    "sealed-house": "4ec25956-9685-4749-aa79-669441025670"
+  },
+  "native_redraw": {
+    "monument": "e992b9fb-06d8-4e99-86fd-642da0639c84",
+    "wagon": "70bc13dc-87a9-404c-ac48-0360ee5510b2"
+  },
+  "front_facades": {
+    "chapel": "9335de55-a58c-4b2a-bd89-e68f42cdc6d0",
+    "forge": "db7b69b4-96d0-4ed4-8736-e95274994601",
+    "inn": "77e668d4-b9d8-47a8-9883-7d227c960828",
+    "house": "d5a79622-8d7e-4a7d-afd7-66ba5ed8a801",
+    "sealed-house": "03368664-5024-4937-9114-bfd5dc2cbcc1"
+  },
+  "effects": {
+    "lantern": {
+      "step": "1926ba02-6797-4e07-b388-249cb24bbd67",
+      "effect_id": "51d62676-6ad8-4420-917c-2f849b9f1c5e"
+    },
+    "sparks": {
+      "step": "ddeca30c-89fd-440a-a2c6-73b4f160e171",
+      "effect_id": "9defd446-a011-4b16-a53c-3ce32cfdd8a8"
+    },
+    "dust": {
+      "step": "1cf6a44b-0a7a-44c0-94b0-1b745bd23958",
+      "effect_id": "32731ec1-3077-4814-8078-143b8ae5e8e1"
+    },
+    "fireflies": {
+      "step": "b845eb0b-244c-49d3-b016-2c3432de927f",
+      "effect_id": "c3bd80f9-9f4e-4a62-b1c6-1146a7c11bc5"
+    },
+    "smoke": {
+      "step": "0984be7a-880e-4846-8759-b293d5c67aaa",
+      "effect_id": "0fbd5bdd-782e-405c-8cef-ae6b781aff45"
+    },
+    "mist": {
+      "step": "0fd4d953-a91f-4a56-b1cf-a7f55f270751",
+      "effect_id": "94fee14f-9e74-4220-81ec-115e1e067275"
+    },
+    "leaves": {
+      "step": "fbd6377f-b559-42a7-b5d6-a1277621a99b",
+      "effect_id": "52083775-eb39-49b7-9a7a-08aa04812ea3"
+    },
+    "well-drip": {
+      "step": "e2e2a352-a568-43e1-ba86-83f096ad8fff",
+      "effect_id": "deba304e-ab00-4055-8af6-2a494d0becf0"
+    },
+    "bench-rest": {
+      "step": "587ee1c2-a396-4559-a03c-0682243b0613",
+      "effect_id": "77f8ebff-0637-4af3-863c-cdc61bfc1883"
+    },
+    "mira": {
+      "step": "ca5ae7bd-b210-4ed2-99df-98e6bafe344a",
+      "effect_id": "f24a074d-a09e-449c-b743-25d7753d44e6"
+    },
+    "rift-wall": {
+      "step": "fe589b48-11db-4f74-96c8-6af4cb3eed58",
+      "effect_id": "56494ba1-08aa-429a-a13b-c9f5cb1429e7"
+    },
+    "portal": {
+      "step": "c3927f0e-f0b4-4e9b-8514-0c5ce457f09b",
+      "effect_id": "e490d01a-b924-4a2f-bd09-24640c19cc1d"
+    }
+  }
+}

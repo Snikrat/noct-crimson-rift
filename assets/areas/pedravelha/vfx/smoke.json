@@ -1,0 +1,339 @@
+{
+ "frames": [
+  {
+   "filename": "pedravelha-smoke 0.png",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "sourceSize": {
+    "w": 17,
+    "h": 39
+   },
+   "pivot": {
+    "x": 2.3529411764705883,
+    "y": 1.7435897435897436
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-smoke 1.png",
+   "frame": {
+    "x": 17,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "sourceSize": {
+    "w": 17,
+    "h": 39
+   },
+   "pivot": {
+    "x": 2.3529411764705883,
+    "y": 1.7435897435897436
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-smoke 2.png",
+   "frame": {
+    "x": 34,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "sourceSize": {
+    "w": 17,
+    "h": 39
+   },
+   "pivot": {
+    "x": 2.3529411764705883,
+    "y": 1.7435897435897436
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-smoke 3.png",
+   "frame": {
+    "x": 51,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "sourceSize": {
+    "w": 17,
+    "h": 39
+   },
+   "pivot": {
+    "x": 2.3529411764705883,
+    "y": 1.7435897435897436
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-smoke 4.png",
+   "frame": {
+    "x": 0,
+    "y": 39,
+    "w": 17,
+    "h": 39
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "sourceSize": {
+    "w": 17,
+    "h": 39
+   },
+   "pivot": {
+    "x": 2.3529411764705883,
+    "y": 1.7435897435897436
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-smoke 5.png",
+   "frame": {
+    "x": 17,
+    "y": 39,
+    "w": 17,
+    "h": 39
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "sourceSize": {
+    "w": 17,
+    "h": 39
+   },
+   "pivot": {
+    "x": 2.3529411764705883,
+    "y": 1.7435897435897436
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-smoke 6.png",
+   "frame": {
+    "x": 34,
+    "y": 39,
+    "w": 17,
+    "h": 39
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "sourceSize": {
+    "w": 17,
+    "h": 39
+   },
+   "pivot": {
+    "x": 2.3529411764705883,
+    "y": 1.7435897435897436
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-smoke 7.png",
+   "frame": {
+    "x": 51,
+    "y": 39,
+    "w": 17,
+    "h": 39
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "sourceSize": {
+    "w": 17,
+    "h": 39
+   },
+   "pivot": {
+    "x": 2.3529411764705883,
+    "y": 1.7435897435897436
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-smoke 8.png",
+   "frame": {
+    "x": 0,
+    "y": 78,
+    "w": 17,
+    "h": 39
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "sourceSize": {
+    "w": 17,
+    "h": 39
+   },
+   "pivot": {
+    "x": 2.3529411764705883,
+    "y": 1.7435897435897436
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-smoke 9.png",
+   "frame": {
+    "x": 17,
+    "y": 78,
+    "w": 17,
+    "h": 39
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "sourceSize": {
+    "w": 17,
+    "h": 39
+   },
+   "pivot": {
+    "x": 2.3529411764705883,
+    "y": 1.7435897435897436
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-smoke 10.png",
+   "frame": {
+    "x": 34,
+    "y": 78,
+    "w": 17,
+    "h": 39
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "sourceSize": {
+    "w": 17,
+    "h": 39
+   },
+   "pivot": {
+    "x": 2.3529411764705883,
+    "y": 1.7435897435897436
+   },
+   "duration": 125
+  },
+  {
+   "filename": "pedravelha-smoke 11.png",
+   "frame": {
+    "x": 51,
+    "y": 78,
+    "w": 17,
+    "h": 39
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 17,
+    "h": 39
+   },
+   "sourceSize": {
+    "w": 17,
+    "h": 39
+   },
+   "pivot": {
+    "x": 2.3529411764705883,
+    "y": 1.7435897435897436
+   },
+   "duration": 125
+  }
+ ],
+ "meta": {
+  "app": "PixelLab VFX Creator",
+  "image": "pedravelha-smoke.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 68,
+   "h": 117
+  },
+  "scale": "1",
+  "anchor": {
+   "kind": "origin",
+   "x": 40,
+   "y": 68
+  },
+  "frameTags": [
+   {
+    "name": "pedravelha-smoke",
+    "from": 0,
+    "to": 11,
+    "direction": "forward"
+   }
+  ]
+ }
+}

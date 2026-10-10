@@ -1,0 +1,235 @@
+{
+ "frames": [
+  {
+   "filename": "pedravelha-bench-rest 0.png",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 22
+   },
+   "pivot": {
+    "x": 1.9090909090909092,
+    "y": 2.090909090909091
+   },
+   "duration": 83
+  },
+  {
+   "filename": "pedravelha-bench-rest 1.png",
+   "frame": {
+    "x": 22,
+    "y": 0,
+    "w": 22,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 22
+   },
+   "pivot": {
+    "x": 1.9090909090909092,
+    "y": 2.090909090909091
+   },
+   "duration": 83
+  },
+  {
+   "filename": "pedravelha-bench-rest 2.png",
+   "frame": {
+    "x": 44,
+    "y": 0,
+    "w": 22,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 22
+   },
+   "pivot": {
+    "x": 1.9090909090909092,
+    "y": 2.090909090909091
+   },
+   "duration": 83
+  },
+  {
+   "filename": "pedravelha-bench-rest 3.png",
+   "frame": {
+    "x": 0,
+    "y": 22,
+    "w": 22,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 22
+   },
+   "pivot": {
+    "x": 1.9090909090909092,
+    "y": 2.090909090909091
+   },
+   "duration": 83
+  },
+  {
+   "filename": "pedravelha-bench-rest 4.png",
+   "frame": {
+    "x": 22,
+    "y": 22,
+    "w": 22,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 22
+   },
+   "pivot": {
+    "x": 1.9090909090909092,
+    "y": 2.090909090909091
+   },
+   "duration": 83
+  },
+  {
+   "filename": "pedravelha-bench-rest 5.png",
+   "frame": {
+    "x": 44,
+    "y": 22,
+    "w": 22,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 22
+   },
+   "pivot": {
+    "x": 1.9090909090909092,
+    "y": 2.090909090909091
+   },
+   "duration": 83
+  },
+  {
+   "filename": "pedravelha-bench-rest 6.png",
+   "frame": {
+    "x": 0,
+    "y": 44,
+    "w": 22,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 22
+   },
+   "pivot": {
+    "x": 1.9090909090909092,
+    "y": 2.090909090909091
+   },
+   "duration": 83
+  },
+  {
+   "filename": "pedravelha-bench-rest 7.png",
+   "frame": {
+    "x": 22,
+    "y": 44,
+    "w": 22,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 22
+   },
+   "pivot": {
+    "x": 1.9090909090909092,
+    "y": 2.090909090909091
+   },
+   "duration": 83
+  }
+ ],
+ "meta": {
+  "app": "PixelLab VFX Creator",
+  "image": "pedravelha-bench-rest.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 66,
+   "h": 66
+  },
+  "scale": "1",
+  "anchor": {
+   "kind": "origin",
+   "x": 42,
+   "y": 46
+  },
+  "frameTags": [
+   {
+    "name": "pedravelha-bench-rest",
+    "from": 0,
+    "to": 7,
+    "direction": "forward"
+   }
+  ]
+ }
+}

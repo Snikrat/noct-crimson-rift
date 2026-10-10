@@ -1,0 +1,235 @@
+{
+ "frames": [
+  {
+   "filename": "pedravelha-dust 0.png",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-dust 1.png",
+   "frame": {
+    "x": 48,
+    "y": 0,
+    "w": 48,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-dust 2.png",
+   "frame": {
+    "x": 96,
+    "y": 0,
+    "w": 48,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-dust 3.png",
+   "frame": {
+    "x": 0,
+    "y": 64,
+    "w": 48,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-dust 4.png",
+   "frame": {
+    "x": 48,
+    "y": 64,
+    "w": 48,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-dust 5.png",
+   "frame": {
+    "x": 96,
+    "y": 64,
+    "w": 48,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-dust 6.png",
+   "frame": {
+    "x": 0,
+    "y": 128,
+    "w": 48,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-dust 7.png",
+   "frame": {
+    "x": 48,
+    "y": 128,
+    "w": 48,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 64
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 200
+  }
+ ],
+ "meta": {
+  "app": "PixelLab VFX Creator",
+  "image": "pedravelha-dust.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 144,
+   "h": 192
+  },
+  "scale": "1",
+  "anchor": {
+   "kind": "origin",
+   "x": 24,
+   "y": 32
+  },
+  "frameTags": [
+   {
+    "name": "pedravelha-dust",
+    "from": 0,
+    "to": 7,
+    "direction": "forward"
+   }
+  ]
+ }
+}

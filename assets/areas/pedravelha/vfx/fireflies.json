@@ -1,0 +1,235 @@
+{
+ "frames": [
+  {
+   "filename": "pedravelha-fireflies 0.png",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 18
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 18
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 18
+   },
+   "pivot": {
+    "x": 1.5454545454545454,
+    "y": 2.2777777777777777
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-fireflies 1.png",
+   "frame": {
+    "x": 22,
+    "y": 0,
+    "w": 22,
+    "h": 18
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 18
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 18
+   },
+   "pivot": {
+    "x": 1.5454545454545454,
+    "y": 2.2777777777777777
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-fireflies 2.png",
+   "frame": {
+    "x": 44,
+    "y": 0,
+    "w": 22,
+    "h": 18
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 18
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 18
+   },
+   "pivot": {
+    "x": 1.5454545454545454,
+    "y": 2.2777777777777777
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-fireflies 3.png",
+   "frame": {
+    "x": 0,
+    "y": 18,
+    "w": 22,
+    "h": 18
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 18
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 18
+   },
+   "pivot": {
+    "x": 1.5454545454545454,
+    "y": 2.2777777777777777
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-fireflies 4.png",
+   "frame": {
+    "x": 22,
+    "y": 18,
+    "w": 22,
+    "h": 18
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 18
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 18
+   },
+   "pivot": {
+    "x": 1.5454545454545454,
+    "y": 2.2777777777777777
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-fireflies 5.png",
+   "frame": {
+    "x": 44,
+    "y": 18,
+    "w": 22,
+    "h": 18
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 18
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 18
+   },
+   "pivot": {
+    "x": 1.5454545454545454,
+    "y": 2.2777777777777777
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-fireflies 6.png",
+   "frame": {
+    "x": 0,
+    "y": 36,
+    "w": 22,
+    "h": 18
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 18
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 18
+   },
+   "pivot": {
+    "x": 1.5454545454545454,
+    "y": 2.2777777777777777
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-fireflies 7.png",
+   "frame": {
+    "x": 22,
+    "y": 36,
+    "w": 22,
+    "h": 18
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 18
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 18
+   },
+   "pivot": {
+    "x": 1.5454545454545454,
+    "y": 2.2777777777777777
+   },
+   "duration": 200
+  }
+ ],
+ "meta": {
+  "app": "PixelLab VFX Creator",
+  "image": "pedravelha-fireflies.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 66,
+   "h": 54
+  },
+  "scale": "1",
+  "anchor": {
+   "kind": "origin",
+   "x": 34,
+   "y": 41
+  },
+  "frameTags": [
+   {
+    "name": "pedravelha-fireflies",
+    "from": 0,
+    "to": 7,
+    "direction": "forward"
+   }
+  ]
+ }
+}

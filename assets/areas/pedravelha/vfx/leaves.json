@@ -1,0 +1,235 @@
+{
+ "frames": [
+  {
+   "filename": "pedravelha-leaves 0.png",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 43,
+    "h": 45
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 43,
+    "h": 45
+   },
+   "sourceSize": {
+    "w": 43,
+    "h": 45
+   },
+   "pivot": {
+    "x": 1.3255813953488371,
+    "y": 1.1333333333333333
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-leaves 1.png",
+   "frame": {
+    "x": 43,
+    "y": 0,
+    "w": 43,
+    "h": 45
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 43,
+    "h": 45
+   },
+   "sourceSize": {
+    "w": 43,
+    "h": 45
+   },
+   "pivot": {
+    "x": 1.3255813953488371,
+    "y": 1.1333333333333333
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-leaves 2.png",
+   "frame": {
+    "x": 86,
+    "y": 0,
+    "w": 43,
+    "h": 45
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 43,
+    "h": 45
+   },
+   "sourceSize": {
+    "w": 43,
+    "h": 45
+   },
+   "pivot": {
+    "x": 1.3255813953488371,
+    "y": 1.1333333333333333
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-leaves 3.png",
+   "frame": {
+    "x": 0,
+    "y": 45,
+    "w": 43,
+    "h": 45
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 43,
+    "h": 45
+   },
+   "sourceSize": {
+    "w": 43,
+    "h": 45
+   },
+   "pivot": {
+    "x": 1.3255813953488371,
+    "y": 1.1333333333333333
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-leaves 4.png",
+   "frame": {
+    "x": 43,
+    "y": 45,
+    "w": 43,
+    "h": 45
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 43,
+    "h": 45
+   },
+   "sourceSize": {
+    "w": 43,
+    "h": 45
+   },
+   "pivot": {
+    "x": 1.3255813953488371,
+    "y": 1.1333333333333333
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-leaves 5.png",
+   "frame": {
+    "x": 86,
+    "y": 45,
+    "w": 43,
+    "h": 45
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 43,
+    "h": 45
+   },
+   "sourceSize": {
+    "w": 43,
+    "h": 45
+   },
+   "pivot": {
+    "x": 1.3255813953488371,
+    "y": 1.1333333333333333
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-leaves 6.png",
+   "frame": {
+    "x": 0,
+    "y": 90,
+    "w": 43,
+    "h": 45
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 43,
+    "h": 45
+   },
+   "sourceSize": {
+    "w": 43,
+    "h": 45
+   },
+   "pivot": {
+    "x": 1.3255813953488371,
+    "y": 1.1333333333333333
+   },
+   "duration": 200
+  },
+  {
+   "filename": "pedravelha-leaves 7.png",
+   "frame": {
+    "x": 43,
+    "y": 90,
+    "w": 43,
+    "h": 45
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 43,
+    "h": 45
+   },
+   "sourceSize": {
+    "w": 43,
+    "h": 45
+   },
+   "pivot": {
+    "x": 1.3255813953488371,
+    "y": 1.1333333333333333
+   },
+   "duration": 200
+  }
+ ],
+ "meta": {
+  "app": "PixelLab VFX Creator",
+  "image": "pedravelha-leaves.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 129,
+   "h": 135
+  },
+  "scale": "1",
+  "anchor": {
+   "kind": "origin",
+   "x": 57,
+   "y": 51
+  },
+  "frameTags": [
+   {
+    "name": "pedravelha-leaves",
+    "from": 0,
+    "to": 7,
+    "direction": "forward"
+   }
+  ]
+ }
+}

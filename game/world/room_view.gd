@@ -69,7 +69,9 @@ func _draw() -> void:
 	var solid: Dictionary = level.solid
 	var pits := _pit_cells(solid)
 	_draw_pit_walls(theme, tileset, solid, pits)
-	if theme.get("autotile", false):
+	if theme.get("wang_platform", false):
+		_draw_wang_platform(tileset, solid)
+	elif theme.get("autotile", false):
 		_draw_autotile(theme, tileset, solid, pits)
 	else:
 		_draw_blocks(theme, tileset, solid, pits)
@@ -93,7 +95,30 @@ func _draw() -> void:
 		draw_texture_rect_region(SPIKES_TEX, Rect2(cell_x * TILE, h.end.y - TILE, TILE, TILE), Rect2((cell_x % 2) * TILE, 0, TILE, TILE))
 
 
-## Tilesets dos pacotes: blocos de chão em colunas (blocks/block_w) e cor sólida abaixo de "rows" tiles.
+## Tileset de Pedravelha gerado no PixelLab; bordas preservam a grade de colisão de 16 px.
+func _draw_wang_platform(tileset: Texture2D, solid: Dictionary) -> void:
+	# PixelLab: peças Wang 4x4. Índice: NW, NE, SW, SE (1 = pedra).
+	const PIECES := [Vector2i(0, 3), Vector2i(3, 3), Vector2i(0, 2), Vector2i(1, 2),
+		Vector2i(0, 0), Vector2i(3, 2), Vector2i(2, 3), Vector2i(2, 2),
+		Vector2i(1, 3), Vector2i(0, 1), Vector2i(1, 0), Vector2i(3, 1),
+		Vector2i(3, 0), Vector2i(2, 0), Vector2i(1, 1), Vector2i(2, 1)]
+	for cell: Vector2i in solid:
+		var up := solid.has(cell + Vector2i.UP)
+		var down := solid.has(cell + Vector2i.DOWN)
+		var left := solid.has(cell + Vector2i.LEFT)
+		var right := solid.has(cell + Vector2i.RIGHT)
+		var mask := int(up and left) + 2 * int(up and right) + 4 * int(down and left) + 8 * int(down and right)
+		var dest := Rect2(Vector2(cell * TILE), Vector2(TILE, TILE))
+		if not up:
+			# O Wang de topo tem 8 px de ar: alinhar a pedra à linha de colisão.
+			draw_texture_rect_region(tileset, dest, Rect2(32, 16, TILE, TILE))
+			dest.position.y -= 8
+			draw_texture_rect_region(tileset, dest, Rect2(48, 0, TILE, TILE))
+		else:
+			draw_texture_rect_region(tileset, dest, Rect2(Vector2(PIECES[mask] * TILE), Vector2(TILE, TILE)))
+
+
+## Tilesets dos pacotes: blocos de chão em colunas e cor sólida abaixo de "rows" tiles.
 func _draw_blocks(theme: Dictionary, tileset: Texture2D, solid: Dictionary, pits: Dictionary) -> void:
 	var blocks: Array = theme["blocks"]
 	var block_w: int = theme["block_w"]

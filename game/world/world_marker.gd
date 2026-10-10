@@ -11,7 +11,7 @@ var locked_lines: Array = []  # falas enquanto o requisito não foi cumprido (op
 var reveals := false          # luneta da torre: marca a região no mapa da pausa
 var reward := 0
 var portal := false            # fenda carmesim: só nas passagens ligadas à Fenda
-var style := ""               # passagem natural: "door", "trail", "mine", "rope" ou "well" (sem desenho, usa o cenário)
+var style := ""               # door/trail/mine/rope; well/scenery usam a arte de cenário como entrada.
 var facing := 1               # placa de trilha: 1 aponta para a direita, -1 para a esquerda
 var phase := 0.0
 const PORTAL_SHEET := preload("res://assets/hero/vfx/portal_sheet.png")
@@ -25,12 +25,17 @@ const PASSAGE_TEXTURES := {
 }
 const Fx := preload("res://game/core/fx.gd")
 var glow: Sprite2D
+var pixel_portal: Node2D
 
 func _ready() -> void:
 	add_to_group("interactables")
 	if style != "":
 		z_index = -1   # porta, placa e mina fazem parte do cenário, atrás do herói
 	if portal:
+		if level.room_name == "town":
+			pixel_portal = preload("res://game/world/pixel_effect.gd").new()
+			pixel_portal.setup("portal", Vector2(16, 62))
+			add_child(pixel_portal)
 		# Halo radial (redondo) atrás da fenda; a textura do portal tem bordas transparentes.
 		glow = Fx.glow(Color(1, 0.12, 0.35), 34, 0.45)
 		glow.position = Vector2(0, -30)
@@ -78,7 +83,10 @@ func _draw() -> void:
 	if portal:
 		var frame := int(phase * 8) % PORTAL_FRAMES
 		var src := Rect2(Vector2(frame * PORTAL_SIZE.x, 0), PORTAL_SIZE)
-		draw_texture_rect_region(PORTAL_SHEET, Rect2(Vector2(-20, -58), PORTAL_SIZE), src, Color(1, 1, 1, 1.0 if active else 0.3))
+		if pixel_portal:
+			pixel_portal.modulate.a = 1.0 if active else 0.3
+		else:
+			draw_texture_rect_region(PORTAL_SHEET, Rect2(Vector2(-20, -58), PORTAL_SIZE), src, Color(1, 1, 1, 1.0 if active else 0.3))
 		if glow:
 			glow.visible = active
 	elif style != "":

@@ -1,0 +1,235 @@
+{
+ "frames": [
+  {
+   "filename": "pedravelha-rift-wall 0.png",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 16,
+    "h": 48
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 16,
+    "h": 48
+   },
+   "sourceSize": {
+    "w": 16,
+    "h": 48
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 167
+  },
+  {
+   "filename": "pedravelha-rift-wall 1.png",
+   "frame": {
+    "x": 16,
+    "y": 0,
+    "w": 16,
+    "h": 48
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 16,
+    "h": 48
+   },
+   "sourceSize": {
+    "w": 16,
+    "h": 48
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 167
+  },
+  {
+   "filename": "pedravelha-rift-wall 2.png",
+   "frame": {
+    "x": 32,
+    "y": 0,
+    "w": 16,
+    "h": 48
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 16,
+    "h": 48
+   },
+   "sourceSize": {
+    "w": 16,
+    "h": 48
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 167
+  },
+  {
+   "filename": "pedravelha-rift-wall 3.png",
+   "frame": {
+    "x": 0,
+    "y": 48,
+    "w": 16,
+    "h": 48
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 16,
+    "h": 48
+   },
+   "sourceSize": {
+    "w": 16,
+    "h": 48
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 167
+  },
+  {
+   "filename": "pedravelha-rift-wall 4.png",
+   "frame": {
+    "x": 16,
+    "y": 48,
+    "w": 16,
+    "h": 48
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 16,
+    "h": 48
+   },
+   "sourceSize": {
+    "w": 16,
+    "h": 48
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 167
+  },
+  {
+   "filename": "pedravelha-rift-wall 5.png",
+   "frame": {
+    "x": 32,
+    "y": 48,
+    "w": 16,
+    "h": 48
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 16,
+    "h": 48
+   },
+   "sourceSize": {
+    "w": 16,
+    "h": 48
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 167
+  },
+  {
+   "filename": "pedravelha-rift-wall 6.png",
+   "frame": {
+    "x": 0,
+    "y": 96,
+    "w": 16,
+    "h": 48
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 16,
+    "h": 48
+   },
+   "sourceSize": {
+    "w": 16,
+    "h": 48
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 167
+  },
+  {
+   "filename": "pedravelha-rift-wall 7.png",
+   "frame": {
+    "x": 16,
+    "y": 96,
+    "w": 16,
+    "h": 48
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 16,
+    "h": 48
+   },
+   "sourceSize": {
+    "w": 16,
+    "h": 48
+   },
+   "pivot": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "duration": 167
+  }
+ ],
+ "meta": {
+  "app": "PixelLab VFX Creator",
+  "image": "pedravelha-rift-wall.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 48,
+   "h": 144
+  },
+  "scale": "1",
+  "anchor": {
+   "kind": "origin",
+   "x": 8,
+   "y": 24
+  },
+  "frameTags": [
+   {
+    "name": "pedravelha-rift-wall",
+    "from": 0,
+    "to": 7,
+    "direction": "forward"
+   }
+  ]
+ }
+}
