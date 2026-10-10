@@ -20,7 +20,7 @@ const AREAS := [
 	 "rooms": ["cathedral", "arcane_ruins", "archive", "sanctum"],
 	 "boss_room": "sanctum", "boss": "Bringer of Death", "defeated": "boss:bringer"},
 	{"id": "lago", "name": "Águas Veladas", "color": Color(0.4, 0.8, 0.85),
-	 "rooms": ["lake_shore", "lake"],
+	 "rooms": ["lake_shore", "vigil_chapel", "rain_cliff", "lake"],
 	 "boss_room": "lake", "boss": "Velário, o Carcereiro", "defeated": "boss:velario"},
 	{"id": "fenda", "name": "A Fenda", "color": Color(0.95, 0.3, 0.35),
 	 "rooms": ["mines", "rift_heart", "inferno", "demon_lair"],

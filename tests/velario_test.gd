@@ -118,10 +118,13 @@ func _run() -> void:
 
 	# --- Arena ---
 	p.invuln_timer = 9999.0
-	main.request_exit("right")
-	await wait(40)
-	await skip_dialogs()
-	check("Margem leva ao Lago Velado", main.room_name == "lake", main.room_name)
+	# Margem -> Capela da Vigília -> Penhasco da Chuva Eterna -> Lago Velado (área Águas Veladas).
+	for expected in ["vigil_chapel", "rain_cliff", "lake"]:
+		gs().seen_intros[expected] = true
+		main.request_exit("right")
+		await wait(40)
+		await skip_dialogs()
+		check("saída direita leva a " + expected, main.room_name == expected, main.room_name)
 	var b = main.boss
 	check("Velário aparece", b != null and b.BOSS_ID == "velario")
 	check("Velário dorme até o Noct chegar", b.state == "sleep")

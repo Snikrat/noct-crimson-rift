@@ -6,7 +6,7 @@ extends RefCounted
 const T := preload("res://data/themes.gd")
 const ROOM := {
 	"title": "Lago Velado", "theme": "lake",
-	"left": "lake_shore", "left_entry": "R", "right": "",
+	"left": "rain_cliff", "left_entry": "R", "right": "",
 	"gate": [[0, 10], [0, 11], [0, 12], [0, 13]],
 	"entries": {"RIFT": Vector2(584, 224)},
 	"markers": [

@@ -18,6 +18,8 @@ const SIDE := {
 	"well": ["town", Vector2(-6, 30)],
 	"station": ["swamp", Vector2(56, -74)],
 	"lake_shore": ["sanctum", Vector2(-14, 44)],
-	"lake": ["sanctum", Vector2(28, 44)],
-	"rift_heart": ["inferno", Vector2(22, 46)],
+	"vigil_chapel": ["sanctum", Vector2(19, 44)],
+	"rain_cliff": ["sanctum", Vector2(58, 44)],
+	"lake": ["sanctum", Vector2(92, 44)],
+	"rift_heart": ["inferno", Vector2(62, 70)],
 }

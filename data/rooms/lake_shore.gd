@@ -1,12 +1,12 @@
 extends RefCounted
 ## Sala: Margem das Folhas Paradas (descida até o Lago Velado; docs/expansao_forma_demoniaca.md, 1.5).
 ## Só se chega pela fenda sob o altar do Santuário do Ceifador, depois do Bringer.
-## Véus com nomes bordados de coisas esquecidas, um reflexo atrasado e o banco antes do Velário.
+## Véus com nomes bordados de coisas esquecidas e um reflexo atrasado. Segue para a Capela da Vigília.
 ## A legenda dos caracteres do mapa está em data/rooms.gd.
 const T := preload("res://data/themes.gd")
 const ROOM := {
 	"title": "Margem das Folhas Paradas", "theme": "lake",
-	"left": "", "right": "lake", "right_entry": "L",
+	"left": "", "right": "vigil_chapel", "right_entry": "L",
 	"intro": ["@olhar_lateral: Água parada. De novo.", "@desconfiado: ...O meu reflexo está atrasado."],
 	"entries": {"SANCTUM": Vector2(72, 224)},
 	"markers": [

@@ -56,6 +56,8 @@ const ROOMS := {
 	"station": preload("res://data/rooms/station.gd").ROOM,
 	"mind": preload("res://data/rooms/mind.gd").ROOM,
 	"lake_shore": preload("res://data/rooms/lake_shore.gd").ROOM,
+	"vigil_chapel": preload("res://data/rooms/vigil_chapel.gd").ROOM,
+	"rain_cliff": preload("res://data/rooms/rain_cliff.gd").ROOM,
 	"lake": preload("res://data/rooms/lake.gd").ROOM,
 	"rift_heart": preload("res://data/rooms/rift_heart.gd").ROOM,
 }

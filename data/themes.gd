@@ -156,6 +156,25 @@ const THEMES := {
 	},
 	# Coração da Fenda: a matéria de pensamento da Mente do Noct, mais escura, com o fundo pulsando
 	# e fagulhas subindo ("motes").
+	# Capela da Vigília e Penhasco da Chuva Eterna (Águas Veladas): por enquanto, tilesets existentes tingidos
+	# com o frio do lago; a arte própria vem do Aseprite (assets/areas/capela_da_vigilia/ e penhasco_da_chuva/).
+	"chapel": {
+		"tileset": CHURCH_ENV + "tileset.png", "tint": Color(0.5, 0.58, 0.78),
+		"blocks": [0, 64, 128], "block_w": 3, "top": 166, "rows": 2,
+		"rock": Color("090c16"), "side": Color("222c42"), "clear": Color("0d1220"), "motes": true,
+		"step": "rock", "music": Paths.MUSIC_AMBIENT_4,
+		"layers": [],
+	},
+	"cliff": {
+		"tileset": TOWN_ENV + "layers/tileset.png", "tint": Color(0.5, 0.56, 0.72),
+		"blocks": [320], "block_w": 2, "top": 136, "rows": 2,
+		"rock": Color("0a0d16"), "side": Color("232c3c"), "clear": Color("10151f"),
+		"rain": true, "step": "water", "music": Paths.MUSIC_AMBIENT_4,
+		"layers": [
+			{"tex": [CEMETERY_ENV + "background.png"], "scroll": 0.04, "align": "bottom", "cover": true, "tint": Color(0.45, 0.5, 0.68)},
+			{"tex": [CEMETERY_ENV + "mountains.png"], "scroll": 0.15, "align": "bottom", "tint": Color(0.3, 0.34, 0.48)},
+		],
+	},
 	"rift_heart": {
 		"tileset": Paths.MIND + "tileset.png", "autotile": true, "tint": Color(0.8, 0.62, 0.7),
 		"top_variants": [Vector2i(4, 2)], "fill_variants": [Vector2i(3, 1), Vector2i(4, 1)],
