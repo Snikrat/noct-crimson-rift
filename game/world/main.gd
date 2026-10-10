@@ -420,6 +420,23 @@ func _build_colliders() -> void:
 ## Objetos de cenário: [arquivo, centro x em px, linha do chão] e, opcional, o recorte da imagem.
 ## Nomes sem caminho vêm da pasta de objetos da cidade.
 func _build_props() -> void:
+	var band: Node2D = null
+	room_view.z_index = -2 if room.has("street_band") else 0
+	if room.has("street_band"):
+		band = preload("res://game/world/street_band.gd").new()
+		band.tileset = load(room["street_band"])
+		band.z_index = -1
+		world.add_child(band)
+		var rows := {}
+		for p in room.get("props", []):
+			rows[int(p[2])] = true
+		var is_top := func(c: Vector2i) -> bool: return solid.has(c) and not solid.has(c + Vector2i.UP)
+		for cell: Vector2i in solid:
+			if rows.has(cell.y) and is_top.call(cell) and not is_top.call(cell + Vector2i.LEFT):
+				var end := cell
+				while is_top.call(end + Vector2i.RIGHT):
+					end += Vector2i.RIGHT
+				band.spans.append([cell.x * TILE, (end.x + 1) * TILE, cell.y * TILE])
 	for p in room.get("props", []):
 		var path: String = p[0] if "/" in p[0] else Rooms.TOWN_ENV + "props-sliced/" + p[0] + ".png"
 		var tex: Texture2D = load(path)
@@ -447,6 +464,8 @@ func _build_props() -> void:
 			s.modulate = p[5]
 		s.z_index = -1
 		world.add_child(s)
+		if band:
+			band.shadows.append([p[1], p[2] * TILE, tex_size.x * 0.8])
 	for effect in room.get("ambient_effects", []):
 		var clip := preload("res://game/world/pixel_effect.gd").new()
 		clip.setup(effect[0], effect[2])

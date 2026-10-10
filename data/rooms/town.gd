@@ -25,9 +25,10 @@ const ROOM := {
 	],
 	"theme": "town",
 	"trim_props": true,
-	# Quanto cada objeto afunda no calçamento (px): a base fica atrás da primeira fileira de pedras.
+	"street_band": ART + "tileset.png",   # calçada atrás dos objetos, com sombra de contato (street_band.gd)
+	# Quanto cada objeto afunda no calçamento (px): a base cobre a primeira fileira de pedras.
 	# Árvore, poço, hospedaria e cabana têm pontas finas (raízes, placa, roda) abaixo da base.
-	"prop_sink": {"default": 2, "tree.png": 7, "well.png": 3, "inn.png": 5, "wagon.png": 6, "monument.png": 3},
+	"prop_sink": {"default": 2, "tree.png": 5, "well.png": 3, "inn.png": 4, "wagon.png": 5, "monument.png": 3},
 	"intro": ["@olhar_lateral: Pedravelha. Duas saídas, uma torre e gente demais olhando pela janela.", "@neutro: Quieta demais pra tão perto da fenda."],   # comentário de Noct na 1ª visita
 	"left": "",
 	"right": "swamp",
@@ -37,7 +38,7 @@ const ROOM := {
 		{"feet": Vector2(1192, 176), "title": "Atalho do vigia", "target": "cemetery", "entry": "MOUNTAIN", "portal": true, "requires": "mountain_pass"},
 		{"feet": Vector2(1336, 256), "title": "Trilha do bosque", "target": "forest", "entry": "L", "style": "trail"},
 		{"feet": Vector2(56, 256), "title": "Minas da Fenda", "target": "mines", "entry": "L", "style": "mine"},   # atrás da parede carmesim
-		{"feet": Vector2(232, 256), "title": "Porta da torre", "target": "tower", "entry": "TOWN", "style": "door"},
+		{"feet": Vector2(232, 256), "title": "Porta da torre", "target": "tower", "entry": "TOWN", "style": "scenery"},   # a porta está pintada no arco da torre
 		{"feet": Vector2(644, 256), "title": "Poço", "target": "well", "entry": "TOWN", "style": "well"},
 	],
 	# Cenário: [arquivo em props-sliced, centro x em px, linha do chão]
