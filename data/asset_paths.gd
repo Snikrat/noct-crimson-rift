@@ -30,6 +30,8 @@ const AREAS := "res://assets/areas/"            # arte própria das áreas novas
 const MINES := AREAS + "minas_da_fenda/"
 const ARCHIVE := AREAS + "arquivo_submerso/"
 const MIND := AREAS + "mente_do_noct/"        # arena da fase 2 do Bringer (tools/make_mind.lua)
+const CHAPEL := AREAS + "capela_da_vigilia/"   # Capela da Vigília (tools/make_aguas_veladas.lua)
+const CLIFF := AREAS + "penhasco_da_chuva/"    # Penhasco da Chuva Eterna (tools/make_aguas_veladas.lua)
 
 # --- Cenários -----------------------------------------------------------
 const SWAMP_ENV := SWAMP + "Evironment/"

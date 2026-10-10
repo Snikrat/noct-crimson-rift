@@ -8,6 +8,23 @@ const ROOM := {
 	"title": "Penhasco da Chuva Eterna", "theme": "cliff",
 	"left": "vigil_chapel", "left_entry": "R", "right": "lake", "right_entry": "L",
 	"intro": ["@olhar_lateral: Os trilhos vêm dar aqui.", "@sombrio: E o resto do caminho caiu."],
+	# Arte própria (tools/make_aguas_veladas.lua): trilhos no chão, a torre do bonde com o cabo partido,
+	# os trilhos pendurados da plataforma, a cabine do maquinista e o sinal na beira do penhasco.
+	"props": [
+		[T.CLIFF_ART + "trilho.png", 48, 16],
+		[T.CLIFF_ART + "trilho.png", 112, 16],
+		[T.CLIFF_ART + "trilho.png", 176, 16],
+		[T.CLIFF_ART + "cabo_bonde.png", 120, 16],
+		[T.CLIFF_ART + "trilho.png", 360, 16],
+		[T.CLIFF_ART + "trilho.png", 424, 16],
+		[T.CLIFF_ART + "trilho.png", 624, 16],
+		[T.CLIFF_ART + "trilho.png", 688, 16],
+		[T.CLIFF_ART + "trilho.png", 896, 16],
+		[T.CLIFF_ART + "trilho.png", 960, 16],
+		[T.CLIFF_ART + "trilhos_pendurados.png", 264, 16],
+		[T.CLIFF_ART + "cabine_maquinista.png", 696, 9],
+		[T.CLIFF_ART + "sinal_quebrado.png", 984, 6],
+	],
 	"markers": [
 		{"feet": Vector2(264, 192), "title": "Trilhos pendurados",
 		 "lines": ["* Os trilhos acabam no ar, torcidos para baixo.", "* Um cabo de bonde balança na chuva, sem bonde nenhum.", "@sarcastico: Linha desativada. Avisaram tarde."]},

@@ -8,6 +8,27 @@ const ROOM := {
 	"title": "Capela da Vigília", "theme": "chapel",
 	"left": "lake_shore", "left_entry": "R", "right": "rain_cliff", "right_entry": "L",
 	"intro": ["@olhar_cima: Capela. No fundo de um lago.", "@sarcastico: Alguém rezou muito errado."],
+	# Arte própria (tools/make_aguas_veladas.lua): feixes dos vitrais, santos sem rosto, o altar partido em cima
+	# dos blocos ##.##, fileiras de velas apagadas e a única vela acesa na plataforma de cima.
+	"props": [
+		[T.CHAPEL_ART + "vitral_luz_a.png", 140, 14],
+		[T.CHAPEL_ART + "vitral_luz_b.png", 360, 14],
+		[T.CHAPEL_ART + "vitral_luz_a.png", 640, 14],
+		[T.CHAPEL_ART + "santo_sem_rosto_a.png", 184, 14],
+		[T.CHAPEL_ART + "santo_sem_rosto_b.png", 220, 14],
+		[T.CHAPEL_ART + "velas_apagadas_b.png", 260, 14],
+		[T.CHAPEL_ART + "velas_apagadas.png", 420, 14],
+		[T.CHAPEL_ART + "altar_partido.png", 488, 13],
+		[T.CHAPEL_ART + "velas_apagadas.png", 560, 14],
+		[T.CHAPEL_ART + "confessionario.png", 856, 14],
+		[T.CHAPEL_ART + "velas_apagadas_b.png", 136, 10],
+		[T.CHAPEL_ART + "velas_apagadas.png", 856, 10],
+		[T.CHAPEL_ART + "velas_apagadas_b.png", 272, 7],
+		[T.CHAPEL_ART + "velas_apagadas.png", 704, 7],
+		[T.CHAPEL_ART + "velas_apagadas.png", 452, 4],
+		[T.CHAPEL_ART + "velas_apagadas_b.png", 498, 4],
+		[T.CHAPEL_ART + "vela_acesa.png", 520, 4],
+	],
 	"markers": [
 		{"feet": Vector2(200, 224), "title": "Santos sem rosto",
 		 "lines": ["* Estátuas de santos. Os rostos foram raspados com cuidado.", "@desconfiado: Não foi raiva. Foi capricho."]},
