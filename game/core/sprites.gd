@@ -22,8 +22,7 @@ const HERO_DIR := Paths.HERO
 const HERO_ANIMS := {
 	"air_punch": [20, false], "air_kick": [20, false], "air_spin": [22, false], "air_finish": [20, false],
 	# Noct v2: respiração lenta (0,5 s por quadro); idle_var = abaixa a cabeça; walk = caminhada.
-	# Idle e walk do PixelLab (Aseprite/pixellab_basicos): o idle já fecha o ciclo, então repete direto.
-	"idle": [2, true], "idle_var": [2, false], "walk": [7, true],
+	"idle": [2, true, "pingpong"], "idle_var": [2, false], "walk": [7, true],
 	# Pulo completo: jump = impulso, subida, topo; land = agachamento e recuperação.
 	"run": [14, true], "run_start": [12, false], "run_stop": [10, false], "air_dash": [50, false],
 	"jump": [12, false], "fall": [8, false], "land": [14, false],
@@ -32,7 +31,7 @@ const HERO_ANIMS := {
 	"slam": [10, false], "dash": [50, false], "double_jump": [30, false],
 	"crouch": [4.5, false], "hurt": [14, false], "death": [8, false],
 	"ultimate_charge": [14, false], "ultimate_burst": [12, false], "ultimate_pose": [8, false],
-	# Olhando para cima: inclina a cabeça e depois respira (tools/noct_look_up.lua).
+	# Olhando para cima (PixelLab, Aseprite/pixellab_basicos): ergue a cabeça e depois respira.
 	"look_up": [14, false], "look_up_loop": [3, true],
 }
 
