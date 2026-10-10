@@ -287,6 +287,12 @@
           select.appendChild(grupo);
         } else {
           grupo = null;
+          if (i > 0) {
+            var vao = document.createElement("li");
+            vao.className = "sumario-parte";
+            vao.setAttribute("aria-hidden", "true");
+            lista.appendChild(vao);
+          }
         }
       }
       var li = document.createElement("li");

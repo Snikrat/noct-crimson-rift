@@ -44,6 +44,26 @@ def main(caminho: str) -> None:
             livro["capitulos"].append(atual)
 
     inicio = []
+
+    def parte_solta():
+        # "# Epílogo · Título" sem capítulos "##" embaixo: vira um capítulo sozinho, fora das partes.
+        nonlocal parte
+        if bloco != "parte" or parte is None:
+            return
+        if any(c.get("parte") == parte["nome"] for c in livro["capitulos"]):
+            return
+        texto = "\n".join(pendente_parte).strip()
+        if not texto:
+            return
+        cap = {}
+        mr = re.match(r"^([^·]+?)\s*·\s*(.*)$", parte["nome"])
+        if mr:
+            cap["rotulo"], cap["titulo"] = mr.group(1).strip(), mr.group(2).strip()
+        else:
+            cap["rotulo"], cap["titulo"] = parte["nome"], ""
+        cap["texto"] = texto
+        livro["capitulos"].append(cap)
+        parte = None
     for linha in linhas:
         m1 = re.match(r"^# (?!#)(.*)$", linha)
         m2 = re.match(r"^## (?!#)(.*)$", linha)
@@ -53,6 +73,7 @@ def main(caminho: str) -> None:
                 bloco = "inicio"
                 continue
             fechar(); atual = None
+            parte_solta()
             parte = {"nome": limpar_titulo(m1.group(1)), "epigrafe": ""}
             pendente_parte = []
             bloco = "parte"
@@ -92,6 +113,7 @@ def main(caminho: str) -> None:
         elif bloco == "cap" and atual is not None:
             atual["texto"].append(linha)
     fechar()
+    parte_solta()
 
     livro["epigrafe"] = citacao(inicio).strip("*").strip()
     # A apresentação é o último parágrafo comum antes do sumário (o resto do início é data, autor e créditos).
