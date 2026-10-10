@@ -3,6 +3,7 @@ extends Node2D
 
 const Sprites := preload("res://game/core/sprites.gd")
 const TALK_RANGE := 32.0
+const GESTURES := ["nod", "stroke_beard", "tip_hat", "wipe_brow", "look_wrist", "listen"]
 
 var level
 var kind := "oldman"
@@ -16,6 +17,8 @@ var home := Vector2.ZERO
 var patrol_span := 24.0
 var patrol_dir := 1
 var pause_timer := 1.0
+var gesture_timer := randf_range(6.0, 12.0)   # tempo até o próximo gesto (aceno, mão na barba...)
+var gesture := ""                             # gesto tocando agora; volta ao idle quando acaba
 
 
 func _ready() -> void:
@@ -26,6 +29,9 @@ func _ready() -> void:
 	add_child(sprite)
 	sprite.play("idle")
 	sprite.frame = randi() % frames.get_frame_count("idle")
+	# O diálogo pausa o jogo; o morador continua rodando para mexer a boca enquanto fala.
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	sprite.process_mode = Node.PROCESS_MODE_PAUSABLE
 
 
 func place_feet_at(feet: Vector2) -> void:
@@ -52,6 +58,13 @@ func interact() -> void:
 
 
 func _process(delta: float) -> void:
+	if get_tree().paused:
+		var talking := _talking()
+		sprite.process_mode = Node.PROCESS_MODE_ALWAYS if talking else Node.PROCESS_MODE_PAUSABLE
+		if talking:
+			sprite.play("talk")
+		return
+	sprite.process_mode = Node.PROCESS_MODE_PAUSABLE
 	var p: Node2D = level.player
 	var nearby := p and absf(p.position.x - position.x) < 64 and absf(p.position.y + 19 - position.y) < 40
 	nearby = nearby or level.hud.dialog.source == self
@@ -66,7 +79,37 @@ func _process(delta: float) -> void:
 			else:
 				position += step
 				walking = true
-	sprite.play("walk" if walking else "idle")
+	sprite.play(_anim_for(walking, delta))
 	var tex := sprite.sprite_frames.get_frame_texture(sprite.animation, 0)
 	sprite.offset = Vector2(-tex.get_width() / 2.0, -tex.get_height())
 	sprite.flip_h = patrol_dir < 0 if walking else (p.position.x < position.x if p else false)
+
+
+## Está falando agora: a caixa de diálogo aberta é dele e ele tem a animação "talk".
+func _talking() -> bool:
+	return level.hud.dialog.is_open() and level.hud.dialog.source == self and sprite.sprite_frames.has_animation("talk")
+
+
+## Anda, fala (durante o diálogo, se o morador tiver "talk"), faz um gesto de vez em quando ou fica parado.
+func _anim_for(walking: bool, delta: float) -> String:
+	var frames := sprite.sprite_frames
+	if walking:
+		gesture = ""
+		return "walk"
+	if _talking():
+		gesture = ""
+		return "talk"
+	if gesture != "":
+		if sprite.animation == gesture and not sprite.is_playing():
+			gesture = ""
+		else:
+			return gesture
+	gesture_timer -= delta
+	if gesture_timer <= 0:
+		gesture_timer = randf_range(8.0, 16.0)
+		var options := GESTURES.filter(func(g): return frames.has_animation(g))
+		if not options.is_empty():
+			gesture = options.pick_random()
+			sprite.stop()
+			return gesture
+	return "idle"

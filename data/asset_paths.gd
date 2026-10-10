@@ -25,6 +25,7 @@ const CHARM_ICONS := "res://assets/ui/charm_icons.png" # ícones dos amuletos, 9
 const BANDITS := VENDOR + "bandits/Sprites/"
 const EVIL_WIZARD := VENDOR + "evil-wizard-2/Sprites/"
 const HERO_KNIGHT := VENDOR + "hero-knight/Sprites/"
+const NPCS := "res://assets/npcs/"               # moradores animados de Pedravelha, uma folha por morador (PixelLab + ajustes)
 const FOREST := VENDOR + "gardens-forest/"
 const UNDEAD := VENDOR + "undead-props/PNG/Objects_separately/"
 const AREAS := "res://assets/areas/"            # arte própria das áreas novas (fontes .aseprite em art_source/cenarios_novos/)

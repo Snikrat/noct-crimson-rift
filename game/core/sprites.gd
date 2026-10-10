@@ -155,8 +155,9 @@ static func _add_crimson(f: SpriteFrames, meta: Dictionary) -> void:
 				for i in range(count - 2, 0, -1):
 					f.add_frame(key, f.get_frame_texture(key, i))
 
-## Adiciona uma animação recortando quadros [first, last] de uma spritesheet horizontal.
-static func add_sheet(frames: SpriteFrames, anim: String, path: String, frame_size: Vector2, first: int, last: int, fps: float, loop := true) -> void:
+## Adiciona uma animação recortando quadros [first, last] de uma spritesheet horizontal
+## (na linha `row`, para folhas com uma animação por linha).
+static func add_sheet(frames: SpriteFrames, anim: String, path: String, frame_size: Vector2, first: int, last: int, fps: float, loop := true, row := 0) -> void:
 	var tex: Texture2D = load(path)
 	frames.add_animation(anim)
 	frames.set_animation_speed(anim, fps)
@@ -164,7 +165,7 @@ static func add_sheet(frames: SpriteFrames, anim: String, path: String, frame_si
 	for i in range(first, last + 1):
 		var atlas := AtlasTexture.new()
 		atlas.atlas = tex
-		atlas.region = Rect2(Vector2(i * frame_size.x, 0), frame_size)
+		atlas.region = Rect2(Vector2(i * frame_size.x, row * frame_size.y), frame_size)
 		frames.add_frame(anim, atlas)
 
 
@@ -175,9 +176,25 @@ const TOWN_SPRITES := Paths.TOWN_SPRITES
 const NPC_IDLE_FRAMES := {"oldman": 8, "woman": 7, "bearded": 5, "hat-man": 4}
 
 
+# Moradores com folha própria (assets/npcs/<kind>.png): quadros 64x64, uma animação por linha,
+# pés na última linha do quadro. Cada entrada: [nome, quadros, quadros/s, repete].
+# talk toca durante o diálogo; as outras (gestos) tocam de vez em quando, paradas (npc.gd).
+const NPC_SHEETS := {
+	"oldman": [["idle", 8, 6, true], ["walk", 12, 8, true], ["talk", 6, 7, true],
+		["nod", 5, 6, false], ["stroke_beard", 7, 6, false]],
+}
+const NPC_FRAME := Vector2(64, 64)
+
+
 static func npc(kind: String) -> SpriteFrames:
 	var f := SpriteFrames.new()
 	f.remove_animation("default")
+	if NPC_SHEETS.has(kind):
+		var rows: Array = NPC_SHEETS[kind]
+		for r in rows.size():
+			var a: Array = rows[r]
+			add_sheet(f, a[0], Paths.NPCS + kind + ".png", NPC_FRAME, 0, a[1] - 1, a[2], a[3], r)
+		return f
 	add_anim(f, "idle", TOWN_SPRITES + kind + "-idle/" + kind + "-idle-%d.png", NPC_IDLE_FRAMES[kind], 7)
 	add_anim(f, "walk", TOWN_SPRITES + kind + "-walk/" + kind + "-walk-%d.png", 12 if kind == "oldman" else 6, 8)
 	return f
