@@ -277,6 +277,8 @@ func _physics_process(delta: float) -> void:
 	else:
 		# Durante um golpe no chão o herói anda devagar.
 		var slow := 0.35 if move != "" and is_on_floor() else 1.0
+		if snare_timer > 0:
+			slow *= 0.4   # rede do Capitão
 		_move(input_x * slow, delta)
 
 	_handle_attack_input(delta)

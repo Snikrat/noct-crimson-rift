@@ -32,6 +32,7 @@ const Sprites := preload("res://game/core/sprites.gd")
 const MarkerScript := preload("res://game/world/world_marker.gd")
 const CrimsonScript := preload("res://game/world/crimson_effect.gd")
 const HumanoidScript := preload("res://game/enemies/enemy_humanoid.gd")
+const CaptainScript := preload("res://game/bosses/capitao/capitao.gd")
 const RainScript := preload("res://game/world/rain.gd")
 const MotesScript := preload("res://game/world/motes.gd")
 const BubbleScript := preload("res://game/ui/speech_bubble.gd")
@@ -365,7 +366,7 @@ func load_room(name: String, entry: String) -> void:
 		var discovery_id: String = props.get("discovery", "")
 		if discovery_id != "" and GameState.discoveries.has(discovery_id) and props["kind"] != "knight":
 			continue
-		_spawn(HumanoidScript, feet, props)
+		_spawn(CaptainScript if props["kind"] == "captain" else HumanoidScript, feet, props)
 
 	if theme.get("rain", false):
 		world.add_child(RainScript.new())

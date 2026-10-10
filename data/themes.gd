@@ -217,6 +217,7 @@ const CHURCH_TORCH := Rect2(552, 0, 72, 192)
 
 # Música de cada chefe (entra quando ele acorda).
 const BOSS_MUSIC := {
+	"capitao": Paths.MUSIC_HEAVY_BATTLE_1,
 	"gato": Paths.MUSIC_REVENGES_WAITING,
 	"bringer": Paths.MUSIC_SILVER_BULLET,
 	"demon_slime": Paths.MUSIC_APOCALYPTIC_CARNAGE,

@@ -134,6 +134,7 @@ var invuln_timer := 0.0
 var hurt_timer := 0.0
 var death_timer := 0.0
 var recoil_x := 0.0
+var snare_timer := 0.0        # preso na rede do Capitão: anda devagar e pula baixo
 var safe_pos := Vector2.ZERO
 var shatter: Node2D = null    # fragmentos voando até o chão seguro depois dos espinhos
 var wall_dir := 0             # lado da parede em que está agarrado (-1/1; 0 = nenhuma)
@@ -236,6 +237,7 @@ func _tick_timers(delta: float) -> void:
 	combo_timer -= delta
 	vertical_timer -= delta
 	slam_recover -= delta
+	snare_timer -= delta
 	recoil_x = move_toward(recoil_x, 0, 900 * delta)
 	if ultimate_timer > 0:
 		ultimate_timer -= delta
@@ -255,7 +257,7 @@ func _move(input_x: float, delta: float) -> void:
 		velocity.y = WALL_SLIDE_SPEED
 
 	if buffer_timer > 0 and coyote_timer > 0:
-		velocity.y = JUMP_VELOCITY
+		velocity.y = JUMP_VELOCITY * (0.55 if snare_timer > 0 else 1.0)
 		buffer_timer = 0
 		coyote_timer = 0
 		Audio.play_sfx("jump")

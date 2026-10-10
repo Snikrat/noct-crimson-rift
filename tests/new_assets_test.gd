@@ -170,18 +170,20 @@ func _run() -> void:
 	await create_timer(0.65).timeout
 	check("bosque conecta à serra", main.room_name == "mountain")
 	await load_room("mountain")
-	var captain = actors().filter(func(n): return n.kind == "captain")[0]
+	var captain = main.world.get_children().filter(func(n): return "BOSS_ID" in n and n.BOSS_ID == "capitao")[0]
 	captain.dir = -1
-	captain._begin_windup()
-	check("capitão orienta sprite para a esquerda", not captain.sprite.flip_h)
-	check("capitão prepara golpe mais lentamente", captain.timer > 0.5)
+	p.position = captain.position - Vector2(80, 0)
+	captain._choose(30.0)
+	captain._physics_process(0.016)
+	check("capitão orienta sprite para a esquerda", captain.sprite.flip_h)
+	check("capitão avisa antes do golpe", captain.state in ["windup", "run"])
 	await capture("bandit_captain", Vector2(776, 320))
 	before_geo = gs.geo
 	captain.take_hit(Vector2.RIGHT, 999)
 	captain.take_hit(Vector2.RIGHT, 999)
 	check("capitão entrega recompensa única", gs.geo == before_geo + 80 and gs.discoveries.has("bandit_captain"))
 	await load_room("mountain")
-	check("capitão derrotado não reaparece", actors().filter(func(n): return n.kind == "captain").is_empty())
+	check("capitão derrotado não reaparece", main.world.get_children().filter(func(n): return "BOSS_ID" in n and n.BOSS_ID == "capitao").is_empty())
 	await load_room("arcane_ruins")
 	var wizard = actors()[0]
 	var archive = get_nodes_in_group("interactables").filter(func(n): return "discovery" in n and n.discovery == "ruins_memory")[0]
