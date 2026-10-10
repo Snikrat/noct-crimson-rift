@@ -383,6 +383,10 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
 }
 .botao-livro:hover { background: #a30f26; color: var(--ouro); }
 .link-livro { font-size: 1rem; }
+.botao-sumario { display: block; margin: 0 0 1.25rem; text-align: center; }
+.hud-nav a.nav-pdf { color: var(--brilho); }
+.hud-nav a.nav-pdf:hover { color: var(--ouro); }
+@media (max-width: 860px) { .botao-sumario { margin-bottom: 1rem; } }
 .livro-epigrafe { max-width: 34rem; margin: 1.5rem auto 0; font-style: italic; color: var(--rosa); text-wrap: balance; }
 .livro-epigrafe::before, .livro-epigrafe::after { content: "\201C"; color: var(--carmesim); }
 .livro-epigrafe::after { content: "\201D"; }
