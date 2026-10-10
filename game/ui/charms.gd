@@ -5,7 +5,7 @@ extends Control
 const Charms := preload("res://data/charms.gd")
 const GOLD := Color("e8c872")
 const PINK := Color(1, 0.35, 0.6)
-const COLS := 4
+const COLS := 5
 
 var level
 var opened := false
@@ -134,7 +134,8 @@ func _draw() -> void:
 	# Descrição do selecionado.
 	var sel: String = Charms.ORDER[index]
 	var info: Dictionary = Charms.CHARMS[sel]
-	var y := box.position.y + 140
+	var rows := ceili(Charms.ORDER.size() / float(COLS))
+	var y := box.position.y + 36 + rows * cell + 14  # logo abaixo da grade
 	if GameState.owned_charms.has(sel):
 		draw_string(font, Vector2(box.position.x + 16, y), "%s   (custo %d)" % [info["name"], info["cost"]], HORIZONTAL_ALIGNMENT_LEFT, -1, 11, GOLD)
 		draw_multiline_string(font, Vector2(box.position.x + 16, y + 16), info["desc"], HORIZONTAL_ALIGNMENT_LEFT, box.size.x - 32, 10, -1, Color(1, 1, 1, 0.85))
