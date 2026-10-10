@@ -412,7 +412,7 @@ func _run() -> void:
 		var gs = game_state()
 		p.global_position = Vector2(10 * 16 + 8, 11 * 16)
 		await wait(10)
-		check("pega amuleto escondido (Lâmina Rubra)", gs.owned_charms.has("red_blade"))
+		check("pega amuleto escondido (Punho Rubro)", gs.owned_charms.has("red_blade"))
 		for i in 4:
 			await tap("up")
 		var bonus0: int = p._melee_bonus()
@@ -439,7 +439,7 @@ func _run() -> void:
 		await tap("dash")
 		await tap("dash")
 		await wait(3)
-		check("Lâmina Rubra dá +1 de dano", p._melee_bonus() == bonus0 + 1, "%d -> %d" % [bonus0, p._melee_bonus()])
+		check("Punho Rubro dá +1 de dano", p._melee_bonus() == bonus0 + 1, "%d -> %d" % [bonus0, p._melee_bonus()])
 		gs.owned_charms["stone_skin"] = true
 		var hp_base: int = p.max_hp
 		gs.equipped_charms.append("stone_skin")

@@ -1,5 +1,5 @@
 extends RefCounted
-## Amuletos: itens equipáveis que mudam o herói. Cada um ocupa "cost" encaixes (NOTCHES no total).
+## Amuletos: itens equipáveis que mudam o herói. (Os ids, como "red_blade", ficam fixos por causa dos saves.) Cada um ocupa "cost" encaixes (NOTCHES no total).
 ## Equipar/remover só sentado num banco (menu de pausa > Amuletos).
 ## O efeito de cada amuleto é aplicado no herói (game/player/player.gd) e em main.gd (Geo).
 
@@ -9,7 +9,7 @@ const ICON_SIZE := 32
 
 # icon = [folha de ícones (1-7), coluna, linha] em assets/vendor/sword-icons/espadas_N.png
 const CHARMS := {
-	"red_blade": {"name": "Lâmina Rubra", "desc": "Todos os golpes causam +1 de dano.", "cost": 2, "icon": [6, 0, 0]},
+	"red_blade": {"name": "Punho Rubro", "desc": "Todos os golpes causam +1 de dano.", "cost": 2, "icon": [6, 0, 0]},
 	"swift_step": {"name": "Passo Veloz", "desc": "Dash 20% mais rápido e recarrega na metade do tempo.", "cost": 1, "icon": [6, 1, 0]},
 	"hungry_heart": {"name": "Coração Faminto", "desc": "Cada golpe recolhe +6 de alma.", "cost": 1, "icon": [6, 3, 2]},
 	"quick_focus": {"name": "Foco Rápido", "desc": "Concentrar alma para curar é 40% mais rápido.", "cost": 2, "icon": [6, 4, 0]},

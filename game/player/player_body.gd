@@ -108,7 +108,7 @@ var max_hp: int:
 	set(value): base_max_hp = value - (1 if GameState.has_charm("stone_skin") else 0)
 var hp := 5
 var soul := 0
-var nail_damage := 1          # +1 com a Lâmina Afiada da loja (soma no dano de todos os golpes)
+var nail_damage := 1          # +1 com a Luvas de Ferro da loja (soma no dano de todos os golpes)
 var soul_per_hit := SOUL_PER_HIT  # aumenta com o Coração de Alma e com o nível 6
 var spell_bonus := 0          # dano extra das magias (recompensa do Bringer of Death)
 
@@ -376,7 +376,7 @@ func _focus_time() -> float:
 	return FOCUS_TIME * (0.6 if GameState.has_charm("quick_focus") else 1.0)
 
 
-## Dano extra dos golpes (loja + Lâmina Rubra) e das magias (grimório + Magia Afiada).
+## Dano extra dos golpes (loja + Punho Rubro) e das magias (grimório + Magia Afiada).
 func _melee_bonus() -> int:
 	return nail_damage - 1 + (1 if GameState.has_charm("red_blade") else 0) + (demon.damage_bonus() if demon else 0)
 
