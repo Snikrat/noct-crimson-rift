@@ -1,12 +1,14 @@
 extends "res://game/world/npc.gd"
 ## Tessa: alguém que também ouve a fenda. Noct a solta dos saqueadores no Bosque e ela reaparece
-## na vila e na catedral (fases "vínculos" e "medo" da bíblia). Ela também entra no final.
+## na vila, na catedral e na Margem das Folhas Paradas, depois do Bringer (fases "vínculos", "medo" e
+## "revelação" da bíblia). Ela também entra no final. Na margem, Noct faz o contrário do que fez com Mira:
+## em vez de dizer que o chamado é cansaço, acredita nela (ideias/arco_tessa.md).
 ## Usa o desenho da moradora da vila com outra cor.
 ## Linhas que começam com "* " são narração (sem nome na caixa).
 
 const TINT := Color(0.72, 0.82, 1.0)
 
-var stage := "captive"     # captive (Bosque), town (vila), cathedral (catedral)
+var stage := "captive"     # captive (Bosque), town (vila), cathedral (catedral), lake (Margem das Folhas Paradas)
 
 
 ## Ela aparece nesta sala agora?
@@ -16,10 +18,19 @@ static func appears(stage_name: String) -> bool:
 		"captive":
 			return not f.has("tessa_saved")
 		"town":
-			return f.has("tessa_saved")
+			# Depois do Bringer o chamado a puxa até o lago; ela só volta à vila depois de encontrar Noct lá.
+			return f.has("tessa_saved") and not _at_lake()
 		"cathedral":
 			return f.has("tessa_thanked") and not f.has("tessa_cathedral")
+		"lake":
+			return _at_lake()
 	return false
+
+
+## Tessa está na margem do lago esperando o Noct (depois do Bringer, antes da conversa de lá).
+static func _at_lake() -> bool:
+	var f: Dictionary = GameState.flags
+	return f.has("tessa_cathedral") and GameState.defeated_bosses.has("bringer") and not f.has("tessa_lake")
 
 
 func _ready() -> void:
@@ -73,11 +84,49 @@ func interact() -> void:
 				"* Ele espera até ela sumir na estrada antes de seguir.",
 			], tex)
 			_leave()
+		"lake":
+			GameState.flags["tessa_lake"] = true
+			level.start_dialog(npc_name, [
+				"* Tessa está sentada na margem, os pés quase na água parada.",
+				"* Está enrolada na manta dele. Tremendo, e não é de frio.",
+				"@irritado: Eu mandei você voltar.",
+				"Eu voltei. Ele me chamou de novo.",
+				"Tá mais alto agora. Parece alguém chamando do outro lado de uma porta.",
+				"@olhar_baixo: ...",
+				"* A mão dele vai até a sobrancelha. Para no meio do caminho.",
+				"Você vai dizer que é cansaço?",
+				"@fechando_olhos: Não.",
+				"@serio: Eu acredito em você.",
+				"* Ela olha pra ele como se esperasse uma piada. Não vem nenhuma.",
+				"@neutro: Volta pra Pedravelha. Senta no banco. Espera.",
+				"E se você não voltar?",
+				"@olhar_lateral: Volto. Não faz nada idiota.",
+				"* Ela sorri de canto. Ele não sabe de onde tirou essa frase.",
+				"* Ele sabe.",
+			], tex)
+			_leave()
 
 
-## Conversa na vila, pela ordem da história: frio -> manta (deixada no banco) -> despedida.
+## Conversa na vila, pela ordem da história: frio -> manta (deixada no banco) -> despedida
+## -> esperando (depois da margem do lago) -> a promessa (depois do Velário).
 func _town_lines() -> Array:
 	var f: Dictionary = GameState.flags
+	if f.has("tessa_lake"):
+		if GameState.defeated_bosses.has("velario"):
+			return [
+				"Você voltou.",
+				"@sarcastico: Ainda não. Só passei pra ver se você obedeceu.",
+				"Obedeci. Tá mais baixo aqui. O chamado.",
+				"@calmo: Bom.",
+				"Você tá diferente.",
+				"@olhar_lateral: Lembrei de uma coisa.",
+				"Boa ou ruim?",
+				"@fechando_olhos: Uma promessa.",
+			]
+		return [
+			"Tô esperando. Do jeito que você mandou.",
+			"@olhar_lateral: Hm. Primeira vez que alguém me obedece.",
+		]
 	if f.has("tessa_jacket") and not f.has("tessa_thanked"):
 		f["tessa_thanked"] = true
 		return [

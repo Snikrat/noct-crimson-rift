@@ -11,6 +11,8 @@ const FlyerScript := preload("res://game/enemies/enemy_flyer.gd")
 const BOSS_ID := "demon_slime"
 const BOSS_NAME := "Demon Slime"
 const WAKE_LINES := ["Você carrega a ausência dela como uma lâmina.", "@magia_olhos: Foi você que abriu a fenda?", "Foi a sua dor que abriu a porta. Eu só entrei.", "@maligno: Então eu fecho com você dentro."]
+# Se Noct salvou a Tessa, a fenda tenta com ela o que fez com Mira (ideias/arco_tessa.md).
+const TESSA_LINES := ["Ela também me ouve. A da manta.", "Eu chamo, ela vem. Igual à outra.", "@furioso: Ela não vem.", "@serio: Eu disse pra ela esperar. E dessa vez alguém ouviu."]
 const SIZE := Vector2(56, 92)
 const GRAVITY := 1100.0
 const MAX_HP := 70
@@ -263,3 +265,11 @@ func take_hit(_from_dir: Vector2, damage: int) -> void:
 		for s in get_tree().get_nodes_in_group("summoned"):
 			level.spawn_explosion(s.global_position, false)
 			s.queue_free()
+
+
+## Falas do despertar (main.gd, on_boss_wake): as de sempre, mais a tentação com a Tessa se ela foi salva.
+func wake_lines() -> Array:
+	var lines: Array = WAKE_LINES.duplicate()
+	if GameState.flags.has("tessa_saved"):
+		lines.append_array(TESSA_LINES)
+	return lines

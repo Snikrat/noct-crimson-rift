@@ -183,6 +183,20 @@ func _run() -> void:
 		await skip_dialogs()
 		await wait(70)
 		check("Tessa vai embora da catedral", gs().flags.has("tessa_cathedral") and not is_instance_valid(tessa))
+	# Depois do Bringer o chamado a leva até a margem do lago; sai da vila até Noct encontrá-la lá.
+	gs().defeated_bosses["bringer"] = true
+	await go("town", Vector2(200, 256))
+	check("Tessa sai da vila depois do Bringer", _find_tessa() == null)
+	await go("lake_shore", Vector2(420, 224))
+	tessa = _find_tessa()
+	check("Tessa aparece na margem do lago", tessa != null and tessa.stage == "lake")
+	if tessa:
+		tessa.interact()
+		check("na margem ele acredita nela", gs().flags.has("tessa_lake") and "Eu acredito em você." in str(main.hud.dialog.lines))
+		await skip_dialogs()
+	await go("town", Vector2(200, 256))
+	tessa = _find_tessa()
+	check("Tessa volta para a vila e espera", tessa != null and tessa.stage == "town" and "esperando" in str(tessa._town_lines()))
 
 	# --- Luz e impacto ---
 	check("aura do herói existe e acende na forma carmesim", p.aura != null)
@@ -199,6 +213,8 @@ func _run() -> void:
 	check("Demon Slime pronto", boss != null)
 	if boss:
 		boss.take_hit(Vector2.RIGHT, 1)
+		await wait(2)
+		check("Trono: a fenda tenta usar a Tessa", "A da manta." in str(main.hud.dialog.lines))
 		await skip_dialogs()
 		boss.hp = 1
 		boss.take_hit(Vector2.RIGHT, 1)

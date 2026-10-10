@@ -9,6 +9,7 @@ const ROOM := {
 	"left": "", "right": "vigil_chapel", "right_entry": "L",
 	"intro": ["@olhar_lateral: Água parada. De novo.", "@desconfiado: ...O meu reflexo está atrasado."],
 	"entries": {"SANCTUM": Vector2(72, 224)},
+	"tessa": {"stage": "lake", "feet": Vector2(456, 224)},   # Tessa (game/world/tessa.gd), depois do Bringer
 	"markers": [
 		{"feet": Vector2(40, 224), "title": "Voltar ao Santuário", "target": "sanctum", "entry": "LAKE", "portal": true},
 		{"feet": Vector2(264, 224), "title": "Véus bordados",

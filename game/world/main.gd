@@ -692,7 +692,9 @@ func on_boss_wake(b: Node2D) -> void:
 	Audio.play_sfx("encounter", 0.0)
 	hud.show_banner(b.BOSS_NAME)
 	shake(6.0)
-	if "WAKE_LINES" in b:
+	if b.has_method("wake_lines"):
+		hud.dialog.start(b.BOSS_NAME, b.wake_lines())
+	elif "WAKE_LINES" in b:
 		hud.dialog.start(b.BOSS_NAME, b.WAKE_LINES)
 	Audio.play_music(Rooms.BOSS_MUSIC.get(b.BOSS_ID, theme["music"]), 1.0, 0.0, 0.6)
 

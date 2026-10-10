@@ -44,6 +44,7 @@ const ENTRIES := {
 		["", "Diz que parece alguém chamando do outro lado de uma porta."],
 		["flag:tessa_thanked", "Em Pedravelha, apareceu enrolada numa manta grande demais pra ela. Ele disse que era dele. \"Era.\""],
 		["flag:tessa_cathedral", "Seguiu Noct até a catedral. Ele a mandou embora com frieza, e esperou ela sumir na estrada antes de seguir."],
+		["flag:tessa_lake", "O chamado a levou até a margem do lago. Perguntou se ele ia dizer que era cansaço. Ele disse que acreditava nela, e mandou ela esperar no banco."],
 		["flag:ending_leave", "Dias depois, sentou na outra ponta do banco. Ele não pediu que ela fosse embora."],
 	]},
 	"zeno": {"name": "Velho Zeno", "role": "Morador de Pedravelha", "requires": "room:town", "parts": [
