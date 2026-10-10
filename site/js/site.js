@@ -201,6 +201,11 @@
   var caps = (livro.capitulos || []).filter(function (c) { return c && (c.texto || "").trim(); });
   if (livro.titulo) document.getElementById("livro-titulo").textContent = livro.titulo;
   if (livro.subtitulo) document.getElementById("livro-subtitulo").textContent = livro.subtitulo;
+  if (livro.epigrafe) {
+    var ep = document.getElementById("livro-epigrafe");
+    ep.textContent = livro.epigrafe;
+    ep.hidden = false;
+  }
 
   var lista = document.getElementById("sumario-lista");
   var select = document.getElementById("sumario-select");
@@ -217,8 +222,7 @@
   function enfeitar(t) {
     return escapar(t)
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-      .replace(/\*(.+?)\*/g, "<em>$1</em>")
-      .replace(/_(.+?)_/g, "<em>$1</em>");
+      .replace(/\*(.+?)\*/g, "<em>$1</em>");
   }
   // Texto simples: parágrafos separados por linha em branco; "## " é subtítulo; "***" é troca de cena;
   // parágrafo que começa com travessão (—) é diálogo; *itálico* para pensamentos; **negrito**.
@@ -229,6 +233,10 @@
       var t = bl.trim();
       if (!t) return;
       if (/^(\*\s*){3,}$|^(-\s*){3,}$/.test(t)) { html.push('<div class="cena" role="separator"></div>'); return; }
+      if (/^>/.test(t)) {
+        html.push('<blockquote class="epigrafe">' + t.split("\n").map(function (l) { return enfeitar(l.replace(/^>\s?/, "")); }).join("<br>") + "</blockquote>");
+        return;
+      }
       var m = t.match(/^#{2,4}\s+(.*)$/);
       if (m) { html.push("<h4>" + enfeitar(m[1]) + "</h4>"); return; }
       var linhas = t.split("\n").map(function (l) { return enfeitar(l.trim()); }).join("<br>");
@@ -247,8 +255,10 @@
     var c = caps[atualCap];
     var rotulo = c.rotulo || ("Capítulo " + nomeCap(c, atualCap));
     pagina.innerHTML =
+      (c.parte ? '<p class="cap-parte">' + escapar(c.parte) + "</p>" : "") +
       '<p class="cap-num px">' + escapar(rotulo) + "</p>" +
       "<h3>" + escapar(c.titulo || rotulo) + "</h3>" +
+      (c.epigrafeParte ? '<blockquote class="epigrafe">' + enfeitar(c.epigrafeParte) + "</blockquote>" : "") +
       '<div class="cap-texto">' + paraHtml(c.texto) + "</div>";
     Array.prototype.forEach.call(lista.querySelectorAll("button"), function (bt, j) {
       bt.setAttribute("aria-current", j === atualCap ? "true" : "false");
@@ -262,7 +272,23 @@
   }
 
   if (caps.length) {
+    var parteAtual = null;
+    var grupo = null;
     caps.forEach(function (c, i) {
+      if ((c.parte || null) !== parteAtual) {
+        parteAtual = c.parte || null;
+        if (parteAtual) {
+          var cab = document.createElement("li");
+          cab.className = "sumario-parte";
+          cab.textContent = parteAtual;
+          lista.appendChild(cab);
+          grupo = document.createElement("optgroup");
+          grupo.label = parteAtual;
+          select.appendChild(grupo);
+        } else {
+          grupo = null;
+        }
+      }
       var li = document.createElement("li");
       var bt = document.createElement("button");
       bt.type = "button";
@@ -276,7 +302,7 @@
       var op = document.createElement("option");
       op.value = String(i);
       op.textContent = (c.rotulo || ("Capítulo " + nomeCap(c, i))) + (c.titulo ? ": " + c.titulo : "");
-      select.appendChild(op);
+      (grupo || select).appendChild(op);
     });
     select.addEventListener("change", function () { abrir(parseInt(select.value, 10), false); });
     anterior.addEventListener("click", function () { abrir(atualCap - 1, true); });

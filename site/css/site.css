@@ -367,7 +367,10 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
   color: #f1e8ee;
   text-wrap: balance;
 }
-.livro-subtitulo { margin: 0; color: var(--apagado); }
+.livro-subtitulo { max-width: 40rem; margin: 0 auto; color: var(--apagado); text-wrap: pretty; }
+.livro-epigrafe { max-width: 34rem; margin: 1.5rem auto 0; font-style: italic; color: var(--rosa); text-wrap: balance; }
+.livro-epigrafe::before, .livro-epigrafe::after { content: "\201C"; color: var(--carmesim); }
+.livro-epigrafe::after { content: "\201D"; }
 
 .livro-corpo {
   display: grid;
@@ -394,6 +397,8 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
 .sumario li button span { display: block; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--rosa); opacity: .8; }
 .sumario li button:hover { color: var(--texto); border-left-color: var(--rosa); }
 .sumario li button[aria-current="true"] { color: #f1e8ee; border-left-color: var(--carmesim); background: rgba(196, 20, 46, .08); }
+.sumario-parte { margin: 1rem 0 .25rem; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ouro); }
+.sumario-parte:first-child { margin-top: 0; }
 .sumario-vazio { color: var(--apagado); font-style: italic; font-size: 1rem; padding-left: .6rem; }
 .sumario-select { display: none; }
 .sumario-select select {
@@ -426,6 +431,8 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
   color: #e4dde8;
   hyphens: auto;
 }
+.pagina .cap-parte { margin: 0 0 .5rem; text-align: center; text-indent: 0; font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; color: var(--apagado); }
+.pagina .epigrafe { margin: -1rem auto 2.25rem; max-width: 30rem; text-align: center; font-style: italic; color: var(--rosa); font-size: 1.05rem; }
 .pagina .cap-num { margin: 0; text-align: center; text-indent: 0; color: var(--ouro); }
 .pagina h3 {
   margin: .5rem 0 2.25rem;
@@ -440,14 +447,13 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
 .pagina h4 { margin: 2.25rem 0 1rem; font-size: 1.2rem; font-weight: 600; text-align: center; }
 .pagina p { margin: 0; text-indent: 1.5em; }
 .pagina h3 + p, .pagina h4 + p, .pagina .cena + p, .pagina .cap-texto > p:first-child { text-indent: 0; }
-.pagina .cap-texto > p:first-of-type::first-letter {
-  float: left;
+.pagina .cap-texto > p:first-child::first-letter {
   font-family: var(--f-pixel);
-  font-size: 48px;
-  line-height: .9;
-  margin: .35rem .2rem 0 0;
+  font-size: 36px;
+  line-height: 0;
+  margin-right: .1rem;
   color: var(--carmesim);
-  text-shadow: 4px 4px 0 var(--sangue);
+  text-shadow: 3px 3px 0 var(--sangue);
 }
 .pagina p.dialogo { text-indent: 0; padding-left: 1.5em; }
 .pagina em { color: #f3d9e0; }
