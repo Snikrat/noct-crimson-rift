@@ -13,6 +13,17 @@ python3 tools/livro_para_site.py caminho/do/livro.md
 O script refaz `capitulos.js` inteiro (partes, epígrafes e capítulos). Não edite o arquivo à mão se for
 rodar o script depois.
 
+Depois, refaça o livro em PDF (o botão "Baixar o livro em PDF" do site aponta para ele):
+
+```
+python3 tools/livro_pdf.py
+```
+
+Ele gera `site/noct_e_a_fenda_carmesim.pdf` a partir de `site/livro.html` (capa, folha de rosto, sumário com
+páginas, partes, capítulos e colofão, em formato A5) e grava os números do sumário em `historia/paginas.js`.
+Precisa de Node com o Playwright e de `pip install pypdf`. Sem isso, dá para abrir `site/livro.html` no
+navegador e usar o botão "Salvar em PDF".
+
 ## Formato de cada capítulo
 
 Cada item da lista `capitulos`:

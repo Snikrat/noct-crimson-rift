@@ -1,0 +1,258 @@
+/* Livro para impressão (livro.html): formato A5, margens espelhadas, capítulos em página nova,
+   números de página no rodapé. Na tela, as páginas aparecem como folhas sobre a mesa escura. */
+@font-face {
+  font-family: "Noct Pixel";
+  src: url("../fonts/noct_pixel.woff2") format("woff2");
+}
+
+:root {
+  color-scheme: dark;
+  --mesa: #0b0d1a;
+  --papel: #fbf7f1;
+  --tinta: #1d1a1f;
+  --tinta-suave: #5d5560;
+  --carmesim: #a3122a;
+  --sangue: #3c080b;
+  --ouro: #e8c872;
+  --f-texto: "Spectral", Georgia, "Times New Roman", serif;
+  --f-pixel: "Noct Pixel", "Courier New", monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--mesa);
+  color: var(--tinta);
+  font-family: var(--f-texto);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+img { max-width: 100%; }
+
+/* ---------- Barra da tela ---------- */
+.barra-tela {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .75rem 1.5rem;
+  padding: .75rem 16px;
+  background: rgba(7, 6, 12, .94);
+  border-bottom: 1px solid #2a1d2c;
+  color: #d9d2e0;
+  font-size: .95rem;
+}
+.barra-tela p { margin: 0; flex: 1 1 16rem; min-width: 0; }
+.barra-tela a { color: var(--ouro); }
+.barra-tela button {
+  font-family: var(--f-pixel);
+  font-size: 24px;
+  padding: .45rem 1rem;
+  color: var(--papel);
+  background: var(--carmesim);
+  border: 2px solid #ff4d5e;
+  cursor: pointer;
+  text-shadow: 2px 2px 0 var(--sangue);
+}
+.barra-tela button:hover { background: #c4142e; }
+.barra-tela button:focus-visible, .barra-tela a:focus-visible { outline: 2px solid var(--ouro); outline-offset: 3px; }
+
+/* ---------- Páginas na tela ---------- */
+#livro { display: grid; justify-items: center; gap: 24px; padding: 24px 16px 64px; }
+#livro > section {
+  position: relative;
+  width: min(148mm, 100%);
+  min-height: 210mm;
+  padding: 18mm 15mm 20mm;
+  background: var(--papel);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .55);
+}
+.marca { position: absolute; top: 0; left: 0; font-size: 2px; line-height: 1; color: var(--papel); }
+
+/* ---------- Capa ---------- */
+#livro > .capa { padding: 0; overflow: hidden; background: var(--mesa); color: #f1e8ee; display: grid; }
+.capa-fundo {
+  grid-area: 1 / 1;
+  background:
+    url("../img/titulo/Grass_background_1.png") center bottom / auto 100% repeat-x,
+    url("../img/titulo/Grass_background_2.png") center bottom / auto 100% repeat-x,
+    url("../img/titulo/Background_1.png") center bottom / auto 100% repeat-x,
+    url("../img/titulo/Background_0.png") center bottom / auto 100% repeat-x;
+  image-rendering: pixelated;
+  opacity: .9;
+}
+.capa-texto {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  justify-items: center;
+  padding: 16mm 10mm 18mm;
+  text-align: center;
+  background: linear-gradient(rgba(11, 13, 26, .78), rgba(11, 13, 26, .15) 38%, rgba(11, 13, 26, .1) 62%, rgba(7, 6, 12, .96) 86%);
+}
+.capa-logo { width: 112mm; image-rendering: pixelated; filter: drop-shadow(0 0 6mm rgba(196, 20, 46, .5)); }
+.capa h1 {
+  grid-row: 3;
+  margin: 0 0 3mm;
+  font-size: 24pt;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.15;
+  color: #f6eef2;
+}
+.capa-sub {
+  grid-row: 4;
+  margin: 0;
+  font-family: var(--f-pixel);
+  font-size: 12pt;
+  color: #e1a7b4;
+  text-shadow: 1pt 1pt 0 var(--sangue);
+}
+
+/* ---------- Folha de rosto ---------- */
+.rosto { display: grid; align-content: center; justify-items: center; gap: 5mm; text-align: center; }
+.rosto-titulo { margin: 0; font-size: 22pt; font-style: italic; line-height: 1.2; }
+.rosto-sub { margin: 0; font-size: 9pt; letter-spacing: .18em; text-transform: uppercase; color: var(--tinta-suave); }
+.rosto-epigrafe { margin: 14mm 6mm 0; font-style: italic; font-size: 11pt; line-height: 1.5; color: var(--carmesim); }
+.rosto-nota { margin: 6mm 4mm 0; font-size: 9pt; line-height: 1.55; color: var(--tinta-suave); text-wrap: pretty; }
+.rosto-emblema { width: 14mm; margin-top: 10mm; }
+
+/* ---------- Sumário ---------- */
+.sumario h2, .colofao p:first-of-type {
+  margin: 0 0 8mm;
+  text-align: center;
+  font-family: var(--f-pixel);
+  font-weight: normal;
+  font-size: 18pt;
+  color: var(--carmesim);
+  text-shadow: 1.5pt 1.5pt 0 #e8cfd4;
+}
+.sumario ol { list-style: none; margin: 0; padding: 0; font-size: 10pt; line-height: 1.35; }
+.sumario li { display: flex; align-items: baseline; gap: 2mm; break-inside: avoid; }
+.sumario li span { min-width: 0; }
+.sumario li::after { content: none; }
+.sumario li b { margin-left: auto; font-weight: 400; font-variant-numeric: tabular-nums; color: var(--tinta-suave); }
+.sumario li span::after {
+  content: "";
+  display: inline-block;
+  width: 0;
+}
+.sumario .s-parte {
+  margin: 4mm 0 1.5mm;
+  font-size: 8.5pt;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--carmesim);
+}
+.sumario .s-cap { margin: 0 0 1.4mm; }
+.sumario .s-dentro { padding-left: 4mm; }
+.sumario .s-cap i { display: block; font-style: normal; font-size: 7.5pt; letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-suave); }
+
+/* ---------- Abertura de parte ---------- */
+.parte { display: grid; align-content: center; justify-items: center; text-align: center; gap: 4mm; }
+.parte-num {
+  margin: 0;
+  font-family: var(--f-pixel);
+  font-size: 18pt;
+  color: var(--carmesim);
+  text-shadow: 1.5pt 1.5pt 0 #e8cfd4;
+}
+.parte h2 { margin: 0; font-size: 22pt; font-weight: 400; font-style: italic; line-height: 1.2; text-wrap: balance; }
+.parte-epigrafe { margin: 10mm 4mm 0; font-style: italic; font-size: 10.5pt; line-height: 1.55; color: var(--tinta-suave); text-wrap: pretty; }
+.parte-emblema { width: 12mm; margin-top: 10mm; }
+
+/* ---------- Capítulo ---------- */
+.capitulo { padding-top: 30mm !important; }
+.cap-num {
+  margin: 0;
+  text-align: center;
+  font-family: var(--f-pixel);
+  font-size: 12pt;
+  color: var(--carmesim);
+}
+.capitulo h3 {
+  margin: 2mm 0 12mm;
+  text-align: center;
+  font-size: 19pt;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+.cap-texto {
+  font-size: 10.5pt;
+  line-height: 1.5;
+  text-align: justify;
+  hyphens: auto;
+  orphans: 2;
+  widows: 2;
+}
+.cap-texto p { margin: 0; text-indent: 1.4em; }
+.cap-texto > p:first-child, .cap-texto .cena + p, .cap-texto blockquote + p, .cap-texto h4 + p { text-indent: 0; }
+.cap-texto > p:first-child::first-letter {
+  font-size: 1.9em;
+  line-height: 1;
+  color: var(--carmesim);
+}
+.cap-texto p.dialogo { text-indent: 1.4em; }
+.cap-texto em { font-style: italic; }
+.cap-texto .cena {
+  height: 8mm;
+  margin: 3mm 0;
+  background: url("../img/ui/emblem.png") center / 4.5mm 4.5mm no-repeat;
+  break-after: avoid;
+}
+.cap-texto blockquote, .cap-texto .epigrafe {
+  margin: 0 6mm 7mm;
+  text-align: center;
+  font-style: italic;
+  font-size: 9.5pt;
+  color: var(--tinta-suave);
+  hyphens: manual;
+}
+.cap-texto h4 { margin: 6mm 0 3mm; text-align: center; font-size: 11pt; font-weight: 600; break-after: avoid; }
+
+/* ---------- Colofão ---------- */
+.colofao { display: grid; align-content: end; justify-items: center; gap: 1mm; text-align: center; font-size: 8.5pt; color: var(--tinta-suave); }
+.colofao img { width: 10mm; margin-bottom: 4mm; }
+.colofao p { margin: 0; }
+.colofao p:first-of-type { margin: 0 0 2mm; font-size: 12pt; }
+
+/* ---------- Impressão ---------- */
+@page {
+  size: 148mm 210mm;
+  margin: 18mm 15mm 20mm;
+  @bottom-center {
+    content: counter(page);
+    font-family: "Spectral", Georgia, serif;
+    font-size: 8.5pt;
+    color: #5d5560;
+  }
+}
+@page :left { margin-left: 15mm; margin-right: 18mm; }
+@page :right { margin-left: 18mm; margin-right: 15mm; }
+@page capa { margin: 0; @bottom-center { content: none; } }
+@page :first { margin: 0; }
+@page sem-numero { @bottom-center { content: none; } }
+
+@media print {
+  :root { color-scheme: light; --papel: #fff; }
+  html, body { background: #fff; }
+  .barra-tela { display: none; }
+  #livro { display: block; padding: 0; }
+  #livro > section {
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    box-shadow: none;
+    break-before: page;
+  }
+  #livro > section:first-child { break-before: auto; }
+  #livro > .capa { page: capa; height: 210mm; background: var(--mesa); }
+  #livro > .rosto, #livro > .parte, #livro > .colofao { page: sem-numero; height: 170mm; }
+  .capitulo { padding-top: 22mm !important; }
+}

@@ -368,6 +368,21 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
   text-wrap: balance;
 }
 .livro-subtitulo { max-width: 40rem; margin: 0 auto; color: var(--apagado); text-wrap: pretty; }
+.livro-acoes { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .75rem 1.5rem; margin-top: 1.75rem; }
+.botao-livro {
+  font-family: var(--f-pixel);
+  font-size: 24px;
+  line-height: 1.2;
+  padding: .55rem 1.1rem;
+  color: #fff4f6;
+  background: var(--carmesim);
+  border: 2px solid var(--brilho);
+  text-decoration: none;
+  text-shadow: 2px 2px 0 var(--sangue);
+  box-shadow: 0 0 18px rgba(196, 20, 46, .35);
+}
+.botao-livro:hover { background: #a30f26; color: var(--ouro); }
+.link-livro { font-size: 1rem; }
 .livro-epigrafe { max-width: 34rem; margin: 1.5rem auto 0; font-style: italic; color: var(--rosa); text-wrap: balance; }
 .livro-epigrafe::before, .livro-epigrafe::after { content: "\201C"; color: var(--carmesim); }
 .livro-epigrafe::after { content: "\201D"; }

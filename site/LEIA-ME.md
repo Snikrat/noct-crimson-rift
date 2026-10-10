@@ -6,6 +6,8 @@ ou publique a pasta `site/` em qualquer hospedagem estática (GitHub Pages, Netl
 - `index.html`: página única (título, o jogo, Noct, o mundo, personagens e história).
 - `css/site.css` e `js/site.js`: estilo e animações (logo animado, fundo da tela de título, Noct, barra de leitura).
 - `historia/capitulos.js`: capítulos do livro mostrados na seção História. Formato em `historia/LEIA-ME.md`.
+- `livro.html` (+ `css/livro.css`, `js/livro.js`): o livro inteiro montado para imprimir ou salvar em PDF.
+- `noct_e_a_fenda_carmesim.pdf`: o livro em PDF, gerado por `tools/livro_pdf.py`.
 - `img/`: cópias da arte do jogo (logo, tela de título, sprites, retratos, HUD e capturas das áreas).
 - `fonts/noct_pixel.woff2`: a fonte do jogo convertida por `tools/make_site_font.py`.
 - `.gdignore`: faz a Godot ignorar a pasta (o site não entra no jogo exportado).

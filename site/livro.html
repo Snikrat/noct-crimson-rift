@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Noct e a Fenda Carmesim</title>
+<meta name="description" content="O livro da história de NOCT Crimson Rift, montado para imprimir ou salvar em PDF.">
+<link rel="icon" href="img/ui/emblem.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="css/livro.css">
+</head>
+<body>
+
+<!-- Barra só da tela: some na impressão -->
+<div class="barra-tela">
+  <a href="index.html#historia">Voltar ao site</a>
+  <p>Este é o livro montado para impressão. No diálogo, escolha <b>Salvar como PDF</b>.</p>
+  <button type="button" id="imprimir">Salvar em PDF</button>
+</div>
+
+<!-- O livro é montado por js/livro.js a partir de historia/capitulos.js -->
+<div id="livro"></div>
+
+<script src="historia/capitulos.js"></script>
+<script src="historia/paginas.js"></script>
+<script src="js/texto.js"></script>
+<script src="js/livro.js"></script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+// Página em que começa cada parte e capítulo no PDF do livro (sumário do livro.html).
+// Gerado por tools/livro_pdf.py; vazio = o sumário sai sem números.
+window.NOCT_LIVRO_PAGINAS = {"cap-0": 6, "cap-1": 10, "cap-10": 66, "cap-11": 73, "cap-12": 78, "cap-13": 84, "cap-14": 88, "cap-15": 97, "cap-16": 104, "cap-17": 108, "cap-18": 112, "cap-19": 118, "cap-2": 17, "cap-20": 125, "cap-21": 130, "cap-22": 136, "cap-23": 141, "cap-24": 146, "cap-25": 151, "cap-26": 156, "cap-27": 159, "cap-3": 25, "cap-4": 31, "cap-5": 38, "cap-6": 43, "cap-7": 51, "cap-8": 55, "cap-9": 60, "parte-1": 9, "parte-11": 72, "parte-15": 96, "parte-20": 124, "parte-4": 30, "parte-7": 50};
