@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NOCT Crimson Rift</title>
+<meta name="description" content="NOCT Crimson Rift: um metroidvania em pixel art sobre um homem que perdeu tudo e uma fenda carmesim que responde à ausência.">
+<link rel="icon" href="img/ui/emblem.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+
+<header class="hud" id="topo">
+  <a class="hud-marca" href="#inicio" aria-label="Voltar ao início">
+    <img src="img/ui/emblem.png" alt="" width="40" height="40">
+    <span class="px">NOCT</span>
+  </a>
+  <div class="hud-barra" title="Quanto da página você já percorreu" aria-hidden="true">
+    <div class="hud-barra-fill" id="barra-leitura"></div>
+  </div>
+  <nav class="hud-nav" aria-label="Seções">
+    <a href="#jogo">O jogo</a>
+    <a href="#noct">Noct</a>
+    <a href="#mundo">O mundo</a>
+    <a href="#personagens">Personagens</a>
+    <a href="#historia" class="destaque">História</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- Tela de título: as mesmas camadas e o mesmo logo animado da tela inicial do jogo -->
+<section class="titulo" id="inicio">
+  <div class="camada c0"></div>
+  <div class="camada c1"></div>
+  <div class="camada c2"></div>
+  <div class="camada c3"></div>
+  <canvas class="vagalumes" id="vagalumes" aria-hidden="true"></canvas>
+  <div class="clarao" id="clarao" aria-hidden="true"></div>
+  <div class="titulo-conteudo">
+    <h1 class="sr">NOCT Crimson Rift</h1>
+    <canvas id="logo" width="300" height="112" role="img" aria-label="Logo de NOCT Crimson Rift"></canvas>
+    <p class="titulo-frase">Um homem que perdeu sua razão para viver. Uma fenda carmesim que responde à ausência.</p>
+    <div class="menu" role="list">
+      <a class="menu-item" role="listitem" href="#jogo">Conhecer o jogo</a>
+      <a class="menu-item" role="listitem" href="#historia">Ler a história</a>
+      <a class="menu-item" role="listitem" href="#personagens">Personagens</a>
+    </div>
+  </div>
+</section>
+
+<!-- O jogo -->
+<section class="sala" id="jogo">
+  <div class="sala-titulo"><span class="px">O jogo</span></div>
+  <div class="largura">
+    <div class="abertura">
+      <p class="lead">NOCT Crimson Rift é um metroidvania 2D em pixel art, feito na Godot. Você controla Noct, um viajante que aceita trabalhos, entra em ruínas por dinheiro e chama isso de liberdade. Na verdade, está fugindo.</p>
+      <p>Desde que perdeu Mira, uma energia carmesim responde a ele. Ele a odeia. E precisa dela. De Pedravelha até o fundo da Fenda, cada área guarda um chefe, uma lembrança e uma pergunta que ele evita fazer em voz alta.</p>
+      <blockquote class="fala">
+        <img src="img/noct/portrait_desconfiado.png" alt="Retrato de Noct" width="72" height="72">
+        <div><span class="px fala-nome">Noct</span><p>E se ela morreu por minha causa?</p></div>
+      </blockquote>
+    </div>
+
+    <ul class="recursos">
+      <li>
+        <h3 class="px">Combate de perto</h3>
+        <p>Socos, chutes, cruzados e combos no chão e no ar. Dash, pulo duplo e golpe carregado para quem aprende o ritmo de cada inimigo.</p>
+      </li>
+      <li>
+        <h3 class="px">A Fenda Carmesim</h3>
+        <p>A energia que vive em Noct não obedece a selos. Com ela, ele lança magias, cura feridas e, mais tarde, atravessa paredes carmesim.</p>
+      </li>
+      <li>
+        <h3 class="px">A Forma Demoníaca</h3>
+        <p>Quando o poder deixa de ser surto e vira escolha, Noct assume a forma da raposa carmesim, com garras, investidas e a Raposa Espectral.</p>
+      </li>
+      <li>
+        <h3 class="px">Memórias de Mira</h3>
+        <p>Fragmentos dela estão espalhados pelo mundo. Cada um devolve a Noct um pedaço do que ele tentou esquecer.</p>
+      </li>
+      <li>
+        <h3 class="px">Seis áreas</h3>
+        <p>Um refúgio e cinco regiões, cada uma com cenários no estilo do seu chefe e terminando na sala dele.</p>
+      </li>
+      <li>
+        <h3 class="px">Dois finais</h3>
+        <p>No fim da estrada, Noct precisa decidir o que fazer com a porta que ela fechou.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Noct -->
+<section class="sala sala-noct" id="noct">
+  <div class="sala-titulo"><span class="px">Noct</span></div>
+  <div class="largura noct-grade">
+    <div class="palco">
+      <canvas id="sprite" width="117" height="77" role="img" aria-label="Noct animado"></canvas>
+      <div class="palco-chao" aria-hidden="true"></div>
+      <div class="controles" role="group" aria-label="Animação">
+        <div class="alternar" role="group" aria-label="Forma">
+          <button type="button" id="forma-humano" class="ativo" aria-pressed="true">Noct</button>
+          <button type="button" id="forma-raposa" aria-pressed="false">Forma Demoníaca</button>
+        </div>
+        <div class="alternar" role="group" aria-label="Movimento">
+          <button type="button" id="anim-parado" class="ativo" aria-pressed="true">Parado</button>
+          <button type="button" id="anim-correndo" aria-pressed="false">Correndo</button>
+        </div>
+      </div>
+    </div>
+    <div class="ficha">
+      <div class="ficha-topo">
+        <img id="retrato-noct" src="img/noct/portrait_calmo.png" alt="Retrato de Noct" width="96" height="96">
+        <div>
+          <p class="px ficha-nome">Noct</p>
+          <p class="ficha-papel">O viajante</p>
+        </div>
+      </div>
+      <p>Aceita trabalhos, entra em ruínas por dinheiro e chama isso de liberdade. Responde quase tudo com sarcasmo, e o sarcasmo é a armadura que sobrou.</p>
+      <p>Carrega no pulso uma fita carmesim e não diz de onde ela veio. Quando mente, coça a sobrancelha. Diante de inimigos enormes, sorri de canto.</p>
+      <p>Mira o chamava de idiota com carinho. Ele a chamava de <em>raposinha</em>. No banco da estação, ela sentava à esquerda e ele à direita. Hoje o lado esquerdo fica vazio.</p>
+      <dl class="atributos">
+        <div><dt>Arma</dt><dd>Os próprios punhos</dd></div>
+        <div><dt>Marca</dt><dd>A fita carmesim de Mira</dd></div>
+        <div><dt>Poder</dt><dd>A Fenda, que responde à ausência</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- O mundo -->
+<section class="sala" id="mundo">
+  <div class="sala-titulo"><span class="px">O mundo</span></div>
+  <div class="largura">
+    <p class="intro">O mundo se divide em seis áreas. Pedravelha é o refúgio; as outras cinco terminam na sala de um chefe.</p>
+    <ul class="areas">
+      <li class="area">
+        <img src="img/areas/pedravelha.png" alt="Vila de Pedravelha ao entardecer, com casas de madeira e lanternas" loading="lazy" width="960" height="540">
+        <div class="area-texto">
+          <h3 class="px">Pedravelha</h3>
+          <p class="area-chefe">Refúgio, sem chefe</p>
+          <p>Duas saídas, uma torre e gente demais olhando pela janela. Aqui ficam o banco, a loja do Brom e a Irmã Lívia. Embaixo da vila, um poço desce mais do que deveria.</p>
+        </div>
+      </li>
+      <li class="area">
+        <img src="img/areas/desgarrados.png" alt="Noct numa serra ao pôr do sol, com uma lua enorme e pinheiros" loading="lazy" width="960" height="540">
+        <div class="area-texto">
+          <h3 class="px">Trilha dos Desgarrados</h3>
+          <p class="area-chefe">Chefe: Capitão dos Saqueadores</p>
+          <p>O Bosque e a Serra, tomados por um bando que rouba carroças e leva gente. Um vigia guarda uma das trilhas há tanto tempo que esqueceu para quem.</p>
+        </div>
+      </li>
+      <li class="area">
+        <img src="img/areas/esquecidas.png" alt="Pântano verde com abóboras acesas e árvores retorcidas" loading="lazy" width="960" height="540">
+        <div class="area-texto">
+          <h3 class="px">Terras Esquecidas</h3>
+          <p class="area-chefe">Chefe: Gato Infernal</p>
+          <p>O pântano a leste que engoliu muitos viajantes, o cemitério e, além dele, a toca de uma fera que as pessoas só mencionam baixinho.</p>
+        </div>
+      </li>
+      <li class="area">
+        <img src="img/areas/catedral.png" alt="Interior roxo de uma catedral profanada com uma estátua de rosto de pedra" loading="lazy" width="960" height="540">
+        <div class="area-texto">
+          <h3 class="px">Domínio do Ceifador</h3>
+          <p class="area-chefe">Chefe: Bringer of Death</p>
+          <p>A Catedral Profanada, as ruínas arcanas e um arquivo submerso onde alguém registrava as almas presas no selo.</p>
+        </div>
+      </li>
+      <li class="area">
+        <img src="img/areas/lago.png" alt="Capela escura com vitrais coloridos e velas apagadas" loading="lazy" width="960" height="540">
+        <div class="area-texto">
+          <h3 class="px">Águas Veladas</h3>
+          <p class="area-chefe">Chefe: Velário, o Carcereiro</p>
+          <p>A margem do lago, a Capela da Vigília, o Penhasco da Chuva Eterna e o Lago Velado, onde fica guardado o que Noct escolheu esquecer.</p>
+        </div>
+      </li>
+      <li class="area">
+        <img src="img/areas/fenda.png" alt="Uma rachadura carmesim brilhando no meio de uma caverna escura" loading="lazy" width="960" height="540">
+        <div class="area-texto">
+          <h3 class="px">A Fenda</h3>
+          <p class="area-chefe">Chefe: Demon Slime</p>
+          <p>As Minas da Fenda, onde o veio cantava quando alguém na vila chorava. Depois, o Coração da Fenda, o Inferno e o Trono do Demônio.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Personagens -->
+<section class="sala" id="personagens">
+  <div class="sala-titulo"><span class="px">Personagens</span></div>
+  <div class="largura">
+    <h3 class="grupo px">Quem Noct encontra</h3>
+    <ul class="pessoas">
+      <li><img src="img/personagens/mira.png" alt="Silhueta de Mira" width="72" height="72"><div><p class="px">Mira</p><p class="papel">A dona da fita</p><p>A única pessoa que atravessou as defesas de Noct. Ria do sarcasmo dele em vez de se assustar.</p></div></li>
+      <li><img src="img/personagens/tessa.png" alt="Retrato de Tessa" width="72" height="72"><div><p class="px">Tessa</p><p class="papel">Também ouve a fenda</p><p>Diz que parece alguém chamando do outro lado de uma porta.</p></div></li>
+      <li><img src="img/personagens/zeno.png" alt="Retrato do Velho Zeno" width="72" height="72"><div><p class="px">Velho Zeno</p><p class="papel">Morador de Pedravelha</p><p>O primeiro a receber Noct na vila. Avisa que o pântano a leste engoliu muitos viajantes.</p></div></li>
+      <li><img src="img/personagens/livia.png" alt="Retrato da Irmã Lívia" width="72" height="72"><div><p class="px">Irmã Lívia</p><p class="papel">Religiosa de Pedravelha</p><p>Perguntou da fita no pulso dele. "É só uma fita." Os dois sabem que é mentira.</p></div></li>
+      <li><img src="img/personagens/brom.png" alt="Retrato do Ferreiro Brom" width="72" height="72"><div><p class="px">Ferreiro Brom</p><p class="papel">Ferreiro de Pedravelha</p><p>Quem vai enfrentar o que vive além do cemitério passa por ele antes.</p></div></li>
+      <li><img src="img/personagens/forasteiro.png" alt="Retrato do Forasteiro" width="72" height="72"><div><p class="px">Forasteiro</p><p class="papel">Viajante de chapéu</p><p>"E o resto?" "O resto ocupa a cabeça."</p></div></li>
+      <li><img src="img/personagens/capitao.png" alt="Retrato do Capitão dos Desgarrados" width="72" height="72"><div><p class="px">Capitão</p><p class="papel">Líder dos saqueadores</p><p>Perguntou se Noct ia bancar o herói. "Não. Só não gosto de você."</p></div></li>
+      <li><img src="img/personagens/vigia.png" alt="Retrato do Vigia Errante" width="72" height="72"><div><p class="px">Vigia Errante</p><p class="papel">Guardião da trilha</p><p>Guardou uma trilha do Bosque por tanto tempo que esqueceu para quem.</p></div></li>
+      <li><img src="img/personagens/custodio.png" alt="Retrato do Custódio do Selo" width="72" height="72"><div><p class="px">Custódio</p><p class="papel">Mago da Ruína</p><p>"Então pertence ao selo." "Não pertenço a nada."</p></div></li>
+    </ul>
+
+    <h3 class="grupo px">Chefes</h3>
+    <ul class="chefes">
+      <li><img src="img/personagens/gato.png" alt="Retrato do Gato Infernal" width="72" height="72"><p class="px">Gato Infernal</p></li>
+      <li><img src="img/personagens/bringer.png" alt="Retrato do Bringer of Death" width="72" height="72"><p class="px">Bringer of Death</p></li>
+      <li><img src="img/personagens/velario.png" alt="Retrato do Velário" width="72" height="72"><p class="px">Velário</p></li>
+      <li><img src="img/personagens/demon_slime.png" alt="Retrato do Demon Slime" width="72" height="72"><p class="px">Demon Slime</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- História: os capítulos vêm de historia/capitulos.js (veja historia/LEIA-ME.md) -->
+<section class="sala sala-livro" id="historia">
+  <div class="sala-titulo"><span class="px">História</span></div>
+  <div class="largura livro">
+    <header class="livro-capa">
+      <p class="livro-rotulo px">O livro</p>
+      <h2 id="livro-titulo">Noct e a Fenda Carmesim</h2>
+      <p id="livro-subtitulo" class="livro-subtitulo">A história de Noct contada como um livro.</p>
+    </header>
+
+    <div class="livro-corpo">
+      <nav class="sumario" aria-labelledby="sumario-titulo">
+        <p class="px" id="sumario-titulo">Sumário</p>
+        <ol id="sumario-lista"></ol>
+        <label class="sumario-select" for="sumario-select">Capítulo
+          <select id="sumario-select"></select>
+        </label>
+      </nav>
+
+      <div class="livro-coluna">
+      <article class="pagina" id="pagina" aria-live="polite">
+        <div class="vazio" id="livro-vazio">
+          <img src="img/ui/emblem.png" alt="" width="80" height="80">
+          <p class="px">O livro está sendo escrito</p>
+          <p>Os capítulos aparecem aqui assim que forem publicados.</p>
+        </div>
+      </article>
+      <div class="paginacao" id="paginacao" hidden>
+        <button type="button" id="cap-anterior">Anterior</button>
+        <span id="cap-posicao" class="px"></span>
+        <button type="button" id="cap-proximo">Próximo</button>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="rodape">
+  <div class="largura">
+    <img src="img/logo/logo_10.png" alt="NOCT Crimson Rift" width="300" height="112" class="rodape-logo">
+    <p>Um jogo de Felippe (<a href="https://github.com/Snikrat/noct-crimson-rift">github.com/Snikrat/noct-crimson-rift</a>), feito com a Godot Engine 4.</p>
+    <details>
+      <summary>Créditos de arte e música</summary>
+      <ul class="creditos">
+        <li><b>Noct e logo:</b> arte criada para o jogo</li>
+        <li><b>Arte:</b> Luis Zuno (ansimuz), Gothicvania, Legacy Collection, Magic Pack (CC0)</li>
+        <li><b>Tela de título:</b> Anokolisa, pacote Final</li>
+        <li><b>Bringer of Death:</b> Clembod (clembod.itch.io)</li>
+        <li><b>Inferno:</b> Demon Slime (itch.io) e Legacy Collection (ansimuz)</li>
+        <li><b>Música:</b> YannZ (yannz41.itch.io); Tom Feldmann e David J. Barrios (CC BY 4.0), vitalezzz, MintoDog, Pascal Belisle</li>
+        <li><b>Sons:</b> RPG Essentials SFX (Leohpaz) e Gothicvania (ansimuz)</li>
+      </ul>
+    </details>
+  </div>
+</footer>
+
+<script src="historia/capitulos.js"></script>
+<script src="js/site.js"></script>
+</body>
+</html>
