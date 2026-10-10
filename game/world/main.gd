@@ -26,6 +26,7 @@ const RoomViewScript := preload("res://game/world/room_view.gd")
 const BackdropScript := preload("res://game/world/backdrop.gd")
 const HudScript := preload("res://game/ui/hud.gd")
 const Rooms := preload("res://data/rooms.gd")
+const Areas := preload("res://data/areas.gd")
 const Progression := preload("res://data/progression.gd")
 const Sprites := preload("res://game/core/sprites.gd")
 const MarkerScript := preload("res://game/world/world_marker.gd")
@@ -44,6 +45,7 @@ const DebugMenuScript := preload("res://game/ui/debug_menu.gd")
 
 # Estado da sala atual
 var room_name := ""
+var last_area := ""   # última área visitada (a Mente do Noct não conta)
 var room: Dictionary
 var theme: Dictionary
 var tileset: Texture2D
@@ -223,6 +225,10 @@ func _update_music(delta: float) -> void:
 
 ## Monta a sala e coloca o herói na entrada indicada (L, R ou B).
 func load_room(name: String, entry: String) -> void:
+	var area := Areas.area_name(name)
+	var new_area := area != "" and area != last_area
+	if area != "":
+		last_area = area
 	room_name = name
 	room = Rooms.ROOMS[name]
 	if not room.get("hidden", false):
@@ -371,7 +377,8 @@ func load_room(name: String, entry: String) -> void:
 	var spawn: Vector2 = entries.get(entry, entries.values()[0])
 	player.enter_room(spawn)
 	room_view.queue_redraw()
-	hud.show_banner(room["title"])
+	# Ao entrar numa área nova, o nome dela aparece acima do nome da sala.
+	hud.show_banner(room["title"], 3.0 if new_area else 2.5, area if new_area else "")
 	combat_timer = 0.0
 	Audio.play_music(theme["music"], 1.0, 0.0, 1.0)
 	# Comentário de Noct na primeira vez que chega na área: balão fixo sobre ele no ponto de entrada.

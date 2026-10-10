@@ -24,6 +24,7 @@ hollow-like/
 ├─ data/                      conteúdo do jogo, sem lógica
 │  ├─ rooms/<sala>.gd         uma sala por arquivo (mapa, vizinhos, NPCs, cenário)
 │  ├─ rooms.gd                índice das salas + legenda dos caracteres do mapa
+│  ├─ areas.gd                áreas do mundo: cenários de cada área e o chefe que fecha cada uma
 │  ├─ themes.gd               visual de cada área (tileset, fundo, música)
 │  ├─ progression.gd          XP e recompensas de cada nível
 │  ├─ shop_items.gd           itens da loja
@@ -69,6 +70,7 @@ hollow-like/
 | Mudar falas/etapas da Tessa | `game/world/tessa.gd` e a chave `"tessa"` nas salas (Bosque, vila, catedral) |
 | Mudar o final (revelação, escolha, epílogo) | `REVELATION` e `_ending_sequence` em `game/world/main.gd`; epílogo e créditos em `game/ui/ending.gd` |
 | Mudar o mapa da pausa | `data/world_map.gd` |
+| Mudar as áreas (que salas formam cada área, nome, cor no mapa, chefe) | `data/areas.gd`; toda sala nova precisa entrar numa área (o teste `world_areas_test` confere) |
 | Testar sem jogar tudo (ir para sala, nível, alma/Geo infinitos, invencível) | F1 no jogo abre o menu de hacks (`game/ui/debug_menu.gd`); fica ativo também no .exe exportado (DEBUG_KEYS em main.gd) e não grava o save |
 | Mudar velocidade das animações do herói | `HERO_ANIMS` em `game/core/sprites.gd` |
 | Arquivo de arte mudou de lugar | só `data/asset_paths.gd` |
@@ -84,6 +86,7 @@ godot --headless --path . --script tests/content_test.gd
 godot --headless --path . --script tests/new_assets_test.gd
 godot --headless --path . --script tests/story_test.gd
 godot --headless --path . --script tests/areas_test.gd
+godot --headless --path . --script tests/world_areas_test.gd
 
 # Regressões: saves inválidos, falha de escrita, bônus, dano simultâneo e transições.
 godot --headless --path . --script tests/regression_test.gd

@@ -25,6 +25,7 @@ var fade: ColorRect
 var flash: ColorRect
 
 var banner_text := ""
+var banner_area := ""   # nome da área, só quando o herói acabou de entrar nela
 var banner_timer := 0.0
 var levelup_timer := 0.0
 var levelup_level := 0
@@ -90,8 +91,9 @@ func refresh() -> void:
 
 
 ## Nome da área (ou outro aviso curto) no alto da tela.
-func show_banner(text: String, duration := 2.5) -> void:
+func show_banner(text: String, duration := 2.5, area := "") -> void:
 	banner_text = text
+	banner_area = area
 	banner_timer = duration
 	refresh()   # a sala pode abrir com uma fala (jogo pausado): mostra o nome novo mesmo assim
 
@@ -175,6 +177,8 @@ func _draw_hud() -> void:
 		var a := clampf(banner_timer, 0, 1)
 		c.draw_string(font, Vector2(0, 60), banner_text, HORIZONTAL_ALIGNMENT_CENTER, c.size.x, 16, Color(1, 1, 1, a))
 		c.draw_line(Vector2(c.size.x / 2 - 60, 66), Vector2(c.size.x / 2 + 60, 66), Color(1, 1, 1, a * 0.5))
+		if banner_area != "":
+			c.draw_string(font, Vector2(0, 40), banner_area.to_upper(), HORIZONTAL_ALIGNMENT_CENTER, c.size.x, 10, Color(GOLD, a))
 
 	# Aviso de interação acima do herói.
 	if level.interactable and not dialog.is_open() and not level.transitioning:

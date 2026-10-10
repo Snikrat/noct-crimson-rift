@@ -3,10 +3,10 @@ extends RefCounted
 
 const Rooms := preload("res://data/rooms.gd")
 const WorldMap := preload("res://data/world_map.gd")
+const Areas := preload("res://data/areas.gd")
 const GOLD := Color("e8c872")
 const ROOM_FILL := Color(0.32, 0.06, 0.12)
 const ROOM_EDGE := Color(0.95, 0.35, 0.45)
-const BOSS_ROOMS := {"lair": "gato", "sanctum": "bringer", "demon_lair": "demon_slime"}
 
 
 ## Caixa de cada sala, centrada em `center`.
@@ -61,14 +61,16 @@ static func draw(ci: CanvasItem, font: Font, screen: Vector2, level, t: float) -
 			continue
 		var rect: Rect2 = rects[r]
 		var here: bool = r == level.room_name
+		var area := Areas.area_of(r)
+		var edge: Color = area.get("color", ROOM_EDGE)   # cada área tem a sua cor no mapa
 		ci.draw_rect(rect, ROOM_FILL.lightened(0.25) if here else ROOM_FILL)
-		ci.draw_rect(rect, ROOM_EDGE if here else Color(ROOM_EDGE, 0.55), false, 1)
+		ci.draw_rect(rect, edge if here else Color(edge, 0.6), false, 1)
 		var rows: Array = Rooms.ROOMS[r]["map"]
 		for row in rows:
 			if "B" in row:
 				ci.draw_rect(Rect2(rect.position + Vector2(2, 2), Vector2(3, 3)), GOLD)   # banco
 				break
-		if BOSS_ROOMS.has(r) and not GameState.defeated_bosses.has(BOSS_ROOMS[r]):
+		if area.get("boss_room", "") == r and not _defeated(area["defeated"]):
 			var c := rect.get_center()
 			ci.draw_line(c + Vector2(-3, -3), c + Vector2(3, 3), Color(1, 0.3, 0.3), 1.5)
 			ci.draw_line(c + Vector2(-3, 3), c + Vector2(3, -3), Color(1, 0.3, 0.3), 1.5)
@@ -78,6 +80,16 @@ static func draw(ci: CanvasItem, font: Font, screen: Vector2, level, t: float) -
 			ci.draw_circle(dot, 2.5 + sin(t * 6.0) * 0.6, Color(1, 0.9, 0.95))
 
 	var here_title: String = Rooms.ROOMS[level.room_name]["title"]
+	var here_area := Areas.area_name(level.room_name)
+	if here_area != "":
+		here_title = here_area + " · " + here_title
 	ci.draw_string(font, Vector2(box.position.x, box.end.y - 30), here_title, HORIZONTAL_ALIGNMENT_CENTER, box.size.x, 11, Color(1, 0.75, 0.82))
 	ci.draw_string(font, Vector2(box.position.x + 12, box.end.y - 12), "■ banco   x chefe   • você", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color(1, 1, 1, 0.5))
 	ci.draw_string(font, Vector2(box.position.x, box.end.y - 12), "M / K / Esc volta   ", HORIZONTAL_ALIGNMENT_RIGHT, box.size.x, 8, Color(1, 1, 1, 0.45))
+
+
+## Chefe da área vencido: "boss:<id>" ou o id da descoberta de um minichefe.
+static func _defeated(req: String) -> bool:
+	if req.begins_with("boss:"):
+		return GameState.defeated_bosses.has(req.trim_prefix("boss:"))
+	return GameState.discoveries.has(req)
