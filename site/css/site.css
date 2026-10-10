@@ -397,8 +397,33 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
 .sumario li button span { display: block; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--rosa); opacity: .8; }
 .sumario li button:hover { color: var(--texto); border-left-color: var(--rosa); }
 .sumario li button[aria-current="true"] { color: #f1e8ee; border-left-color: var(--carmesim); background: rgba(196, 20, 46, .08); }
-.sumario-parte { margin: 1rem 0 .25rem; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ouro); }
-.sumario-parte:first-child { margin-top: 0; }
+.sumario { max-height: calc(100vh - 7rem); overflow-y: auto; scrollbar-width: thin; }
+.sumario-parte { margin: .35rem 0; }
+.sumario-parte summary {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .45rem .6rem;
+  font-size: .8rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ouro);
+  cursor: pointer;
+  list-style: none;
+}
+.sumario-parte summary::-webkit-details-marker { display: none; }
+.sumario-parte summary::before {
+  content: "";
+  flex: none;
+  width: 0;
+  height: 0;
+  border-block: 5px solid transparent;
+  border-left: 7px solid var(--carmesim);
+  transition: transform .15s;
+}
+.sumario-parte details[open] > summary::before { transform: rotate(90deg); }
+.sumario-parte summary:hover { color: #f3dc9a; background: rgba(232, 200, 114, .05); }
+.sumario-parte ol { margin: .1rem 0 .4rem .9rem !important; }
 .sumario-vazio { color: var(--apagado); font-style: italic; font-size: 1rem; padding-left: .6rem; }
 .sumario-select { display: none; }
 .sumario-select select {

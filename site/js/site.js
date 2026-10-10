@@ -215,6 +215,7 @@
   var proximo = document.getElementById("cap-proximo");
   var posicao = document.getElementById("cap-posicao");
   var atualCap = 0;
+  var botoes = [];
 
   function escapar(t) {
     return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -263,6 +264,9 @@
     Array.prototype.forEach.call(lista.querySelectorAll("button"), function (bt, j) {
       bt.setAttribute("aria-current", j === atualCap ? "true" : "false");
     });
+    // A parte do capítulo aberto fica expandida; as outras ficam como o leitor deixou.
+    var gaveta = botoes[atualCap] && botoes[atualCap].closest("details");
+    if (gaveta) gaveta.open = true;
     select.value = String(atualCap);
     anterior.disabled = atualCap === 0;
     proximo.disabled = atualCap === caps.length - 1;
@@ -274,25 +278,28 @@
   if (caps.length) {
     var parteAtual = null;
     var grupo = null;
+    var destino = lista;   // onde entram os capítulos: a lista da parte ou o sumário
     caps.forEach(function (c, i) {
       if ((c.parte || null) !== parteAtual) {
         parteAtual = c.parte || null;
         if (parteAtual) {
-          var cab = document.createElement("li");
-          cab.className = "sumario-parte";
-          cab.textContent = parteAtual;
-          lista.appendChild(cab);
+          // Cada parte é expansível: clique no nome para abrir ou fechar a lista dos capítulos dela.
+          var item = document.createElement("li");
+          item.className = "sumario-parte";
+          var det = document.createElement("details");
+          var sum = document.createElement("summary");
+          sum.textContent = parteAtual;
+          det.appendChild(sum);
+          destino = document.createElement("ol");
+          det.appendChild(destino);
+          item.appendChild(det);
+          lista.appendChild(item);
           grupo = document.createElement("optgroup");
           grupo.label = parteAtual;
           select.appendChild(grupo);
         } else {
           grupo = null;
-          if (i > 0) {
-            var vao = document.createElement("li");
-            vao.className = "sumario-parte";
-            vao.setAttribute("aria-hidden", "true");
-            lista.appendChild(vao);
-          }
+          destino = lista;
         }
       }
       var li = document.createElement("li");
@@ -304,7 +311,8 @@
       bt.appendChild(document.createTextNode(c.titulo || ""));
       bt.addEventListener("click", function () { abrir(i, true); });
       li.appendChild(bt);
-      lista.appendChild(li);
+      destino.appendChild(li);
+      botoes.push(bt);
       var op = document.createElement("option");
       op.value = String(i);
       op.textContent = (c.rotulo || ("Capítulo " + nomeCap(c, i))) + (c.titulo ? ": " + c.titulo : "");
