@@ -824,6 +824,7 @@ func rest_at_bench() -> void:
 		hud.show_saved()
 	var save_note := "Jogo salvo." if saved else "Não foi possível salvar. Tente descansar novamente."
 	var lines := ["As feridas se fecham e a alma se acalma. " + save_note]
+	# (flag "tessa_jacket" mantida por compatibilidade com saves; no jogo é a manta.)
 	# O lugar vazio e a fita: gestos que Noct nunca comenta.
 	if room_name == "station":
 		# Só aqui ele escolhe o lado: o direito. O esquerdo era dela.
@@ -833,7 +834,7 @@ func rest_at_bench() -> void:
 		lines.append("@fechando_olhos: Um dia de cada vez.")
 	elif room_name == "town" and GameState.flags.has("tessa_saved") and not GameState.flags.has("tessa_jacket"):
 		GameState.flags["tessa_jacket"] = true
-		lines.append("Antes de se sentar, Noct tira a jaqueta e a deixa dobrada perto de onde Tessa dorme. Não diz nada.")
+		lines.append("Antes de se sentar, Noct tira a manta de viagem dos ombros e a deixa dobrada perto de onde Tessa dorme. Não diz nada.")
 		lines.append("@cansado: Hm.")
 	else:
 		lines.append_array(BENCH_MOMENTS[bench_visits % BENCH_MOMENTS.size()])

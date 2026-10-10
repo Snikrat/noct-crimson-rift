@@ -124,7 +124,7 @@ mesma frase de Mira). Usa o desenho da moradora da vila com outra cor. (`game/wo
 - **Bosque:** está amarrada a uma carroça pelos saqueadores, que iam entregá-la ao **Custódio** porque ela
   ouve a fenda. Noct corta as cordas, manda ela para Pedravelha e corta o agradecimento: "Não transforma
   isso numa coisa sentimental."
-- **Vila:** reclama do frio à noite. Depois aparece enrolada numa jaqueta escura grande demais para ela,
+- **Vila:** reclama do frio à noite. Depois aparece enrolada numa manta escura grande demais para ela,
   que Noct deixou no banco sem dizer nada. "É sua?" "Era." Na despedida, pergunta se ele volta da
   catedral: "Hoje primeiro. Amanhã depois."
 - **Catedral:** segue Noct porque o chamado é mais forte ali. Ele a afasta com frieza ("Aqui você
@@ -133,7 +133,7 @@ mesma frase de Mira). Usa o desenho da moradora da vila com outra cor. (`game/wo
 - **Final Um dia de cada vez:** é quem se senta do outro lado do banco e repete, quase palavra por
   palavra, a cena que resume Noct na bíblia. Ela fica. Ele não pede que ela vá embora.
 
-**No design futuro:** em Pedravelha do Eco, a silhueta dela **não** está lá; só a jaqueta pendurada:
+**No design futuro:** em Pedravelha do Eco, a silhueta dela **não** está lá; só a manta pendurada:
 "Ela não é um eco." (`docs/expansao_forma_demoniaca.md`, 1.2)
 
 **Lacuna:** de onde ela vem, a família, e o que exatamente ela ouve.

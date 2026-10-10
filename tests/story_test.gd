@@ -169,11 +169,11 @@ func _run() -> void:
 	tessa = _find_tessa()
 	check("Tessa aparece na vila", tessa != null and tessa.stage == "town")
 	main.rest_at_bench()
-	check("banco da vila: a jaqueta", gs().flags.has("tessa_jacket") and "jaqueta" in str(main.hud.dialog.lines))
+	check("banco da vila: a manta", gs().flags.has("tessa_jacket") and "manta" in str(main.hud.dialog.lines))
 	await skip_dialogs()
 	if tessa:
 		tessa.interact()
-		check("Tessa agradece a jaqueta", gs().flags.has("tessa_thanked") and "Era." in str(main.hud.dialog.lines))
+		check("Tessa agradece a manta", gs().flags.has("tessa_thanked") and "Era." in str(main.hud.dialog.lines))
 		await skip_dialogs()
 	await go("cathedral", Vector2(220, 400))
 	tessa = _find_tessa()

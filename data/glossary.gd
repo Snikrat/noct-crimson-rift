@@ -42,7 +42,7 @@ const ENTRIES := {
 	"tessa": {"name": "Tessa", "role": "Também ouve a fenda", "requires": "flag:tessa_saved", "parts": [
 		["", "Noct a soltou de uma carroça dos saqueadores, no Bosque. Iam entregá-la ao Custódio porque ela ouve a fenda."],
 		["", "Diz que parece alguém chamando do outro lado de uma porta."],
-		["flag:tessa_thanked", "Em Pedravelha, apareceu enrolada numa jaqueta grande demais pra ela. Ele disse que era dele. \"Era.\""],
+		["flag:tessa_thanked", "Em Pedravelha, apareceu enrolada numa manta grande demais pra ela. Ele disse que era dele. \"Era.\""],
 		["flag:tessa_cathedral", "Seguiu Noct até a catedral. Ele a mandou embora com frieza, e esperou ela sumir na estrada antes de seguir."],
 		["flag:ending_leave", "Dias depois, sentou na outra ponta do banco. Ele não pediu que ela fosse embora."],
 	]},

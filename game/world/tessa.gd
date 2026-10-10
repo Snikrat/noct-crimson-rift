@@ -75,13 +75,13 @@ func interact() -> void:
 			_leave()
 
 
-## Conversa na vila, pela ordem da história: frio -> jaqueta (deixada no banco) -> despedida.
+## Conversa na vila, pela ordem da história: frio -> manta (deixada no banco) -> despedida.
 func _town_lines() -> Array:
 	var f: Dictionary = GameState.flags
 	if f.has("tessa_jacket") and not f.has("tessa_thanked"):
 		f["tessa_thanked"] = true
 		return [
-			"* Ela está enrolada numa jaqueta escura, grande demais pra ela.",
+			"* Ela está enrolada numa manta escura, grande demais pra ela.",
 			"É sua?",
 			"@olhar_lateral: Era.",
 			"...Obrigada.",

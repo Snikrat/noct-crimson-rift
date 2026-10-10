@@ -65,7 +65,7 @@ Os outros cenários novos são laterais, ligados a áreas que já existem.
 - **Inimigos:** Desbotado, Miragem, Sino fendido.
 - **Perigos:** gravidade invertida em trechos marcados por tecido carmesim; telhas que caem para cima.
 - **Exploração:** a casa do meio (a do banco) existe aqui, mas o banco está vazio dos dois lados.
-- **Segredo:** a silhueta da Tessa não está aqui. No lugar dela, a jaqueta pendurada. Interagir dá uma
+- **Segredo:** a silhueta da Tessa não está aqui. No lugar dela, a manta pendurada. Interagir dá uma
   fala de Noct e a nota "Ela não é um eco."
 - **Reforça a história:** o banco vazio dos dois lados é a primeira vez que o jogador vê o lugar dele
   vazio também.
