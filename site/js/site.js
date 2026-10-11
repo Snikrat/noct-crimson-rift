@@ -222,6 +222,60 @@
   var enfeitar = window.NoctTexto.enfeitar;
   var paraHtml = window.NoctTexto.paraHtml;
 
+  // Trechos novos: o livro marca os parágrafos alterados na última versão (capitulo.novos). Ficam destacados
+  // até o leitor clicar neles; os já vistos ficam guardados neste navegador.
+  var vistos = {};
+  try { vistos = JSON.parse(lembrar("noct-livro-vistos") || "{}") || {}; } catch (e) { vistos = {}; }
+  function pendentes(c) {
+    return window.NoctTexto.codigosNovos(c.texto, c.novos).filter(function (h) { return !vistos[h]; });
+  }
+  function marcarVisto(h) {
+    vistos[h] = 1;
+    guardar("noct-livro-vistos", JSON.stringify(vistos));
+  }
+  function atualizarMarcas() {
+    var porParte = {};
+    caps.forEach(function (c, i) {
+      var tem = pendentes(c).length > 0;
+      if (botoes[i]) botoes[i].classList.toggle("tem-novo", tem);
+      if (c.parte && tem) porParte[c.parte] = true;
+    });
+    Array.prototype.forEach.call(lista.querySelectorAll(".sumario-parte summary"), function (s) {
+      s.classList.toggle("tem-novo", !!porParte[s.textContent]);
+    });
+    var aviso = pagina.querySelector(".aviso-novos");
+    if (aviso) {
+      var n = pagina.querySelectorAll(".novo").length;
+      aviso.hidden = n === 0;
+      aviso.querySelector("span").textContent = n === 1 ? "1 trecho novo ou alterado" : n + " trechos novos ou alterados";
+    }
+  }
+  function prepararNovos() {
+    Array.prototype.forEach.call(pagina.querySelectorAll("[data-novo]"), function (el) {
+      var h = el.getAttribute("data-novo");
+      if (vistos[h]) return;
+      el.classList.add("novo");
+      el.title = "Trecho novo. Clique para marcar como lido.";
+      el.addEventListener("click", function () {
+        if (!el.classList.contains("novo")) return;
+        el.classList.remove("novo");
+        el.removeAttribute("title");
+        marcarVisto(h);
+        atualizarMarcas();
+      });
+    });
+    var todos = pagina.querySelector(".aviso-novos button");
+    if (todos) todos.addEventListener("click", function () {
+      Array.prototype.forEach.call(pagina.querySelectorAll(".novo"), function (el) {
+        el.classList.remove("novo");
+        el.removeAttribute("title");
+        marcarVisto(el.getAttribute("data-novo"));
+      });
+      atualizarMarcas();
+    });
+    atualizarMarcas();
+  }
+
   function nomeCap(c, i) {
     return c.numero != null ? String(c.numero) : String(i + 1);
   }
@@ -236,7 +290,8 @@
       '<p class="cap-num px">' + escapar(rotulo) + "</p>" +
       "<h3>" + escapar(c.titulo || rotulo) + "</h3>" +
       (c.epigrafeParte ? '<blockquote class="epigrafe">' + enfeitar(c.epigrafeParte) + "</blockquote>" : "") +
-      '<div class="cap-texto">' + paraHtml(c.texto) + "</div>";
+      '<p class="aviso-novos" hidden><span></span> · <button type="button">marcar todos como lidos</button></p>' +
+      '<div class="cap-texto">' + paraHtml(c.texto, c.novos) + "</div>";
     Array.prototype.forEach.call(lista.querySelectorAll("button"), function (bt, j) {
       bt.setAttribute("aria-current", j === atualCap ? "true" : "false");
     });
@@ -248,6 +303,7 @@
     proximo.disabled = atualCap === caps.length - 1;
     posicao.textContent = (atualCap + 1) + " / " + caps.length;
     guardar("noct-livro-capitulo", String(atualCap));
+    prepararNovos();
     if (rolar) document.getElementById("historia").scrollIntoView({ behavior: calmo ? "auto" : "smooth" });
   }
 

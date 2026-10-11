@@ -13,6 +13,15 @@ python3 tools/livro_para_site.py caminho/do/livro.md
 O script refaz `capitulos.js` inteiro (partes, epígrafes e capítulos). Não edite o arquivo à mão se for
 rodar o script depois.
 
+### Trechos novos destacados
+
+O script compara o livro com o `capitulos.js` anterior e marca os parágrafos novos ou alterados (campo
+`novos` de cada capítulo). No site, eles aparecem com fundo dourado até o leitor clicar neles (ou em
+"marcar todos como lidos" no topo do capítulo); o sumário mostra um ● nos capítulos e partes com trechos
+não lidos. O que já foi lido fica guardado no navegador (`localStorage`). A marca de um parágrafo continua
+nas próximas versões até ele mudar de novo. `--limpar` gera sem marcas; `--desde outro.js` compara com
+outra versão. O livro para impressão (PDF) não mostra as marcas.
+
 Depois, refaça o livro em PDF (o botão "Baixar o livro em PDF" do site aponta para ele):
 
 ```

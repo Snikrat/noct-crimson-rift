@@ -5,6 +5,12 @@ O livro "Noct e a Fenda Carmesim" é escrito como documento (Claude Doc). Export
 
     python3 tools/livro_para_site.py caminho/do/livro.md
 
+Os parágrafos novos ou alterados em relação ao capitulos.js anterior ganham a marca "novos" (índices dos
+blocos do texto) e o site os destaca até o leitor clicar. As marcas antigas continuam até o parágrafo mudar
+de novo. Opções:
+    --desde arquivo.js   compara com outro capitulos.js em vez do atual
+    --limpar             gera sem nenhuma marca
+
 Estrutura esperada do Markdown:
     # Título do livro            (a primeira linha)
     > *epígrafe do livro*        (opcional)
@@ -30,7 +36,41 @@ def citacao(linhas: list[str]) -> str:
     return " ".join(l.lstrip(">").strip() for l in linhas if l.startswith(">")).strip().strip("*").strip()
 
 
-def main(caminho: str) -> None:
+def blocos(texto: str) -> list[str]:
+    # Mesma divisão de js/texto.js (paraHtml): blocos separados por linha em branco, vazios ignorados.
+    return [b.strip() for b in re.split(r"\n\s*\n", texto.replace("\r", "")) if b.strip()]
+
+
+def marcavel(bloco: str) -> bool:
+    return not re.match(r"^((\*\s*){3,}|(-\s*){3,})$", bloco)
+
+
+def ler_capitulos(js: Path) -> list[dict]:
+    if not js.exists():
+        return []
+    t = js.read_text(encoding="utf-8")
+    t = t[t.index("{"):t.rindex("}") + 1]
+    return json.loads(t).get("capitulos", [])
+
+
+def marcar_novos(capitulos: list[dict], anteriores: list[dict]) -> int:
+    if not anteriores:
+        return 0
+    vistos, marcados = set(), set()
+    for c in anteriores:
+        bs = blocos(c.get("texto", ""))
+        vistos.update(bs)
+        marcados.update(bs[i] for i in c.get("novos", []) if i < len(bs))
+    total = 0
+    for c in capitulos:
+        novos = [i for i, b in enumerate(blocos(c["texto"])) if marcavel(b) and (b not in vistos or b in marcados)]
+        if novos:
+            c["novos"] = novos
+            total += len(novos)
+    return total
+
+
+def main(caminho: str, desde: Path = OUT, limpar: bool = False) -> None:
     linhas = Path(caminho).read_text(encoding="utf-8").replace("\r", "").split("\n")
     livro = {"titulo": "", "subtitulo": "A história de Noct contada como um livro.", "epigrafe": "", "capitulos": []}
     parte = None
@@ -121,6 +161,7 @@ def main(caminho: str) -> None:
     if paragrafos:
         livro["subtitulo"] = paragrafos[-1]
     livro["capitulos"] = [c for c in livro["capitulos"] if c["texto"]]
+    novos = 0 if limpar else marcar_novos(livro["capitulos"], ler_capitulos(desde))
 
     js = (
         "// Capítulos do livro da história do Noct, mostrados na seção \"História\" do site.\n"
@@ -128,10 +169,18 @@ def main(caminho: str) -> None:
         "window.NOCT_LIVRO = " + json.dumps(livro, ensure_ascii=False, indent=2) + ";\n"
     )
     OUT.write_text(js, encoding="utf-8")
-    print("ok:", OUT, len(livro["capitulos"]), "capítulos")
+    print("ok:", OUT, len(livro["capitulos"]), "capítulos,", novos, "parágrafos marcados como novos")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
+    args = sys.argv[1:]
+    limpar = "--limpar" in args
+    args = [a for a in args if a != "--limpar"]
+    desde = OUT
+    if "--desde" in args:
+        i = args.index("--desde")
+        desde = Path(args[i + 1])
+        del args[i:i + 2]
+    if len(args) != 1:
         sys.exit(__doc__)
-    main(sys.argv[1])
+    main(args[0], desde, limpar)
