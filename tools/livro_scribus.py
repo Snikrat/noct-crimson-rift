@@ -450,10 +450,29 @@ def fechar(titulo):
     return scribus.pageCount()
 
 
+def acertar_margens(sla):
+    """O Scribus guarda a margem interna em BORDERLEFT em todas as páginas e espelha sozinho nas da esquerda.
+    O script deixa as páginas da esquerda já espelhadas, e as guias azuis aparecem trocadas: grava todas
+    no padrão do Scribus e marca as mestras "Esq" como esquerdas."""
+    xml = open(sla, encoding="utf-8").read()
+
+    def acerta(m):
+        tag = re.sub(r'BORDERLEFT="[^"]*"', 'BORDERLEFT="%r"' % (INTERNA / PT), m.group(0))
+        tag = re.sub(r'BORDERRIGHT="[^"]*"', 'BORDERRIGHT="%r"' % (EXTERNA / PT), tag)
+        if m.group(1) == "MASTERPAGE" and 'Esq"' in tag:
+            tag = tag.replace(' LEFT="0"', ' LEFT="1"')
+        return tag
+
+    xml = re.sub(r"<(PAGE|MASTERPAGE) [^>]*>", acerta, xml)
+    open(sla, "w", encoding="utf-8").write(xml)
+
+
 def exportar():
     os.makedirs(SAIDA, exist_ok=True)
     scribus.setRedraw(True)
-    scribus.saveDocAs(os.path.join(SAIDA, "noct_miolo.sla"))
+    sla = os.path.join(SAIDA, "noct_miolo.sla")
+    scribus.saveDocAs(sla)
+    acertar_margens(sla)
     if os.environ.get("NOCT_SO_SLA"):
         return
     pdf = scribus.PDFfile()
