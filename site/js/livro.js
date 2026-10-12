@@ -70,9 +70,12 @@
   h.push(
     '<section class="agradecimentos"><h2>Agradecimentos</h2>' +
       (livro.agradecimentos ? T.paraHtml(livro.agradecimentos) :
-        "<p>A quem jogou, leu e esperou por esta história.</p>" +
-        "<p>A quem já se sentou na ponta de um banco deixando o outro lado livre.</p>" +
-        "<p>E a quem, mesmo de longe, nunca deixou de chamar.</p>") +
+        "<p>A quem perdeu alguém e, mesmo assim, continuou acordando.</p>" +
+        "<p>A quem já se sentou na ponta de um banco deixando o outro lado livre, só por via das dúvidas.</p>" +
+        "<p>A quem guarda um bilhete, uma fita, uma voz, e já não sabe se lembra ou se inventa.</p>" +
+        "<p>A quem esperou tanto que esqueceu o que esperava, e esperou mesmo assim.</p>" +
+        "<p>E a quem, mesmo de longe, nunca deixou de chamar.</p>" +
+        "<p>Esta história é de vocês. Eu só a escrevi.</p>") +
     "</section>"
   );
 
