@@ -43,41 +43,33 @@ img { max-width: 100%; }
   box-shadow: 0 10px 30px rgba(0, 0, 0, .55);
 }
 
+/* ---------- Artes (capa, lombada, fundo da contracapa) ---------- */
+.arte { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+
 /* ---------- Capa ---------- */
-.frente { display: grid; }
-.fundo {
-  grid-area: 1 / 1;
-  background:
-    url("../img/titulo/Grass_background_1.png") center bottom / auto 100% repeat-x,
-    url("../img/titulo/Grass_background_2.png") center bottom / auto 100% repeat-x,
-    url("../img/titulo/Background_1.png") center bottom / auto 100% repeat-x,
-    url("../img/titulo/Background_0.png") center bottom / auto 100% repeat-x;
-  image-rendering: pixelated;
-  opacity: .9;
-}
-.frente-texto {
-  grid-area: 1 / 1;
-  position: relative;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  align-items: end;
-  justify-items: center;
-  padding: 16mm 10mm 18mm;
+.autor {
+  position: absolute;
+  left: 0; right: 0; bottom: 9mm;
+  margin: 0;
   text-align: center;
-  background: linear-gradient(rgba(11, 13, 26, .78), rgba(11, 13, 26, .15) 38%, rgba(11, 13, 26, .1) 62%, rgba(7, 6, 12, .96) 86%);
+  font-size: 12pt;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #e9e1e6;
+  text-shadow: 0 0 3mm #000;
 }
-.logo { width: 112mm; image-rendering: pixelated; filter: drop-shadow(0 0 6mm rgba(196, 20, 46, .5)); }
-.frente h1 { margin: 0 0 3mm; font-size: 24pt; font-weight: 400; font-style: italic; line-height: 1.15; }
-.autor { margin: 0; font-size: 12pt; letter-spacing: .12em; color: var(--rosa); }
+
+/* ---------- Lombada ---------- */
+.lombada { width: 18mm; }
 
 /* ---------- Contracapa ---------- */
-.contracapa {
+.contracapa-texto {
+  position: relative;
   display: flex;
   flex-direction: column;
-  padding: 20mm 16mm 16mm;
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(163, 18, 42, .28), transparent 60%),
-    var(--noite);
+  height: 100%;
+  padding: 18mm 16mm 16mm;
+  background: linear-gradient(rgba(5, 4, 8, .82), rgba(5, 4, 8, .7) 55%, rgba(5, 4, 8, .15) 80%, transparent);
 }
 .impacto {
   margin: 0 0 10mm;
@@ -96,11 +88,17 @@ img { max-width: 100%; }
   width: 46mm;
   height: 26mm;
   margin-top: auto;
+  position: relative;
   background: #fff;
   color: #9a9a9a;
   font-size: 7pt;
   letter-spacing: .06em;
 }
+
+/* ---------- Capa aberta ---------- */
+.aberta { display: flex; width: max-content; max-width: none; height: 210mm; box-shadow: 0 10px 30px rgba(0, 0, 0, .55); }
+.aberta .folha { flex: none; box-shadow: none; max-width: none; }
+@media screen { .aberta { display: none; } }
 
 /* ---------- Orelhas ---------- */
 .orelha {
@@ -118,8 +116,13 @@ img { max-width: 100%; }
 @page { size: 148mm 210mm; margin: 0; }
 @page livro { size: 148mm 210mm; margin: 0; }
 @page orelha { size: 90mm 210mm; margin: 0; }
+@page lombada { size: 18mm 210mm; margin: 0; }
+@page aberta { size: 494mm 210mm; margin: 0; }
 @media print {
   body { display: block; padding: 0; }
   .folha { box-shadow: none; page: livro; }
   .orelha { page: orelha; }
+  .lombada { page: lombada; }
+  .aberta { page: aberta; box-shadow: none; }
+  .aberta .folha { page: aberta; }
 }

@@ -61,14 +61,19 @@ def imprimir(pagina: str = "livro.html", saida: Path = PDF) -> None:
         os.unlink(script)
 
 
-def acertar_orelhas() -> None:
-    """O Chromium às vezes imprime a última página com o tamanho padrão; as orelhas (páginas 3 e 4) têm 90 mm."""
+# Largura de cada página do noct_capa.pdf, em mm (capa aberta, frente, lombada, contracapa, orelhas).
+LARGURAS_CAPA = [494, 148, 18, 148, 90, 90]
+
+
+def acertar_capa() -> None:
+    """O Chromium às vezes imprime a última página com o tamanho padrão; corta cada página na largura dela."""
     from pypdf import PdfWriter
     escritor = PdfWriter(clone_from=str(CAPA))
-    largura = 90 / 25.4 * 72
-    for pg in escritor.pages[2:4]:
-        for caixa in (pg.mediabox, pg.cropbox):
-            caixa.upper_right = (caixa.left + largura, caixa.top)
+    for pg, mm in zip(escritor.pages, LARGURAS_CAPA):
+        largura = mm / 25.4 * 72
+        if float(pg.mediabox.width) > largura + 1:
+            for caixa in (pg.mediabox, pg.cropbox):
+                caixa.upper_right = (caixa.left + largura, caixa.top)
     escritor.write(str(CAPA))
 
 
@@ -102,8 +107,8 @@ def main() -> None:
     else:
         sys.exit("aviso: a paginação não estabilizou; confira o sumário do PDF.")
     imprimir("capa.html", CAPA)
-    acertar_orelhas()
-    print("ok:", CAPA, len(PdfReader(str(CAPA)).pages), "páginas (capa, contracapa e orelhas)")
+    acertar_capa()
+    print("ok:", CAPA, len(PdfReader(str(CAPA)).pages), "páginas (capa aberta, capa, lombada, contracapa e orelhas)")
     print("ok:", PDF, len(PdfReader(str(PDF)).pages), "páginas,", len(paginas), "marcas")
 
 if __name__ == "__main__":

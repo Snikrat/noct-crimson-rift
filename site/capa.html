@@ -13,20 +13,25 @@
 <!-- Partes de fora do livro, cada uma numa página do PDF (tools/livro_pdf.py gera noct_capa.pdf).
      Os textos ficam aqui mesmo; o miolo do livro é o livro.html. -->
 
-<!-- Capa (frente) · 148 x 210 mm -->
+<!-- Capa aberta (para a gráfica): orelha traseira, contracapa, lombada, capa, orelha frontal · 90+148+18+148+90 x 210 mm.
+     Montada por script com cópias das folhas abaixo. -->
+<section class="aberta" id="aberta"></section>
+
+<!-- Capa (frente) · 148 x 210 mm. Arte do autor. -->
 <section class="folha frente">
-  <div class="fundo"></div>
-  <div class="frente-texto">
-    <img class="logo" src="img/logo/logo_10.png" alt="NOCT Crimson Rift">
-    <div>
-      <h1>Noct e a Fenda Carmesim</h1>
-      <p class="autor">F. G. Santos</p>
-    </div>
-  </div>
+  <img class="arte" src="img/capa/frente.png" alt="">
+  <p class="autor">F. G. Santos</p>
+</section>
+
+<!-- Lombada · 18 mm x 210 mm (a largura final depende do papel; confirmar com a gráfica). -->
+<section class="folha lombada">
+  <img class="arte" src="img/capa/lombada.png" alt="">
 </section>
 
 <!-- Contracapa · 148 x 210 mm -->
 <section class="folha contracapa">
+  <img class="arte" src="img/capa/contracapa.png" alt="">
+  <div class="contracapa-texto">
   <p class="impacto">Algumas portas chamam com a voz de quem você perdeu.</p>
   <div class="sinopse">
     <p>Noct é um mercenário. Aceita qualquer trabalho que pague bem, desde que não precise fazer o mal. Não tem casa, não tem planos e nunca fica tempo bastante em lugar nenhum para alguém perceber que ele foi embora.</p>
@@ -35,6 +40,7 @@
     <p>Entre demônios, santuários esquecidos e uma moça que faz perguntas demais, Noct vai descer até o fundo do Avesso para descobrir o que aconteceu com Mira, e para decidir se ainda existe alguma razão para continuar andando.</p>
   </div>
   <div class="isbn" aria-label="Espaço para ISBN e código de barras">ISBN / código de barras</div>
+  </div>
 </section>
 
 <!-- Orelha frontal · 90 x 210 mm -->
@@ -54,5 +60,14 @@
   <p>Ele procura apenas uma razão para continuar nele.</p>
   <img class="orelha-emblema" src="img/ui/emblem.png" alt="">
 </section>
+<script>
+  // Capa aberta: cópias das folhas, na ordem em que o livro é impresso por fora.
+  (function () {
+    var aberta = document.getElementById("aberta");
+    [".orelha-traseira", ".contracapa", ".lombada", ".frente", ".orelha-frontal"].forEach(function (sel) {
+      aberta.appendChild(document.querySelector(".folha" + sel).cloneNode(true));
+    });
+  })();
+</script>
 </body>
 </html>
