@@ -88,8 +88,6 @@
     '<section class="colofao">' +
       '<img src="img/ui/emblem.png" alt="">' +
       "<p>" + T.escapar(titulo) + "</p>" +
-      "<p>Baseado no jogo NOCT Crimson Rift, feito com a Godot Engine.</p>" +
-      "<p>github.com/Snikrat/noct-crimson-rift</p>" +
     "</section>"
   );
 
