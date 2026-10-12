@@ -1,4 +1,4 @@
-// Monta o livro inteiro para impressão (livro.html): falsa folha de rosto, folha de rosto, dedicatória, partes, capítulos, sumário e colofão.
+// Monta o livro inteiro para impressão (livro.html): falsa folha de rosto, folha de rosto, dedicatória, partes, capítulos, agradecimentos, sumário e colofão.
 // Os números de página do sumário vêm de historia/paginas.js, gerado por tools/livro_pdf.py.
 (function () {
   "use strict";
@@ -25,6 +25,7 @@
   h.push(
     '<section class="rosto">' +
       '<p class="rosto-titulo">' + T.escapar(titulo) + "</p>" +
+      '<p class="rosto-autor">' + T.escapar(livro.autor || "F. G. Santos") + "</p>" +
       '<p class="rosto-sub">Um romance de NOCT Crimson Rift</p>' +
       '<img class="rosto-emblema" src="img/ui/emblem.png" alt="">' +
     "</section>"
@@ -64,6 +65,16 @@
       "</section>"
     );
   });
+
+  // Agradecimentos (texto provisório até o autor mandar o dele)
+  h.push(
+    '<section class="agradecimentos"><h2>Agradecimentos</h2>' +
+      (livro.agradecimentos ? T.paraHtml(livro.agradecimentos) :
+        "<p>A quem jogou, leu e esperou por esta história.</p>" +
+        "<p>A quem já se sentou na ponta de um banco deixando o outro lado livre.</p>" +
+        "<p>E a quem, mesmo de longe, nunca deixou de chamar.</p>") +
+    "</section>"
+  );
 
   // Sumário (no fim, para a história começar na página 6)
   var sum = ['<section class="sumario"><h2>Sumário</h2><ol>'];

@@ -7,6 +7,7 @@ Rode depois de tools/livro_para_site.py, sempre que o livro mudar:
 
 Precisa de: Node com o pacote playwright (e o Chromium dele) e `pip install pypdf`.
 Passo 1: imprime o livro em PDF e acha em que página começa cada parte e capítulo (marcas @@cap-N@@).
+Também gera site/noct_capa.pdf a partir de site/capa.html (capa, contracapa e orelhas).
 Passo 2: grava essas páginas em site/historia/paginas.js e imprime de novo, agora com o sumário numerado
 (repete até as páginas não mudarem mais).
 """
@@ -24,6 +25,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 PDF = SITE / "noct_e_a_fenda_carmesim.pdf"
 PAGINAS = SITE / "historia/paginas.js"
+CAPA = SITE / "noct_capa.pdf"
 
 NODE = r"""
 const { chromium } = require('playwright');
@@ -42,7 +44,7 @@ const { chromium } = require('playwright');
 """
 
 
-def imprimir() -> None:
+def imprimir(pagina: str = "livro.html", saida: Path = PDF) -> None:
     with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False) as f:
         f.write(NODE)
         script = f.name
@@ -54,9 +56,20 @@ def imprimir() -> None:
     except FileNotFoundError:
         pass
     try:
-        subprocess.run(["node", script, (SITE / "livro.html").as_uri(), str(PDF)], check=True, env=env)
+        subprocess.run(["node", script, (SITE / pagina).as_uri(), str(saida)], check=True, env=env)
     finally:
         os.unlink(script)
+
+
+def acertar_orelhas() -> None:
+    """O Chromium às vezes imprime a última página com o tamanho padrão; as orelhas (páginas 3 e 4) têm 90 mm."""
+    from pypdf import PdfWriter
+    escritor = PdfWriter(clone_from=str(CAPA))
+    largura = 90 / 25.4 * 72
+    for pg in escritor.pages[2:4]:
+        for caixa in (pg.mediabox, pg.cropbox):
+            caixa.upper_right = (caixa.left + largura, caixa.top)
+    escritor.write(str(CAPA))
 
 
 def escrever_paginas(paginas: dict) -> None:
@@ -88,6 +101,9 @@ def main() -> None:
         paginas = novas
     else:
         sys.exit("aviso: a paginação não estabilizou; confira o sumário do PDF.")
+    imprimir("capa.html", CAPA)
+    acertar_orelhas()
+    print("ok:", CAPA, len(PdfReader(str(CAPA)).pages), "páginas (capa, contracapa e orelhas)")
     print("ok:", PDF, len(PdfReader(str(PDF)).pages), "páginas,", len(paginas), "marcas")
 
 if __name__ == "__main__":

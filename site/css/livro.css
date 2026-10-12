@@ -120,9 +120,14 @@ img { max-width: 100%; }
 .dedicatoria p { margin: 0; max-width: 80mm; font-style: italic; font-size: 11pt; line-height: 1.5; }
 .dedicatoria .rosto-epigrafe { margin: 30mm 0 0; max-width: 85mm; text-align: center; justify-self: center; }
 
+/* ---------- Agradecimentos ---------- */
+.agradecimentos h2 { margin: 30mm 0 10mm; text-align: center; font-size: 13pt; font-weight: 400; font-style: italic; }
+.agradecimentos p { margin: 0 0 3mm; font-size: 10.5pt; line-height: 1.6; text-align: center; font-style: italic; }
+
 /* ---------- Folha de rosto ---------- */
 .rosto { display: grid; align-content: center; justify-items: center; gap: 5mm; text-align: center; }
 .rosto-titulo { margin: 0; font-size: 22pt; font-style: italic; line-height: 1.2; }
+.rosto-autor { margin: 2mm 0 0; font-size: 12pt; letter-spacing: .08em; }
 .rosto-sub { margin: 0; font-size: 9pt; letter-spacing: .18em; text-transform: uppercase; color: var(--tinta-suave); }
 .rosto-epigrafe { margin: 14mm 6mm 0; font-style: italic; font-size: 11pt; line-height: 1.5; color: var(--carmesim); }
 .rosto-nota { margin: 6mm 4mm 0; font-size: 9pt; line-height: 1.55; color: var(--tinta-suave); text-wrap: pretty; }
