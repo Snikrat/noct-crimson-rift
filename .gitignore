@@ -5,3 +5,6 @@
 build/
 export/
 *.tmp
+
+# Log da montagem do livro no Scribus
+livro_grafica/montagem.log
