@@ -113,6 +113,13 @@ img { max-width: 100%; }
   text-shadow: 1pt 1pt 0 var(--sangue);
 }
 
+/* ---------- Falsa folha de rosto, dedicatória e páginas em branco ---------- */
+.falso-rosto { display: grid; align-content: start; justify-items: center; padding-top: 50mm !important; text-align: center; }
+.falso-rosto p { margin: 0; font-size: 13pt; font-style: italic; letter-spacing: .04em; }
+.dedicatoria { display: grid; align-content: start; justify-items: end; padding-top: 40mm !important; text-align: right; }
+.dedicatoria p { margin: 0; max-width: 80mm; font-style: italic; font-size: 11pt; line-height: 1.5; }
+.dedicatoria .rosto-epigrafe { margin: 30mm 0 0; max-width: 85mm; text-align: center; justify-self: center; }
+
 /* ---------- Folha de rosto ---------- */
 .rosto { display: grid; align-content: center; justify-items: center; gap: 5mm; text-align: center; }
 .rosto-titulo { margin: 0; font-size: 22pt; font-style: italic; line-height: 1.2; }
@@ -236,7 +243,6 @@ img { max-width: 100%; }
 @page :left { margin-left: 15mm; margin-right: 18mm; }
 @page :right { margin-left: 18mm; margin-right: 15mm; }
 @page capa { margin: 0; @bottom-center { content: none; } }
-@page :first { margin: 0; }
 @page sem-numero { @bottom-center { content: none; } }
 
 @media print {
@@ -253,6 +259,7 @@ img { max-width: 100%; }
   }
   #livro > section:first-child { break-before: auto; }
   #livro > .capa { page: capa; height: 210mm; background: var(--mesa); }
-  #livro > .rosto, #livro > .parte, #livro > .colofao { page: sem-numero; height: 170mm; }
+  #livro > .falso-rosto, #livro > .branco, #livro > .rosto, #livro > .dedicatoria,
+  #livro > .parte, #livro > .colofao { page: sem-numero; height: 170mm; }
   .capitulo { padding-top: 22mm !important; }
 }

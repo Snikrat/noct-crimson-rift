@@ -1,4 +1,4 @@
-// Monta o livro inteiro para impressão (livro.html): capa, folha de rosto, sumário, partes, capítulos e colofão.
+// Monta o livro inteiro para impressão (livro.html): falsa folha de rosto, folha de rosto, dedicatória, partes, capítulos, sumário e colofão.
 // Os números de página do sumário vêm de historia/paginas.js, gerado por tools/livro_pdf.py.
 (function () {
   "use strict";
@@ -18,49 +18,27 @@
 
   var h = [];
 
-  // Capa
-  h.push(
-    '<section class="capa">' +
-      '<div class="capa-fundo"></div>' +
-      '<div class="capa-texto">' +
-        '<img class="capa-logo" src="img/logo/logo_10.png" alt="NOCT Crimson Rift">' +
-        "<h1>" + T.escapar(titulo) + "</h1>" +
-        '<p class="capa-sub">Um romance de NOCT Crimson Rift</p>' +
-      "</div>" +
-    "</section>"
-  );
-
-  // Folha de rosto
+  // Páginas iniciais: 1 falsa folha de rosto, 2 em branco, 3 folha de rosto, 4 dedicatória, 5 em branco.
+  // A história começa na página 6. A capa fica fora do miolo (vai à parte, na gráfica).
+  h.push('<section class="falso-rosto"><p>' + T.escapar(titulo) + "</p></section>");
+  h.push('<section class="branco"></section>');
   h.push(
     '<section class="rosto">' +
       '<p class="rosto-titulo">' + T.escapar(titulo) + "</p>" +
       '<p class="rosto-sub">Um romance de NOCT Crimson Rift</p>' +
-      (livro.epigrafe ? '<blockquote class="rosto-epigrafe">' + T.enfeitar(livro.epigrafe) + "</blockquote>" : "") +
-      (livro.subtitulo ? '<p class="rosto-nota">' + T.enfeitar(livro.subtitulo) + "</p>" : "") +
       '<img class="rosto-emblema" src="img/ui/emblem.png" alt="">' +
     "</section>"
   );
-
-  // Sumário
-  var sum = ['<section class="sumario"><h2>Sumário</h2><ol>'];
-  var parteAtual = null;
-  caps.forEach(function (c, i) {
-    if ((c.parte || null) !== parteAtual) {
-      parteAtual = c.parte || null;
-      if (parteAtual) {
-        sum.push('<li class="s-parte"><span>' + T.escapar(parteAtual) + "</span><b>" + pagina("parte-" + i) + "</b></li>");
-      }
-    }
-    sum.push(
-      '<li class="s-cap' + (c.parte ? " s-dentro" : "") + '"><span><i>' + T.escapar(rotulo(c, i)) + "</i>" +
-      T.escapar(c.titulo || "") + "</span><b>" + pagina("cap-" + i) + "</b></li>"
-    );
-  });
-  sum.push("</ol></section>");
-  h.push(sum.join(""));
+  h.push(
+    '<section class="dedicatoria">' +
+      "<p>" + T.enfeitar(livro.dedicatoria || "Para quem ainda espera do outro lado.") + "</p>" +
+      (livro.epigrafe ? '<blockquote class="rosto-epigrafe">' + T.enfeitar(livro.epigrafe) + "</blockquote>" : "") +
+    "</section>"
+  );
+  h.push('<section class="branco"></section>');
 
   // Partes e capítulos
-  parteAtual = null;
+  var parteAtual = null;
   caps.forEach(function (c, i) {
     if ((c.parte || null) !== parteAtual) {
       parteAtual = c.parte || null;
@@ -86,6 +64,24 @@
       "</section>"
     );
   });
+
+  // Sumário (no fim, para a história começar na página 6)
+  var sum = ['<section class="sumario"><h2>Sumário</h2><ol>'];
+  parteAtual = null;
+  caps.forEach(function (c, i) {
+    if ((c.parte || null) !== parteAtual) {
+      parteAtual = c.parte || null;
+      if (parteAtual) {
+        sum.push('<li class="s-parte"><span>' + T.escapar(parteAtual) + "</span><b>" + pagina("parte-" + i) + "</b></li>");
+      }
+    }
+    sum.push(
+      '<li class="s-cap' + (c.parte ? " s-dentro" : "") + '"><span><i>' + T.escapar(rotulo(c, i)) + "</i>" +
+      T.escapar(c.titulo || "") + "</span><b>" + pagina("cap-" + i) + "</b></li>"
+    );
+  });
+  sum.push("</ol></section>");
+  h.push(sum.join(""));
 
   // Colofão
   h.push(
